@@ -1,0 +1,29 @@
+template:
+    url: https://github.com/LaunchCodeEducation/Template-Light
+
+# Base URL of the published website
+baseUrl: https://education.launchcode.org/nga-academy
+
+# Used to link to the GitHub project
+github:
+    user: LaunchCodeEducation
+    repo: nga-academy
+
+metaTitle: LaunchCode
+siteTitle: 'NGA Academy'
+
+# Google Custom Search Engine ID
+cseId: 014657181352409571810:oq1krtyri4k
+
+# Google Analytics ID
+gaId: UA-78748330-11
+
+# The left menu bar
+menu:
+    items:
+        objectives:
+            text: Objectives
+            relativeUrl: objectives/
+        about:
+            text: About This Course
+            relativeUrl: about/
