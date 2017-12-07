@@ -1,4 +1,4 @@
-https://education.launchcode.org/nga-academy/about/index.html
-https://education.launchcode.org/nga-academy/index.html
-https://education.launchcode.org/nga-academy/objectives/index.html
-https://education.launchcode.org/nga-academy/sitemap.html
+https://education.launchcode.org/gis-devops/about/index.html
+https://education.launchcode.org/gis-devops/index.html
+https://education.launchcode.org/gis-devops/objectives/index.html
+https://education.launchcode.org/gis-devops/sitemap.html
