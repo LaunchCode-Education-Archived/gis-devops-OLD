@@ -2,15 +2,15 @@ template:
     url: https://github.com/LaunchCodeEducation/Template-Light
 
 # Base URL of the published website
-baseUrl: https://education.launchcode.org/nga-academy
+baseUrl: https://education.launchcode.org/gis-devops
 
 # Used to link to the GitHub project
 github:
     user: LaunchCodeEducation
-    repo: nga-academy
+    repo: gis-devops
 
 metaTitle: LaunchCode
-siteTitle: 'NGA Academy'
+siteTitle: 'GIS DevOps'
 
 # Google Custom Search Engine ID
 cseId: 014657181352409571810:oq1krtyri4k
