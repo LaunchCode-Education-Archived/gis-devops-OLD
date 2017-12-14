@@ -24,6 +24,9 @@ menu:
         objectives:
             text: Objectives
             relativeUrl: objectives/
+        resources:
+            text: Resources
+            relativeUrl: resources/
         about:
             text: About This Course
             relativeUrl: about/
