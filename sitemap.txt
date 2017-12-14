@@ -1,4 +1,6 @@
 https://education.launchcode.org/gis-devops/about/index.html
 https://education.launchcode.org/gis-devops/index.html
 https://education.launchcode.org/gis-devops/objectives/index.html
+https://education.launchcode.org/gis-devops/resources/index.html
+https://education.launchcode.org/gis-devops/week01/monday/index.html
 https://education.launchcode.org/gis-devops/sitemap.html
