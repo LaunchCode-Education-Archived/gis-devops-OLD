@@ -21,5 +21,9 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - TODO: instructions, repo and branch
 
 ## Studio
-- TODO: how to turn in repo
-- [Studio Repo](https://gitlab.com/LaunchCodeTraining/junit-studio)
+- [Studio Repository](https://gitlab.com/LaunchCodeTraining/junit-studio)
+- Turn in instructions
+  - Fork then clone repository
+  - Follow readme instructions
+  - Push changes up to your repository
+  - Inform instructor you are done
