@@ -18,7 +18,12 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - [Starter Code](https://gitlab.com/LaunchCodeTraining/car-unit-tests-starter)
 
 ## Exercises
-- TODO: instructions, repo and branch
+- Where do your Java test files go?
+- How does Unit testing help with refactoring or updating code?
+- If you needed the same type of variable for each of your test methods, which should you use @Before or @BeforeClass?
+- Should you test getters and setters in unit tests?
+- Should you aim to have a few or many asserts in one test method?
+
 
 ## Studio
 - [Studio Repository](https://gitlab.com/LaunchCodeTraining/junit-studio)
