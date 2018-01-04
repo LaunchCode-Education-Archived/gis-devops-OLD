@@ -24,7 +24,6 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - Should you test getters and setters in unit tests?
 - Should you aim to have a few or many asserts in one test method?
 
-
 ## Studio
 - [Studio Repository](https://gitlab.com/LaunchCodeTraining/junit-studio)
 - Turn in instructions
