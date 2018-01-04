@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Learning Objectives :: GIS DevOps</title>
+        <title>Studio: Test-Driven Development :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-learning-objectives'>
+    <body id='page-studio-test-driven-development'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -21,7 +21,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
                         <ul class="dropdown-menu">
-                                                            <li class="active lc-button">
+                                                            <li class=" lc-button">
                                     <a href="https://education.launchcode.org/gis-devops/objectives/">
                                         Objectives
                                     </a>
@@ -94,35 +94,52 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Learning Objectives</h1>
-                    <h2 id="week-1">Week 1</h2>
-<h3 id="monday">Monday</h3>
+                                        <h1>Studio: Test-Driven Development</h1>
+                    <p>For this studio, you will create a class to represent <a href="https://en.wikipedia.org/wiki/URL" target="_blank">URLs</a> as Java objects. You will do this using a test-driven approach.</p>
+<h2 id="getting-ready">Getting Ready</h2>
+<p>Create a new Java project in IntelliJ named <code>tdd</code>. Use the Gradle project template. Initialize the project as a Git repository, then create a corresponding remote repository in your GitLab account. Connect your local to the remote, commit, and push.</p>
+<p>Review terminology for the following URL components at <a href="https://en.wikipedia.org/wiki/URL" target="_blank">Wikipedia</a>: protocol, domain, path.</p>
+<h2 id="your-tasks">Your Tasks</h2>
+<p>Create two classes:</p>
 <ul>
-<li>Use Git for version control</li>
-<li>Navigate and use GitLab</li>
-<li>Effectively use IntelliJ to streamline Java application development
+<li><code>src/main/java/Url.java</code></li>
+<li><code>src/test/java/TestUrl.java</code></li>
+</ul>
+<p>You will follow a test-driven approach to implement the requirements below. This means that for each requirement, you should write a test <em>before</em> writing any code for that requirement. </p>
+<p>Use the red-green-refactor workflow: </p>
 <ul>
-<li>Configure IntelliJ projects, including assigning the right JDK</li>
-<li>Run console and web projects in IntelliJ</li>
-<li>Understand Java project structure</li>
+<li>Write a failing test</li>
+<li>Write code to get the test to pass</li>
+<li>Review your code to see if it can be improved, and rerun your tests after each refactor</li>
+</ul>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>There should be only one <code>Url</code> constructor, and it should take a string (e.g. <code>"https://launchcode.org/learn"</code>) and set <code>domain</code>, <code>protocol</code>, and <code>path</code> fields. Note that protocol and domain will not contain any <code>/</code> characters, but the path may.</li>
+<li>The three should be immutable. In other words, they should be <code>final</code> and have getters but not setters.</li>
+<li>The constructor should take mixed-case strings, but set fields as lowercase strings. For example, if passed <code>"HTTPS://LAUNCHCODE.ORG"</code> then calling <code>getDomain()</code> should return <code>"launchcode.org"</code>.</li>
+<li><code>Url</code> should override <code>toString()</code>, which should return a properly-formatted version of the URL (e.g. <code>"https://launchcode.org/learn"</code>)</li>
+<li>The string passed to the constructor should satisfy each of the following. If it doesn't, then the constructor should throw an <code>IllegalArgumentException</code> with an appropriate message.
+<ul>
+<li>The protocol is one of: ftp, http, https, and file</li>
+<li>The path may be empty, but domain and protocol must both be non-empty</li>
+<li>The domain may only contain letters, numbers, <code>.</code>, <code>-</code>, or <code>_</code></li>
 </ul></li>
-<li>Improve applications by refactoring code</li>
-<li>Describe the purpose of unit testing, and the qualities of a good unit test </li>
-<li>Create unit tests in Java using JUnit</li>
 </ul>
-<h3 id="tuesday">Tuesday</h3>
+<aside class="aside-note">
+<p>These requirements are not comprehensive of how a URL may be structured, but they encompass a large number of URLs you use on a daily basis.</p>
+</aside>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<p>If you implement the above requirements with time to spare, attempt to implement these as well:</p>
 <ul>
-<li>Understand agile as a guiding philosophy for rapidly deploying working code with additional value</li>
-<li>Describe the purpose and structure of common agile ceremonies: standups, planning, sprint review, retrospective</li>
-<li>Describe the purpose and goals of Test-Driven Development (TDD)</li>
-<li>Use TDD to write Java methods</li>
-<li>Follow the Red-Green-Refactor workflow to improve test-driven coding</li>
+<li>Add port, query string, and fragment fields with reasonable validation for each</li>
+<li>Add support for IP addresses in place of domains</li>
 </ul>
-<h3 id="wednesday">Wednesday</h3>
-<h3 id="thursday">Thursday</h3>
-<h3 id="friday">Friday</h3>
-<h2 id="week-2">Week 2</h2>
-<h3 id="monday-1">Monday</h3>
+<h2 id="turning-in-your-work">Turning In Your Work</h2>
+<p>If you don't complete each of the tasks, turn in as much as you have completed by the end of the day.</p>
+<ul>
+<li>Commit and push your work to GitLab</li>
+<li>Notify the instructor that you are done</li>
+</ul>
                                     </section>
 
             </div>
