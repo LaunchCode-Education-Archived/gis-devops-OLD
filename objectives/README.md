@@ -19,13 +19,16 @@ currentMenu: objectives
 
 ### Tuesday
 
-- Understand agile as a guiding philosophy for rapidly deploying working code with additional value
-- Describe the purpose and structure of common agile ceremonies: standups, planning, sprint review, retrospective
+- Understand Agile as a guiding philosophy for rapidly deploying working code with additional value
+- Describe the purpose and structure of common Agile/Scrum ceremonies: standups, planning, sprint review, retrospective
 - Describe the purpose and goals of Test-Driven Development (TDD)
 - Use TDD to write Java methods
 - Follow the Red-Green-Refactor workflow to improve test-driven coding
 
 ### Wednesday
+
+- Write user stories that clearly identify the target user, expected behavior, and desired outcome
+- Break large user stories ("epics") down into smaller user stories
 
 ### Thursday
 
