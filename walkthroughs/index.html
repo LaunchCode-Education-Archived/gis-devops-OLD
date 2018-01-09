@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Sitemap :: GIS DevOps</title>
+        <title>Walkthrough: PostgreSQL :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-sitemap'>
+    <body id='page-walkthrough-postgresql'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,8 +94,40 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Sitemap</h1>
-                    <ul><li><a href='https://education.launchcode.org/gis-devops/index.html'>GIS DevOps</a></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/about/index.html'>About This Course</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/objectives/index.html'>Learning Objectives</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/resources/index.html'>Resources</a></li></ul></li><li><ul>Studios<li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/tdd/index.html'>Studio: Test-Driven Development</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/user-stories/index.html'>Studio: User Stories</a></li></ul></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/index.html'>Walkthrough: PostgreSQL</a></li></ul></li><li><ul>Week01<li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/monday/index.html'>Week 1 - Monday</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/thursday/index.html'>Week 1 - Wednesday</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/tuesday/index.html'>Week 1 - Tuesday</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/wednesday/index.html'>Week 1 - Wednesday</a></li></ul></li></ul></li><li><a href='sitemap.html'>Sitemap</a></li></ul>
+                                        <h1>Walkthrough: PostgreSQL</h1>
+                    <p>Follow along with the instructor as we work with PostgreSQL</p>
+<h2 id="install">Install</h2>
+<ul>
+<li>Go here <a href="https://postgresapp.com/" target="_blank"><a href="https://postgresapp.com/" target="_blank">https://postgresapp.com/</a></a></li>
+<li>Download and open the file</li>
+<li>Note: this is specifcally for Mac OS</li>
+</ul>
+<h2 id="follow-along-as-we">Follow Along as we...</h2>
+<ul>
+<li>Open Postgres.app on your mac</li>
+<li>Create database sports;</li>
+<li>\l - shows list of databases</li>
+<li>create schema baseball;</li>
+<li>Create table baseball.teams (name varchar(50), description varchar(100));</li>
+<li>\d baseball.teams - show info about table</li>
+<li>Insert</li>
+<li>Select</li>
+<li>delete</li>
+<li>Alter table
+<ul>
+<li>ALTER TABLE baseball.teams ADD COLUMN id integer PRIMARY KEY;</li>
+</ul></li>
+<li>Constraints</li>
+<li>Not null</li>
+<li>Primary key</li>
+<li>Foreign key</li>
+<li>Sequence</li>
+<li>CREATE SEQUENCE baseball.teams_id_seq START 10;</li>
+<li>DEFAULT nextval('baseball.teams_id_seq');</li>
+<li>Indexes</li>
+<li>Created automatically with Primary Key and Unique constraints</li>
+<li>You can also add an index manually</li>
+</ul>
                                     </section>
 
             </div>
