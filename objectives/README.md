@@ -31,6 +31,10 @@ currentMenu: objectives
 - Break large user stories ("epics") down into smaller user stories
 
 ### Thursday
+- Install and use postgreSQL
+- Create, alter, update, delete: databases, schemas, tables, columns, contraints
+- Use application.properties settings to configure a database connection in Spring Boot
+- Flyway for database migrations
 
 ### Friday
 
