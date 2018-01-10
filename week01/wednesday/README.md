@@ -12,3 +12,5 @@ title: Week 1 - Wednesday
 ## Studio
 
 During the morning session, we will work on the [User Stories studio](../../studios/user-stories/) as a class.
+
+In the afternoon, you'll get practice writing integration tests by working on the [LaunchCart Studio Part 1](../../studios/launchcart1/).
