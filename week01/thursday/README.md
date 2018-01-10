@@ -15,6 +15,10 @@ title: Week 1 - Day 4
 - TBD
 
 ## Additional Resources
-- https://www.postgresql.org/docs/10/static/index.html
+- [Postgres: Defining Schemas, Tables, Columns, Constraints...](https://www.postgresql.org/docs/10/static/ddl.html)
+- [Postgres: Writing SELECT Queries](https://www.postgresql.org/docs/10/static/queries.html)
+- [Postgres: Inserting Data](https://www.postgresql.org/docs/10/static/ddl.html)
+- [Postgres: Complete Documentation (contains everything about Postgres, be sure to use search box)](https://www.postgresql.org/docs/10/static/index.html)
 - [Video Tutorial of psql commands](https://www.youtube.com/watch?v=fD7x8hd9yE4)
-- https://www.postgresql.org/docs/10/static/ddl-constraints.html
+- [Additional Slides About Flyway Configuration](https://education.launchcode.org/codecamp-slides/unit4/deploying.html#18)
+- [Official Flyway Documentation](https://flywaydb.org/documentation/migrations)
