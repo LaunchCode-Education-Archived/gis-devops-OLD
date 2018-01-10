@@ -1,5 +1,5 @@
 ---
-title: Week 1 - Wednesday
+title: Week 1 - Day 4
 ---
 
 [Learning objectives for this module](../../objectives/#thursday)
@@ -7,8 +7,9 @@ title: Week 1 - Wednesday
 ## Lesson Content
 - [PostgreSQL Slides](https://education.launchcode.org/gis-devops-slides/week1/postgresql.html#1)
 
-## Walkthrough
-- [Using PostgreSQL](../../walkthroughs/#Install)
+## Walkthroughs
+- [Using PostgreSQL](../../walkthroughs/postgres/#Install)
+- [Using Flyway for Migrations](../../walkthroughs/flyway/#Setup)
 
 ## Studio
 - TBD
