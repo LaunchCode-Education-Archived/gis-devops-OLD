@@ -32,11 +32,17 @@ Display the cart total at `/cart`. Before adding code to the controller and/or v
 
 After you have written your test(s) and the corresponding code passes, run all of the tests and commit.
 
+<aside class="aside-note" markdown="1">
+Don't worry about formatting the total as currency (i.e. with exactly 2 decimal places) when displaying it in the view.
+</aside>
+
 ### Add Ability To Remove Items From The Cart
 
-It is currently not possible to remove an item from the cart. Add this ability. And, as always, write your tests before writing any application code. You may or may not need to write any unit tests for this feature, depending on how you implement it.
+It is currently not possible to remove an item from the cart. Add this ability. There are different ways that you might do this, and we leave the implementation up to you.
 
-After you have written your test(s) and the corresponding code passes, run all of the tests and commit.
+As always, write your tests before writing any application code. As before, you'll have both unit and integration tests, since you'll need to add modify the `Cart` model class (to add a `removeItem` method) as well as add functionality to the web app.
+
+After you have written your tests and they pass, run *all* of the tests and commit.
 
 ## Bonus Mission
 
