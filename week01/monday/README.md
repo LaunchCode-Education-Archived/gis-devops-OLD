@@ -17,6 +17,9 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - [Slides](https://education.launchcode.org/gis-devops-slides/week1/day1.html#1)
 - [Starter Code](https://gitlab.com/LaunchCodeTraining/car-unit-tests-starter)
 
+## Walkthrough
+- [Git and Gitlab](https://education.launchcode.org/gis-devops/walkthroughs/gitlab)
+
 ## Exercises
 - Where do your Java test files go?
 - How does Unit testing help with refactoring or updating code?
