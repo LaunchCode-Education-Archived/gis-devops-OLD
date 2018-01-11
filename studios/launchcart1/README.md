@@ -48,6 +48,10 @@ You'll need to refactor the controller and view layers heavily to get this to wo
 
 As always, write your tests first!
 
+<aside class="aside-pro-tip" markdown="1">
+Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your `master` branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.
+</aside>
+
 ## Turning In Your Work
 
 If you don't complete each of the tasks, turn in as much as you have completed by the end of the day. *You should make sure you have working code committed to your fork.*
