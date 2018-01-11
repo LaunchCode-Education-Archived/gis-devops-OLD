@@ -6,6 +6,7 @@ https://education.launchcode.org/gis-devops/studios/launchcart1/index.html
 https://education.launchcode.org/gis-devops/studios/tdd/index.html
 https://education.launchcode.org/gis-devops/studios/user-stories/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
 https://education.launchcode.org/gis-devops/week01/monday/index.html
 https://education.launchcode.org/gis-devops/week01/thursday/index.html
