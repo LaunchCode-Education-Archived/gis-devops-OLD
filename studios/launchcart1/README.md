@@ -10,7 +10,7 @@ Fork the [LaunchCodeTraining/launchcart repo](https://gitlab.com/LaunchCodeTrain
 
 ## Your Tasks
 
-This application is a very basic shopping cart. It has items that can be added to a cart. We can also currently add new items. There are now users, os there is only one universal cart, and other basic functionality is missing as well.
+This application is a very basic shopping cart. It has items that can be added to a cart. We can also currently add new items. There are no users, there is only one universal cart, and other basic functionality is missing.
 
 You will add features, writing integration and unit tests as you go, and using a TDD approach.
 
@@ -22,17 +22,17 @@ Before you add code to the application, write a test to verify that item prices 
 
 After you have written your test and the corresponding code passes, run all of the tests and commit.
 
-## Add Total To Cart
+### Add Total To Cart
 
-The `Cart` class currently does not have the ability to produce a total cost of all items within a cart. 
+The `Cart` class currently does not have the ability to produce a total cost of all items within a cart.
 
-Add a `computeTotal` method to `Cart`, writing a unit test to verify its behavior before adding any code to the class itself. There are not unit tests in the project thus far, so you'll have to add the package `org.launchcode.launchcart.models` and the `TestCart` class.
+Add a `computeTotal` method to `Cart`, writing a unit test to verify its behavior before adding any code to the class itself.
 
 Display the cart total at `/cart`. Before adding code to the controller and/or view, write an integration test to verify that the total is displayed properly.
 
 After you have written your test(s) and the corresponding code passes, run all of the tests and commit.
 
-## Add Ability To Remove Items From The Cart
+### Add Ability To Remove Items From The Cart
 
 It is currently not possible to remove an item from the cart. Add this ability. And, as always, write your tests before writing any application code. You may or may not need to write any unit tests for this feature, depending on how you implement it.
 
