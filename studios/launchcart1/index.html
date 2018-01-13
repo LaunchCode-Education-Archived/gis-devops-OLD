@@ -119,12 +119,24 @@
 <p>After you have written your tests and they pass, run <em>all</em> of the tests and commit.</p>
 <h2 id="bonus-mission">Bonus Mission</h2>
 <p>Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, <code>CartItem</code>.</p>
-<p>Create a <code>CartItem</code> class with fields <code>item</code> and <code>quantity</code>, and refactor <code>Cart</code> to store a collection of <code>CartItem</code> objects instead of <code>Item</code> objects.</p>
-<p>You'll need to refactor the controller and view layers heavily to get this to work, including adding functionality that allows the user to enter a quantity when adding an item to the cart.</p>
-<p>As always, write your tests first!</p>
 <aside class="aside-pro-tip">
 <p>Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your <code>master</code> branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.</p>
 </aside>
+<p>Create a <code>CartItem</code> class with fields <code>item</code> and <code>quantity</code>, and refactor <code>Cart</code> to store a collection of <code>CartItem</code> objects instead of <code>Item</code> objects. As <code>Cart</code> and <code>Item</code> have done, you should extend <code>AbstractEntity</code> to get the common identifier configuration contained in that base class.</p>
+<p>Start by refactoring the model:</p>
+<ul>
+<li>Add the new model class</li>
+<li>Re/write tests in <code>TestCart</code> as necessary</li>
+<li>Refactor <code>Cart</code> to use <code>CartItem</code></li>
+</ul>
+<p>Once you have a working model that uses <code>CartItem</code>, run <em>all</em> of your tests, including the integration tests. You'll have some work to do here, since changing the model will break parts of the controller and view.</p>
+<aside class="aside-hint">
+<p>You may experience a situation where your integration tests fail because a new item that is seemingly added to the cart isn't actually there when viewing <code>/cart</code>. If this is the case, it's likely that Hibernate isn't persisting your new <code>CartItem</code> instances. These objects are never handled directly by the controller, and thus never saved via a repository.</p>
+<p>You can force Hibernate to save new <code>CartItem</code> objects in all situations by adding a cascade property to the <code>@OneToMany</code> collection storing <code>CartItem</code> objects:</p>
+<pre><code class="language-java">@OneToMany(cascade = { CascadeType.ALL })</code></pre>
+</aside>
+<p>After your model has been refactored, and all of your tests pass, you'll need to refactor the controller and view layers heavily to get this to work. This will include adding functionality that allows the user to enter a quantity when adding an item to the cart.</p>
+<p>As always, write your tests first!</p>
 <h2 id="turning-in-your-work">Turning In Your Work</h2>
 <p>If you don't complete each of the tasks, turn in as much as you have completed by the end of the day. <em>You should make sure you have working code committed to your fork.</em></p>
 <ul>
