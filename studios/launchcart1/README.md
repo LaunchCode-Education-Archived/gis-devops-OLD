@@ -48,15 +48,31 @@ After you have written your tests and they pass, run *all* of the tests and comm
 
 Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, `CartItem`.
 
-Create a `CartItem` class with fields `item` and `quantity`, and refactor `Cart` to store a collection of `CartItem` objects instead of `Item` objects.
-
-You'll need to refactor the controller and view layers heavily to get this to work, including adding functionality that allows the user to enter a quantity when adding an item to the cart.
-
-As always, write your tests first!
-
 <aside class="aside-pro-tip" markdown="1">
 Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your `master` branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.
 </aside>
+
+Create a `CartItem` class with fields `item` and `quantity`, and refactor `Cart` to store a collection of `CartItem` objects instead of `Item` objects. As `Cart` and `Item` have done, you should extend `AbstractEntity` to get the common identifier configuration contained in that base class.
+
+Start by refactoring the model:
+- Add the new model class
+- Re/write tests in `TestCart` as necessary
+- Refactor `Cart` to use `CartItem`
+
+Once you have a working model that uses `CartItem`, run *all* of your tests, including the integration tests. You'll have some work to do here, since changing the model will break parts of the controller and view.
+
+<aside class="aside-hint" markdown="1">
+You may experience a situation where your integration tests fail because a new item that is seemingly added to the cart isn't actually there when viewing `/cart`. If this is the case, it's likely that Hibernate isn't persisting your new `CartItem` instances. These objects are never handled directly by the controller, and thus never saved via a repository.
+
+You can force Hibernate to save new `CartItem` objects in all situations by adding a cascade property to the `@OneToMany` collection storing `CartItem` objects:
+```java
+@OneToMany(cascade = { CascadeType.ALL })
+```
+</aside>
+
+After your model has been refactored, and all of your tests pass, you'll need to refactor the controller and view layers heavily to get this to work. This will include adding functionality that allows the user to enter a quantity when adding an item to the cart.
+
+As always, write your tests first!
 
 ## Turning In Your Work
 
