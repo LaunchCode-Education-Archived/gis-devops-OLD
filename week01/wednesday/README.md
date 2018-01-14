@@ -12,7 +12,7 @@ title: Week 1 - Wednesday
 - [10 Tips For Writing Good User Stories](https://www.romanpichler.com/blog/10-tips-writing-good-user-stories/)
 
 ## Walkthrough
-- [Dependency Inject Example Project](https://github.com/LaunchCodeEducation/soundsystem)
+- [Dependency Injection Example Project](https://github.com/LaunchCodeEducation/soundsystem)
 - [Spring Integration Testing](../../walkthroughs/spring-integration-tests/#Setup)
 
 ## Studio
