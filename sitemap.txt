@@ -8,6 +8,7 @@ https://education.launchcode.org/gis-devops/studios/user-stories/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html
 https://education.launchcode.org/gis-devops/week01/monday/index.html
 https://education.launchcode.org/gis-devops/week01/thursday/index.html
 https://education.launchcode.org/gis-devops/week01/tuesday/index.html
