@@ -44,6 +44,8 @@ As always, write your tests before writing any application code. As before, you'
 
 After you have written your tests and they pass, run *all* of the tests and commit.
 
+At this point, you may [turn in your work](#turning-in-your-work) before continuing on to the Bonus Mission.
+
 ## Bonus Mission
 
 Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, `CartItem`.

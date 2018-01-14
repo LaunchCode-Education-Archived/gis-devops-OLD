@@ -12,7 +12,8 @@ title: Week 1 - Day 4
 - [Using Flyway for Migrations](../../walkthroughs/flyway/#Setup)
 
 ## Studio
-- TBD
+
+Complete the [LaunchCart 2 studio](../../studios/launchcart2/).
 
 ## Additional Resources
 - [Postgres: Defining Schemas, Tables, Columns, Constraints...](https://www.postgresql.org/docs/10/static/ddl.html)
