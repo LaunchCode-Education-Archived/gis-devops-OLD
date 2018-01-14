@@ -9,6 +9,11 @@ title: Week 1 - Tuesday
 - [Agile Ceremonies article](https://education.launchcode.org/liftoff/articles/agile-ceremonies/)
 - [TDD Slides](https://education.launchcode.org/gis-devops-slides/week1/day2.html#1)
 
-## Studio
+## Walkthrough
+- ?
 
-Complete the [Test-Driven Development studio](../../studios/tdd/).
+## Studio
+- Complete the [Test-Driven Development studio](../../studios/tdd/).
+
+## Resources
+- [Additional Lecture and  Exercises on TDD](https://online-training.jbrains.ca/courses/wbitdd-01/lectures/133270)
