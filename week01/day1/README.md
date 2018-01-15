@@ -25,7 +25,7 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - How does Unit testing help with refactoring or updating code?
 - If you needed the same type of variable for each of your test methods, which should you use @Before or @BeforeClass?
 - Should you test getters and setters in unit tests?
-- Should you aim to have a few or many asserts in one test method?
+- Should you aim to one or multiple asserts in single test method?
 
 ## Studio
 - [Studio Repository](https://gitlab.com/LaunchCodeTraining/junit-studio)
