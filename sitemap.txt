@@ -10,8 +10,9 @@ https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html
-https://education.launchcode.org/gis-devops/week01/monday/index.html
-https://education.launchcode.org/gis-devops/week01/thursday/index.html
-https://education.launchcode.org/gis-devops/week01/tuesday/index.html
-https://education.launchcode.org/gis-devops/week01/wednesday/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/unit-tests/index.html
+https://education.launchcode.org/gis-devops/week01/day1/index.html
+https://education.launchcode.org/gis-devops/week01/day2/index.html
+https://education.launchcode.org/gis-devops/week01/day3/index.html
+https://education.launchcode.org/gis-devops/week01/day4/index.html
 https://education.launchcode.org/gis-devops/sitemap.html
