@@ -1,8 +1,8 @@
 ---
-title: Week 1 - Wednesday
+title: Week 1 - Day 3
 ---
 
-[Learning objectives for this module](../../objectives/#wednesday)
+[Learning objectives for this module](../../objectives/#day3)
 
 ## Lesson Content
 - [Dependency Injection](https://education.launchcode.org/codecamp-slides/unit4/di.html#1)

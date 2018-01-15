@@ -5,7 +5,7 @@ currentMenu: objectives
 
 ## Week 1
 
-### Monday
+### Day1
 
 - Use Git for version control
 - Navigate and use GitLab
@@ -17,7 +17,7 @@ currentMenu: objectives
 - Describe the purpose of unit testing, and the qualities of a good unit test 
 - Create unit tests in Java using JUnit
 
-### Tuesday
+### Day2
 
 - Understand Agile as a guiding philosophy for rapidly deploying working code with additional value
 - Describe the purpose and structure of common Agile/Scrum ceremonies: standups, planning, sprint review, retrospective
@@ -25,19 +25,19 @@ currentMenu: objectives
 - Use TDD to write Java methods
 - Follow the Red-Green-Refactor workflow to improve test-driven coding
 
-### Wednesday
+### Day3
 
 - Write user stories that clearly identify the target user, expected behavior, and desired outcome
 - Break large user stories ("epics") down into smaller user stories
 
-### Thursday
+### Day4
 - Install and use postgreSQL
 - Create, alter, update, delete: databases, schemas, tables, columns, contraints
 - Use application.properties settings to configure a database connection in Spring Boot
 - Flyway for database migrations
 
-### Friday
+### Day5
 
 ## Week 2
 
-### Monday
+### In Progress

@@ -6,8 +6,8 @@ title: GIS DevOps
 
 Day | Topics
 |----|--------|
-[Monday](week01/monday/) | Git and GitLab, Java projects in IntelliJ, refactoring, unit testing
-[Tuesday](week01/tuesday/) | Agile/Scrum ceremonies, Test-driven development
-[Wednesday](week01/wednesday/) | Integration testing, dependency injection
-[Thursday](week01/thursday) | Postgres, Flyway
-Friday | ?
+[Day 1](week01/day1/) | Git and GitLab, Java projects in IntelliJ, refactoring, unit testing
+[Day 2](week01/day2/) | Agile/Scrum ceremonies, Test-driven development
+[Day 3](week01/day3/) | Integration testing, dependency injection
+[Day 4](week01/day4) | Postgres, Flyway
+Day 5 | AJAX, Open Layers

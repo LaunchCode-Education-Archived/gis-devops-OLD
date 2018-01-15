@@ -2,7 +2,7 @@
 title: Week 1 - Day 4
 ---
 
-[Learning objectives for this module](../../objectives/#thursday)
+[Learning objectives for this module](../../objectives/#day4)
 
 ## Lesson Content
 - [PostgreSQL Slides](https://education.launchcode.org/gis-devops-slides/week1/postgresql.html#1)
