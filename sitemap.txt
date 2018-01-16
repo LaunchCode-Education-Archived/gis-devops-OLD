@@ -10,6 +10,7 @@ https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/tdd/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/unit-tests/index.html
 https://education.launchcode.org/gis-devops/week01/day1/index.html
 https://education.launchcode.org/gis-devops/week01/day2/index.html

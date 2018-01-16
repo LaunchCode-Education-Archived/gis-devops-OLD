@@ -105,7 +105,7 @@
 <h3 id="part-1">Part 1</h3>
 <ol>
 <li>The instructor will create a new project on Gitlab for this walkthrough</li>
-<li>Instructor will add a roster.txt file using a branch and a Merge Request</li>
+<li>Instructor will add a file to the repo using a branch and a Merge Request</li>
 <li>In your terminal, clone that repo</li>
 <li>Create a new branch. Example: blakes-branch</li>
 <li>Checkout the new branch</li>
@@ -119,9 +119,19 @@
 </ol>
 <h3 id="part-2">Part 2</h3>
 <ol>
-<li>Everyone in the class should edit the same file</li>
+<li>The instructor will create a new branch that incluedes a roster.txt file</li>
+<li>That branch will be merge into master</li>
+<li>Everyone in the class should pull to get the commit containing that file
+<ul>
+<li>NOTE: Instructor should do these next steps first</li>
+</ul></li>
+<li>Create and switch to a new branch</li>
+<li>Add your name to the roster.txt file</li>
 <li>Stage, commit, and then push their changes</li>
-<li>The instructor will commit first, which will cause every other student to resolve conflicts</li>
+<li>You should get a merge conflict</li>
+<li>Resolve the conflict by editing the file that has the conflict</li>
+<li>Run git status in terminal</li>
+<li>Run git add roster.txt to mark the conflict as resolved</li>
 <li>After resolving your conflicts you can push your changes to origin</li>
 </ol>
                                     </section>
