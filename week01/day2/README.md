@@ -10,7 +10,7 @@ title: Week 1 - Day 2
 - [TDD Slides](https://education.launchcode.org/gis-devops-slides/week1/day2.html#1)
 
 ## Walkthrough
-- ?
+- [TDD](../../walkthroughs/tdd)
 
 ## Studio
 - Complete the [Test-Driven Development studio](../../studios/tdd/).

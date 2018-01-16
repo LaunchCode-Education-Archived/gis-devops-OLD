@@ -17,8 +17,8 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - [Slides](https://education.launchcode.org/gis-devops-slides/week1/day1.html#1)
 
 ## Walkthrough
-- [Git and Gitlab](https://education.launchcode.org/gis-devops/walkthroughs/gitlab)
-- [Unit Tests](https://education.launchcode.org/gis-devops/walkthroughs/unit-tests)
+- [Git and Gitlab](../../walkthroughs/gitlab)
+- [Unit Tests](../../walkthroughs/unit-tests)
 
 ## Exercises
 - Where do your Java test files go?
@@ -36,5 +36,6 @@ Get the class off to a great start with a review of git, introduction to gitlab.
   - Inform instructor you are done
 
 ## Resources
-- [JUnit 4 Site](http://junit.org/junit4/)
-- [Examples of Assertioms](https://github.com/junit-team/junit4/wiki/Assertions)
+- [JUnit 4 Docs](http://junit.org/junit4/)
+- [JUnit 4 Assertion Examples](https://github.com/junit-team/junit4/wiki/Assertions)
+- [Video Example of Git Merge Conflicts](https://www.youtube.com/watch?v=zz7NuSCH6II)

@@ -13,7 +13,7 @@ Follow along with the instructor as we review Git and Gitlab.
 
 ### Part 1
 1. The instructor will create a new project on Gitlab for this walkthrough
-2. Instructor will add a roster.txt file using a branch and a Merge Request
+2. Instructor will add a file to the repo using a branch and a Merge Request
 3. In your terminal, clone that repo
 4. Create a new branch. Example: blakes-branch
 5. Checkout the new branch
@@ -26,7 +26,15 @@ Follow along with the instructor as we review Git and Gitlab.
 12. Do a get pull to see your changes now in master
 
 ### Part 2
-1. Everyone in the class should edit the same file
-2. Stage, commit, and then push their changes
-3. The instructor will commit first, which will cause every other student to resolve conflicts
-4. After resolving your conflicts you can push your changes to origin
+1. The instructor will create a new branch that incluedes a roster.txt file
+2. That branch will be merge into master
+3. Everyone in the class should pull to get the commit containing that file
+  - NOTE: Instructor should do these next steps first
+4. Create and switch to a new branch
+5. Add your name to the roster.txt file
+6. Stage, commit, and then push their changes
+7. You should get a merge conflict
+8. Resolve the conflict by editing the file that has the conflict
+9. Run git status in terminal
+10. Run git add roster.txt to mark the conflict as resolved
+11. After resolving your conflicts you can push your changes to origin
