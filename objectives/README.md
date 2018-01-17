@@ -26,9 +26,7 @@ currentMenu: objectives
 - Follow the Red-Green-Refactor workflow to improve test-driven coding
 
 ### Day3
-
-- Write user stories that clearly identify the target user, expected behavior, and desired outcome
-- Break large user stories ("epics") down into smaller user stories
+- Integration Tests in Spring Boot
 
 ### Day4
 - Install and use postgreSQL
@@ -37,6 +35,8 @@ currentMenu: objectives
 - Flyway for database migrations
 
 ### Day5
+- AJAX requests
+- Open Layers
 
 ## Week 2
 
