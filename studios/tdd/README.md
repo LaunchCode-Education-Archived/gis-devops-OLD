@@ -50,3 +50,9 @@ If you don't complete each of the tasks, turn in as much as you have completed b
 
 - Commit and push your work to GitLab
 - Notify the instructor that you are done
+
+## Resources
+- [Java Regex Docs](https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html)
+<aside class="aside-note" markdown="1">
+The "intentions menu", Alt + Enter, in Intellij has a "Check Regex" option that brings up a Regular Expression tester. 
+</aside>
