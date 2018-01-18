@@ -14,7 +14,6 @@ Day | Topics
 
 ## Week 2
 
-
 Day | Topics
 |----|--------|
-[Day 1-5](week02/project) | Airwaze
+[Day 1-5](week02/project/) | Airwaze
