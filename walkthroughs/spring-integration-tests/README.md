@@ -4,7 +4,7 @@ title: "Walkthrough: Spring Integration Tests"
 
 ## Setup
 
-1. Fork this repo TODO
+1. Fork this repo: [Car Integration Tests](https://gitlab.com/LaunchCodeTraining/car-integration-test-starter)
 2. Open project in Intellij by opening gradle.build file as a project
 
 ## Spring Integration Test Utilities
