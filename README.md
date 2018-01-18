@@ -11,3 +11,10 @@ Day | Topics
 [Day 3](week01/day3/) | Integration testing, dependency injection
 [Day 4](week01/day4) | Postgres, Flyway
 Day 5 | AJAX, Open Layers
+
+## Week 2
+
+
+Day | Topics
+|----|--------|
+[Day 1-5](week02/project) | Airwaze
