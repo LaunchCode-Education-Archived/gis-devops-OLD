@@ -39,5 +39,7 @@ currentMenu: objectives
 - Open Layers
 
 ## Week 2
-
-### In Progress
+Deliver an app with the the following features:
+- Ingestion of geospatial data via CSV.
+- Display Zika infection data on a map using OpenLayers.
+- Display information about each indvidual feature.
