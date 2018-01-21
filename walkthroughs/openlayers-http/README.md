@@ -6,7 +6,9 @@ Follow along with the instructor as we get started with jQuery and OpenLayers.
 
 ## Getting Started
 
-First, we need to disable CORS for our server. We'll explain later, but for now, this makes things simpler.
+Fork and clone the [airwaze-studio](https://gitlab.com/LaunchCodeTraining/airwaze-studio) project. Import it into IntelliJ.
+
+Next, we need to disable CORS for our server. We'll explain this in more detail later, but for now, this makes things simpler.
 * Add the [CORS Toggle] (https://chrome.google.com/webstore/detail/cors-toggle/jioikioepegflmdnbocfhgmpmopmjkim/related?hl=en) plugin to your Chrome browser.
 * Click the "CORS" button in your browser bar to turn off CORS (it should turn green).
 
@@ -25,30 +27,30 @@ Create a new html file called `index.html` under `src/main/resources/static`. St
 </html>
 ```
 
-Next add OpenLayers to your project.
+Next, add OpenLayers to your project by including the JavaScript source in the head.
 ```html
  <script src="https://openlayers.org/en/v4.6.4/build/ol.js"
          type="text/javascript"></script>
  ```
 
-Next add a link for JQuery. You can find the current version at [code.jquery.com](https://code.jquery.com). The minified version is fine.
+Next add a link for JQuery. You can find the current version at [code.jquery.com](https://code.jquery.com). The minified version is fine. We'll use jQuery to make things like AJAX calls and DOM manipulation a bit easier.
 
-Put the placeholder for the map on the page.
+Put the placeholder for the map on the page, within the `<body>`. This `div` will be replaced with the contents of the rendered map.
  ```html
-   <div id="mapPlaceholder" class="map"></div>
+<div id="mapPlaceholder" class="map"></div>
  ```
 
  Then set the size for the map.
  ```html
 <style>
-    .map {
+.map {
     height: 400px;
     width: 100%;
-    }
+}
 </style>
  ```
 
-The following script will add a map to your project
+Let's add a map to our page. To do so, place the following script in the `<head>`, below the OpenLayers and jQuery includes.
 ```js
 var map = new ol.Map({
     target: 'mapPlaceholder',
@@ -64,17 +66,13 @@ var map = new ol.Map({
 });
 ```
 
-***Note:  Be sure to mention Bing maps and you can easily change the map type***
+This creates a map that can contain multiple layers in the `layers: []` object. In this case we are using a Tile layer. You can find all of the layer types [here](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html).
 
-This creates a map that can contain multiple layers in the `layers: []` object.
-
-In this case we are using a Tile layer. You can find all of the layer types [here](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html).
-
-The `new ol.View` allows you to position the map at a certain lat long and zoom level.
+The `view` attribute allows us to position the map at a certain lat long and zoom level using an `ol.View` object.
 
 ## Add GeoJSON data
 
-Let's pull in some geojson data. Open the [openflights-geojson](https://github.com/node-geojson/openflights-geojson) repo.
+Let's pull in some GeoJSON data. Open the [openflights-geojson](https://github.com/node-geojson/openflights-geojson) repo.
 
 Per the instructions, run the following command to install package:
 
@@ -82,7 +80,7 @@ Per the instructions, run the following command to install package:
 $ npm install -g openflights-geojson
 ```
 
-Then create the file with:
+Then create a JSON file for use in the project by running the following command in `src/main/resources/static/json/`:
 ```nohighlight
 $ openflights-airports > airports.geojson
 ```
@@ -90,28 +88,33 @@ $ openflights-airports > airports.geojson
 <aside class="aside-warning" markdown="1">
 Opening `airports.geojson` with IntelliJ will cause your computer some hardship.
 
-Instead, view the file in Terminal with `less airports.geojson`. There should be about 14,000 reports in that file.
+Instead, view the file in Terminal with `less airports.geojson`. There will be about 14,000 reports in that file.
 </aside>
 
-Create the directory `src/main/resources/static/json` and place `airports.geojson` in the directory.
+To view our file, let's fire up a simple local webserver using Python. Run this command from `src/main/resources/static/`:
+```nohighlight
+$ python -m http.server 8080
+```
 
-Take a look at the file using a basic web server. It should live at `localhost:8080/`.
+Then navigate to `localhost:8080` in your browser. You'll see the page render, but no map present yet. That's because we haven't added any data to the map. We'll do that now.
 
 Let's make an AJAX call to retrieve the JSON using the Chrome console. Open up the Chrome inspector and paste the following into the console: 
 ```js
 $.getJSON('http://localhost:8080/json/airports.geojson', {}).done(function(json) { console.log(json)});
 ```
 
-You should receive the JSON back in the console. If your callback for the AJAX call is not firing, be sure to check that you are returning valid JSON using a [JSON Validator](https://jsonlint.com/).
+You should receive the JSON back in the console. If your callback for the AJAX call is not firing, be sure to check that the contents of `airports.json` are valid JSON using a [JSON Validator](https://jsonlint.com/).
 
-Now let's plug that code into our project. Instead of printing all of the JSON, let's print each report individually. Add the following script to your `index` file: `$.getJSON('http://localhost:8080/json/airports.geojson', {}).done(function(json) { console.log(json)});`
+Once you see JSON dumped to the console, copy/paste that code snipped into your `index.html` file. Refesh the page in your browser, and ensure you still see the same JSON dumped to the console.
 
-That's quite what we were looking for. Open up the Chrome Debugger and let's find out how to access this object.
+Now, Instead of printing all of the JSON, let's print each report individually.
 
-Add the following code to the page to create a list of all the reports.
+Add a `<ul id="airportList">` to the HTML file, along with the following code to the page to create a list of all the reports.
 
 ```js
-$('#airportList').append('<ul>' + json[i].properties.locationType + '</ul>');
+for (var i=0; i<json.features.length; i++) {
+    $('#airportList').append('<li>' + json.features[i].type + '</li>');
+});
 ```
 
 Next, let's add these reports to the map.
