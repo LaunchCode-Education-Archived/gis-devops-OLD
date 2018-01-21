@@ -8,4 +8,4 @@
 [OpenLayers and jQuery Example](../../walkthroughs/openlayers-http/)
 
 # Studio
-Complete [Airwaze](../../walkthroughs/airwaze)
+Complete [Airwaze](../../studios/airwaze)

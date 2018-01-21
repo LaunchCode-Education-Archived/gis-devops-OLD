@@ -6,7 +6,7 @@ title: Week 2 - Project Week
 
 ## Project
 
-- [Mission Briefing 1](../../materials/Zika_Mission_Briefing--Mission1.pdf)
+- [Mission Briefing 1](../../materials/week02/Zika_Mission_Briefing--Mission1.pdf)
 
 ## Overview
 
