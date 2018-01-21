@@ -10,10 +10,9 @@ Day | Topics
 [Day 2](week01/day2/) | Agile/Scrum ceremonies, Test-driven development
 [Day 3](week01/day3/) | Integration testing, dependency injection
 [Day 4](week01/day4) | Postgres, Flyway
-Day 5 | AJAX, Open Layers
+[Day 5](week01/day5) | AJAX, Open Layers
 
 ## Week 2
-
 
 Day | Topics
 |----|--------|
