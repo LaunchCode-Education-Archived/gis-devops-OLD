@@ -83,7 +83,7 @@ Let's make an AJAX call to retrieve the JSON; however, let's test the call in th
 
 You should receive the JSON back in the console.  If your callback for the AJAX call is not firing, be sure to check that you are returning valid JSON.  Here is a [JSON Validator](https://jsonlint.com/).
 
-Now let's plug that code into our project. Instead of printing all of the JSON, let's print each report individually.  Add the following code to the `done` function `$.getJSON('http://localhost:63342/open-layers-java-example/main/resources/static/json/german_airports.geojson', {}).done(function() { console.log(json)});`.
+Now let's plug that code into our project. Instead of printing all of the JSON, let's print each report individually.  Add the following code to the `done` function `$.getJSON('http://localhost:63342/open-layers-java-example/main/resources/static/json/german_airports.geojson', {}).done(function(json) { console.log(json)});`.
 
 Hmm... not quite what we were looking for.  Open up the Chrome Debugger and let's find out how to access this object. 
 
