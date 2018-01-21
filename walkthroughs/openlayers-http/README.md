@@ -52,17 +52,19 @@ Put the placeholder for the map on the page, within the `<body>`. This `div` wil
 
 Let's add a map to our page. To do so, place the following script in the `<head>`, below the OpenLayers and jQuery includes.
 ```js
-var map = new ol.Map({
-    target: 'mapPlaceholder',
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
+$(document).ready(function(){
+    var map = new ol.Map({
+        target: 'mapPlaceholder',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        view: new ol.View({
+            center: ol.proj.fromLonLat([37.66,30.88]),
+            zoom: 4
         })
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([37.66,30.88]),
-        zoom: 4
-    })
+    });
 });
 ```
 
@@ -105,7 +107,7 @@ $.getJSON('http://localhost:8080/json/airports.geojson', {}).done(function(json)
 
 You should receive the JSON back in the console. If your callback for the AJAX call is not firing, be sure to check that the contents of `airports.json` are valid JSON using a [JSON Validator](https://jsonlint.com/).
 
-Once you see JSON dumped to the console, copy/paste that code snipped into your `index.html` file. Refesh the page in your browser, and ensure you still see the same JSON dumped to the console.
+Once you see JSON dumped to the console, copy/paste that code snippet into your `index.html` file, just below the mapping code added previously, inside of the `ready` handler. Refesh the page in your browser, and ensure you still see the same JSON dumped to the console.
 
 Now, Instead of printing all of the JSON, let's print each report individually.
 
