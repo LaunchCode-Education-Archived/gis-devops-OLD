@@ -2,7 +2,7 @@
 title: "Studio: Airwaze"
 ---
 
-Your goal is to pull additional about flight routes and display it on the map. Once you have sourced additional flight data, allow the user to click on an airport to show all of the flights departing from that city.
+Your goal is to pull additional data about flight routes and display it on the map. Once you have sourced additional flight data, allow the user to click on an airport to show all of the flights departing from that city.
 
 ## Setup
 
@@ -107,13 +107,19 @@ Make sure that everything installed correctly:
 
 Be sure that the `import.sql` points to local copies of the `Airports.csv` and routes.csv. The `import.sql` command gets run upon starting up the Spring Boot server, at which point it imports the CSV files for airports and routes.
 
+Start up your server using Intellij.  Upon startup, all of the airports should be imported into your database through the `import.sql` file.
+<aside class="aside-note" markdown="1">
+  You will see an error in the startup logs if your data did not correctly import.
+</aside>
+
+If you open [localhost:8080](http://localhost:8080/), you should see a map of Mexico with all of the Mexican airports being shown.  
+
 ## Your Tasks
 
 Now that have the app and database set up, dive into the following tasks:
 
-* Use the [openflights-geojson Github repository](https://github.com/node-geojson/openflights-geojson) to pull the flight route data.
-* Serve the data up from Spring Boot as static GeoJSON by placing the file in `src/resources/static/json/`).
-* Using a jQuery AJAX call, pull the data from the server and display the routes for a particular airport when the airport is clicked.
+* Serve up the `routes-sample.geojson` file statically by placing it in the `src/main/resources/static/json/` folder.
+* Add a click handler to the map using OpenLayers.  When an airport on the map is clicked, your app should make an AJAX call to the server for the `routes-sample.geojson` file and show the routes departing from the airport clicked. 
 
 At this point, you may [turn in your work](#turning-in-your-work) before continuing on to the Bonus Mission.
 

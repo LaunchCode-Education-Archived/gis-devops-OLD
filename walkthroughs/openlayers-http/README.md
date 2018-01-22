@@ -8,10 +8,6 @@ Follow along with the instructor as we get started with jQuery and OpenLayers.
 
 Fork and clone the [airwaze-studio](https://gitlab.com/LaunchCodeTraining/airwaze-studio) project. Import it into IntelliJ.
 
-Next, we need to disable CORS for our server. We'll explain this in more detail later, but for now, this makes things simpler.
-* Add the [CORS Toggle] (https://chrome.google.com/webstore/detail/cors-toggle/jioikioepegflmdnbocfhgmpmopmjkim/related?hl=en) plugin to your Chrome browser.
-* Click the "CORS" button in your browser bar to turn off CORS (it should turn green).
-
 Create a new html file called `index.html` under `src/main/resources/static`. Start with the following code:
 
 ```html
