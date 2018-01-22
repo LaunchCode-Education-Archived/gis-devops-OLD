@@ -9,7 +9,7 @@ Follow along with the instructor as we get started with jQuery and OpenLayers.
 Fork and clone the [JQuery OpenLayers Starter](https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter) repo. Open this folder with any editor you choose.
 
 ## Review the code
-Open file `index.html` and review it's contents
+Open file `index.html` and review its contents
 - Has a link to a script to `js/script.js`
 - Has a `<body>` and `<h2>` but not much else
 
@@ -46,26 +46,29 @@ Put the placeholder for the map on the page, within the `<body>`. This `div` wil
 ## Let's see it in action
 Start a web server using `python` using one of the below commands.
 1. Open a terminal in the folder where you cloned the starter repo
-2. Then execute the commands below
-```python
-#Check python version via
-python -V
-#If Python version returned above is 3.X
-python -m http.server 8080
-#If Python version returned above is 2.X
-python -m SimpleHTTPServer 8080
-```
+2. Check python version via:
+    ```nohighlight
+    $ python -V
+    ```
+3. If Python version returned above is 3.X:
+    ```nohighlight
+    $ python -m http.server 8080
+    ```
+    If Python version returned above is 2.X:
+    ```nohighlight
+    python -m SimpleHTTPServer 8080
+    ```
 
 In a browser go to `http://localhost:8080/index.html`. You should see a map that includes Germany.
 
 ## Show list of airports
-Add below html to `index.html`
+Add the following HTML to `index.html`
 ```html
 <button id="airport-list">list airports</button>
 <ul id="airport-list"></ul>
 ```
 
-Add below js to `js/script.js`
+Add the following JavaScript to `js/script.js`
 ```js
 $('#list-all-airports').on('click', function() {
     console.log('pulling data');
@@ -79,7 +82,7 @@ $('#list-all-airports').on('click', function() {
 ```
 
 ## Add Airport layer to the map
-Paste this js into `js/script.js`
+Paste this JS into `js/script.js`:
 ```js
 let vectorSource = new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -93,7 +96,7 @@ map.addLayer(vectorLayer);
 ```
 
 ## Show Airports when a city is clicked
-Let's add a click handler to the map. First, let's try it out in the console. Paste the following code in the console:
+Let's add a click handler to the map. First, let's try it out in the console. Paste the following code in your browser's dev tools console:
 
 ```js
 map.on('click', function(event) {
@@ -107,7 +110,7 @@ Now when you click on the map, it will print that feature to the console. Inspec
 
 Try out the `get()` method on `ol.Feature` by pasting this into `js/script.js`. Click on the map and view results in your js console (in your brwoser's dev tools).
 ```js
-map.on('click', function(event) {       
+map.on('click', function(event) {
     map.forEachFeatureAtPixel(event.pixel, function(feature,layer) {
         console.log(feature.get('dataField'));
     });
@@ -151,6 +154,7 @@ map.on('click', function(event) {
     });
 });
 ```
+
 ## Click it!
 Click on the city and be awed at your development skills.
 
