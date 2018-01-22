@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Sitemap :: GIS DevOps</title>
+        <title>Week 2 - Project Week :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-sitemap'>
+    <body id='page-week-2---project-week'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,8 +94,69 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Sitemap</h1>
-                    <ul><li><a href='https://education.launchcode.org/gis-devops/index.html'>GIS DevOps</a></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/about/index.html'>About This Course</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/objectives/index.html'>Learning Objectives</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/resources/index.html'>Resources</a></li></ul></li><li><ul>Studios<li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/airwaze/index.html'></a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/launchcart1/index.html'>Studio: LaunchCart Part 1</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/launchcart2/index.html'>Studio: LaunchCart Part 2</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/tdd/index.html'>Studio: Test-Driven Development</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/studios/user-stories/index.html'>Studio: User Stories</a></li></ul></li></ul></li><li><ul>Walkthroughs<li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html'>Walkthrough: Flyway</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html'>Walkthrough: Git and Gitlab</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/openlayers-http/index.html'>Walkthrough: OpenLayers and jQuery</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html'>Walkthrough: PostgreSQL</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html'>Walkthrough: Spring Integration Tests</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/tdd/index.html'>Walkthrough: TDD</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/walkthroughs/unit-tests/index.html'>Walkthrough: Unit Tests</a></li></ul></li></ul></li><li><ul>Week01<li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/day1/index.html'>Week 1 - Day 1</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/day2/index.html'>Week 1 - Day 2</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/day3/index.html'>Week 1 - Day 3</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/day4/index.html'>Week 1 - Day 4</a></li></ul></li><li><ul><li><a href='https://education.launchcode.org/gis-devops/week01/day5/index.html'>Week 1 - Day 5</a></li></ul></li></ul></li><li><ul>Week02<li><ul><li><a href='https://education.launchcode.org/gis-devops/week02/project/index.html'>Week 2 - Project Week</a></li></ul></li></ul></li><li><a href='sitemap.html'>Sitemap</a></li></ul>
+                                        <h1>Week 2 - Project Week</h1>
+                    <p><a href="../../objectives/#week2">Learning objectives for this week</a></p>
+<h2 id="project">Project</h2>
+<ul>
+<li><a href="../../materials/week02/Zika_Mission_Briefing--Mission1.pdf">Mission Briefing 1</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>Your goal is to build a web application to help CDC scientists visualize the reports of Zika infection in Central and South America.  Using the concepts that you have learned from the past week, build a web application using Spring Boot that serves data to an OpenLayers map.  Be sure that you web application is properly tested so that you can easily modify the application during the future weeks.</p>
+<p>Here are the user stories for you application.</p>
+<ol>
+<li>Scientists need to be able to populate the database with Zika reports that are in a CSV format.</li>
+<li>Scientists need to be able to see geographically where these infections are incurring so that they can respond with the appropriate assistance.</li>
+<li>Since each country reports data slightly differently, scientists need to be able to drill down into the data to understand what each report is saying.</li>
+</ol>
+<h2 id="requirements">Requirements</h2>
+<p>Here is a mockup of the application you will be building.<br />
+<img src="../../materials/week02/cdc_zika_dashboard.png" alt="alt text" title="Zika CDC Dashboard" /></p>
+<ul>
+<li>The database should be populated with Zika report data from Brazil, Mexico, Panama, and Haiti.</li>
+<li>The app should show a red circle for each location that has provided a Zika report.</li>
+<li>Upon clicking on a red dot, the location's name and any reported data show up below the status bar. Rememer, each location may report multiple statistics and every country does not report the same statistics. </li>
+</ul>
+<h2 id="project-hints">Project Hints</h2>
+<ul>
+<li>Postgres allows you to import CSV files directly into the database if the columns on your CSV match the columns of in your target database table. Make sure that you have the full path to the file in the copy command.
+<code>COPY report(field1, field2, field3, field4) from '/this/is/the/full/path/to/the/file' DELIMITER ',' CSV HEADER;</code></li>
+<li>Everytime SpringBoot starts up, it will run an <code>import.sql</code> file located in <code>src/main/resources</code>.  If you are importing data directly into the database via CSV, this is a convenient way to populate your database.</li>
+<li>Remember, SpringBoot is set to recreate your database every time it starts up.</li>
+</ul>
+<h2 id="setup">Setup</h2>
+<ol>
+<li>Setup Postgres - you will need to create two databases <code>zika</code> and <code>zika_test</code>.  Make sure that you install all of the geospatial extensions on Postgres.
+<pre><code>$ createdb zika
+$ createdb zika_test
+$ psql -U (your mac username) zika
+REATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
+\c zika_test
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;</code></pre></li>
+<li>Clone the [Zika CDC Dashboard]](<a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard" target="_blank">https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard</a>)</li>
+</ol>
+<h2 id="turning-in-your-work">Turning In Your Work</h2>
+<p>Your goal is to have your project done by Friday morning.</p>
+<ul>
+<li>Commit and push your work to Gitlab.</li>
+<li>Notify the instructor when you are done. </li>
+</ul>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<p>If you complete the assignment with time to spare, improve your app by providing context about the size of the Zika outbreak.  Use this <a href="https://openlayers.org/en/latest/examples/kml-earthquakes.html" target="_blank">OpenLayers tutorial</a> as a guide to change the size and color of the feature based on number of cases.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://www.w3schools.com/cssref/css_selectors.asp" target="_blank">CSS Selectors</a></li>
+<li><a href="https://jsonlint.com/" target="_blank">JSON Lint</a></li>
+<li><a href="http://geojson.io/#map=2/20.0/0.0" target="_blank">geojson.io</a>
+<aside class="aside-note">
+<p>Remember that both jQuery and OpenLayers will silently fail if they are not given valid JSON and valid GeoJSON (respectively).  Be sure to lint your services before attempting to hook them up to the front end.</p>
+</aside></li>
+</ul>
                                     </section>
 
             </div>
