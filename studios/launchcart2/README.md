@@ -99,7 +99,8 @@ Let's add a new boolean property to `Item` to keep track of whether or not an it
 - Add a checkbox to `templates/item/new.html`:
     ```html
     <div class="form-group">
-        <input type="checkbox" id="newItem" name="newItem" value="true" checked="checked" />
+        <input type="checkbox" id="newItem"
+               name="newItem" value="true" checked="checked" />
         <label for="newItem">New Item</label>
     </div>
     ```
