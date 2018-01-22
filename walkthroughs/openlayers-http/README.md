@@ -6,27 +6,21 @@ Follow along with the instructor as we get started with jQuery and OpenLayers.
 
 ## Getting Started
 
-Fork and clone the [airwaze-studio](https://gitlab.com/LaunchCodeTraining/airwaze-studio) project. Import it into IntelliJ.
+Fork and clone the [JQuery OpenLayers Starter](https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter) repo. Open this folder with any editor you choose.
 
-Next, we need to disable CORS for our server. We'll explain this in more detail later, but for now, this makes things simpler.
-* Add the [CORS Toggle] (https://chrome.google.com/webstore/detail/cors-toggle/jioikioepegflmdnbocfhgmpmopmjkim/related?hl=en) plugin to your Chrome browser.
-* Click the "CORS" button in your browser bar to turn off CORS (it should turn green).
+## Review the code
+Open file `index.html` and review it's contents
+- Has a link to a script to `js/script.js`
+- Has a `<body>` and `<h2>` but not much else
 
-Create a new html file called `index.html` under `src/main/resources/static`. Start with the following code:
+Review contents of `js/script.js`
+- Contains code to instantiate a map
 
-```html
-<!doctype html>
-<html lang="en">
-<head>
-  <title>OpenLayers example</title>
-</head>
-<body>
-<h2>My Map</h2>
+This creates a map that can contain multiple layers in the `layers: []` object. In this case we are using a Tile layer. You can find all of the layer types [here](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html).
 
-</body>
-</html>
-```
+The `view` attribute allows us to position the map at a certain lat long and zoom level using an `ol.View` object.
 
+## Let's make a map show up
 Next, add OpenLayers to your project by including the JavaScript source in the head.
 ```html
  <script src="https://openlayers.org/en/v4.6.4/build/ol.js"
@@ -40,7 +34,7 @@ Put the placeholder for the map on the page, within the `<body>`. This `div` wil
 <div id="mapPlaceholder" class="map"></div>
  ```
 
- Then set the size for the map.
+ Then set the size for the map, by adding this to the `<head>`
  ```html
 <style>
 .map {
@@ -49,80 +43,56 @@ Put the placeholder for the map on the page, within the `<body>`. This `div` wil
 }
 </style>
  ```
+## Let's see it in action
+Start a web server using `python` using one of the below commands.
+1. Open a terminal in the folder where you cloned the starter repo
+2. Then execute the commands below
+```python
+#Check python version via
+python -V
+#If Python version returned above is 3.X
+python -m http.server 8080
+#If Python version returned above is 2.X
+python -m SimpleHTTPServer 8080
+```
 
-Let's add a map to our page. To do so, place the following script in the `<head>`, below the OpenLayers and jQuery includes.
+In a browser go to `http://localhost:8080/index.html`. You should see a map that includes Germany.
+
+## Show list of airports
+Add below html to `index.html`
+```html
+<button id="airport-list">list airports</button>
+<ul id="airport-list"></ul>
+```
+
+Add below js to `js/script.js`
 ```js
-$(document).ready(function(){
-    var map = new ol.Map({
-        target: 'mapPlaceholder',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM()
-            })
-        ],
-        view: new ol.View({
-            center: ol.proj.fromLonLat([37.66,30.88]),
-            zoom: 4
-        })
+$('#list-all-airports').on('click', function() {
+    console.log('pulling data');
+    $('#airport-list').empty();        
+    $.getJSON('http://localhost:8080/json/german_airports.geojson', {}).done(function(json) {
+        for (var i=0; i<json.features.length; i++) {
+            $('#all-airports').append('<li>' + json.features[i].properties.dataField + '</li>');
+        }
     });
 });
 ```
 
-This creates a map that can contain multiple layers in the `layers: []` object. In this case we are using a Tile layer. You can find all of the layer types [here](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html).
-
-The `view` attribute allows us to position the map at a certain lat long and zoom level using an `ol.View` object.
-
-## Add GeoJSON data
-
-Let's pull in some GeoJSON data. Open the [openflights-geojson](https://github.com/node-geojson/openflights-geojson) repo.
-
-Per the instructions, run the following command to install package:
-
-```nohighlight
-$ npm install -g openflights-geojson
-```
-
-Then create a JSON file for use in the project by running the following command in `src/main/resources/static/json/`:
-```nohighlight
-$ openflights-airports > airports.geojson
-```
-
-<aside class="aside-warning" markdown="1">
-Opening `airports.geojson` with IntelliJ will cause your computer some hardship.
-
-Instead, view the file in Terminal with `less airports.geojson`. There will be about 14,000 reports in that file.
-</aside>
-
-To view our file, let's fire up a simple local webserver using Python. Run this command from `src/main/resources/static/`:
-```nohighlight
-$ python -m http.server 8080
-```
-
-Then navigate to `localhost:8080` in your browser. You'll see the page render, but no map present yet. That's because we haven't added any data to the map. We'll do that now.
-
-Let's make an AJAX call to retrieve the JSON using the Chrome console. Open up the Chrome inspector and paste the following into the console: 
+## Add Airport layer to the map
+Paste this js into `js/script.js`
 ```js
-$.getJSON('http://localhost:8080/json/airports.geojson', {}).done(function(json) { console.log(json)});
-```
-
-You should receive the JSON back in the console. If your callback for the AJAX call is not firing, be sure to check that the contents of `airports.json` are valid JSON using a [JSON Validator](https://jsonlint.com/).
-
-Once you see JSON dumped to the console, copy/paste that code snippet into your `index.html` file, just below the mapping code added previously, inside of the `ready` handler. Refesh the page in your browser, and ensure you still see the same JSON dumped to the console.
-
-Now, Instead of printing all of the JSON, let's print each report individually.
-
-Add a `<ul id="airportList">` to the HTML file, along with the following code to the page to create a list of all the reports.
-
-```js
-for (var i=0; i<json.features.length; i++) {
-    $('#airportList').append('<li>' + json.features[i].type + '</li>');
+let vectorSource = new ol.source.Vector({
+    format: new ol.format.GeoJSON(),
+    url: 'http://localhost:8080/json/german_airports.geojson'
 });
+vectorLayer = new ol.layer.Vector({
+    source: vectorSource,
+    style: styleFunction
+});
+map.addLayer(vectorLayer);
 ```
 
-Next, let's add these reports to the map.
-
-## Add a click handler
-
+## Show Airports when a city is clicked
 Let's add a click handler to the map. First, let's try it out in the console. Paste the following code in the console:
 
 ```js
@@ -135,7 +105,7 @@ map.on('click', function(event) {
 
 Now when you click on the map, it will print that feature to the console. Inspect the object to make sure it is what you expected. Next take a look at the [documentation for ol.Feature](https://openlayers.org/en/latest/apidoc/ol.Feature.html). How can you access the data on that object?
 
-Use the `get()` method on `ol.Feature`:
+Try out the `get()` method on `ol.Feature` by pasting this into `js/script.js`. Click on the map and view results in your js console (in your brwoser's dev tools).
 ```js
 map.on('click', function(event) {       
     map.forEachFeatureAtPixel(event.pixel, function(feature,layer) {
@@ -144,27 +114,45 @@ map.on('click', function(event) {
 });
 ```
 
-We want to add data about this report to our map dashboard. In plain HTML, code out what it could like on the page. Use this as a guide:
+We want to add data about this report to our map dashboard. Here is an example of what we want to show:
 
 ```html
-<div id="airportList">
-    <h3>Aalen-Heidenheim/Elchingen Airport</h3>
-    <p>ICAO: EPDA</p>
-    <p>Location: Aalen-heidenheim, Germany</p>
-    <p>Altitude: 1916</p>
-    <p>Time Zone: Europe/Berlin</p>
-</div>
+<ul id="airport-list">
+    <li>
+        <h3>Aalen-Heidenheim/Elchingen Airport</h3>
+        <p>ICAO: EPDA</p>
+        <p>Location: Aalen-heidenheim, Germany</p>
+        <p>Altitude: 1916</p>
+        <p>Time Zone: Europe/Berlin</p>
+    </li>
+    <li>
+        <h3>A Second Airpot in Clicked City</h3>
+        <p>ICAO2: EPDA2</p>
+        <p>Location: Aalen-heidenheimXYZ, Germany</p>
+        <p>Altitude: 1200</p>
+        <p>Time Zone: Europe/Berlin</p>
+    </li>
+</ul>
 ```
 
-Once you feel good about how it looks, use [Javascript Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) to populate the feature data into the HTML. Here is what your code should look like:
+Update the Map onclick code to display airports for that city using [Javascript Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) to populate the feature data into the HTML. Here is what your code should look like:
 ```js
 map.on('click', function(event) {
+    $('#airport-list').empty();    
     map.forEachFeatureAtPixel(event.pixel, function(feature,layer) {
-        $('#airportList').empty();
-        $('#airportList').append(`<div id="airportList"><h3>${feature.get('locationType')}</h3><p>ICAO: ${feature.get('icao')}</p><p>Location: ${feature.get('dataField')}, ${feature.get('country')}</p><p>Altitude: ${feature.get('alt')}</p><p>Time Zone: ${feature.get('tz')}</p></div>`);
+        $('#airport-list').append(`
+            <li>
+                <h3>${feature.get('locationType')}</h3>
+                <p>ICAO: ${feature.get('icao')}</p><p>Location: ${feature.get('dataField')}, ${feature.get('country')}</p>
+                <p>Altitude: ${feature.get('alt')}</p>
+                <p>Time Zone: ${feature.get('tz')}</p>
+            </li>`
+        );
     });
 });
 ```
+## Click it!
+Click on the city and be awed at your development skills.
 
 ## Troubleshooting
 
