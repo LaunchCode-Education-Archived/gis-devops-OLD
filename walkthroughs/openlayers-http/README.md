@@ -56,7 +56,7 @@ Start a web server using `python` using one of the below commands.
     ```
     If Python version returned above is 2.X:
     ```nohighlight
-    python -m SimpleHTTPServer 8080
+    $ python -m SimpleHTTPServer 8080
     ```
 
 In a browser go to `http://localhost:8080/index.html`. You should see a map that includes Germany.
