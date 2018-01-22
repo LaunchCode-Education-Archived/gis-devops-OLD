@@ -99,7 +99,7 @@
 <h2 id="getting-started">Getting Started</h2>
 <p>Fork and clone the <a href="https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter" target="_blank">JQuery OpenLayers Starter</a> repo. Open this folder with any editor you choose.</p>
 <h2 id="review-the-code">Review the code</h2>
-<p>Open file <code>index.html</code> and review it's contents</p>
+<p>Open file <code>index.html</code> and review its contents</p>
 <ul>
 <li>Has a link to a script to <code>js/script.js</code></li>
 <li>Has a <code>&lt;body&gt;</code> and <code>&lt;h2&gt;</code> but not much else</li>
@@ -128,20 +128,19 @@
 <p>Start a web server using <code>python</code> using one of the below commands.</p>
 <ol>
 <li>Open a terminal in the folder where you cloned the starter repo</li>
-<li>Then execute the commands below
-<pre><code class="language-python">#Check python version via
-python -V
-#If Python version returned above is 3.X
-python -m http.server 8080
-#If Python version returned above is 2.X
-python -m SimpleHTTPServer 8080</code></pre></li>
+<li>Check python version via:
+<pre><code class="language-nohighlight">$ python -V</code></pre></li>
+<li>If Python version returned above is 3.X:
+<pre><code class="language-nohighlight">$ python -m http.server 8080</code></pre>
+<p>If Python version returned above is 2.X:</p>
+<pre><code class="language-nohighlight">python -m SimpleHTTPServer 8080</code></pre></li>
 </ol>
 <p>In a browser go to <code>http://localhost:8080/index.html</code>. You should see a map that includes Germany.</p>
 <h2 id="show-list-of-airports">Show list of airports</h2>
-<p>Add below html to <code>index.html</code></p>
+<p>Add the following HTML to <code>index.html</code></p>
 <pre><code class="language-html">&lt;button id="airport-list"&gt;list airports&lt;/button&gt;
 &lt;ul id="airport-list"&gt;&lt;/ul&gt;</code></pre>
-<p>Add below js to <code>js/script.js</code></p>
+<p>Add the following JavaScript to <code>js/script.js</code></p>
 <pre><code class="language-js">$('#list-all-airports').on('click', function() {
     console.log('pulling data');
     $('#airport-list').empty();        
@@ -152,7 +151,7 @@ python -m SimpleHTTPServer 8080</code></pre></li>
     });
 });</code></pre>
 <h2 id="add-airport-layer-to-the-map">Add Airport layer to the map</h2>
-<p>Paste this js into <code>js/script.js</code></p>
+<p>Paste this JS into <code>js/script.js</code>:</p>
 <pre><code class="language-js">let vectorSource = new ol.source.Vector({
     format: new ol.format.GeoJSON(),
     url: 'http://localhost:8080/json/german_airports.geojson'
@@ -163,7 +162,7 @@ vectorLayer = new ol.layer.Vector({
 });
 map.addLayer(vectorLayer);</code></pre>
 <h2 id="show-airports-when-a-city-is-clicked">Show Airports when a city is clicked</h2>
-<p>Let's add a click handler to the map. First, let's try it out in the console. Paste the following code in the console:</p>
+<p>Let's add a click handler to the map. First, let's try it out in the console. Paste the following code in your browser's dev tools console:</p>
 <pre><code class="language-js">map.on('click', function(event) {
     map.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
         console.log(feature);
@@ -171,7 +170,7 @@ map.addLayer(vectorLayer);</code></pre>
 });</code></pre>
 <p>Now when you click on the map, it will print that feature to the console. Inspect the object to make sure it is what you expected. Next take a look at the <a href="https://openlayers.org/en/latest/apidoc/ol.Feature.html" target="_blank">documentation for ol.Feature</a>. How can you access the data on that object?</p>
 <p>Try out the <code>get()</code> method on <code>ol.Feature</code> by pasting this into <code>js/script.js</code>. Click on the map and view results in your js console (in your brwoser's dev tools).</p>
-<pre><code class="language-js">map.on('click', function(event) {       
+<pre><code class="language-js">map.on('click', function(event) {
     map.forEachFeatureAtPixel(event.pixel, function(feature,layer) {
         console.log(feature.get('dataField'));
     });
