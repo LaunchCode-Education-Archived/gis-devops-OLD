@@ -2,82 +2,61 @@
 
 Your goal is to add an additional layer that shows flight routes and display it on the map.  This time we will incorporate our map into a Spring boot project. Some starter code has been provided for you.
 
-##Setup PostGIS
+##Setup Project
+Fork and clone this [https://gitlab.com/LaunchCodeTraining/airwaze-studio](https://gitlab.com/LaunchCodeTraining/airwaze-studio). Then open the project in Intellij.
 
+##Setup PostGIS
 To install PostGIS, run the following commands in terminal:
 ```nohighlight
 $ brew update
 $ brew install postgis
 ```
-$This is going to take a while.
+This is going to take a while.
 
 Make sure your Postgresql server is running. Remember we used [https://postgresapp.com/](https://postgresapp.com/) to install Postgresql, which automatically created a service that we can start and stop via it's UI in the menu bar.
 
 Run `psql` CLI by double clicking on the `postgres` database in the Postgresql App
 
-In in `psql` Create a database
+Open the Postgres UI and double click on the `postgres` db to open a `psql` command prompt.
+Then execute:
 ```nohighlight
-$ createdb airwaze
+# CREATE DATABASE airwaze;
 ```
 
 Also create a database for your tests
 ```nohighlight
-$ createdb airwaze_test
+# CREATE DATABASE airwaze_test;
 ```
 
-Now we want to install the geospatial extensions to Postgres.  Run the following commands:
-*Remember to use your admin account (which is your mac user name)*
+Now we want to install the geospatial extensions to Postgres for the `airwaze` db.
+- Open the Postgres UI and double click on the `airwaze` db to open a `psql` command prompt connected to the `airwaze` db.
 ```nohighlight
-$ -U (your mac username) airwaze
 # CREATE EXTENSION postgis;
 # CREATE EXTENSION postgis_topology;
 # CREATE EXTENSION fuzzystrmatch;
 # CREATE EXTENSION postgis_tiger_geocoder;
 ```
 
-Make sure that everything installed correctly:
+Make sure that everything installed correctly by running this query:
 ```nohighlight
-$ psql SELECT POSTGIS_FULL_VERSION();
-```
-
-Remember to do that for your test database as well!
-```nohighlight
-$ -U (your mac username) airwaze
-# CREATE EXTENSION postgis;
-# CREATE EXTENSION postgis_topology;
-# CREATE EXTENSION fuzzystrmatch;
-# CREATE EXTENSION postgis_tiger_geocoder;
-```
-
-Make sure that everything installed correctly for your test db:
-```
 # SELECT POSTGIS_FULL_VERSION();
 ```
 
-Log in with your Mac username.  If you're not sure what your mac username is then run `ls /home`
+Remember to do that for your test database as well!
+- Open the Postgres UI and double click on the `airwaze_test` db to open a `psql` command prompt connected to the `airwaze_test` db.
 ```nohighlight
-$ psql -U (your username) airwaze
+# CREATE EXTENSION postgis;
+# CREATE EXTENSION postgis_topology;
+# CREATE EXTENSION fuzzystrmatch;
+# CREATE EXTENSION postgis_tiger_geocoder;
+# SELECT POSTGIS_FULL_VERSION();
 ```
 
 Create a new user for your application
+- Open the Postgres UI and double click on the `airwaze` db to open a `psql` command prompt connected to the `airwaze` db.
 ```nohighlight
-$ createuser app_user --createdb
-```
-
-Also, make this user a super user (normally this would be a security risk; however, we're only working locally and it is needed to prepopulate the database)
-```nohighlight
-# ALTER ROLE <rolename> WITH SUPERUSER; 
-```
-
-Log in with app_user and change the password to something sensible
-```nohighlight
-$ psql -U app_user airwaze
-# \password
-```
-
-Make sure that everything installed correctly:
-```sql
-SELECT POSTGIS_FULL_VERSION();
+# CREATE USER airwaze_app_user WITH PASSWORD 'somethingsensible' CREATEDB;
+# ALTER ROLE airwaze_app_user WITH SUPERUSER; 
 ```
 
 ##Now let's use the new database
