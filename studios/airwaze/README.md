@@ -75,7 +75,7 @@ Be sure that the `import.sql` points to local copies of the `Airports.csv` and `
 - Then look at the code that returns that data
 
 ## Review RouteController
-- Visit this url in your browser `http://localhost:8080/route?srcId=1299`
+- Visit this url in your browser `http://localhost:8080/route/?srcId=12`
 - Then look at the code that returns that data
 - Think about how this route coulde be used to show the routes for an airport
 
