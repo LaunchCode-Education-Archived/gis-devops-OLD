@@ -71,7 +71,7 @@ Be sure that the `import.sql` points to local copies of the `Airports.csv` and `
 - Then go to `http://localhost:8080`, you should see a map with Mexico on it that includes a map layer for airports as red circles
 
 ## Review AirportController
-- Visit this url in your browser `http://localhost:8080/airport/`
+- Visit this url in your browser `http://localhost:8080/airport/` note the trailing `/` is important
 - Then look at the code that returns that data
 
 ## Review RouteController
