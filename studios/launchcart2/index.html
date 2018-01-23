@@ -162,7 +162,8 @@
 <li>Write a new database migration script to add the column <code>is_new</code> to the <code>item</code> table. Be sure to set an apropriate default value for this column. This will ensure that any existing rows will have an appropriate value that isn't null set for the new column.</li>
 <li>Add a checkbox to <code>templates/item/new.html</code>:
 <pre><code class="language-html">&lt;div class="form-group"&gt;
-    &lt;input type="checkbox" id="newItem" name="newItem" value="true" checked="checked" /&gt;
+    &lt;input type="checkbox" id="newItem"
+           name="newItem" value="true" checked="checked" /&gt;
     &lt;label for="newItem"&gt;New Item&lt;/label&gt;
 &lt;/div&gt;</code></pre></li>
 <li>Run the app and ensure the New Item form submits, and that the chosen value is properly set in the database.</li>
