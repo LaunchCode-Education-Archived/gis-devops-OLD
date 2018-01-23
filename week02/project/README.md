@@ -32,24 +32,37 @@ Here is a mockup of the application you will be building.
 - Everytime SpringBoot starts up, it will run an `import.sql` file located in `src/main/resources`.  If you are importing data directly into the database via CSV, this is a convenient way to populate your database.
 - Remember, SpringBoot is set to recreate your database every time it starts up.
 
-## Setup
-1. Setup Postgres - you will need to create two databases `zika` and `zika_test`.  Make sure that you install all of the geospatial extensions on Postgres.
-```
-$ createdb zika
-$ createdb zika_test
-$ psql -U (your mac username) zika
-REATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-CREATE EXTENSION fuzzystrmatch;
-CREATE EXTENSION postgis_tiger_geocoder;
-\c zika_test
-CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-CREATE EXTENSION fuzzystrmatch;
-CREATE EXTENSION postgis_tiger_geocoder;
-```
-2. Clone the [Zika CDC Dashboard]](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard)
+## Setup Project
+Fork and clone [Zika CDC Dashboard](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard)
 
+## Setup Postgres
+
+Run `psql` CLI by double clicking on the `postgres` database in the Postgresql App
+
+Open the Postgres UI and double click on the `postgres` db to open a `psql` command prompt.
+Then execute:
+```nohighlight
+# CREATE DATABASE zika;
+# CREATE DATABASE zika_test;
+```
+
+Now we want to install the geospatial extensions to Postgres for the `zika` db.
+- Open the Postgres UI and double click on the `zika` db to open a `psql` command prompt connected to the `zika` db.
+```nohighlight
+# CREATE EXTENSION postgis;
+# CREATE EXTENSION postgis_topology;
+# CREATE EXTENSION fuzzystrmatch;
+# CREATE EXTENSION postgis_tiger_geocoder;
+```
+
+Execute the above commands inside of the `zika_test` db as well
+
+Create a new user for your application
+- Open the Postgres UI and double click on the `zika` db to open a `psql` command prompt connected to the `zika` db.
+```nohighlight
+# CREATE USER zika_app_user WITH PASSWORD 'somethingsensible' CREATEDB;
+# ALTER ROLE zika_app_user WITH SUPERUSER; 
+```
 
 ## Turning In Your Work
 
