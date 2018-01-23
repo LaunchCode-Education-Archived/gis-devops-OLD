@@ -10,7 +10,7 @@ title: Week 2 - Project Week
 
 ## Overview
 
-Your goal is to build a web application to help CDC scientists visualize the reports of Zika infection in Central and South America.  Using the concepts that you have learned from the past week, build a web application using Spring Boot that serves data to an OpenLayers map.  Be sure that your web application is properly tested so that you can easily modify the application during the future weeks.
+Your goal is to build a web application to help CDC scientists visualize the reports of Zika infection in Central and South America.  Using the concepts that you have learned from the past week, build a web application using Spring Boot that serves data to an OpenLayers map (starter code is provided below).  Be sure that your web application is properly tested so that you can easily modify the application during the future weeks.
 
 Here are the user stories for your application.
 1.  Scientists need to be able to populate the database with Zika reports that are in a CSV format.
