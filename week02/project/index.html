@@ -123,23 +123,29 @@
 <li>Everytime SpringBoot starts up, it will run an <code>import.sql</code> file located in <code>src/main/resources</code>.  If you are importing data directly into the database via CSV, this is a convenient way to populate your database.</li>
 <li>Remember, SpringBoot is set to recreate your database every time it starts up.</li>
 </ul>
-<h2 id="setup">Setup</h2>
-<ol>
-<li>Setup Postgres - you will need to create two databases <code>zika</code> and <code>zika_test</code>.  Make sure that you install all of the geospatial extensions on Postgres.
-<pre><code>$ createdb zika
-$ createdb zika_test
-$ psql -U (your mac username) zika
-REATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-CREATE EXTENSION fuzzystrmatch;
-CREATE EXTENSION postgis_tiger_geocoder;
-\c zika_test
-CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;
-CREATE EXTENSION fuzzystrmatch;
-CREATE EXTENSION postgis_tiger_geocoder;</code></pre></li>
-<li>Clone the [Zika CDC Dashboard]](<a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard" target="_blank">https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard</a>)</li>
-</ol>
+<h2 id="setup-project">Setup Project</h2>
+<p>Fork and clone <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard" target="_blank">Zika CDC Dashboard</a></p>
+<h2 id="setup-postgres">Setup Postgres</h2>
+<p>Run <code>psql</code> CLI by double clicking on the <code>postgres</code> database in the Postgresql App</p>
+<p>Open the Postgres UI and double click on the <code>postgres</code> db to open a <code>psql</code> command prompt.
+Then execute:</p>
+<pre><code class="language-nohighlight"># CREATE DATABASE zika;
+# CREATE DATABASE zika_test;</code></pre>
+<p>Now we want to install the geospatial extensions to Postgres for the <code>zika</code> db.</p>
+<ul>
+<li>Open the Postgres UI and double click on the <code>zika</code> db to open a <code>psql</code> command prompt connected to the <code>zika</code> db.
+<pre><code class="language-nohighlight"># CREATE EXTENSION postgis;
+# CREATE EXTENSION postgis_topology;
+# CREATE EXTENSION fuzzystrmatch;
+# CREATE EXTENSION postgis_tiger_geocoder;</code></pre></li>
+</ul>
+<p>Execute the above commands inside of the <code>zika_test</code> db as well</p>
+<p>Create a new user for your application</p>
+<ul>
+<li>Open the Postgres UI and double click on the <code>zika</code> db to open a <code>psql</code> command prompt connected to the <code>zika</code> db.
+<pre><code class="language-nohighlight"># CREATE USER zika_app_user WITH PASSWORD 'somethingsensible' CREATEDB;
+# ALTER ROLE zika_app_user WITH SUPERUSER; </code></pre></li>
+</ul>
 <h2 id="turning-in-your-work">Turning In Your Work</h2>
 <p>Your goal is to have your project done by Friday morning.</p>
 <ul>
