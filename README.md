@@ -16,4 +16,4 @@ Day | Topics
 
 Day | Topics
 |----|--------|
-[Day 1-5](week02/project) | Airwaze
+[Day 1-5](week02/project) | Zika Map
