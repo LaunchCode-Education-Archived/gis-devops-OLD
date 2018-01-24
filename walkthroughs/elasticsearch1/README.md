@@ -4,20 +4,22 @@ title: Walkthrough
 
 
 
-We have an Elasticsearch cluster that we can practice queries against. (Using Bonsai's hosted ES service.)  The URL is:
+Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against.  The URL is:
 
 https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net
 
-Free Bonsai clusters must sleep for 8 hours out of every 24. For more info: [https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails](https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails)
+Free Bonsai clusters must sleep for 8 hours out of every 24. For more info: https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails
 
 Please don't use this server between say 11pm-7am CT so it's ready for class.
+
+
 
 ## Let's start!
 
 Let's see if everything is well with this cluster before we begin:
 
 ```
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net_cat/health?v&pretty'
+curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&pretty'
 ```
 
 Output should look like this:
@@ -108,10 +110,11 @@ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-eas
   "from": 1,
   "size": 3
 }
-
 '
 
 ```
+
+
 
 ## Text Search
 
@@ -130,6 +133,7 @@ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-eas
 ```
 
 Success!
+
 
 ```
 {
@@ -178,7 +182,7 @@ Let's just try passing both spellings
     "query" : {
         "match" : { "author_name" : "Ann Anne" }
     }
-}
+}'
 ```
 
 Nope, this is the response you get when there is no match:
@@ -213,7 +217,7 @@ What if we just searched for either name?
         { "match": { "author_name": "Ann" } },
         { "match": { "author_name": "Anne" } }
       ]
-    }}}
+    }}}'
 
 ```
 
@@ -234,7 +238,7 @@ That's pretty tedious though, huh? We would really prefer that Elasticsearch fig
     "query" : {
         "fuzzy" : { "author_name" : 'Ann" }
     }
-}
+}'
 
 ```
 
@@ -251,7 +255,7 @@ Huh that didn't work. Turns out there are some defaults that reduce the amount o
                 "fuzziness": 2,
                 "prefix_length": 0,
                 "max_expansions": 100
-            }}}}
+            }}}}'
 
 ```
 
@@ -347,7 +351,7 @@ Looks like that's working well! There are 70 hits… but wait! If you look at th
 
 ### Aggregations
 
-Aggregations allow us to get statistics and information about groups of documents, while returning the documents at the same if you need to. What kind of questions like this could we ask about this book data? All these books have a year associated with them. (Either the year written, published, or an approximation of that.) What year has the most books in it?
+Aggregations allow us to get statistics and information about groups of documents, while returning the documents at the same time if you need to. What kind of questions like this could we ask about this book data? All these books have a year associated with them (either the year written, published, or an approximation of that). What year has the most books in it?
 
 ```
 
@@ -429,7 +433,7 @@ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-eas
 
 ```
 
-Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elastic supports several ways to enter in this data, and I strongly suggest you label yours rather than using an array or string.
+Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elasticsearch supports several ways to enter in this data, and I strongly suggest you label yours rather than using an array or string.
 
 ```
 
