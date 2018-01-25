@@ -82,7 +82,7 @@ If you complete the assignment with time to spare, improve your app by providing
 - [CSS Selectors](https://www.w3schools.com/cssref/css_selectors.asp)
 - [JSON Lint](https://jsonlint.com/)
 - [geojson.io](http://geojson.io/#map=2/20.0/0.0)
-- [JPA DataRepostiry query documentation](https://docs.spring.io/spring-data/jpa/docs/1.5.0.RELEASE/reference/html/jpa.repositories.html)
+- [Spring Data JPA DataRepostiry query documentation](https://docs.spring.io/spring-data/jpa/docs/1.5.0.RELEASE/reference/html/jpa.repositories.html)
 
 <aside class="aside-note" markdown="1">
 Remember that both jQuery and OpenLayers will silently fail if they are not given valid JSON and valid GeoJSON (respectively). Be sure to lint your services before attempting to hook them up to the front end.
