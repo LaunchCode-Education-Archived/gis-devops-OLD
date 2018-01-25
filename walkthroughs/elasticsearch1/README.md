@@ -8,23 +8,26 @@ Bonsai's hosted ES service provides an Elasticsearch cluster that we can practic
 
 https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net
 
-Free Bonsai clusters must sleep for 8 hours out of every 24. For more info: https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails
+<aside class="aside-note" markdown="1">
+Free Bonsai clusters must sleep for 8 hours out of every 24. [Bonsai's documentation](https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails) explains how these accounts work.
 
-Please don't use this server between say 11pm-7am CT so it's ready for class.
+Please don't use this server between 11pm-7am CT so it's ready for class.
+</aside>
 
 
 
-## Let's start!
+
+## Let's Start!
 
 Let's see if everything is well with this cluster before we begin:
 
-```
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&pretty'
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&pretty'
 ```
 
 Output should look like this:
 
-```
+```nohighlight
 epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
 
 1516559163 18:26:03  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%
@@ -38,32 +41,27 @@ Cluster health is expressed as the color green, yellow, or red.
 
 Cool, now let's see what indices are available.
 
-```
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/indices?v&pretty'
-```
-
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/indices?v&pretty'
 ```
 
+```nohighlight
 health status index                  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 
 green  open   book E_jXjglKRNertzCBvONueg   1   1          0            0       260b           130b
-
 ```
 
 Looks like we have some information on books. To start, let's get a small sample of documents to see what kind of structure is here:
 
-```
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
-
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
 {
   "query": { "match_all": {} }
 }'
-
 ```
 
 Output:
-```
-
+```nohighlight
 {
   "took" : 0,
   "timed_out" : false,
@@ -96,46 +94,41 @@ Output:
       },
 
 ```
-[SOME OUTPUT omitted]
+[some output omitted]
 
 
 If you don't specify the number of results to be returned, ES will return 10 documents. You can request a certain number of documents by setting the size.
 
-```
-
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
-
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
 {
   "query": { "match_all": {} },
   "from": 1,
   "size": 3
-}
-'
-
+}'
 ```
 
 
 
 ## Text Search
 
-Let's search for books authored by a woman named "Ann". What are our options for this?
+Let's search for books authored by anyone named "Ann". What are our options for this?
 
-We already did a "query" clause, so let's try to run with that.
+We already did a `"query"` clause, so let's try to run with that.
 
-```
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
 {
     "query" : {
         "match" : { "author_name" : "Ann" }
     }
-}
-'
+}'
 ```
 
 Success!
 
 
-```
+```nohighlight
 {
   "took" : 1,
   "timed_out" : false,
@@ -177,18 +170,17 @@ Now… what about 'Anne'? How can we get that spelling too?
 
 Let's just try passing both spellings
 
-```
+```nohighlight
 {
     "query" : {
         "match" : { "author_name" : "Ann Anne" }
     }
-}'
+}
 ```
 
 Nope, this is the response you get when there is no match:
 
-```
-
+```nohighlight
 {
   "took" : 2,
   "timed_out" : false,
@@ -203,13 +195,11 @@ Nope, this is the response you get when there is no match:
     "hits" : []
   }
 }
-
 ```
 
 What if we just searched for either name?
 
-```
-
+```nohighlight
 {
   "query": {
     "bool": {
@@ -217,13 +207,12 @@ What if we just searched for either name?
         { "match": { "author_name": "Ann" } },
         { "match": { "author_name": "Anne" } }
       ]
-    }}}'
-
+    }}}
 ```
 
-Success!! It's returning every book with an author name containing either 'Ann' or 'Anne'. You can use "must_not" instead of "must" if you want to filter negatively instead of positively, that is, remove some from a set and return the remainder.
+Success!! It's returning every book with an author name containing either 'Ann' or 'Anne'. `"Should"` is like `“OR”` (any one of the clauses must match), whereas `“must”` is like `“AND”` (both clauses would have to be present). You can use `"must_not"` instead of `"must"` if you want to filter negatively instead of positively, that is, remove some from a set and return the remainder.
 
-```
+```nohighlight
   "hits" : {
     "total" : 3,
 ```
@@ -232,20 +221,17 @@ Success!! It's returning every book with an author name containing either 'Ann' 
 
 That's pretty tedious though, huh? We would really prefer that Elasticsearch figure out this misspelling business. Let's try one of those 'fuzzy' queries we talked about earlier.
 
-```
-
+```nohighlight
 {
     "query" : {
         "fuzzy" : { "author_name" : 'Ann" }
     }
 }'
-
 ```
 
-Huh that didn't work. Turns out there are some defaults that reduce the amount of letter changes allowed for very short words. Let's try manually overriding the defaults.  More info here: [https://www.elastic.co/guide/en/elasticsearch/reference/6.1/common-options.html#fuzziness](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/common-options.html#fuzziness)
+Huh that didn't work. Turns out there are some defaults that reduce the amount of letter changes allowed for very short words. Let's try manually overriding the defaults.  [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/common-options.html#fuzziness) can tell you everything you need to know about how to do this.
 
-```
-
+```nohighlight
 {
     "query": {
         "fuzzy" : {
@@ -255,14 +241,12 @@ Huh that didn't work. Turns out there are some defaults that reduce the amount o
                 "fuzziness": 2,
                 "prefix_length": 0,
                 "max_expansions": 100
-            }}}}'
-
+            }}}}
 ```
 
-Whoa that worked. Now there are 7 total results, in order: 1 Ann, 2 Annes, 1 Fanny, and then a Jane and a few other that don't really make sense. This could use some more tuning, but since it sorts the most useful to the top, it's good enough for now.
+Whoa that worked. Now there are seven total results, in order: one Ann, two Annes, a Fanny, and then a Jane and a few other that don't really make sense. This could use some more tuning, but since it sorts the most useful to the top, it's good enough for now.
 
-```
-
+```nohighlight
 {
   "took" : 0,
   "timed_out" : false,
@@ -283,21 +267,19 @@ Whoa that worked. Now there are 7 total results, in order: 1 Ann, 2 Annes, 1 Fan
         "_source" : {
           "title" : "The Romance of the Forest",
           "author_name" : "Ann Radcliffe",
-
 ```
 
 [some response output omitted]
 
-We could also do similar searches for words in the book description field., but let's move on to some other types of searches for now.
+We could also do similar searches for words in the book description field, but let's move on to some other types of searches for now.
 
 
 
 ## Range Filter
 
-Often you will want to use one type of search clause in combination with another. Here, we are using a 'match_all' to get a bunch of records, but filtering out books with the year prior to 1900. We are also eliminating those 2000 and after, but you will notice this collection does not include any books that recent.
+Often you will want to use one type of search clause in combination with another. Here, we are using a `"match_all"` to get a bunch of records, but filtering out books with the year prior to 1900. We are also eliminating those 2000 and after, but you will notice this collection does not include any books that recent.
 
-```
-
+```nohighlight
 {
   "query": {
     "bool": {
@@ -308,11 +290,9 @@ Often you will want to use one type of search clause in combination with another
             "gte": 1900,
             "lte": 2000
           }}}}}}
-
 ```
 
-```
-
+```nohighlight
 {
   "took" : 1,
   "timed_out" : false,
@@ -325,15 +305,13 @@ Often you will want to use one type of search clause in combination with another
     "total" : 70,
     "max_score" : 1.0,
     "hits" : [
-
 ```
 
 [some content omitted]
 
-Looks like that's working well! There are 70 hits… but wait! If you look at the hits.hits array, I only see 10 objects included. Recall, that is the default number of records Elasticsearch will return. You can set "from" and "size" on each query to control the size of the array returned, and which result to begin from. It always tells us the total count of results in the response.
+Looks like that's working well! There are 70 hits… but wait! If you look at the `hits.hits` array, only 10 objects are included. Recall, that is the default number of records Elasticsearch will return. You can set `"from"` and `"size"` on each query to control the size of the array returned, and which result to begin from. It always tells us the total count of results in the response.
 
-```
-
+```nohighlight
 {
  "from": 30,
  "size": 10,
@@ -346,15 +324,13 @@ Looks like that's working well! There are 70 hits… but wait! If you look at th
             "gte": 1900,
             "lte": 2000
           }}}}}}
-
 ```
 
-### Aggregations
+## Aggregations
 
 Aggregations allow us to get statistics and information about groups of documents, while returning the documents at the same time if you need to. What kind of questions like this could we ask about this book data? All these books have a year associated with them (either the year written, published, or an approximation of that). What year has the most books in it?
 
-```
-
+```nohighlight
 {
   "size": 0,
   "aggs": {
@@ -362,13 +338,11 @@ Aggregations allow us to get statistics and information about groups of document
       "terms": {
         "field": "year"
       }}}}
-
 ```
 
-Well, it's a 3-way tie, but at least our agg worked. It's definitely giving us insights into our data.
+Well, it's a three-way tie, but at least our agg worked. It's definitely giving us insights into our data.
 
-```
-
+```nohighlight
 {
   "took" : 2,
   "timed_out" : false,
@@ -403,22 +377,19 @@ Well, it's a 3-way tie, but at least our agg worked. It's definitely giving us i
           "key" : 1960,
           "doc_count" : 3
         },
-
 ```
 
 [some output omitted]
 
 
-### Geo Distance Query
+## Geo Distance Query
 
-Searching by location is a powerful feature in Elasticsearch. You'll notice the first third or so of the books in the collection have location information stored on them, which is a latitude and longitude pair.
+Searching by location is a powerful feature in Elasticsearch. You'll notice the first third or so of the books in the collection have location information stored in the form of a latitude and longitude pair.
 
 Let's see if we can figure out which books were written near St. Louis. A quick Google search of "St. Louis coordinates" returned 38.6270° N, 90.1994° W, or [90.1994, 38.6270]. If you enter that in maps, it looks like it's actually set to St. Louis City Hall.
 
-```
-
-curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
-
+```nohighlight
+$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
 {
     "query": {
         "bool" : {
@@ -429,25 +400,21 @@ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-eas
                 "geo_distance" : {
                     "distance" : "200km",
                     "location" : { "lon": 90.1994, "lat": 38.6270
-                    }}}}}}
-
+                    }}}}}}'
 ```
 
 Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elasticsearch supports several ways to enter in this data, and I strongly suggest you label yours rather than using an array or string.
 
-```
-
+```nohighlight
 "location": {
   "lat": 41.12,
   "lon": -71.34
 }
-
 ```
 
 Let's try this again, but with an arbitrary location close to one of our books.
 
-```
-
+```nohighlight
 {
     "query": {
         "bool" : {
@@ -459,13 +426,11 @@ Let's try this again, but with an arbitrary location close to one of our books.
                     "distance" : "100km",
                     "location" : { "lon": 138, "lat": 36
                     }}}}}}
-
 ```
 
 Successful Output [most omitted]:
 
-```
-
+```nohighlight
 "hits" : {
     "total" : 1,
     "max_score" : 1.0,
@@ -485,6 +450,5 @@ Successful Output [most omitted]:
             138.2529,
             36.2048
           ]
-
 ```
 
