@@ -51,7 +51,6 @@ health status index                                    uuid                   pr
 Let’s create an index:
 ```nohighlight
 $ curl -XPUT 'localhost:9200/book?pretty&pretty'
-$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
 ```
 Now if you check for indices, you will have data  
 `$  curl -XGET 'localhost:9200/_cat/indices?v&pretty'`
@@ -158,7 +157,7 @@ $ curl -XGET 'localhost:9200/book/_search?pretty' -H 'Content-Type: application/
 
 Take a minute to read over the output. There is some general information about the query’s run at the top, then the resulting documents at the bottom.
 
-Let’s try to update “Middlemarch.” Update the id-hash to use whatever showed for your local `_id`.
+Let’s try to update “Middlemarch.” **Update the id-hash to use whatever showed for your local `_id`.**
 ```nohighlight
 $ curl -XPUT 'localhost:9200/book/doc/seXDBmEBSegcuMJ-3las?pretty&pretty' -H 'Content-Type: application/json' -d'
 {

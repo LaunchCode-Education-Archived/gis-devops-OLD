@@ -27,17 +27,23 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
 
 Output should look like this:
 
+
 ```nohighlight
 epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
 
 1516559163 18:26:03  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%
 ```
 
+
 Cluster health is expressed as the color green, yellow, or red.
 
 - Green - everything is good (cluster is fully functional)
 - Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)
 - Red - some data is not available for whatever reason (cluster is partially functional)
+
+<aside class="aside-note" markdown="1">
+The numbers in the above example will vary based on the arrangement of the data.
+</aside>
 
 Cool, now let's see what indices are available.
 
@@ -168,6 +174,10 @@ For the rest of these exercises, assume we are using the same curl command and w
 
 Now… what about 'Anne'? How can we get that spelling too?
 
+<!---
+
+1/26/2018 lynn comment: this is supposed to be an example of something that doesn't work, but it does work.  Cheryl is supposed to look at this over the weekend.
+
 Let's just try passing both spellings
 
 ```nohighlight
@@ -196,6 +206,7 @@ Nope, this is the response you get when there is no match:
   }
 }
 ```
+-->
 
 What if we just searched for either name?
 
@@ -403,7 +414,10 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
                     }}}}}}'
 ```
 
-Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elasticsearch supports several ways to enter in this data, and I strongly suggest you label yours rather than using an array or string.
+Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elastic supports several ways to enter in this data, for instance I had entered it in an array `[13.323, 23.238]` where lat and long are not labeled. I strongly suggest you label yours rather than using an array or string, such as below where you can see a key for `lat` and `lon`.
+
+<!--- 1/26/18 lynn comment: I have a question out to Cheryl about thie above, since what she writes in the text doesn't match up with what she did in the example 
+-->
 
 ```nohighlight
 "location": {
