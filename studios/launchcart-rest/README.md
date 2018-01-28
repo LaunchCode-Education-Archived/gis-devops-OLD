@@ -25,10 +25,8 @@ Add the following REST resources:
 - `GET /api/customers`
 - `GET /api/customers/{id}`
 - `GET /api/customers/{id}/cart`
-- `POST /api/customers`
-- `PUT /api/customers/{id}`
 
-Write integration tests before coding each controller method.
+Write integration tests before coding each controller method. When testing, be sure to test for the expected status code, content type, and response contents.
 
 ## Add `/api/carts` Resources
 
