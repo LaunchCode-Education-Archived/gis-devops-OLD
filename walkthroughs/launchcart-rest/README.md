@@ -24,40 +24,7 @@ Let's complete a few setup steps before starting to code:
 - Create a new class in his package named `ItemRestController`
 - Annotate the class with `@RestController`
 
-In the `test` module, create the following class:
-
-```java
-public abstract class AbstractBaseRestIntegrationTest {
-
-    protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
-
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
-    @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream()
-                .filter(hmc -> hmc instanceof MappingJackson2HttpMessageConverter)
-                .findAny()
-                .orElse(null);
-
-        assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
-    }
-
-    protected String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(
-                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
-    }
-
-}
-```
-
-This class contains a couple of utility methods to handle serializing Java objects for the purposes of testing. In the `test` module, create a class `ItemRestControllerTests` that extends `AbstractBaseRestIntegrationTest`.
+In the `test` module, note that there are two new classes. `AbstractBaseRestIntegrationTest` class contains a couple of utility methods to handle serializing Java objects for the purposes of testing. And `ItemRestControllerTests` extends `AbstractBaseRestIntegrationTest` and contains the integration tests for the functionality that we'll be adding. We'll review this code in class.
 
 We will now implement the following resources:
 
