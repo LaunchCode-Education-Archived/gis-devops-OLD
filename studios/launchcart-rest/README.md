@@ -25,6 +25,8 @@ Add the following REST resources:
 - `GET /api/customers`
 - `GET /api/customers/{id}`
 - `GET /api/customers/{id}/cart`
+- `POST /api/customers`
+- `PUT /api/customers/{id}`
 
 Write integration tests before coding each controller method.
 
