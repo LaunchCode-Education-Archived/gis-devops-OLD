@@ -33,7 +33,7 @@ Write integration tests before coding each controller method. When testing, be s
 Add the following REST resources:
 - `GET /api/carts`
 - `GET /api/carts/{id}`
-- `PUT /api/carts/{id}`
+- `PUT /api/carts/{id}` - allow items to be added to a cart
 
 A cart resource should include information about its owner, as well the items contained in the cart. The `PUT` method should allow for items to be added and removed from the cart.
 
