@@ -117,6 +117,9 @@ $ git checkout rest-walkthrough</code></pre>
 <li><code>PUT /api/items/{id}</code></li>
 <li><code>DELETE /api/items/{id}</code></li>
 </ul>
+<p>Additionally, we will demonstrate how to enable XML as a resource format. To do this, add the following Gradle dependency:</p>
+<pre><code class="language-nohighlight">compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml')</code></pre>
+<p>Then annotate the <code>Item</code> class with <code>@XmlRootElement</code>. Then add <code>@XmlElement</code> to each field that should be included in the XML serialization as an XML element child of <code>&lt;Item&gt;</code>, and <code>@XmlAttribute</code> to each field that should be included as an XML attribute of <code>&lt;Item&gt;</code>. Don't forget about inherited fields.</p>
                                     </section>
 
             </div>
