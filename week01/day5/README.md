@@ -2,7 +2,7 @@
 title: Week 1 - Day 5
 ---
 
-[Learning objectives for this module](../../objectives/#day5)
+[Learning objectives for this module](../../objectives/#day-5)
 
 ## Lesson Content
 
