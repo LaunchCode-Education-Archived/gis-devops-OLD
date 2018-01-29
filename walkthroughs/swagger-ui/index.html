@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Walkthrough SwaggerUI :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-walkthrough-swaggerui'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Walkthrough SwaggerUI</h1>
+                    <p>In this walkthrough, the instructor will guide through adding API documentation using SwaggerUI.</p>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="setup-intellij">Setup Intellij</h3>
+<p>Since we are going to be writing the <code>swagger.yaml</code> in Intellij, let's get a plugin to help out.</p>
+<p>Click the magnifying glass in the upper right hand corder and type &quot;Plugin&quot;.  Select &quot;Plugins&quot; from the menu.  Then select &quot;Browse repositories...&quot;.<br />
+Search for &quot;Swagger&quot; in the search bar and install the &quot;Swagger Plugin&quot;.</p>
+<p>Restart Intellij after the plugin has installed.</p>
+<h3 id="embed-swaggerui-in-the-project">Embed SwaggerUI in the Project</h3>
+<p>Clone the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> from Github.  Note: We are downloading the SwaggerUI for 2.x.</p>
+<p>Navigate into the repo that you just cloned and copy the <code>dist</code> directory into the <code>static</code> directory of your project. </p>
+<pre><code>  cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger</code></pre>
+<aside class="aside-note">
+<p>The <code>dist</code> directory contains all of the HTML, CSS, and JavaScript required to generate a Swagger document</p>
+</aside>
+<p>Next navigate to <code>launchcart/src/resources/static/swagger</code>.  Do two things:</p>
+<ol>
+<li>Create a swagger.yaml file.  <code>touch swagger.yaml</code>.</li>
+<li>Edit the <code>index.html</code> to point at the local <code>swagger.yaml</code> to look like the example below:</li>
+</ol>
+<pre><code>&lt;script&gt;
+window.onload = function() {
+
+  // Build a system
+  const ui = SwaggerUIBundle({
+    url: "/swagger/swagger.yaml",
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+&lt;/script&gt;
+</code></pre>
+<p>Start up SpringBoot and navigate to the url <code>http://localhost:8080/swagger/index.html</code>.  You should see a SwaggerUI page displayed.</p>
+<h2 id="wrting-the-swagger-yaml">Wrting the Swagger YAML</h2>
+<p>Next we need to begin writing the Swagger YAML file.  Copy the following code into your <code>swagger.yaml</code> file located in the <code>launchcart/src/resources/static/swagger</code> directory.</p>
+<pre><code>swagger: '2.0'
+info:
+  description: |
+   This is an example RESTful API 
+  version: 1.0.0
+  title: LaunchCart API
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: your.email@gmail.com 
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+paths:
+definitions:</code></pre>
+<p>Let's start with the <code>/api/carts</code> path.</p>
+<p>Add an entry ot the <code>tags</code> section to add a header for all of the endpoints for the <code>/api/carts</code> path.</p>
+<pre><code>- name: cart
+    description: Cart provides access to all of the items you are about to buy.</code></pre>
+<p>Also, let's add the <code>GET</code> endpoint for <code>/api/carts</code> in the <code>paths</code> section.</p>
+<pre><code>paths:
+    /carts:
+        get:
+            tags:
+            - cart
+            summary: Returns all carts that exist..
+            operationId: getAllCarts
+            produces:
+            - application/json 
+            responses:
+                200:
+                    description: successful operation</code></pre>
+<p>Next, fill in the schema for the <code>/api/carts</code> endpoint.  In order to do that, first check to see what the service is currently returning.</p>
+<p>Register an account on LaunchCart, add an item to your cart, then visit <code>http://localhost:8080/api/carts</code>. You should receive something that looks like this:</p>
+<pre><code>[{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandles"}]}]</code></pre>
+<p>To represent this as a schema, add the following to your Swagger config:</p>
+<pre><code>schema:
+    type: object
+    required:
+    - uid
+    - items
+    properties:
+        uid:
+            type: integer
+            format: int32
+            example: 34
+        items:
+            type: array
+            items:
+                type: object
+                required:
+                - uid
+                - name
+                - price
+                - newItem
+                - description
+                properties:
+                    uid:
+                        type: integer
+                        format: int32
+                    name:
+                        type: string
+                        example: "Chacos"
+                    price:
+                        type: number
+                        format: int64
+                        example: 1.00
+                    newItem:
+                        type: boolean
+                        example: true
+                    description:
+                        type: string
+                        example: I think they're a type of sandals</code></pre>
+<aside class="aside-note">
+<pre><code>Make sure that your whitespace is correct.  There can only be a one tab indent for every map.  
+Incorrect indentation may cause your API endpoints not to show up or display erros.</code></pre>
+</aside>
+<p>Yikes... That was a lot of YAML.  Let's see if we can simplify it and make it less dense.</p>
+<p>Move the <code>items</code> schema to the the <code>definitions</code> section of the yaml config file:</p>
+<pre><code>definitions:
+    Item:
+        type: object
+        properties:
+            uid:
+                type: integer
+                format: int32
+            name:
+                type: string
+                example: "Chacos"
+            price:
+                type: number
+                format: int64
+                example: 1.00
+            newItem:
+                type: boolean
+                example: true
+            description:
+                type: string
+                example: I think they're a type of sandals
+</code></pre>
+<p>Replace the <code>item</code> schema with a reference to the item in the <code>definitions</code> section.</p>
+<pre><code>    $ref: "#/definitions/Item"</code></pre>
+<h2 id="continue-on">Continue On</h2>
+<p>Continue on to provide documentation for the rest of the Cart API.  It should be much easier now that the Cart definition has been created.</p>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>
