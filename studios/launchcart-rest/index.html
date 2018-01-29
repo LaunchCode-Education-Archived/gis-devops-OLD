@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Week 1 - Day 1 :: GIS DevOps</title>
+        <title>Studio: LaunchCart REST :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-week-1---day-1'>
+    <body id='page-studio-launchcart-rest'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,50 +94,37 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Week 1 - Day 1</h1>
-                    <p><a href="../../objectives/#day-1">Learning objectives for this module</a></p>
-<h2 id="summary">Summary</h2>
-<p>Get the class off to a great start with a review of git, introduction to gitlab.com, refactoring, automated testing, and unit testing. Use Intellij to create and run tests.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+                                        <h1>Studio: LaunchCart REST</h1>
+                    <p>In this studio, we'll add additional RESTful endpoints to the LaunchCart application. It builds upon the changes we added in the <a href="../../walkthroughs/launchcart-rest/">LaunchCart REST walkthrough</a>.</p>
+<h2 id="getting-ready">Getting Ready</h2>
+<p>From the same <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank"><code>launchcart</code> project/repository</a> that you used previously, make sure you are in the <code>rest-walkthrough</code> branch that you used earlier today.</p>
+<p>If you don't have the walkthrough code, you can fetch changes from the remote and check out the <code>rest-studio</code> branch.</p>
+<pre><code class="language-nohighlight">$ git fetch
+$ git checkout rest-studio</code></pre>
+<h2 id="add">Add <code>new</code> Parameter to <code>/api/items</code></h2>
+<p>Add a <code>new</code> parameter to the <code>GET /api/items</code> endpoint. Note that this should work <em>in conjunction</em> with the <code>price</code> parameter, so that one, both, or neither can be used when querying the resource.</p>
+<h2 id="add-1">Add <code>/api/customers</code> Resources</h2>
+<p>Add the following REST resources:</p>
 <ul>
-<li>Familiar with: Java, git</li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java SDK 8 installed</a></li>
-<li>IntelliJ IDEA Community Edition installed</li>
-<li>git installed locally</li>
+<li><code>GET /api/customers</code></li>
+<li><code>GET /api/customers/{id}</code></li>
+<li><code>GET /api/customers/{id}/cart</code></li>
 </ul>
-<h2 id="lesson-content">Lesson Content</h2>
+<p>Write integration tests before coding each controller method. When testing, be sure to test for the expected status code, content type, and response contents.</p>
+<h2 id="add-2">Add <code>/api/carts</code> Resources</h2>
+<p>Add the following REST resources:</p>
 <ul>
-<li><a href="https://education.launchcode.org/gis-devops-slides/week1/day1.html#1" target="_blank">Slides</a></li>
+<li><code>GET /api/carts</code></li>
+<li><code>GET /api/carts/{id}</code></li>
+<li><code>PUT /api/carts/{id}</code> - allow items to be added to a cart</li>
 </ul>
-<h2 id="walkthrough">Walkthrough</h2>
+<p>A cart resource should include information about its owner, as well the items contained in the cart. The <code>PUT</code> method should allow for items to be added and removed from the cart.</p>
+<p>Write integration tests before coding each controller method.</p>
+<h2 id="turning-in-your-work">Turning In Your Work</h2>
+<p>If you don't complete each of the tasks, turn in as much as you have completed by the end of the day.</p>
 <ul>
-<li><a href="../../walkthroughs/gitlab">Git and Gitlab</a></li>
-<li><a href="../../walkthroughs/unit-tests">Unit Tests</a></li>
-</ul>
-<h2 id="exercises">Exercises</h2>
-<ul>
-<li>Where do your Java test files go?</li>
-<li>How does Unit testing help with refactoring or updating code?</li>
-<li>If you needed the same type of variable for each of your test methods, which should you use @Before or @BeforeClass?</li>
-<li>Should you test getters and setters in unit tests?</li>
-<li>Should you aim to one or multiple asserts in single test method?</li>
-</ul>
-<h2 id="studio">Studio</h2>
-<ul>
-<li><a href="https://gitlab.com/LaunchCodeTraining/junit-studio" target="_blank">Studio Repository</a></li>
-<li>Turn in instructions
-<ul>
-<li>Fork then clone repository</li>
-<li>Follow readme instructions</li>
-<li>Push changes up to your repository</li>
-<li>Inform instructor you are done</li>
-</ul></li>
-</ul>
-<h2 id="resources">Resources</h2>
-<ul>
-<li><a href="http://junit.org/junit4/" target="_blank">JUnit 4 Docs</a></li>
-<li><a href="https://github.com/junit-team/junit4/wiki/Assertions" target="_blank">JUnit 4 Assertion Examples</a></li>
-<li><a href="https://www.youtube.com/watch?v=zz7NuSCH6II" target="_blank">Video Example of Git Merge Conflicts</a></li>
+<li>Commit and push your work to GitLab</li>
+<li>Notify the instructor that you are done, along with the name of the branch that you completed your work in</li>
 </ul>
                                     </section>
 

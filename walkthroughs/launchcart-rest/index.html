@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Week 1 - Day 1 :: GIS DevOps</title>
+        <title>Walkthrough: LaunchCart REST :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-week-1---day-1'>
+    <body id='page-walkthrough-launchcart-rest'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,50 +94,28 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Week 1 - Day 1</h1>
-                    <p><a href="../../objectives/#day-1">Learning objectives for this module</a></p>
-<h2 id="summary">Summary</h2>
-<p>Get the class off to a great start with a review of git, introduction to gitlab.com, refactoring, automated testing, and unit testing. Use Intellij to create and run tests.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+                                        <h1>Walkthrough: LaunchCart REST</h1>
+                    <p>In this walkthrough, the instructor will guide you through adding some RESTful endpoints to the LaunchCart application.</p>
+<h2 id="getting-started">Getting Started</h2>
+<p>From the same <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank"><code>launchcart</code> project/repository</a> that you used previously, fetch changes from the remote and check out the <code>rest-walkthrough</code> branch.</p>
+<pre><code class="language-nohighlight">$ git fetch
+$ git checkout rest-walkthrough</code></pre>
+<p>This starter code has some functionality beyond what you added in the <a href="../../studios/launchcart2/">LaunchCart 2 studio</a>. In particular, it has a <code>Customer</code> class, along with functionality for users to register and log in as customers.</p>
+<h2 id="adding-a-rest-controller">Adding a REST Controller</h2>
+<p>Let's complete a few setup steps before starting to code:</p>
 <ul>
-<li>Familiar with: Java, git</li>
-<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">Java SDK 8 installed</a></li>
-<li>IntelliJ IDEA Community Edition installed</li>
-<li>git installed locally</li>
+<li>Create a new package, <code>org.launchcode.launchcart.controllers.rest</code></li>
+<li>Create a new class in his package named <code>ItemRestController</code></li>
+<li>Annotate the class with <code>@RestController</code></li>
 </ul>
-<h2 id="lesson-content">Lesson Content</h2>
+<p>In the <code>test</code> module, note that there are two new classes. <code>AbstractBaseRestIntegrationTest</code> class contains a couple of utility methods to handle serializing Java objects for the purposes of testing. And <code>ItemRestControllerTests</code> extends <code>AbstractBaseRestIntegrationTest</code> and contains the integration tests for the functionality that we'll be adding. We'll review this code in class.</p>
+<p>We will now implement the following resources:</p>
 <ul>
-<li><a href="https://education.launchcode.org/gis-devops-slides/week1/day1.html#1" target="_blank">Slides</a></li>
-</ul>
-<h2 id="walkthrough">Walkthrough</h2>
-<ul>
-<li><a href="../../walkthroughs/gitlab">Git and Gitlab</a></li>
-<li><a href="../../walkthroughs/unit-tests">Unit Tests</a></li>
-</ul>
-<h2 id="exercises">Exercises</h2>
-<ul>
-<li>Where do your Java test files go?</li>
-<li>How does Unit testing help with refactoring or updating code?</li>
-<li>If you needed the same type of variable for each of your test methods, which should you use @Before or @BeforeClass?</li>
-<li>Should you test getters and setters in unit tests?</li>
-<li>Should you aim to one or multiple asserts in single test method?</li>
-</ul>
-<h2 id="studio">Studio</h2>
-<ul>
-<li><a href="https://gitlab.com/LaunchCodeTraining/junit-studio" target="_blank">Studio Repository</a></li>
-<li>Turn in instructions
-<ul>
-<li>Fork then clone repository</li>
-<li>Follow readme instructions</li>
-<li>Push changes up to your repository</li>
-<li>Inform instructor you are done</li>
-</ul></li>
-</ul>
-<h2 id="resources">Resources</h2>
-<ul>
-<li><a href="http://junit.org/junit4/" target="_blank">JUnit 4 Docs</a></li>
-<li><a href="https://github.com/junit-team/junit4/wiki/Assertions" target="_blank">JUnit 4 Assertion Examples</a></li>
-<li><a href="https://www.youtube.com/watch?v=zz7NuSCH6II" target="_blank">Video Example of Git Merge Conflicts</a></li>
+<li><code>GET /api/items</code> (with parameter <code>price</code>)</li>
+<li><code>GET /api/items/{id}</code></li>
+<li><code>POST /api/items</code></li>
+<li><code>PUT /api/items/{id}</code></li>
+<li><code>DELETE /api/items/{id}</code></li>
 </ul>
                                     </section>
 
