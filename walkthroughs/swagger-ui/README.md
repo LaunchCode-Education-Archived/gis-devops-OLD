@@ -2,38 +2,39 @@
 title: "Walkthrough SwaggerUI"
 ---
 
-In this walkthrough, the instructor will guide through adding API documentation using SwaggerUI.
+In this walkthrough, the instructor will guide you through adding API documentation using SwaggerUI.
 
 ## Getting Started
 
-### Setup Intellij
+### Setup IntelliJ
 
-Since we are going to be writing the `swagger.yaml` in Intellij, let's get a plugin to help out.
+Since we are going to be writing the `swagger.yaml` in IntelliJ, let's get a plugin to help out.
 
-Click the magnifying glass in the upper right hand corder and type "Plugin".  Select "Plugins" from the menu.  Then select "Browse repositories...".  
+Click the magnifying glass in the upper right hand corner and type "Plugin".  Select "Plugins" from the menu.  Then select "Browse repositories...".  
+
 Search for "Swagger" in the search bar and install the "Swagger Plugin".
 
-Restart Intellij after the plugin has installed.
+Restart IntelliJ after the plugin has installed.
 
 ### Embed SwaggerUI in the Project
 
 Clone the [SwaggerUI repository](https://github.com/swagger-api/swagger-ui/tree/2.x) from Github.  Note: We are downloading the SwaggerUI for 2.x.
 
-Navigate into the repo that you just cloned and copy the `dist` directory into the `static` directory of your project. 
+Navigate into the repo that you just cloned and copy the `dist` directory into the `static` directory of your Launchcart project. 
 
-```
-  cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger
+```nohighlight
+$ cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger
 ```
 
 <aside class="aside-note" markdown="1">
   The `dist` directory contains all of the HTML, CSS, and JavaScript required to generate a Swagger document
 </aside>
 
-Next navigate to `launchcart/src/resources/static/swagger`.  Do two things:
+Next navigate to `launchcart/src/main/resources/static/swagger`.  Do two things:
 1. Create a swagger.yaml file.  `touch swagger.yaml`.
 2. Edit the `index.html` to point at the local `swagger.yaml` to look like the example below:
 
-```
+```nohighlight
 <script>
 window.onload = function() {
   
@@ -64,7 +65,7 @@ Start up SpringBoot and navigate to the url `http://localhost:8080/swagger/index
 
 Next we need to begin writing the Swagger YAML file.  Copy the following code into your `swagger.yaml` file located in the `launchcart/src/resources/static/swagger` directory.
 
-```
+```nohighlight
 swagger: '2.0'
 info:
   description: |
@@ -86,14 +87,14 @@ Let's start with the `/api/carts` path.
 
 Add an entry ot the `tags` section to add a header for all of the endpoints for the `/api/carts` path.
 
-```
+```nohighlight
 - name: cart
 	description: Cart provides access to all of the items you are about to buy.
 ```
 
 Also, let's add the `GET` endpoint for `/api/carts` in the `paths` section.
 
-```
+```nohighlight
 paths:
 	/carts:
 		get:
@@ -112,13 +113,13 @@ Next, fill in the schema for the `/api/carts` endpoint.  In order to do that, fi
 
 Register an account on LaunchCart, add an item to your cart, then visit `http://localhost:8080/api/carts`. You should receive something that looks like this:
 
-```
-[{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandles"}]}]
+```nohighlight
+[{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandals"}]}]
 ``` 
 
 To represent this as a schema, add the following to your Swagger config:
 
-```
+```nohighlight
 schema:
 	type: object
 	required:
@@ -167,7 +168,7 @@ Yikes... That was a lot of YAML.  Let's see if we can simplify it and make it le
 
 Move the `items` schema to the the `definitions` section of the yaml config file:
 
-```
+```nohighlight
 definitions:
 	Item:
 		type: object
@@ -193,7 +194,7 @@ definitions:
 
 Replace the `item` schema with a reference to the item in the `definitions` section.
 
-```
+```nohighlight
 	$ref: "#/definitions/Item"
 ```
 
