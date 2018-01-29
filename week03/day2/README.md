@@ -6,7 +6,7 @@ title: Week 3 - Day 2
 
 ## Lesson Content
 
-- [Swagger](../../walkthroughs/swagger-ui/README.md)
+- [Swagger](https://education.launchcode.org/gis-devops-slides/week3/day2_swagger.html#1)
 
 ## Walkthrough
 
