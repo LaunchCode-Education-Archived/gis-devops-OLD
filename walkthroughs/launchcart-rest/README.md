@@ -33,3 +33,10 @@ We will now implement the following resources:
 - `POST /api/items`
 - `PUT /api/items/{id}`
 - `DELETE /api/items/{id}`
+
+Additionally, we will demonstrate how to enable XML as a resource format. To do this, add the following Gradle dependency:
+```nohighlight
+compile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml')
+```
+
+Then annotate the `Item` class with `@XmlRootElement`. Then add `@XmlElement` to each field that should be included in the XML serialization as an XML element child of `<Item>`, and `@XmlAttribute` to each field that should be included as an XML attribute of `<Item>`. Don't forget about inherited fields.

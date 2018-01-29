@@ -55,6 +55,7 @@ Deliver an app with the the following features:
 - Describe HTTP status code usage in REST
 - Explain what a resource is
 - Explain how resource formats related to requests
+- Explain how content negotiation works, and which HTTP headers are necessary for this
 - Explain idempotence in REST
 - Explain statelessness in REST
 - Use and design RESTful URLs, including nested resources and query/filtering parameters
