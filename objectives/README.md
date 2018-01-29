@@ -51,3 +51,8 @@ Deliver an app with the the following features:
 ### Day 1
 
 ### Day 2
+
+- Identify the difference between Swagger toolset and the Open API Specification.
+- Compose Swagger YAML files to define the endpoints, responses, and shema of an API.
+- Use `$ref` to reference reuseable definitions.
+- Integrate SwaggerUI into a project.
