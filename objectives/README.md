@@ -49,9 +49,17 @@ Deliver an app with the the following features:
 ## Week 3
 
 ### Day 1
+- Describe the main features of a RESTful web service
+- Describe the usage of HTTP methods in a RESTful web service
+- Describe the URL format for a RESTful web service
+- Describe HTTP status code usage in REST
+- Explain what a resource is
+- Explain how resource formats related to requests
+- Explain idempotence in REST
+- Explain statelessness in REST
+- Use and design RESTful URLs, including nested resources and query/filtering parameters
 
 ### Day 2
-
 - Identify the difference between Swagger toolset and the Open API Specification.
 - Compose Swagger YAML files to define the endpoints, responses, and shema of an API.
 - Use `$ref` to reference reuseable definitions.
