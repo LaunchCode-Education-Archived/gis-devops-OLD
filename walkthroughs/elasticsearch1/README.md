@@ -174,40 +174,6 @@ For the rest of these exercises, assume we are using the same curl command and w
 
 Now… what about 'Anne'? How can we get that spelling too?
 
-<!---
-
-1/26/2018 lynn comment: this is supposed to be an example of something that doesn't work, but it does work.  Cheryl is supposed to look at this over the weekend.
-
-Let's just try passing both spellings
-
-```nohighlight
-{
-    "query" : {
-        "match" : { "author_name" : "Ann Anne" }
-    }
-}
-```
-
-Nope, this is the response you get when there is no match:
-
-```nohighlight
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : 0,
-    "max_score" : null,
-    "hits" : []
-  }
-}
-```
--->
-
 What if we just searched for either name?
 
 ```nohighlight
@@ -414,10 +380,9 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
                     }}}}}}'
 ```
 
-Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. Elastic supports several ways to enter in this data, for instance I had entered it in an array `[13.323, 23.238]` where lat and long are not labeled. I strongly suggest you label yours rather than using an array or string, such as below where you can see a key for `lat` and `lon`.
+Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. 
 
-<!--- 1/26/18 lynn comment: I have a question out to Cheryl about thie above, since what she writes in the text doesn't match up with what she did in the example 
--->
+Elastic supports several ways to enter in this data, for example we had initially entered them in an array `[13.323, 23.238]` where lat and long are not labeled. We strongly suggest that when you are handling data manually, you label yours as we do in these examples with a `lat` and `lon` key, rather than using an array or string.
 
 ```nohighlight
 "location": {
