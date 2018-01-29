@@ -53,3 +53,4 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - [JsonPath reference](http://goessner.net/articles/JsonPath/)
 - [Curl manual](https://curl.haxx.se/docs/manual.html)
 - Rested browser plugin: [Firefox](https://addons.mozilla.org/en-US/firefox/addon/rested/) | [Chrome](https://chrome.google.com/webstore/detail/rested/eelcnbccaccipfolokglfhhmapdchbfg)
+- [Spring Repository Query Creation](https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html#repositories.query-methods.query-creation)
