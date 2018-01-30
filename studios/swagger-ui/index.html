@@ -97,7 +97,7 @@
                                         <h1>Studio: SwaggerUI</h1>
                     <p>In this studio, we will be adding Swagger documentation to the Airwaze application.</p>
 <h2 id="getting-ready">Getting Ready</h2>
-<p>Use the same <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze</a> that created in the <a href="https://education.launchcode.org/gis-devops/studios/airwaze/" target="_blank">OpenLayers Studio</a>.</p>
+<p>We are going to use the Intellij project and repo <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze</a> that we created in the <a href="https://education.launchcode.org/gis-devops/studios/airwaze/" target="_blank">OpenLayers Studio</a>.</p>
 <h2 id="rename-your-api-endpoints">Rename your API endpoints</h2>
 <p>First we want to do some cleanup.  Now that we know how Restful API endpoints are supposed to be structured, refactor your application as follows:</p>
 <ul>
@@ -110,14 +110,22 @@
 <p>To follow TDD, be sure to change your test first.  Once you see your tests fail, you can confidently refactor the routes in your application.</p>
 </aside>
 <h2 id="add-swagger-documentation">Add Swagger documentation</h2>
-<p>Use the <code>dist</code> directory in the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> to generate your SwaggerUI page. The swagger documentation should be displayed at <code>http://localhost:8080/swagger/index.html</code>.</p>
+<ul>
+<li>Use the <code>dist</code> directory in the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> to generate your SwaggerUI page.</li>
+<li>Create this file <code>airwaze/src/main/resources/static/swagger/swagger.yaml</code></li>
+<li>Configure <code>airwaze/src/main/resources/static/swagger/index.html</code> to point to your <code>.yaml</code> file</li>
+<li>The swagger documentation should be displayed at <code>http://localhost:8080/swagger/index.html</code>.</li>
+</ul>
 <h2 id="add-geojson-definitions">Add GeoJSON definitions</h2>
-<p>In the <code>definitions</code> section of your <code>swagger.yaml</code>, you will need to be able to account for geojson. Copy the following <a href="https://gist.github.com/idkw/fc35bb78c4bf08e47708f57b060996fe" target="_blank">gist</a> to <code>dist/swagger/swagger-geojson.yaml</code>.  This will allow you to access the existing yaml defitions for common geometries such as Point, MultiLineString, etc.</p>
+<p>In the <code>definitions</code> section of your <code>swagger.yaml</code>, you will need to be able to account for geojson. Copy the following <a href="https://gist.github.com/idkw/fc35bb78c4bf08e47708f57b060996fe" target="_blank">gist</a> to <code>airwaze/src/main/resources/static/swagger/swagger.yaml</code>.  This will allow you to access the existing yaml defitions for common geometries such as Point, MultiLineString, etc.</p>
 <aside class="aside-pro-tip">
 <p>In Swagger, to reference YAML in another file, use the following command <code>$ref: ./swagger-geojson.yaml</code>.  Here is a <a href="http://azimi.me/2015/07/16/split-swagger-into-smaller-files.html" target="_blank">blog post</a> that has a full explanation.</p>
 </aside>
-<h2 id="add-swagger-documentation-1">Add Swagger documentation</h2>
-<p>Now that you are setup, add Swagger documentation for the <code>airport</code> and <code>route</code> endpoints in the Airwaze app.</p>
+<h2 id="tasks">Tasks</h2>
+<ul>
+<li>Add Swagger documentation for the <code>airport</code> endpoint in the Airwaze app.</li>
+<li>Add Swagger documentation for the <code>route</code> endpoint in the Airwaze app.</li>
+</ul>
 <h2 id="turn-in-your-work">Turn in your Work</h2>
 <ul>
 <li>Commit and push your work to GitLab.</li>
