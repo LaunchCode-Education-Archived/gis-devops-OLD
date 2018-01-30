@@ -11,11 +11,13 @@ title: Week 3 - Day 2
 
 ## Walkthrough
 
-[SwaggerUI Example](../../walkthroughs/swagger-ui/README.md)
+[SwaggerUI Example](../../walkthroughs/swagger-ui/)
 
 ## Studio
 
-Complete the [SwaggerUI Studio](../../studios/swagger-ui/README.md)
+In the morning, continue working on the [LaunchCart REST studio](../../studios/launchcart-rest/), jumping into the Bonus Missions if you complete the primary tasks.
+
+Complete the [SwaggerUI Studio](../../studios/swagger-ui/)
 
 ## References
 
