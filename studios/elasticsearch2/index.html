@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Elasticsearch Studio 2 :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-elasticsearch-studio-2'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Elasticsearch Studio 2</h1>
+                    <p>Time for you to have an opportunity to practice on your own. We’re going to be setting up Elasticsearch in AWS, indexing data from our project, and writing a few queries in our project.</p>
+<h2 id="setting-up-aws-elasticsearch-service">Setting Up AWS Elasticsearch Service</h2>
+<p>Go to <a href="http://aws.amazon.com" target="_blank">AWS</a> and sign up for a free account. ** AWS requires putting in a credit card number. Mike what was the plan there? I think you said AWS was to be covered the week after this so the students might not have accounts yet.</p>
+<p>Sign in to the AWS console. Click on <code>Services</code> and under <code>Analytics</code> click on <code>Elasticsearch Service</code>. Click on the blue button that says <code>Create a new domain</code>.</p>
+<p>On the <code>Define domain</code> page, for <code>Elasticsearch domain name</code>, type a name for the domain. In this studio, we use the domain name <code>airwaze</code>. Leave <code>Version</code> set to the newest supported version. Click <code>Next</code>.</p>
+<p>On the <code>Configuration</code> page, let’s leave everything at the default values. Click <code>Next</code>.</p>
+<p>On the <code>Set up access</code> page, in the <code>Network configuration</code> section, choose <code>Public Access</code>. Under <code>Access Policy</code>, click <code>Allow open access to the domain</code>. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click <code>Next</code>.</p>
+<p>On the <code>Review</code> page, review your domain configuration, and then choose <code>Confirm and create</code>.</p>
+<p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>
+<h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data In Elasticsearch</h2>
+<p>You need to set up a data mapping in your new index and import the data.</p>
+<p>We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
+<p>You can test this script against your local Elasticsearch cluster. It does take several minutes to run, and it fails on a few of the airports (perhaps some are not formatted correctly in the csv), but it’s good enough for now since many airports are making it through.</p>
+<p>Comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done</p>
+<pre><code class="language-nohighight">host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
+#host_name = “localhost:9200”</code></pre>
+<p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint.</p>
+<p>Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the script with <code>ruby upload-airports.rb</code>. When it’s done running, now check out that document count in the index.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
+<p>Output is something like this:</p>
+<pre><code class="language-nohighlight">health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   airwaze                                  B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
+yellow open   book                                     cNIKN2CyQsacysajAuJH1A   5   1          4            0     19.3kb         19.3kb
+</code></pre>
+<h2 id="add-elasticsearchjs">Add Elasticsearch.js</h2>
+<p>Now that we have all that juicy data in Elasticsearch, let’s allow users to query against that data via a web form. What questions might our users have about this data? How can we answer them with the tools we have shown you?</p>
+<p>We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have <a href="https://www.npmjs.com/get-npm" target="_blank">node and npm</a> installed. </p>
+<p>Check out the <a href="https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html#_jquery_build" target="_blank">documentation</a>. Download the package and unzip it in the project directory <code>src/main/resources/static</code> folder.</p>
+<p>Underneath the jQuery include script, add this line to your <code>index.html</code> file to load up the es.js browser build package.</p>
+<pre><code class="language-noghighlight">&lt;script src="elasticsearch-js/elasticsearch.jquery.min.js"&gt;&lt;/script&gt;</code></pre>
+<p>In <code>src/main/resources/static/script.js</code> insert this code to create a client: </p>
+<pre><code class="language-nohighlight">let client = new $.es.Client({
+  hosts: 'localhost:9200',
+  log: 'trace'
+});
+</code></pre>
+<p>Press Command-F9 to rebuild your project, then go refresh in the browser. In Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.</p>
+<pre><code class="language-nohighlight">Failed to load http://localhost:9200/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access.</code></pre>
+<h2 id="managing-cors">Managing CORS</h2>
+<p>Learn more about <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS online</a>.</p>
+<p>So we are having trouble making this request in the browser because it is coming from a different port number and therefore it’s treated as potentially dangerous like it was from a different server. We need to configure Elasticsearch to allow this behavior. Let’s investigate our current settings first.</p>
+<p>Navigate to the folder where Elasticsearch is installed on your computer. On Mac, that’s likely <code>/usr/local/etc/elasticsearch</code>. You should see a file <code>elasticsearch.yml</code> there. Add this configuration to the file:</p>
+<pre><code class="language-nohighlight">http.cors.enabled : true
+http.cors.allow-origin : "*"
+http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length</code></pre>
+<p>We need to restart Elasticsearch for this to take effect.</p>
+<pre><code class="language-nohighlight">$ brew tap homebrew/services
+$ brew services list
+$ brew services restart elasticsearch</code></pre>
+<p>In the browser console, you should see a message like this if everything worked:</p>
+<pre><code class="language-nohighlight">INFO: 2018-01-28T22:29:52Z
+  Adding connection to http://localhost:9200/</code></pre>
+<p>Kudos! Now change that “*” to be your actual information.</p>
+<h2 id="queries">Queries</h2>
+<p>Now that we can connect to Elasticsearch, let’s write a query! This library provides a more succinct syntax for queries, as do most of the others. Let’s start with a basic query just to see what this particular library’s syntax looks like. Put this in your <code>script.js</code> file underneath the <code>let client…</code> block.</p>
+<pre><code class="language-nohighlight">    client.search({
+        index: 'airwaze',
+        body: {
+            query: { "match_all": {}},
+            size: 10
+        }
+    }).then(function (resp) {
+        let hits = resp.hits.hits;
+        console.log(hits);
+    }, function (err) {
+        console.trace(err.message);
+    });</code></pre>
+<p>Rebuild and reload in the browser, and you should see a response in the console with an Object like this:</p>
+<p><img src="/../../materials/week03/responseObject.png" alt="response object" /></p>
+<p>Good, we can work with that.</p>
+<h3 id="search-by-name">Search by Name</h3>
+<p>Writing out the query by hand, you would probably come up with something like this:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/airwaze/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "match" : { "name" : "Midway" }
+    }
+}'</code></pre>
+<p>Let’s alter our test query from above to look for an airport by name:</p>
+<pre><code class="language-nohighlight">    client.search({
+        index: 'airwaze',
+        body: {
+            query: { "match": {
+                “name”: “Midway”
+            }},
+            size: 10
+        }
+    }).then(function (resp) {
+        let hits = resp.hits.hits;
+        console.log(hits);
+    }, function (err) {
+        console.trace(err.message);
+    });</code></pre>
+<p>Check this query like we did before (rebuild and reload in browser) and you will see the response has changed.</p>
+<p><img src="/../../materials/week03/infoObject.png" alt="The response has changed" /></p>
+<h3 id="name-search-ui">Name Search UI</h3>
+<p>Now that we have the data, let’s set up a basic UI so the users can interact with search. We’ll add a label, a text box, and a button to submit. We won’t be using a full form here, we’ll just use a jquery function on button click so the user will not have to wait on a round trip to the server or a page reload.</p>
+<p>First, in <code>index.html</code> add the form elements. I’ve used bootstrap to split the screen with the <code>#airportList</code> element and added a little padding below the map to make it easier to click in the box.</p>
+<pre><code class="language-nohighlight">&lt;br /&gt;
+&lt;div class="row"&gt;
+    &lt;div class="col-md-6"&gt;
+        &lt;div id="airportList"&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="col-md-6"&gt;
+        &lt;div id="search"&gt;
+            &lt;label&gt;Name Search&lt;/label&gt;
+            &lt;input name="name" type="text" id="nameTextbox"&gt;
+            &lt;button type="button" id="nameSearchButton"&gt;Submit&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>In the <code>script.js</code> file, add this below the block where the es client is defined. Make sure it is enclosed within the document ready function, or else the function might not bind to the element properly.</p>
+<pre><code class="language-nohighlight">    $("#nameSearchButton").on( "click", function() {
+        let name = document.getElementById('nameTextbox').value;
+        console.log("Searching for " + name);
+        client.search({
+            index: 'airwaze',
+            body: {
+                query: {
+                    "match": {
+                        "name": name
+                    }
+                },
+                size: 10
+            }
+        }).then(function (resp) {
+            let hits = resp.hits.hits;
+            console.log(hits);
+        }, function (err) {
+            console.trace(err.message);
+        });
+    });</code></pre>
+<p>Now stop and restart your project and check it out in the browser. When you reload, make sure to hold down <shift> in addition to the usual <command>-R to make sure the browser retrieve fresh assets. Let’s search for <code>Lambert</code> and see what comes up to test it.</p>
+<p><img src="/../../materials/week03/airportMap.png" alt="what comes up for a Lambert search" /></p>
+<p>Cool! But our users aren’t going to use the console to see their results. Let’s show the data in the airport list on the left side. Change the response of our on click function.</p>
+<pre><code class="language-noghighlight">        }).then(function (resp) {
+            let hits = resp.hits.hits;
+            console.log(hits);
+            $('#airportList').empty();
+            $('#airportList').append(`&lt;div id="airportList"&gt;&lt;h3&gt;${hits[0]._source.name}&lt;/h3&gt;&lt;/div&gt;`);</code></pre>
+<h2 id="extra-credit">Extra Credit:</h2>
+<p>When a user selects an airport by clicking on it in the map, more information than just the name is displayed in the Airport List. Add additional airport fields to the document mapping and import so that the user sees the same information no matter how they selected the airport.  </p>
+<p>There are other JS functions happening when a user selects an airport by clicking on it. Refactor the JS so that those functions can be called either by the click or by search top hit. You can copy/paste as part of your refactoring process, but the end result should not have the function duplicated anywhere.  </p>
+<p>How does the user know which airport they have selected? Add some kind of indicator of the currently selected airport on the map. (Perhaps fill in the circle.) This function should toggle on/off when the user changes their selection by clicking or searching.
+Show multiple search results. Make each item in the list clickable so the user can highlight on the map via their search results.
+Add additional search(es). What other questions might the user have about this data? Come up with some questions, write another query, then add to the UI to provide the user with the answer. Examples might be:  </p>
+<p>Which airports are within X distance of me? You could use a select dropdown to provide the user with distance choices that are likely to return results. Make sure that your response display shows them which airport and what distance they had searched for.
+How far are airports from each other? A distance query, you’d also need to provide a way to select a second airport.
+Your idea here.</p>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>

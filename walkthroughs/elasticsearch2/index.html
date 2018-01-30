@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Walkthrough :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-walkthrough'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Walkthrough</h1>
+                    <p>Let’s get a little more in-depth with document mappings. Remember our practice server from yesterday? Let’s see how that data was mapped, make our own mapping, and upload some data.</p>
+<p>First, as always, test the cluster health before running queries (at least we know it was up when we started).</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&amp;pretty'</code></pre>
+<h2 id="retrieve-a-mapping">Retrieve a Mapping</h2>
+<p>All being well, let’s take a peek at how the book documents are mapped:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_mapping?&amp;pretty'</code></pre>
+<p>Your response should look very much like this:</p>
+<pre><code class="language-nohighlight">{
+  "book" : {
+    "mappings" : {
+      "doc" : {
+        "properties" : {
+          "author_name" : {
+            "type" : "text"
+          },
+          "book_id" : {
+            "type" : "integer"
+          },
+          "description" : {
+            "type" : "text"
+          },
+          "location" : {
+            "type" : "geo_point"
+          },
+          "title" : {
+            "type" : "text"
+          },
+          "year" : {
+            "type" : "integer"
+          }}}}}}</code></pre>
+<p>Let’s compare that to the mapping of the local book index we used in yesterday’s studio.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/book/_mapping?&amp;pretty'</code></pre>
+<p>Looks pretty different huh?</p>
+<p>At the time of this writing, in ES v 6.1.1, fields mapped dynamically pretty much all default to keyword text fields. You might get something very different depending upon which version you are using.</p>
+<p>By contrast, we set up the mapping on the Bonsai sample index deliberately. These different field types allow different types of searches to be run against them. You can also specify analyzers, but it will default to a pre-packaged English analyzer if none is specified.</p>
+<p>This is the command used to set up the mapping you see on the sample cluster:</p>
+<pre><code class="language-nohighlight">$ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "doc": { 
+      "properties": { 
+        "title":    { "type": "text"  }, 
+        "author_name":     { "type": "text"  }, 
+        "year":      { "type": "integer" },  
+        "description":     { "type": "text"  }, 
+        "book_id":      { "type": "integer" },  
+        "location":  { "type":   "geo_point" }
+      }}}}'</code></pre>
+<h2 id="create-a-mapping">Create a Mapping</h2>
+<p>For the studio, we are going to want our airport data to be usable in Elasticsearch. First, we’ll need to create a new index.</p>
+<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty&amp;pretty'
+$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
+<p>Then, let’s take a look at our airport data and make a mapping for it. The data we have looks like this:</p>
+<pre><code class="language-nohighlight">1,"Goroka Airport","Goroka" ,"Papua New Guinea",GKA,AYGA,5282,Pacific/Port_Moresby,"Point(145.391998291 -6.081689834590001)"
+2,"Madang Airport","Madang" ,"Papua New Guinea",MAG,AYMD,20,Pacific/Port_Moresby,"Point(145.789001465 -5.20707988739)"</code></pre>
+<p>Consult the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html" target="_blank">docs</a> for more supported types.</p>
+<p>Here’s a mapping we could start with for our airport data.</p>
+<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "doc": { 
+      "properties": { 
+        "airport_id":      { "type": "text" },  
+        "name":     { "type": "text"  }, 
+        "ident":    { "type": "text"  }, 
+        "elevation_ft":      { "type": "double" },  
+        "location":  { "type":   "geo_point" }
+      }}}}'</code></pre>
+<p>Consult the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html" target="_blank">docs</a> for more supported types.</p>
+<h2 id="upload-some-data">Upload Some Data</h2>
+<p>Remember yesterday when we uploaded books?</p>
+<pre><code class="language-nohighlight">$ curl -XPOST 'localhost:9200/book/doc?pretty&amp;pretty' -H 'Content-Type: application/json' -d '
+  {
+    "title": "Persuasion",
+    "book_id”: “17”,
+    “author_name”: “Jane Austen”
+  }'</code></pre>
+<p>Let’s set one of these airports up to be imported in our new index.</p>
+<pre><code class="language-nohighlight">$ curl -XPOST 'localhost:9200/airwaze/doc?pretty&amp;pretty' -H 'Content-Type: application/json' -d '
+  {
+    "name": "Goroka Airport",
+    "airport_id": 1,
+    "ident": "GKA",
+    "elevation_ft": 5282,
+    "location" : { "lon": -6.081689834590001, "lat": 145.391998291}
+  }'</code></pre>
+<p>And check for success:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/airwaze/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "size": 10
+}
+'</code></pre>
+<p>It might take some time to upload all large data sets, but usually that process is scripted and run automatically. Often a library is used for that.</p>
+<p>Some Elasticsearch clients include <code>bulk_import</code>. Bulk imports are more efficient than single imports. Here’s some documentation about <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/docs-bulk.html" target="_blank">bulk_import</a></p>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>

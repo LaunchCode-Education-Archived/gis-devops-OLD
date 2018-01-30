@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Walkthrough :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-walkthrough'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Walkthrough</h1>
+                    <p>Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against.  The URL is:</p>
+<p><a href="https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net" target="_blank">https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net</a></p>
+<aside class="aside-note">
+<p>Free Bonsai clusters must sleep for 8 hours out of every 24. <a href="https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&amp;amp;utm_source=sendwithus&amp;amp;utm_content=sandbox-welcome-email-v01&amp;amp;utm_medium=email&amp;amp;utm_campaign=heroku-sandbox-emails" target="_blank">Bonsai's documentation</a> explains how these accounts work.</p>
+<p>Please don't use this server between 11pm-7am CT so it's ready for class.</p>
+</aside>
+<h2 id="lets-start">Let's Start!</h2>
+<p>Let's see if everything is well with this cluster before we begin:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&amp;pretty'</code></pre>
+<p>Output should look like this:</p>
+<pre><code class="language-nohighlight">epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
+
+1516559163 18:26:03  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%</code></pre>
+<p>Cluster health is expressed as the color green, yellow, or red.</p>
+<ul>
+<li>Green - everything is good (cluster is fully functional)</li>
+<li>Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)</li>
+<li>Red - some data is not available for whatever reason (cluster is partially functional)</li>
+</ul>
+<aside class="aside-note">
+<p>The numbers in the above example will vary based on the arrangement of the data.</p>
+</aside>
+<p>Cool, now let's see what indices are available.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/indices?v&amp;pretty'</code></pre>
+<pre><code class="language-nohighlight">health status index                  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+
+green  open   book E_jXjglKRNertzCBvONueg   1   1          0            0       260b           130b</code></pre>
+<p>Looks like we have some information on books. To start, let's get a small sample of documents to see what kind of structure is here:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} }
+}'</code></pre>
+<p>Output:</p>
+<pre><code class="language-nohighlight">{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 101,
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "doc",
+        "_id" : "AWEcOSQaVQBSxP80hZw8",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "The Romance of the Forest",
+          "author_name" : "Ann Radcliffe",
+          "year" : 1791,
+          "description" : "A beautiful, orphaned heiress, a dashing hero, a dissolute, aristocratic villain, and a ruined abbey deep in a great forest are combined by the author in a tale of suspense where danger lurks behind every secret trap-door.",
+          "book_id" : 6,
+          "location" : [
+              48.8566,
+              2.3522
+            ]
+          }
+        }
+      },
+</code></pre>
+<p>[some output omitted]</p>
+<p>If you don't specify the number of results to be returned, ES will return 10 documents. You can request a certain number of documents by setting the size.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+  "query": { "match_all": {} },
+  "from": 1,
+  "size": 3
+}'</code></pre>
+<h2 id="text-search">Text Search</h2>
+<p>Let's search for books authored by anyone named &quot;Ann&quot;. What are our options for this?</p>
+<p>We already did a <code>"query"</code> clause, so let's try to run with that.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query" : {
+        "match" : { "author_name" : "Ann" }
+    }
+}'</code></pre>
+<p>Success!</p>
+<pre><code class="language-nohighlight">{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 1,
+    "max_score" : 3.9693582,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "doc",
+        "_id" : "AWEcRP4zuXhGZDLBpfY0",
+        "_score" : 3.9693582,
+        "_source" : {
+          "title" : "The Romance of the Forest",
+          "author_name" : "Ann Radcliffe",
+          "year" : 1791,
+          "description" : "A beautiful, orphaned heiress, a dashing hero, a dissolute, aristocratic villain, and a ruined abbey deep in a great forest are combined by the author in a tale of suspense where danger lurks behind every secret trap-door.",
+          "book_id" : 6,
+          "location" : [
+              48.8566,
+              2.3522
+            ]
+          }
+        }
+      }
+    ]
+  }
+}</code></pre>
+<p>For the rest of these exercises, assume we are using the same curl command and we will only show the hash in the request body to save space and make this easier to read.</p>
+<p>Now… what about 'Anne'? How can we get that spelling too?</p>
+<p>What if we just searched for either name?</p>
+<pre><code class="language-nohighlight">{
+  "query": {
+    "bool": {
+      "should": [
+        { "match": { "author_name": "Ann" } },
+        { "match": { "author_name": "Anne" } }
+      ]
+    }}}</code></pre>
+<p>Success!! It's returning every book with an author name containing either 'Ann' or 'Anne'. <code>"Should"</code> is like <code>“OR”</code> (any one of the clauses must match), whereas <code>“must”</code> is like <code>“AND”</code> (both clauses would have to be present). You can use <code>"must_not"</code> instead of <code>"must"</code> if you want to filter negatively instead of positively, that is, remove some from a set and return the remainder.</p>
+<pre><code class="language-nohighlight">  "hits" : {
+    "total" : 3,</code></pre>
+<p>[some output omitted]</p>
+<p>That's pretty tedious though, huh? We would really prefer that Elasticsearch figure out this misspelling business. Let's try one of those 'fuzzy' queries we talked about earlier.</p>
+<pre><code class="language-nohighlight">{
+    "query" : {
+        "fuzzy" : { "author_name" : 'Ann" }
+    }
+}'</code></pre>
+<p>Huh that didn't work. Turns out there are some defaults that reduce the amount of letter changes allowed for very short words. Let's try manually overriding the defaults.  <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/common-options.html#fuzziness" target="_blank">Elasticsearch documentation</a> can tell you everything you need to know about how to do this.</p>
+<pre><code class="language-nohighlight">{
+    "query": {
+        "fuzzy" : {
+            "author_name" : {
+                "value": "ann",
+                "boost": 1.0,
+                "fuzziness": 2,
+                "prefix_length": 0,
+                "max_expansions": 100
+            }}}}</code></pre>
+<p>Whoa that worked. Now there are seven total results, in order: one Ann, two Annes, a Fanny, and then a Jane and a few other that don't really make sense. This could use some more tuning, but since it sorts the most useful to the top, it's good enough for now.</p>
+<pre><code class="language-nohighlight">{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 7,
+    "max_score" : 3.487692,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "doc",
+        "_id" : "AWEcRP4zuXhGZDLBpfY0",
+        "_score" : 3.487692,
+        "_source" : {
+          "title" : "The Romance of the Forest",
+          "author_name" : "Ann Radcliffe",</code></pre>
+<p>[some response output omitted]</p>
+<p>We could also do similar searches for words in the book description field, but let's move on to some other types of searches for now.</p>
+<h2 id="range-filter">Range Filter</h2>
+<p>Often you will want to use one type of search clause in combination with another. Here, we are using a <code>"match_all"</code> to get a bunch of records, but filtering out books with the year prior to 1900. We are also eliminating those 2000 and after, but you will notice this collection does not include any books that recent.</p>
+<pre><code class="language-nohighlight">{
+  "query": {
+    "bool": {
+      "must": { "match_all": {} },
+      "filter": {
+        "range": {
+          "year": {
+            "gte": 1900,
+            "lte": 2000
+          }}}}}}</code></pre>
+<pre><code class="language-nohighlight">{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 70,
+    "max_score" : 1.0,
+    "hits" : [</code></pre>
+<p>[some content omitted]</p>
+<p>Looks like that's working well! There are 70 hits… but wait! If you look at the <code>hits.hits</code> array, only 10 objects are included. Recall, that is the default number of records Elasticsearch will return. You can set <code>"from"</code> and <code>"size"</code> on each query to control the size of the array returned, and which result to begin from. It always tells us the total count of results in the response.</p>
+<pre><code class="language-nohighlight">{
+ "from": 30,
+ "size": 10,
+  "query": {
+    "bool": {
+      "must": { "match_all": {} },
+      "filter": {
+        "range": {
+          "year": {
+            "gte": 1900,
+            "lte": 2000
+          }}}}}}</code></pre>
+<h2 id="aggregations">Aggregations</h2>
+<p>Aggregations allow us to get statistics and information about groups of documents, while returning the documents at the same time if you need to. What kind of questions like this could we ask about this book data? All these books have a year associated with them (either the year written, published, or an approximation of that). What year has the most books in it?</p>
+<pre><code class="language-nohighlight">{
+  "size": 0,
+  "aggs": {
+    "group_by_year": {
+      "terms": {
+        "field": "year"
+      }}}}</code></pre>
+<p>Well, it's a three-way tie, but at least our agg worked. It's definitely giving us insights into our data.</p>
+<pre><code class="language-nohighlight">{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 100,
+    "max_score" : 0.0,
+    "hits" : []
+  },
+  "aggregations" : {
+    "group_by_year" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 72,
+      "buckets" : [
+        {
+          "key" : 1940,
+          "doc_count" : 4
+        },
+        {
+          "key" : 1948,
+          "doc_count" : 4
+        },
+        {
+          "key" : 1953,
+          "doc_count" : 4
+        },
+        {
+          "key" : 1960,
+          "doc_count" : 3
+        },</code></pre>
+<p>[some output omitted]</p>
+<h2 id="geo-distance-query">Geo Distance Query</h2>
+<p>Searching by location is a powerful feature in Elasticsearch. You'll notice the first third or so of the books in the collection have location information stored in the form of a latitude and longitude pair.</p>
+<p>Let's see if we can figure out which books were written near St. Louis. A quick Google search of &quot;St. Louis coordinates&quot; returned 38.6270° N, 90.1994° W, or [90.1994, 38.6270]. If you enter that in maps, it looks like it's actually set to St. Louis City Hall.</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
+{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "geo_distance" : {
+                    "distance" : "200km",
+                    "location" : { "lon": 90.1994, "lat": 38.6270
+                    }}}}}}'</code></pre>
+<p>Oops, got 0 hits. Now you may have noticed that these locations don't make any sense. I looked up coordinates for somewhere that the book took place or the author was from, and then I entered several in backwards. </p>
+<p>Elastic supports several ways to enter in this data, for example we had initially entered them in an array <code>[13.323, 23.238]</code> where lat and long are not labeled. We strongly suggest that when you are handling data manually, you label yours as we do in these examples with a <code>lat</code> and <code>lon</code> key, rather than using an array or string.</p>
+<pre><code class="language-nohighlight">"location": {
+  "lat": 41.12,
+  "lon": -71.34
+}</code></pre>
+<p>Let's try this again, but with an arbitrary location close to one of our books.</p>
+<pre><code class="language-nohighlight">{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "geo_distance" : {
+                    "distance" : "100km",
+                    "location" : { "lon": 138, "lat": 36
+                    }}}}}}</code></pre>
+<p>Successful Output [most omitted]:</p>
+<pre><code class="language-nohighlight">"hits" : {
+    "total" : 1,
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "doc",
+        "_id" : "AWEmhv7RVQBSxP80ho-T",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "The Tale of Genji",
+          "author_name" : "Murasaki Shikibu",
+          "year" : 1020,
+          "description" : "Genji, the Shining Prince, is the son of an emperor. He is a passionate character whose tempestuous nature, family circumstances, love affairs, alliances, and shifting political fortunes form the core of this magnificent epic.",
+          "book_id" : 2,
+          "location" : [
+            138.2529,
+            36.2048
+          ]</code></pre>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>
