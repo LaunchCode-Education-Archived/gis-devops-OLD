@@ -47,4 +47,4 @@ In the `definitions` section of your `swagger.yaml`, you will need to be able to
 * Notify the instructor that you are done, along with the name of the branch that you completed your work in.
 
 ## Resources
-- [SwaggerUI Docs](https://swagger.io/docs/specification/2-0/paths-and-operations/)
+- [Swagger Docs](https://swagger.io/docs/specification/2-0/paths-and-operations/)

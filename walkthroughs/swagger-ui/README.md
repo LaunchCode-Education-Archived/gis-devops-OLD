@@ -7,8 +7,8 @@ In this walkthrough, the instructor will guide through adding API documentation 
 ## Getting Started
 
 ### Open Your Launchcart Project in Intellij
-The same project and repo you used for the REST studio.
-Create and checkout a new branch named `add-swagger` wit this command `git checkout -b add-swagger`
+The same Launchcart project and repo you used for the REST studio.
+Create and checkout a new branch named `add-swagger` with this command `git checkout -b add-swagger`
 
 ### Setup Intellij
 
