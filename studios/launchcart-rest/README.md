@@ -39,6 +39,13 @@ A cart resource should include information about its owner, as well the items co
 
 Write integration tests before coding each controller method.
 
+## Bonus Missions
+
+If you finish the primary studio tasks, try one or more of the following:
+
+- Enable HATEOAS for your REST controllers by referencing the Spring tutorial, [Building a Hypermedia-Driven RESTful Web Service](https://spring.io/guides/gs/rest-hateoas/). The sections titled "Create a resources representation class" and "Create a RestController" are most relevant.
+- Add XML as a response format. There are some brief notes on how to do this at the bottom of the [LaunchCart REST walkthrough](https://education.launchcode.org/gis-devops/walkthroughs/launchcart-rest/). When testing, be sure to set the `Content-Type` header to `application/xml`.
+
 ## Turning In Your Work
 
 If you don't complete each of the tasks, turn in as much as you have completed by the end of the day.

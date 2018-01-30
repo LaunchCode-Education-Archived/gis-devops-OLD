@@ -61,7 +61,11 @@ Deliver an app with the the following features:
 - Use and design RESTful URLs, including nested resources and query/filtering parameters
 
 ### Day 2
-- Identify the difference between Swagger toolset and the Open API Specification.
-- Compose Swagger YAML files to define the endpoints, responses, and shema of an API.
-- Use `$ref` to reference reuseable definitions.
-- Integrate SwaggerUI into a project.
+- Identify the difference between Swagger toolset and the Open API Specification
+- Compose Swagger YAML files to define the endpoints, responses, and schema of an API
+- Use `$ref` to reference reuseable definitions
+- Integrate SwaggerUI into a project
+- Explain the difference between authentication and authorization
+- At a high level, explain how authentication and authorization work for APIs
+- Explain HATEOAS from the perspective of the data returned by a REST service
+- Explain the four levels of the REST maturity model
