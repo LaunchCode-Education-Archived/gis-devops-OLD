@@ -1,21 +1,20 @@
 ---
-title: Walkthrough
+title: Elasticsearch Query Walkthrough
 ---
 
 
 
 Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against.  The URL is:
 
+```nohighlight
 https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net
+```
 
 <aside class="aside-note" markdown="1">
 Free Bonsai clusters must sleep for 8 hours out of every 24. [Bonsai's documentation](https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&utm_source=sendwithus&utm_content=sandbox-welcome-email-v01&utm_medium=email&utm_campaign=heroku-sandbox-emails) explains how these accounts work.
 
 Please don't use this server between 11pm-7am CT so it's ready for class.
 </aside>
-
-
-
 
 ## Let's Start!
 
@@ -26,7 +25,6 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
 ```
 
 Output should look like this:
-
 
 ```nohighlight
 epoch      timestamp cluster       status node.total node.data shards pri relo init unassign pending_tasks max_task_wait_time active_shards_percent
@@ -176,7 +174,7 @@ Now… what about 'Anne'? How can we get that spelling too?
 
 What if we just searched for either name?
 
-```nohighlight
+```json
 {
   "query": {
     "bool": {
@@ -187,43 +185,40 @@ What if we just searched for either name?
     }}}
 ```
 
-Success!! It's returning every book with an author name containing either 'Ann' or 'Anne'. `"Should"` is like `“OR”` (any one of the clauses must match), whereas `“must”` is like `“AND”` (both clauses would have to be present). You can use `"must_not"` instead of `"must"` if you want to filter negatively instead of positively, that is, remove some from a set and return the remainder.
+Success!! It's returning every book with an author name containing either 'Ann' or 'Anne'. `should` works like an or-operator (any one of the clauses must match), whereas `must` works like an and-operator (both clauses would have to be present). You can use `must_not` instead of `must` if you want to filter negatively instead of positively, that is, remove some from a set and return the remainder.
 
-```nohighlight
+```json
   "hits" : {
     "total" : 3,
 ```
 
 [some output omitted]
 
-That's pretty tedious though, huh? We would really prefer that Elasticsearch figure out this misspelling business. Let's try one of those 'fuzzy' queries we talked about earlier.
+That's pretty tedious though, huh? We would really prefer that Elasticsearch figure out this misspelling business. Let's try one of those fuzzy queries we talked about earlier.
 
-```nohighlight
+```json
 {
     "query" : {
-        "fuzzy" : { "author_name" : 'Ann" }
+        "fuzzy" : { "author_name" : "Ann" }
     }
 }'
 ```
 
 Huh that didn't work. Turns out there are some defaults that reduce the amount of letter changes allowed for very short words. Let's try manually overriding the defaults.  [Elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/common-options.html#fuzziness) can tell you everything you need to know about how to do this.
 
-```nohighlight
+```json
 {
     "query": {
         "fuzzy" : {
             "author_name" : {
                 "value": "ann",
-                "boost": 1.0,
-                "fuzziness": 2,
-                "prefix_length": 0,
-                "max_expansions": 100
+                "fuzziness": 2
             }}}}
 ```
 
 Whoa that worked. Now there are seven total results, in order: one Ann, two Annes, a Fanny, and then a Jane and a few other that don't really make sense. This could use some more tuning, but since it sorts the most useful to the top, it's good enough for now.
 
-```nohighlight
+```json
 {
   "took" : 0,
   "timed_out" : false,
@@ -250,13 +245,11 @@ Whoa that worked. Now there are seven total results, in order: one Ann, two Anne
 
 We could also do similar searches for words in the book description field, but let's move on to some other types of searches for now.
 
-
-
 ## Range Filter
 
-Often you will want to use one type of search clause in combination with another. Here, we are using a `"match_all"` to get a bunch of records, but filtering out books with the year prior to 1900. We are also eliminating those 2000 and after, but you will notice this collection does not include any books that recent.
+Often you will want to use one type of search clause in combination with another. Here, we are using a `match_all` to get a bunch of records, but filtering out books with the year prior to 1900. We are also eliminating those 2000 and after, but you will notice this collection does not include any books that recent.
 
-```nohighlight
+```json
 {
   "query": {
     "bool": {
@@ -286,9 +279,9 @@ Often you will want to use one type of search clause in combination with another
 
 [some content omitted]
 
-Looks like that's working well! There are 70 hits… but wait! If you look at the `hits.hits` array, only 10 objects are included. Recall, that is the default number of records Elasticsearch will return. You can set `"from"` and `"size"` on each query to control the size of the array returned, and which result to begin from. It always tells us the total count of results in the response.
+Looks like that's working well! There are 70 hits… but wait! If you look at the `hits.hits` array, only 10 objects are included. Recall, that is the default number of records Elasticsearch will return. You can set `from` and `size` on each query to control the size of the array returned, and which result to begin from. It always tells us the total count of results in the response.
 
-```nohighlight
+```json
 {
  "from": 30,
  "size": 10,

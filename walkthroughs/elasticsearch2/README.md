@@ -2,8 +2,6 @@
 title: Walkthrough
 ---
 
-
-
 Let’s get a little more in-depth with document mappings. Remember our practice server from yesterday? Let’s see how that data was mapped, make our own mapping, and upload some data.
 
 First, as always, test the cluster health before running queries (at least we know it was up when we started).
@@ -12,7 +10,7 @@ First, as always, test the cluster health before running queries (at least we kn
 $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/health?v&pretty'
 ```
 
-##Retrieve a Mapping
+## Retrieve a Mapping
 All being well, let’s take a peek at how the book documents are mapped:
 
 ```nohighlight
@@ -21,7 +19,7 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
 
 Your response should look very much like this:
 
-```nohighlight
+```json
 {
   "book" : {
     "mappings" : {
@@ -55,11 +53,12 @@ $ curl -XGET 'localhost:9200/book/_mapping?&pretty'
 
 Looks pretty different huh?
 
-At the time of this writing, in ES v 6.1.1, fields mapped dynamically pretty much all default to keyword text fields. You might get something very different depending upon which version you are using.
+At the time of this writing, in ES v6.1.1, fields mapped dynamically pretty much all default to keyword text fields. You might get something very different depending upon which version you are using.
 
 By contrast, we set up the mapping on the Bonsai sample index deliberately. These different field types allow different types of searches to be run against them. You can also specify analyzers, but it will default to a pre-packaged English analyzer if none is specified.
 
 This is the command used to set up the mapping you see on the sample cluster:
+
 ```nohighlight
 $ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: application/json' -d'
 {
@@ -75,10 +74,17 @@ $ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: appli
       }}}}'
 ```
 
-##Create a Mapped Index
+## Create a Mapping
 
+For the studio, we are going to want our airport data to be usable in Elasticsearch. First, we’ll need to create a new index.
 
-For the studio, we are going to want our airport data to be usable in Elasticsearch. Let’s take a look at our airport data and make a mapping for it. The data we have looks like this:
+```nohighlight
+$ curl -XPUT 'localhost:9200/airwaze?pretty'
+$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+```
+
+Then, let’s take a look at our airport data and make a mapping for it. The data we have looks like this:
+
 ```nohighlight
 1,"Goroka Airport","Goroka" ,"Papua New Guinea",GKA,AYGA,5282,Pacific/Port_Moresby,"Point(145.391998291 -6.081689834590001)"
 2,"Madang Airport","Madang" ,"Papua New Guinea",MAG,AYMD,20,Pacific/Port_Moresby,"Point(145.789001465 -5.20707988739)"
@@ -91,12 +97,12 @@ Here’s a mapping we could start with for our airport data. Note -- this one wi
 $ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json' -d'
 {
   "mappings": {
-    "doc": { 
-      "properties": { 
-        "airport_id":      { "type": "text" },  
-        "name":     { "type": "text"  }, 
-        "ident":    { "type": "text"  }, 
-        "elevation_ft":      { "type": "double" },  
+    "doc": {
+      "properties": {
+        "airport_id":      { "type": "text" },
+        "name":     { "type": "text"  },
+        "ident":    { "type": "text"  },
+        "elevation_ft":      { "type": "double" },
         "location":  { "type":   "geo_point" }
       }}}}'
 ```
@@ -108,15 +114,11 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
 $ curl -XGET 'localhost:9200/airwaze/_mapping?&pretty'
 ```
 
-
 <aside class="aside-note" markdown="1">
 Consult the [docs](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html) for more supported types.
 </aside>
 
-
-
-
-##Upload Some Data
+## Upload Some Data
 
 Remember yesterday when we uploaded books?
 
@@ -143,16 +145,15 @@ $ curl -XPOST 'localhost:9200/airwaze/doc?pretty&pretty' -H 'Content-Type: appli
 ```
 
 And check for success:
+
 ```nohighlight
 $ curl -XGET 'localhost:9200/airwaze/_search?pretty' -H 'Content-Type: application/json' -d'
 {
   "query": { "match_all": {} },
   "size": 10
-}
-'
+}'
 ```
 
 It might take some time to upload all large data sets, but usually that process is scripted and run automatically. Often a library is used for that.
-
 
 Some Elasticsearch clients include `bulk_import`. Bulk imports are more efficient than single imports. Here’s some documentation about [bulk_import](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/docs-bulk.html)
