@@ -48,7 +48,7 @@ You can see from the output that we have 1 node and 0 shards (since there’s no
 Let’s confirm we don’t have any indices/index yet.
 
 ```nohighlight
-$ curl -XGET 'localhost:9200/book/indices?v&pretty'
+$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
 ```
 
 Your response should just show headers and no content:
