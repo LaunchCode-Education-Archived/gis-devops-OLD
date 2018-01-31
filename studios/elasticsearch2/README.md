@@ -5,21 +5,22 @@ title: "Elasticsearch Studio 2"
 Time for you to have an opportunity to practice on your own. We’re going to be setting up Elasticsearch in AWS, indexing data from our project, and writing a few queries in our project.
 
 ##Setting Up AWS Elasticsearch Service
-Go to [AWS](http://aws.amazon.com) and sign up for a free account. ** AWS requires putting in a credit card number. Mike what was the plan there? I think you said AWS was to be covered the week after this so the students might not have accounts yet.
+
+Go to [AWS](http://aws.amazon.com) and sign up for a free account. 
 
 Sign in to the AWS console. Click on `Services` and under `Analytics` click on `Elasticsearch Service`. Click on the blue button that says `Create a new domain`.
 
-On the `Define domain` page, for `Elasticsearch domain name`, type a name for the domain. In this studio, we use the domain name `airwaze`. Leave `Version` set to the newest supported version. Click `Next`.
+On the `Define domain` page, for `Elasticsearch domain name`, type a name for the domain. In this studio, we use the domain name `airwaze` with a dash and your name (e. g. `airwaze-me`). Leave `Version` set to the newest supported version. Click `Next`.
 
 On the `Configuration` page, let’s leave everything at the default values. Click `Next`.
 
-On the `Set up access` page, in the `Network configuration` section, choose `Public Access`. Under `Access Policy`, click `Allow open access to the domain`. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click `Next`.
+On the `Set up access` page, in the `Network configuration` section, choose `Public Access`. (There may be an error window; after you click `Public Access`, you will be able to close that window and everything should be fine.) Under `Access Policy`, click `Allow open access to the domain`. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click `Next`.
 
-On the `Review` page, review your domain configuration, and then choose `Confirm and create`.
+On the `Review` page, review your domain configuration, and then choose `Confirm`.
 
 New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.
 
-##Index Airwaze Data In Elasticsearch
+## Index Airwaze Data in Elasticsearch
 
 You need to set up a data mapping in your new index and import the data.
 
@@ -29,7 +30,9 @@ You can test this script against your local Elasticsearch cluster:
 
 `$ ruby upload-airports.rb`
 
-It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but it’s good enough for demonstration purposes.
+It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.
+
+Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint and changing out `airwaze` for the name of your new domain (such as `airwaze-me`).
 
 In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:
 
@@ -38,9 +41,8 @@ host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com�
 #host_name = “localhost:9200”
 ```
 
-Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint.
 
-Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the script with `ruby upload-airports.rb`. When it’s done running, now check out that document count in the index.
+Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.
 
 ```nohighlight
 $ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
