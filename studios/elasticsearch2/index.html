@@ -106,9 +106,11 @@
 <p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>
 <h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data In Elasticsearch</h2>
 <p>You need to set up a data mapping in your new index and import the data.</p>
-<p>We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
-<p>You can test this script against your local Elasticsearch cluster. It does take several minutes to run, and it fails on a few of the airports (perhaps some are not formatted correctly in the csv), but it’s good enough for now since many airports are making it through.</p>
-<p>Comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done</p>
+<p>Get the <code>elasticsearch-starter</code> branch from the <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze repo</a> on Gitlab.  We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
+<p>You can test this script against your local Elasticsearch cluster:</p>
+<p><code>$ ruby upload-airports.rb</code></p>
+<p>It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but it’s good enough for demonstration purposes.</p>
+<p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:</p>
 <pre><code class="language-nohighight">host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
 #host_name = “localhost:9200”</code></pre>
 <p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint.</p>

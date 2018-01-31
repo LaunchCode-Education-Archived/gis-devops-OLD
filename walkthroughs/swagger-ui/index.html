@@ -101,18 +101,19 @@
 <p>The same Launchcart project and repo you used for the REST studio.
 Create and checkout a new branch named <code>add-swagger</code> with this command <code>git checkout -b add-swagger</code></p>
 <h3 id="setup-intellij">Setup Intellij</h3>
-<p>Since we are going to be writing the <code>swagger.yaml</code> in Intellij, let's get a plugin to help out.</p>
+<p>Since we are going to be writing the <code>swagger.yaml</code> in IntelliJ, let's get a plugin to help out.</p>
+<p>Click the magnifying glass in the upper right hand corner and type &quot;Plugin&quot;. Select &quot;Plugins&quot; from the menu. Then select &quot;Browse repositories...&quot;. </p>
 <ul>
 <li>Click the magnifying glass in the upper right hand corder and type &quot;Plugin&quot;.</li>
 <li>Select &quot;Plugins&quot; from the menu.</li>
-<li>Then select &quot;Browse repositories...&quot;.  </li>
+<li>Then select &quot;Browse repositories...&quot;. </li>
 <li>Search for &quot;Swagger&quot; in the search bar and install the &quot;Swagger Plugin&quot;.</li>
 <li>Restart Intellij after the plugin has installed.</li>
 </ul>
 <h3 id="embed-swaggerui-into-the-launchcart-project">Embed SwaggerUI into the Launchcart Project</h3>
-<p>Clone the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> from Github.  Note: We are downloading the SwaggerUI for 2.x.</p>
+<p>Clone the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> from Github. Note: We are downloading the SwaggerUI for 2.x.</p>
 <p>Navigate into the repo that you just cloned and copy the contents of <code>swagger-ui/dist</code> directory into <code>launchcart/src/main/resources/static/swagger</code> directory. </p>
-<pre><code>  cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger</code></pre>
+<pre><code class="language-nohighlight">$ cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger</code></pre>
 <aside class="aside-note">
 <p>The <code>dist</code> directory contains all of the HTML, CSS, and JavaScript required to generate a Swagger document</p>
 </aside>
@@ -122,7 +123,7 @@ Create and checkout a new branch named <code>add-swagger</code> with this comman
 <li>Create a swagger.yaml file  <code>touch swagger.yaml</code>.</li>
 <li>Edit <code>swagger\index.html</code> to point at the local <code>swagger.yaml</code> to look like the example below:</li>
 </ol>
-<pre><code>&lt;script&gt;
+<pre><code class="language-html">&lt;script&gt;
 window.onload = function() {
 
   // Build a system
@@ -145,10 +146,10 @@ window.onload = function() {
 &lt;/script&gt;
 </code></pre>
 <h2 id="load-swagger-in-the-browser">Load Swagger in the Browser</h2>
-<p>Start up SpringBoot and navigate to the url <code>http://localhost:8080/swagger/index.html</code>.  You should see a SwaggerUI page displayed.</p>
+<p>Start up SpringBoot and navigate to the url <code>http://localhost:8080/swagger/index.html</code>. You should see a SwaggerUI page displayed.</p>
 <h2 id="writing-the-swagger-yaml">Writing the Swagger YAML</h2>
-<p>Next we need to begin writing the Swagger YAML file.  Copy the following code into your <code>swagger.yaml</code> file located in the <code>launchcart/src/main/resources/static/swagger</code> directory.</p>
-<pre><code>swagger: '2.0'
+<p>Next we need to begin writing the Swagger YAML file. Copy the following code into your <code>swagger.yaml</code> file located in the <code>launchcart/src/main/resources/static/swagger</code> directory.</p>
+<pre><code class="language-yaml">swagger: '2.0'
 info:
   description: |
    This is an example RESTful API 
@@ -165,10 +166,10 @@ paths:
 definitions:</code></pre>
 <p>Let's start with the <code>/api/carts</code> path.</p>
 <p>Add an entry to the <code>tags</code> section, to add a header for all of the endpoints for the <code>/api/carts</code> path.</p>
-<pre><code>- name: cart
+<pre><code class="language-yaml">- name: cart
     description: Cart provides access to all of the items you are about to buy.</code></pre>
 <p>Also, let's add the <code>GET</code> endpoint for <code>/api/carts</code> in the <code>paths</code> section.</p>
-<pre><code>paths:
+<pre><code class="language-yaml">paths:
     /carts:
         get:
             tags:
@@ -180,7 +181,7 @@ definitions:</code></pre>
             responses:
                 200:
                     description: successful operation</code></pre>
-<p>Next, fill in the schema for the <code>/api/carts</code> endpoint.  In order to do that, first check to see what the service is currently returning.</p>
+<p>Next, fill in the schema for the <code>/api/carts</code> endpoint. In order to do that, first check to see what the service is currently returning.</p>
 <h3 id="review-cart-json">Review Cart JSON</h3>
 <ul>
 <li>Register for an account on your LaunchCart app</li>
@@ -188,9 +189,9 @@ definitions:</code></pre>
 <li>Visit <code>http://localhost:8080/api/carts</code></li>
 <li>You should receive something that looks like the below...</li>
 </ul>
-<pre><code>[{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandles"}]}]</code></pre>
+<pre><code class="language-nohighlight">[{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandals"}]}]</code></pre>
 <p>To represent this as a schema, add the following to your Swagger config:</p>
-<pre><code>schema:
+<pre><code class="language-yaml">schema:
     type: object
     required:
     - uid
@@ -226,15 +227,15 @@ definitions:</code></pre>
                         example: true
                     description:
                         type: string
-                        example: I think they're a type of sandals</code></pre>
+                        example: "I think they're a type of sandals"</code></pre>
 <aside class="aside-note">
-<pre><code>Make sure that your whitespace is correct.  There can only be a one tab indent for every map.  
+<pre><code>Make sure that your whitespace is correct. There can only be a one tab indent for every map. 
 Incorrect indentation may cause your API endpoints not to show up or display erros.</code></pre>
 </aside>
 <h3 id="yikes">Yikes!</h3>
-<p>That was a lot of YAML.  Let's see if we can simplify it and make it less dense.</p>
+<p>That was a lot of YAML. Let's see if we can simplify it and make it less dense.</p>
 <p>Move the <code>items</code> schema to the the <code>definitions</code> section of the yaml config file:</p>
-<pre><code>definitions:
+<pre><code class="language-yaml">definitions:
     Item:
         type: object
         properties:
@@ -253,12 +254,11 @@ Incorrect indentation may cause your API endpoints not to show up or display err
                 example: true
             description:
                 type: string
-                example: I think they're a type of sandals
-</code></pre>
+                example: "I think they're a type of sandals"</code></pre>
 <p>Replace the <code>item</code> schema with a reference to the item in the <code>definitions</code> section.</p>
-<pre><code>    $ref: "#/definitions/Item"</code></pre>
+<pre><code class="language-yaml">    $ref: "#/definitions/Item"</code></pre>
 <h2 id="continue-on">Continue On</h2>
-<p>Continue on to provide documentation for the rest of the Cart API.  It should be much easier now that the Cart definition has been created.</p>
+<p>Continue on to provide documentation for the rest of the Cart API. It should be much easier now that the Cart definition has been created.</p>
                                     </section>
 
             </div>

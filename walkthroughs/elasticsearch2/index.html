@@ -102,7 +102,7 @@
 <p>All being well, let’s take a peek at how the book documents are mapped:</p>
 <pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_mapping?&amp;pretty'</code></pre>
 <p>Your response should look very much like this:</p>
-<pre><code class="language-nohighlight">{
+<pre><code class="language-json">{
   "book" : {
     "mappings" : {
       "doc" : {
@@ -128,7 +128,7 @@
 <p>Let’s compare that to the mapping of the local book index we used in yesterday’s studio.</p>
 <pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/book/_mapping?&amp;pretty'</code></pre>
 <p>Looks pretty different huh?</p>
-<p>At the time of this writing, in ES v 6.1.1, fields mapped dynamically pretty much all default to keyword text fields. You might get something very different depending upon which version you are using.</p>
+<p>At the time of this writing, in ES v6.1.1, fields mapped dynamically pretty much all default to keyword text fields. You might get something very different depending upon which version you are using.</p>
 <p>By contrast, we set up the mapping on the Bonsai sample index deliberately. These different field types allow different types of searches to be run against them. You can also specify analyzers, but it will default to a pre-packaged English analyzer if none is specified.</p>
 <p>This is the command used to set up the mapping you see on the sample cluster:</p>
 <pre><code class="language-nohighlight">$ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: application/json' -d'
@@ -145,7 +145,7 @@
       }}}}'</code></pre>
 <h2 id="create-a-mapping">Create a Mapping</h2>
 <p>For the studio, we are going to want our airport data to be usable in Elasticsearch. First, we’ll need to create a new index.</p>
-<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty&amp;pretty'
+<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty'
 $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 <p>Then, let’s take a look at our airport data and make a mapping for it. The data we have looks like this:</p>
 <pre><code class="language-nohighlight">1,"Goroka Airport","Goroka" ,"Papua New Guinea",GKA,AYGA,5282,Pacific/Port_Moresby,"Point(145.391998291 -6.081689834590001)"
@@ -155,12 +155,12 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 <pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json' -d'
 {
   "mappings": {
-    "doc": { 
-      "properties": { 
-        "airport_id":      { "type": "text" },  
-        "name":     { "type": "text"  }, 
-        "ident":    { "type": "text"  }, 
-        "elevation_ft":      { "type": "double" },  
+    "doc": {
+      "properties": {
+        "airport_id":      { "type": "text" },
+        "name":     { "type": "text"  },
+        "ident":    { "type": "text"  },
+        "elevation_ft":      { "type": "double" },
         "location":  { "type":   "geo_point" }
       }}}}'</code></pre>
 <p>Consult the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html" target="_blank">docs</a> for more supported types.</p>
@@ -186,8 +186,7 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 {
   "query": { "match_all": {} },
   "size": 10
-}
-'</code></pre>
+}'</code></pre>
 <p>It might take some time to upload all large data sets, but usually that process is scripted and run automatically. Often a library is used for that.</p>
 <p>Some Elasticsearch clients include <code>bulk_import</code>. Bulk imports are more efficient than single imports. Here’s some documentation about <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/docs-bulk.html" target="_blank">bulk_import</a></p>
                                     </section>

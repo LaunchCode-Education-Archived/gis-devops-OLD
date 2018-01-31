@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title> :: GIS DevOps</title>
+        <title>Studio: Airwazes :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body>
+    <body id='page-studio-airwazes'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,80 +94,72 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1></h1>
-                    <h1 id="studio">Studio</h1>
-<p>Your goal is to add an additional layer that shows flight routes and display it on the map.  This time we will incorporate our map into a Spring boot project. Some starter code has been provided for you.</p>
-<h2 id="setup-project">Setup Project</h2>
-<p>Fork and clone this <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank"><a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">https://gitlab.com/LaunchCodeTraining/airwaze-studio</a></a>. Then open the project in Intellij.</p>
-<h2 id="setup-postgis">Setup PostGIS</h2>
+                                        <h1>Studio: Airwazes</h1>
+                    <p>Your goal is to add an additional layer that shows flight routes and display it on the map.  This time we will incorporate our map into a Spring Boot project. Some starter code has been provided for you.</p>
+<h2 id="set-up-project">Set Up Project</h2>
+<p>Fork and clone this <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Gitlab project</a>. Then open the project in IntelliJ.</p>
+<h2 id="set-up-postgis">Set Up PostGIS</h2>
 <p>To install PostGIS, run the following commands in terminal:</p>
 <pre><code class="language-nohighlight">$ brew update
 $ brew install postgis</code></pre>
 <p>This is going to take a while.</p>
-<p>Make sure your Postgresql server is running. Remember we used <a href="https://postgresapp.com/" target="_blank"><a href="https://postgresapp.com/" target="_blank">https://postgresapp.com/</a></a> to install Postgresql, which automatically created a service that we can start and stop via it's UI in the menu bar.</p>
-<p>Run <code>psql</code> CLI by double clicking on the <code>postgres</code> database in the Postgresql App</p>
+<p>Make sure your Postgresql server is running. Remember we used <a href="https://postgresapp.com/" target="_blank"><a href="https://postgresapp.com/" target="_blank">https://postgresapp.com/</a></a> to install Postgresql, which automatically created a service that we can start and stop via its UI in the menu bar.</p>
+<p>Run <code>psql</code> CLI by double clicking on the <code>postgres</code> database in the Postgresql app.</p>
 <p>Open the Postgres UI and double click on the <code>postgres</code> db to open a <code>psql</code> command prompt.
 Then execute:</p>
 <pre><code class="language-nohighlight"># CREATE DATABASE airwaze;</code></pre>
-<p>Also create a database for your tests</p>
+<p>Also create a database for your tests:</p>
 <pre><code class="language-nohighlight"># CREATE DATABASE airwaze_test;</code></pre>
-<p>Now we want to install the geospatial extensions to Postgres for the <code>airwaze</code> db.</p>
-<ul>
-<li>Open the Postgres UI and double click on the <code>airwaze</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze</code> db.
+<p>Now we want to install the geospatial extensions to Postgres for the <code>airwaze</code> db. Open the Postgres UI and double click on the <code>airwaze</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze</code> db:</p>
 <pre><code class="language-nohighlight"># CREATE EXTENSION postgis;
 # CREATE EXTENSION postgis_topology;
 # CREATE EXTENSION fuzzystrmatch;
-# CREATE EXTENSION postgis_tiger_geocoder;</code></pre></li>
-</ul>
+# CREATE EXTENSION postgis_tiger_geocoder;</code></pre>
 <p>Make sure that everything installed correctly by running this query:</p>
 <pre><code class="language-nohighlight"># SELECT POSTGIS_FULL_VERSION();</code></pre>
-<p>Remember to do that for your test database as well!</p>
-<ul>
-<li>Open the Postgres UI and double click on the <code>airwaze_test</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze_test</code> db.
+<p>Remember to do that for your test database as well!  </p>
+<p>Open the Postgres UI and double click on the <code>airwaze_test</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze_test</code> db.</p>
 <pre><code class="language-nohighlight"># CREATE EXTENSION postgis;
 # CREATE EXTENSION postgis_topology;
 # CREATE EXTENSION fuzzystrmatch;
 # CREATE EXTENSION postgis_tiger_geocoder;
-# SELECT POSTGIS_FULL_VERSION();</code></pre></li>
-</ul>
-<p>Create a new user for your application</p>
-<ul>
-<li>Open the Postgres UI and double click on the <code>airwaze</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze</code> db.
+# SELECT POSTGIS_FULL_VERSION();</code></pre>
+<p>Create a new user for your application. Open the Postgres UI and double click on the <code>airwaze</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze</code> db.</p>
 <pre><code class="language-nohighlight"># CREATE USER airwaze_app_user WITH PASSWORD 'somethingsensible' CREATEDB;
-# ALTER ROLE airwaze_app_user WITH SUPERUSER; </code></pre></li>
-</ul>
-<h2 id="now-lets-use-the-new-database">Now let's use the new database</h2>
-<p>This applciation uses SpringBoot. If you have a <code>src/main/resources/import.sql</code> file, it will automatically be ran when the project boots up. Take a second to review <code>import.sql</code> in Intellij. The two <code>.csv</code> files were created from <code>.geojson</code> data.</p>
-<h3 id="important">Important!</h3>
-<p>Be sure that the <code>import.sql</code> points to local copies of the <code>Airports.csv</code> and <code>routes.csv</code>. It needs to be the &quot;full path&quot; to each file on your local computer.</p>
-<h2 id="lets-see-it-in-action">Let's see it in action</h2>
+# ALTER ROLE airwaze_app_user WITH SUPERUSER; </code></pre>
+<h2 id="now-lets-use-the-new-database">Now Let's Use the New Database</h2>
+<p>This application uses Spring Boot. If you have a <code>src/main/resources/import.sql</code> file, it will automatically run when the project boots up. Take a second to review <code>import.sql</code> in IntelliJ. The two <code>.csv</code> files were created from <code>.geojson</code> data.</p>
+<aside class="aside-note">
+<p>Be sure that the <code>import.sql</code> points to local copies of the <code>airports.csv</code> and <code>routes.csv</code>. It needs to be the &quot;full path&quot; to each file on your local computer.</p>
+</aside>
+<h2 id="lets-see-it-in-action">Let's See It in Action</h2>
 <ul>
-<li>Run the <code>bootRun</code> gradle task</li>
-<li>Makes sure there aren't any errors in the log</li>
-<li>Then go to <code>http://localhost:8080</code>, you should see a map with Mexico on it that includes a map layer for airports as red circles</li>
+<li>Run the <code>bootRun</code> gradle task.</li>
+<li>Make sure there aren't any errors in the log.</li>
+<li>Then go to <code>http://localhost:8080</code>. You should see a map with Mexico on it that includes a map layer for airports as red circles.</li>
 </ul>
 <h2 id="review-airportcontroller">Review AirportController</h2>
 <ul>
-<li>Visit this url in your browser <code>http://localhost:8080/airport/</code> note the trailing <code>/</code> is important</li>
-<li>Then look at the code that returns that data</li>
+<li>Visit this url in your browser: <a href="http://localhost:8080/airport/" target="_blank">http://localhost:8080/airport/</a>.  Note the trailing <code>/</code> is important.</li>
+<li>Then look at the code that returns that data.</li>
 </ul>
 <h2 id="review-routecontroller">Review RouteController</h2>
 <ul>
-<li>Visit this url in your browser <code>http://localhost:8080/route/?srcId=12</code></li>
-<li>Then look at the code that returns that data</li>
-<li>Think about how this route coulde be used to show the routes for an airport</li>
+<li>Visit this url in your browser : <a href="http://localhost:8080/route/?srcId=12" target="_blank">http://localhost:8080/route/?srcId=12</a> .</li>
+<li>Then look at the code that returns that data.</li>
+<li>Think about how this route could be used to show the routes for an airport.  </li>
 </ul>
-<h1 id="tasks">Tasks</h1>
+<h2 id="tasks">Tasks</h2>
 <ul>
-<li>When an airport is clicked on the map, show the routes for that airport</li>
-<li>This will require you to add a new layer to the map. Refer to the &quot;airports layer&quot; for help</li>
+<li>When an airport is clicked on the map, show the routes for that airport.</li>
+<li>This will require you to add a new layer to the map. Refer to the &quot;airports layer&quot; for help.</li>
 <li>You will need to add more code to the function <code>map.forEachFeatureAtPixel(event.pixel, function(feature,layer)</code> in <code>resources/static/js/scripts.js</code></li>
-<li>The data for the new layer will be provided by <code>http://localhost:8080/route?srcId=X</code>, where X will be the <code>airportId</code> from the feature</li>
+<li>The data for the new layer will be provided by <code>http://localhost:8080/route?srcId=X</code>, where X will be the <code>airportId</code> from the feature.</li>
 </ul>
 <h2 id="problems">Problems</h2>
-<p>Invalid JSON will cause the jQuery callback to not fire.  If you are having an issue, validate the JSON that you are sending across the wire.  Here is a <a href="https://jsonlint.com/" target="_blank">JSON Validator</a></p>
-<p>Invalid GeoJSON will not show up on your map.  You will see the data pull back, but you will not see any data displayed.  Validate your GeoJSON.  Here is a [GeoJSON Validator]<a href="http://geojson.io/o" target="_blank">http://geojson.io/o</a></p>
-<p>If you get the message <code>The element type "link" must be terminated by the matching end-tag "&lt;/link&gt;".</code>, then add the following tag <code>&lt;html lang="en" xmlns:th="http://www.thymeleaf.org/"&gt;</code></p>
+<p>Invalid JSON will cause the jQuery callback to not fire.  If you are having an issue, validate the JSON that you are sending across the wire.  Here is a <a href="https://jsonlint.com/" target="_blank">JSON Validator</a>.</p>
+<p>Invalid GeoJSON will not show up on your map.  You will see the data pull back, but you will not see any data displayed.  Validate your GeoJSON.  Here is a <a href="http://geojson.io/o" target="_blank">GeoJSON Validator</a>.</p>
+<p>If you get the message <code>The element type "link" must be terminated by the matching end-tag "&lt;/link&gt;".</code>, then add the following tag <code>&lt;html lang="en" xmlns:th="http://www.thymeleaf.org/"&gt;</code>.</p>
 <h2 id="resources">Resources</h2>
 <ul>
 <li><a href="https://macwright.org/2015/03/23/geojson-second-bite" target="_blank">Read about constructing GeoJSON</a></li>
