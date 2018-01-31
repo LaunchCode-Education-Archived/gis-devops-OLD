@@ -110,7 +110,7 @@ It also applies an internal ID of 1. In many cases, Elasticsearch is used like a
 Let’s edit our existing record. Imagine our book came from MySQL; we might add a another field like this:
 
 ```nohighlight
-$ curl -XPUT 'localhost:9200/book/doc/1?pretty' -H 'Content-Type: application/json' -d
+$ curl -XPUT 'localhost:9200/book/doc/1?pretty' -H 'Content-Type: application/json' -d'
   {
     "title": "Frankenstein",
     "book_id": "7",
