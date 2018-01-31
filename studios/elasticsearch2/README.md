@@ -23,11 +23,15 @@ New domains take up to ten minutes to initialize. After your domain is initializ
 
 You need to set up a data mapping in your new index and import the data.
 
-We’ve written a little script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
+Get the `elasticsearch-starter` branch from the [Airwaze repo](https://gitlab.com/LaunchCodeTraining/airwaze-studio) on Gitlab.  We’ve written a little script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
 
-You can test this script against your local Elasticsearch cluster. It does take several minutes to run, and it fails on a few of the airports (perhaps some are not formatted correctly in the csv), but it’s good enough for now since many airports are making it through.
+You can test this script against your local Elasticsearch cluster:
 
-Comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done
+`$ ruby upload-airports.rb`
+
+It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but it’s good enough for demonstration purposes.
+
+In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:
 
 ```nohighight
 host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
