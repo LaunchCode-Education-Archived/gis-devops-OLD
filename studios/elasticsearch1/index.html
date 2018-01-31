@@ -120,7 +120,7 @@
 </aside>
 <p>You can see from the output that we have 1 node and 0 shards (since there’s no data yet).
 Let’s confirm we don’t have any indices/index yet.</p>
-<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/book/indices?v&amp;pretty'</code></pre>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 <p>Your response should just show headers and no content:</p>
 <pre><code class="language-nohighlight">health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size</code></pre>
 <h2 id="data-storage">Data Storage</h2>
@@ -152,7 +152,7 @@ yellow open   book                                     cNIKN2CyQsacysajAuJH1A   
 }</code></pre>
 <p>It also applies an internal ID of 1. In many cases, Elasticsearch is used like a replica database where the primary is PostgreSQL or MySQL. In this case, the convention is to allow your <code>_id</code> values to be completely independent from the ID from the primary store, which is then stored like a foreign key. Remember, your cluster may be distributed among many servers, so Elasticsearch will try to use a unique hash ID that is unlikely to have collisions if a race condition between servers were to happen. You can allow ES to assign the ID by leaving it off the command.</p>
 <p>Let’s edit our existing record. Imagine our book came from MySQL; we might add a another field like this:</p>
-<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/book/doc/1?pretty' -H 'Content-Type: application/json' -d
+<pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/book/doc/1?pretty' -H 'Content-Type: application/json' -d'
   {
     "title": "Frankenstein",
     "book_id": "7",
