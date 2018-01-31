@@ -97,24 +97,24 @@
                                         <h1>Elasticsearch Studio 2</h1>
                     <p>Time for you to have an opportunity to practice on your own. We’re going to be setting up Elasticsearch in AWS, indexing data from our project, and writing a few queries in our project.</p>
 <h2 id="setting-up-aws-elasticsearch-service">Setting Up AWS Elasticsearch Service</h2>
-<p>Go to <a href="http://aws.amazon.com" target="_blank">AWS</a> and sign up for a free account. ** AWS requires putting in a credit card number. Mike what was the plan there? I think you said AWS was to be covered the week after this so the students might not have accounts yet.</p>
+<p>Go to <a href="http://aws.amazon.com" target="_blank">AWS</a> and sign up for a free account. </p>
 <p>Sign in to the AWS console. Click on <code>Services</code> and under <code>Analytics</code> click on <code>Elasticsearch Service</code>. Click on the blue button that says <code>Create a new domain</code>.</p>
-<p>On the <code>Define domain</code> page, for <code>Elasticsearch domain name</code>, type a name for the domain. In this studio, we use the domain name <code>airwaze</code>. Leave <code>Version</code> set to the newest supported version. Click <code>Next</code>.</p>
+<p>On the <code>Define domain</code> page, for <code>Elasticsearch domain name</code>, type a name for the domain. In this studio, we use the domain name <code>airwaze</code> with a dash and your name (e. g. <code>airwaze-me</code>). Leave <code>Version</code> set to the newest supported version. Click <code>Next</code>.</p>
 <p>On the <code>Configuration</code> page, let’s leave everything at the default values. Click <code>Next</code>.</p>
-<p>On the <code>Set up access</code> page, in the <code>Network configuration</code> section, choose <code>Public Access</code>. Under <code>Access Policy</code>, click <code>Allow open access to the domain</code>. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click <code>Next</code>.</p>
-<p>On the <code>Review</code> page, review your domain configuration, and then choose <code>Confirm and create</code>.</p>
+<p>On the <code>Set up access</code> page, in the <code>Network configuration</code> section, choose <code>Public Access</code>. (There may be an error window; after you click <code>Public Access</code>, you will be able to close that window and everything should be fine.) Under <code>Access Policy</code>, click <code>Allow open access to the domain</code>. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click <code>Next</code>.</p>
+<p>On the <code>Review</code> page, review your domain configuration, and then choose <code>Confirm</code>.</p>
 <p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>
-<h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data In Elasticsearch</h2>
+<h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data in Elasticsearch</h2>
 <p>You need to set up a data mapping in your new index and import the data.</p>
 <p>Get the <code>elasticsearch-starter</code> branch from the <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze repo</a> on Gitlab.  We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
 <p>You can test this script against your local Elasticsearch cluster:</p>
 <p><code>$ ruby upload-airports.rb</code></p>
-<p>It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but it’s good enough for demonstration purposes.</p>
+<p>It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.</p>
+<p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <code>airwaze</code> for the name of your new domain (such as <code>airwaze-me</code>).</p>
 <p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:</p>
 <pre><code class="language-nohighight">host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
 #host_name = “localhost:9200”</code></pre>
-<p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint.</p>
-<p>Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the script with <code>ruby upload-airports.rb</code>. When it’s done running, now check out that document count in the index.</p>
+<p>Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.</p>
 <pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 <p>Output is something like this:</p>
 <pre><code class="language-nohighlight">health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size

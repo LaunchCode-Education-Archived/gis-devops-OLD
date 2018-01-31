@@ -150,8 +150,7 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
 <p>Then, let’s take a look at our airport data and make a mapping for it. The data we have looks like this:</p>
 <pre><code class="language-nohighlight">1,"Goroka Airport","Goroka" ,"Papua New Guinea",GKA,AYGA,5282,Pacific/Port_Moresby,"Point(145.391998291 -6.081689834590001)"
 2,"Madang Airport","Madang" ,"Papua New Guinea",MAG,AYMD,20,Pacific/Port_Moresby,"Point(145.789001465 -5.20707988739)"</code></pre>
-<p>Consult the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html" target="_blank">docs</a> for more supported types.</p>
-<p>Here’s a mapping we could start with for our airport data.</p>
+<p>Here’s a mapping we could start with for our airport data. Note -- this one will create the index AND map it in one step. You will not need to create it separately.</p>
 <pre><code class="language-nohighlight">$ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -163,7 +162,12 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
         "elevation_ft":      { "type": "double" },
         "location":  { "type":   "geo_point" }
       }}}}'</code></pre>
+<p>Confirm that it worked:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'
+$ curl -XGET 'localhost:9200/airwaze/_mapping?&amp;pretty'</code></pre>
+<aside class="aside-note">
 <p>Consult the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html" target="_blank">docs</a> for more supported types.</p>
+</aside>
 <h2 id="upload-some-data">Upload Some Data</h2>
 <p>Remember yesterday when we uploaded books?</p>
 <pre><code class="language-nohighlight">$ curl -XPOST 'localhost:9200/book/doc?pretty&amp;pretty' -H 'Content-Type: application/json' -d '
@@ -179,7 +183,7 @@ $ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
     "airport_id": 1,
     "ident": "GKA",
     "elevation_ft": 5282,
-    "location" : { "lon": -6.081689834590001, "lat": 145.391998291}
+    "location" : { "lon": 145.391998291, "lat": -6.081689834590001}
   }'</code></pre>
 <p>And check for success:</p>
 <pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/airwaze/_search?pretty' -H 'Content-Type: application/json' -d'
