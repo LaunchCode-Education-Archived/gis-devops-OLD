@@ -16,7 +16,6 @@ Day | Topics
 
 Day | Topics
 |----|--------|
-
 [Day 1-5](week02/project/) | Zika Mission Control
 
 
@@ -26,3 +25,4 @@ Day | Topics
 |----|--------|
 [Day 1](week03/day1/) | RESTful web services
 [Day 2](week03/day2/) | Swagger REST framework
+[Day 3](week03/day3/) | Intro to Elasticsearch

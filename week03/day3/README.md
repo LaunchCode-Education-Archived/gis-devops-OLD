@@ -8,7 +8,7 @@ Today we begin our journey with Elasticsearch, focusing on basic concepts and qu
 
 ## Lesson Content
 
-[Slides](https://education.launchcode.org/gis-devops-slides/week03/elasticsearch1.html)
+[Slides](https://education.launchcode.org/gis-devops-slides/week3/elasticsearch1.html)
 
 ## Walkthrough
 
