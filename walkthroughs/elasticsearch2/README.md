@@ -75,23 +75,17 @@ $ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: appli
       }}}}'
 ```
 
-##Create a Mapping
-For the studio, we are going to want our airport data to be usable in Elasticsearch. First, we’ll need to create a new index.
+##Create a Mapped Index
 
-```nohighlight
-$ curl -XPUT 'localhost:9200/airwaze?pretty&pretty'
-$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
-```
 
-Then, let’s take a look at our airport data and make a mapping for it. The data we have looks like this:
+For the studio, we are going to want our airport data to be usable in Elasticsearch. Let’s take a look at our airport data and make a mapping for it. The data we have looks like this:
 ```nohighlight
 1,"Goroka Airport","Goroka" ,"Papua New Guinea",GKA,AYGA,5282,Pacific/Port_Moresby,"Point(145.391998291 -6.081689834590001)"
 2,"Madang Airport","Madang" ,"Papua New Guinea",MAG,AYMD,20,Pacific/Port_Moresby,"Point(145.789001465 -5.20707988739)"
 ```
 
-Consult the [docs](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html) for more supported types.
 
-Here’s a mapping we could start with for our airport data.
+Here’s a mapping we could start with for our airport data. Note -- this one will create the index AND map it in one step. You will not need to create it separately.
 
 ```nohighlight
 $ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json' -d'
@@ -107,7 +101,18 @@ $ curl -XPUT 'localhost:9200/airwaze?pretty' -H 'Content-Type: application/json'
       }}}}'
 ```
 
+Confirm that it worked:
+
+```nohighlight
+$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+$ curl -XGET 'localhost:9200/airwaze/_mapping?&pretty'
+```
+
+
+<aside class="aside-note" markdown="1">
 Consult the [docs](https://www.elastic.co/guide/en/elasticsearch/reference/6.1/mapping.html) for more supported types.
+</aside>
+
 
 
 
@@ -133,7 +138,7 @@ $ curl -XPOST 'localhost:9200/airwaze/doc?pretty&pretty' -H 'Content-Type: appli
     "airport_id": 1,
     "ident": "GKA",
     "elevation_ft": 5282,
-    "location" : { "lon": -6.081689834590001, "lat": 145.391998291}
+    "location" : { "lon": 145.391998291, "lat": -6.081689834590001}
   }'
 ```
 
