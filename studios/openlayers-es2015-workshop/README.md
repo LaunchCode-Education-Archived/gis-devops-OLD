@@ -1,8 +1,8 @@
 ---
-title: "Studio: Openlayers ES2015 Workshop"
+title: "Studio - OpenLayers ES2015 Workshop"
 ---
 
-This activity gives you practice with JavaScript, ES2015, and OpenLayers
+This activity gives you practice with JavaScript, ES2015, Webpack, and OpenLayers
 
 ## Getting Ready
 
