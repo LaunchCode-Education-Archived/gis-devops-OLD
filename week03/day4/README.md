@@ -12,7 +12,7 @@ Today we'll learn about document mappings in Elasticsearch, and work with elasti
 
 ## Walkthrough
 
-[Elasticsearch Walkthrough 2](../../walkthroughs/elasticsearch2/)
+[Kibana and ElasticSearch Mappings](../../walkthroughs/elasticsearch2)
 
 ## Studio
 

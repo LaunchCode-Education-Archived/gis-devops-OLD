@@ -2,6 +2,51 @@
 title: Elasticsearch Walkthrough 2
 ---
 
+## Kibana Setup
+
+Install Kibana by running the following HomeBrew command:
+```
+brew install kibana
+```
+
+To start the Kibana server in the background, run the following command:
+```
+Kibana &
+```
+
+Navigate to [localhost:5601](localhost:5601) to view the running server.
+
+Take a second to look at each of the pages below.  They may be beneficial during your development:
+1. [Dev Tools](http://localhost:5601/app/kibana#/dev_tools) - Use the Dev Tools to run queries against your ElasticSearch (without cURL!) 
+2. [Discover](http://localhost:5601/app/kibana#/discover) - lists all of the data in your ElasticSearch instance.
+3. [Visualize](http://localhost:5601/app/kibana#/visualize) - Perform analysis and create graphics describing your data. 
+4. [Dashboard](http://localhost:5601/app/kibana#/dashboard) - Combine graphs to give you a comprehensive picture of your data. 
+## Using Kibana
+
+Open the [Dev Tools](http://localhost:5601/app/kibana#/dev_tools).  Let's run a few queries.
+
+Instead of using cURL.  Queries can be put into Dev Tools by specifing the HTTP verb and the query text.
+```
+GET _search 
+{
+  "query": { #comments are not allowed in JSON
+    "match_all": {
+      ""
+    }
+  }
+}
+```
+
+Also, notice that the left panel provides error messages with the line number of the error.  In this case we have a comment in our query.  Remove the comment and run the query again. 
+
+Next, open the [Discover Page](http://localhost:5601/app/kibana#/discover).  This page provides a paginated list of all of the documents your cluster.  
+The search bar provides a quick way to search by attribute name.
+
+Next, click on the [Visualize Page](http://localhost:5601/app/kibana#/visualize).  This page allows you to create detailed graphs of your data.  
+Click on create a visualization and create a simple visualization of how many books are in the ElasticSearch.
+
+## Document Mappings
+
 Let’s get a little more in-depth with document mappings. Remember our practice server from yesterday? Let’s see how that data was mapped, make our own mapping, and upload some data.
 
 Let's check the health of our cluster before diving in.

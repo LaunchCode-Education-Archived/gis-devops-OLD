@@ -28,9 +28,7 @@ New domains take up to ten minutes to initialize. After your domain is initializ
 
 You need to set up a data mapping in your new index and import the data.
 
-Check out the `elasticsearch-starter` branch from the [Airwaze repo](https://gitlab.com/LaunchCodeTraining/airwaze-studio) on Gitlab. We’ve written a script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
-
-### Importing data locally
+Get the `elasticsearch-starter` branch from the [Airwaze repo](https://gitlab.com/LaunchCodeTraining/airwaze-studio) on Gitlab. Change the filepath in the import.sql file to point to your own airports and routes. We’ve written a little script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
 
 You can test this script against your local Elasticsearch cluster:
 
@@ -56,24 +54,28 @@ Find your AWS ES endpoint URL by going to *Services > Analytics > Elasticsearch*
 
 Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the [walkthrough](../../walkthroughs/elasticsearch2/), changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
 
-In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:
+In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:
 
 ```nohighight
 host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
 #host_name = "localhost:9200"
 ```
 
-Once you’ve confirmed the index is ready to receive data (check it's health!), run the revised script in the terminal in the project’s directory. When it is done running, now check the document count for your new index.
+Then, in this line:
+`test = Kernel.system "curl -XPOST '#{host_name}/airwaze/doc?pretty&pretty' `
+replace "airwaze" with the name of your domain (again, like `airwaze-me`).
+
+Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.
 
 ```nohighlight
-$ curl -XGET 'your_aws_url/_cat/indices?v&pretty'
+$ curl -XGET 'replace this with your aws endpoint here/_cat/indices?v&pretty'
 ```
 
 The output should be something like this:
 
 ```nohighlight
 health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-yellow open   airwaze                                  B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
+yellow open   airwaze-me                                B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
 yellow open   book                                     cNIKN2CyQsacysajAuJH1A   5   1          4            0     19.3kb         19.3kb
 ```
 
@@ -83,9 +85,9 @@ Now that we have all that juicy data in Elasticsearch, let’s allow users to qu
 
 We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have [node and npm](https://www.npmjs.com/get-npm) installed.
 
-Visite the [download page for elasticsearch.js](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html). Download the package, unzip it, and move `elasticsearch.jquery.js` to the `src/main/resources/static/js` folder within `airwaze-studio`.
+[Download](https://download.elasticsearch.org/elasticsearch/elasticsearch-js/elasticsearch-js-14.1.0.tar.gz) the zip package and unzip it in the project directory `src/main/resources/static` folder.
 
-Underneath the jQuery include script, add this line to your `index.html` file to load the script.
+Next, add this line to your `index.html` file to load up the es.js browser build package. Make sure that this line is added after the jQuery source.
 
 ```html
 <script src="js/elasticsearch.jquery.js"></script>
@@ -100,7 +102,7 @@ let client = new $.es.Client({
 });
 ```
 
-Start up the application in IntelliJ using the `bootRun` task, and then visit `localhost:8080/`. In Dev Tools, go to Sources, js, and check that the `elasticsearch.jquery.js` file is present. Then look at the console and you should see what’s referred to as a CORS error.
+Build and run your project. In the browser's Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.
 
 ```nohighlight
 Failed to load http://localhost:9200/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access.
