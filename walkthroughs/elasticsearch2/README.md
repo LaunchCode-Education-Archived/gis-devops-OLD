@@ -64,7 +64,7 @@ At the time of this writing, in ES v6.1.1, fields mapped dynamically pretty much
 
 By contrast, we set up the mapping on the Bonsai sample index deliberately. These different field types allow different types of searches to be run against them. You can also specify analyzers, but it will default to a pre-packaged English analyzer if none is specified.
 
-This is the command used to set up the mapping you see on the sample cluster:
+This is the command we used to set up the mapping you see on the sample cluster:
 
 ```nohighlight
 $ curl -XPUT ‘url_omitted_do_not_run_this/book?pretty' -H 'Content-Type: application/json' -d'
