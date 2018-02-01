@@ -44,11 +44,27 @@ The ruby script is slow because it is submitting one request at a time.  Elastic
 
 Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
 
+Once the script has finished, check the status of your new index with:
+
+```
+$ localhost:9200/_cat/indices?v
+```
+
+You should see 7116 documents in the airwaze index.
+
+## Importing data to your AWS cluster
+
+Find your AWS ES endpoint URL by going to *Services > Analytics > Elasticsearch*, clicking on the name of your cluster, and looking for the *Endpoint* field. Note that this info will not display until your cluster has been fully provisioned.
+
+![AWS ES Endpoint](aws-es-endpoint.png)
+
+Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the [walkthrough](../../walkthroughs/elasticsearch2/), changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
+
 In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:
 
 ```nohighight
-host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
-#host_name = “localhost:9200”
+host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
+#host_name = "localhost:9200"
 ```
 
 Then, in this line:
@@ -61,7 +77,7 @@ Once you’ve confirmed the index is ready to receive data, in the terminal in t
 $ curl -XGET 'replace this with your aws endpoint here/_cat/indices?v&pretty'
 ```
 
-Output is something like this:
+The output should be something like this:
 
 ```nohighlight
 health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
@@ -79,11 +95,11 @@ We’re going to start by using Elasticsearch.js, a client-side library for ES m
 
 Next, add this line to your `index.html` file to load up the es.js browser build package. Make sure that this line is added after the jQuery source.
 
-```noghighlight
-<script src="elasticsearch-js/elasticsearch.jquery.min.js"></script>
+```html
+<script src="js/elasticsearch.jquery.js"></script>
 ```
 
-In `src/main/resources/static/script.js` insert this code to create a client: 
+In `src/main/resources/static/script.js`, insert this code to create a client:
 
 ```nohighlight
 let client = new $.es.Client({
@@ -104,7 +120,9 @@ Learn more about [CORS online](https://en.wikipedia.org/wiki/Cross-origin_resour
 
 So we are having trouble making this request in the browser because it is coming from a different port number and therefore it’s treated as potentially dangerous like it was from a different server. We need to configure Elasticsearch to allow this behavior. Let’s investigate our current settings first.
 
-Navigate to the folder where Elasticsearch is installed on your computer. On Mac, that’s likely `/usr/local/etc/elasticsearch`. You should see a file `elasticsearch.yml` there. Add this configuration to the file:
+Navigate to the folder where Elasticsearch is installed on your computer. On Mac, this will be something like `/usr/local/bin/elasticsearch-2.4.6/`. To be certain, run `ls -l $(which elasticsearch)` in the Terminal and not the location of the link. The output will give you the location of your installation.
+
+Once there, descend into the `config` directory and you should see a file named `elasticsearch.yml`. Add this configuration to the file:
 
 ```nohighlight
 http.cors.enabled : true
@@ -116,8 +134,6 @@ http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Le
 We need to restart Elasticsearch for this to take effect.
 
 ```nohighlight
-$ brew tap homebrew/services
-$ brew services list
 $ brew services restart elasticsearch
 ```
 
@@ -128,7 +144,7 @@ INFO: 2018-01-28T22:29:52Z
   Adding connection to http://localhost:9200/
 ```
 
-Kudos! Now change that “\*” to be your actual information.
+Kudos! Now change that "\*" to be your actual information.
 
 ## Queries
 
@@ -175,7 +191,7 @@ Let’s alter our test query from above to look for an airport by name:
         index: 'airwaze',
         body: {
             query: { "match": {
-                “name”: “Midway”
+                "name": "Midway"
             }},
             size: 10
         }
