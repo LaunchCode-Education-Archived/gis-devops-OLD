@@ -26,3 +26,4 @@ Day | Topics
 [Day 1](week03/day1/) | RESTful web services
 [Day 2](week03/day2/) | Swagger REST framework
 [Day 3](week03/day3/) | Intro to Elasticsearch
+[Day 4](week03/day4/) | Kibana and ElasticSearch.js

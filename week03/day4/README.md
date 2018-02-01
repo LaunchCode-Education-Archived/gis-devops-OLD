@@ -12,7 +12,7 @@ Elasticsearch, Part 2
 
 ## Walkthrough
 
-- [Getting to Know Elasticsearch... better](../../walkthroughs/elasticsearch2)
+- [Kibana and ElasticSearch Mappings](../../walkthroughs/elasticsearch2)
 
 ## Studio
 
