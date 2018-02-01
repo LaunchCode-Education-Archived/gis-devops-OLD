@@ -106,9 +106,11 @@ So we are having trouble making this request in the browser because it is coming
 
 Navigate to the folder where Elasticsearch is installed on your computer. On Mac, that’s likely `/usr/local/etc/elasticsearch`. You should see a file `elasticsearch.yml` there. Add this configuration to the file:
 
+For `https.cors.allow-origin`, put in the URL or your AWS ElasticSearch cluster.  Place a `/*` at the end to make it a wildcard.
+
 ```nohighlight
 http.cors.enabled : true
-http.cors.allow-origin : "*"
+http.cors.allow-origin : "https://search-airwaze-mike-ke45wjgfo6mdcvvr7i3gddnuze.us-east-1.es.amazonaws.com/*"
 http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
 http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length
 ```
