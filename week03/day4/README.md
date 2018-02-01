@@ -8,7 +8,7 @@ Today we'll learn about document mappings in Elasticsearch, and work with elasti
 
 ## Lesson Content
 
-[Slides](https://education.launchcode.org/gis-devops-slides/week03/elasticsearch2.html)
+[Slides](https://education.launchcode.org/gis-devops-slides/week3/elasticsearch2.html)
 
 ## Walkthrough
 
@@ -21,3 +21,5 @@ Today we'll learn about document mappings in Elasticsearch, and work with elasti
 ## Resources
 
 - [Elasticsearch docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
+- [Default Mapping](https://www.elastic.co/guide/en/elasticsearch/guide/current/default-mapping.html)
+
