@@ -15,14 +15,14 @@ You are going to follow a serious of instructions in an OpenLayers gitbook (link
 - **DON'T DO IT**, when the instructions tell you to download the latest `workshop release`
 - Instead you are going to use the repo you forked and cloned in the setup for this studio
 
-Go Through Each Example in the Insctructions
+Go Through Each Example in the Instructions
 - Instructions -> [OpenLayers Workshop Instructions](https://openlayers.org/workshop/en/)
 - Take your time and read the examples and documentation
 - The example code does NOT pass our project's defined eslint rules
 - After copying or retyping the examples, make the code pass the eslint rules
 
 <aside class="aside-note" markdown="1">
-*If* you have `npm start` running in a terminal. The ESLint rules will run automatically each time you save a `*.js` file. Also your `index.html` will resresh automatically in your browser, no need to manually refresh.
+*If* you have `npm start` running in a terminal. The ESLint rules will run automatically each time you save a `*.js` file. Also your `index.html` will refresh automatically in your browser, no need to manually refresh.
 </aside>
 
 ## Turning In Your Work
