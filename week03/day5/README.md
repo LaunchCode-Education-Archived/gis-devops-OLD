@@ -7,17 +7,13 @@ title: Week 3 - Day 5
 Today we'll learn about ES2015, eslint, Webpack, and do more with OpenLayers
 
 ## Lesson Content
-
-Slides TODO
+- Slides TODO
 
 ## Walkthrough
-
-[TBD](../../walkthroughs/elasticsearch2)
+- [ESLint Airwaze](../../walkthroughs/eslint-airwaze)
 
 ## Studio
-
-[Openlayers ES2015 Workshop](../../studios/openlayers-es2015-workshop/)
+- [Openlayers ES2015 Workshop](../../studios/openlayers-es2015-workshop/)
 
 ## Resources
-
-- TODO
+- [ESLint](https://eslint.org/)
