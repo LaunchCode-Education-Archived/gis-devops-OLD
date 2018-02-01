@@ -28,7 +28,9 @@ New domains take up to ten minutes to initialize. After your domain is initializ
 
 You need to set up a data mapping in your new index and import the data.
 
-Get the `elasticsearch-starter` branch from the [Airwaze repo](https://gitlab.com/LaunchCodeTraining/airwaze-studio) on Gitlab.  We’ve written a little script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
+Check out the `elasticsearch-starter` branch from the [Airwaze repo](https://gitlab.com/LaunchCodeTraining/airwaze-studio) on Gitlab. We’ve written a script for you to index the data from the `Airport.csv`. Take a look at `upload-airports.rb` in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.
+
+### Importing data locally
 
 You can test this script against your local Elasticsearch cluster:
 
@@ -38,22 +40,36 @@ $ ruby upload-airports.rb
 
 It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.
 
-Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
+Once the script has finished, check the status of your new index with:
+
+```
+$ localhost:9200/_cat/indices?v
+```
+
+You should see 7116 documents in the airwaze index.
+
+## Importing data to your AWS cluster
+
+Find your AWS ES endpoint URL by going to *Services > Analytics > Elasticsearch*, clicking on the name of your cluster, and looking for the *Endpoint* field. Note that this info will not display until your cluster has been fully provisioned.
+
+![AWS ES Endpoint](aws-es-endpoint.png)
+
+Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the [walkthrough](../../walkthroughs/elasticsearch2/), changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
 
 In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:
 
 ```nohighight
-host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
-#host_name = “localhost:9200”
+host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
+#host_name = "localhost:9200"
 ```
 
-Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.
+Once you’ve confirmed the index is ready to receive data (check it's health!), run the revised script in the terminal in the project’s directory. When it is done running, now check the document count for your new index.
 
 ```nohighlight
-$ curl -XGET 'localhost:9200/_cat/indices?v&pretty'
+$ curl -XGET 'your_aws_url/_cat/indices?v&pretty'
 ```
 
-Output is something like this:
+The output should be something like this:
 
 ```nohighlight
 health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
@@ -67,15 +83,15 @@ Now that we have all that juicy data in Elasticsearch, let’s allow users to qu
 
 We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have [node and npm](https://www.npmjs.com/get-npm) installed.
 
-Check out the [documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html#_jquery_build). Download the package and unzip it in the project directory `src/main/resources/static` folder.
+Visite the [download page for elasticsearch.js](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html). Download the package, unzip it, and move `elasticsearch.jquery.js` to the `src/main/resources/static/js` folder within `airwaze-studio`.
 
-Underneath the jQuery include script, add this line to your `index.html` file to load up the es.js browser build package.
+Underneath the jQuery include script, add this line to your `index.html` file to load the script.
 
-```noghighlight
-<script src="elasticsearch-js/elasticsearch.jquery.min.js"></script>
+```html
+<script src="js/elasticsearch.jquery.js"></script>
 ```
 
-In `src/main/resources/static/script.js` insert this code to create a client: 
+In `src/main/resources/static/script.js`, insert this code to create a client:
 
 ```nohighlight
 let client = new $.es.Client({
@@ -84,7 +100,7 @@ let client = new $.es.Client({
 });
 ```
 
-Press Command-F9 to rebuild your project, then go refresh in the browser. In Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.
+Start up the application in IntelliJ using the `bootRun` task, and then visit `localhost:8080/`. In Dev Tools, go to Sources, js, and check that the `elasticsearch.jquery.js` file is present. Then look at the console and you should see what’s referred to as a CORS error.
 
 ```nohighlight
 Failed to load http://localhost:9200/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access.
@@ -96,7 +112,9 @@ Learn more about [CORS online](https://en.wikipedia.org/wiki/Cross-origin_resour
 
 So we are having trouble making this request in the browser because it is coming from a different port number and therefore it’s treated as potentially dangerous like it was from a different server. We need to configure Elasticsearch to allow this behavior. Let’s investigate our current settings first.
 
-Navigate to the folder where Elasticsearch is installed on your computer. On Mac, that’s likely `/usr/local/etc/elasticsearch`. You should see a file `elasticsearch.yml` there. Add this configuration to the file:
+Navigate to the folder where Elasticsearch is installed on your computer. On Mac, this will be something like `/usr/local/bin/elasticsearch-2.4.6/`. To be certain, run `ls -l $(which elasticsearch)` in the Terminal and not the location of the link. The output will give you the location of your installation.
+
+Once there, descend into the `config` directory and you should see a file named `elasticsearch.yml`. Add this configuration to the file:
 
 ```nohighlight
 http.cors.enabled : true
@@ -108,8 +126,6 @@ http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Le
 We need to restart Elasticsearch for this to take effect.
 
 ```nohighlight
-$ brew tap homebrew/services
-$ brew services list
 $ brew services restart elasticsearch
 ```
 
@@ -120,7 +136,7 @@ INFO: 2018-01-28T22:29:52Z
   Adding connection to http://localhost:9200/
 ```
 
-Kudos! Now change that “\*” to be your actual information.
+Kudos! Now change that "\*" to be your actual information.
 
 ## Queries
 
@@ -167,7 +183,7 @@ Let’s alter our test query from above to look for an airport by name:
         index: 'airwaze',
         body: {
             query: { "match": {
-                “name”: “Midway”
+                "name": "Midway"
             }},
             size: 10
         }
@@ -245,7 +261,7 @@ Cool! But our users aren’t going to use the console to see their results. Let�
             $('#airportList').append(`<div id="airportList"><h3>${hits[0]._source.name}</h3></div>`);
 ```
 
-##Extra Credit:
+## Bonus Missions
 
 When a user selects an airport by clicking on it in the map, more information than just the name is displayed in the Airport List. Add additional airport fields to the document mapping and import so that the user sees the same information no matter how they selected the airport.
 

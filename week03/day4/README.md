@@ -4,19 +4,19 @@ title: Week 3 - Day 4
 
 ## Summary
 
-Elasticsearch, Part 2
+Today we'll learn about document mappings in Elasticsearch, and work with elasticsearch.js.
 
 ## Lesson Content
 
-- [Slides](https://education.launchcode.org/gis-devops-slides/week03/elasticsearch2.html)
+[Slides](https://education.launchcode.org/gis-devops-slides/week03/elasticsearch2.html)
 
 ## Walkthrough
 
-- [Getting to Know Elasticsearch... better](../../walkthroughs/elasticsearch2)
+[Elasticsearch Walkthrough 2](../../walkthroughs/elasticsearch2/)
 
 ## Studio
 
-- [More Airwaze](../../studios/elasticsearch2)
+[More Airwaze](../../studios/elasticsearch2/)
 
 ## Resources
 
