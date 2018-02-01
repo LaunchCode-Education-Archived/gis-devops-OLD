@@ -39,7 +39,6 @@ $ ruby upload-airports.rb
 It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.
 
 Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
->>>>>>> d65f5cfbff086ab7f03df208a26e20ca405d869e
 
 In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:
 
@@ -72,9 +71,9 @@ Now that we have all that juicy data in Elasticsearch, let’s allow users to qu
 
 We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have [node and npm](https://www.npmjs.com/get-npm) installed.
 
-Check out the [documentation](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html#_jquery_build). Download the zip package and unzip it in the project directory `src/main/resources/static` folder.
+[Download](https://download.elasticsearch.org/elasticsearch/elasticsearch-js/elasticsearch-js-14.1.0.tar.gz) the zip package and unzip it in the project directory `src/main/resources/static` folder.
 
-Underneath the jQuery include script, add this line to your `index.html` file to load up the es.js browser build package.
+Next, add this line to your `index.html` file to load up the es.js browser build package. Make sure that this line is added after the jQuery source.
 
 ```noghighlight
 <script src="elasticsearch-js/elasticsearch.jquery.min.js"></script>
