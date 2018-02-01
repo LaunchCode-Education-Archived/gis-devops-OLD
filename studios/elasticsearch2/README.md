@@ -38,6 +38,10 @@ $ ruby upload-airports.rb
 
 It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.
 
+<aside class="aside-note" markdown="1">
+The ruby script is slow because it is submitting one request at a time.  ElasticSearch also has a bulk API that allows you to upload hundreds or thousands of records at once.  Feel free to try it out.  Here's a Node library that makes it easy to import CSV files: [elastic-import](https://www.npmjs.com/package/elastic-import).
+</aside>
+
 Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
 
 In the script file, comment out the line where the script is using your localhost. Uncomment the other `host_name` line, and replace `your_url_here` with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:
