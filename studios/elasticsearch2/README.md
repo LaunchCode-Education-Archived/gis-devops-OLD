@@ -253,17 +253,13 @@ Cool! But our users aren’t going to use the console to see their results. Let�
             $('#airportList').append(`<div id="airportList"><h3>${hits[0]._source.name}</h3></div>`);
 ```
 
-##Extra Credit:
+##Bonus Missions:
 
-When a user selects an airport by clicking on it in the map, more information than just the name is displayed in the Airport List. Add additional airport fields to the document mapping and import so that the user sees the same information no matter how they selected the airport.
+Use [elastic-import](https://www.npmjs.com/package/elastic-import) to import all of the routes into ElasticSearch.  Add an index and mapping to the `route` documents.  Integrate the route data into your project.
 
-There are other JS functions happening when a user selects an airport by clicking on it. Refactor the JS so that those functions can be called either by the click or by search top hit. You can copy/paste as part of your refactoring process, but the end result should not have the function duplicated anywhere.
-
-How does the user know which airport they have selected? Add some kind of indicator of the currently selected airport on the map. (Perhaps fill in the circle.) This function should toggle on/off when the user changes their selection by clicking or searching.
-Show multiple search results. Make each item in the list clickable so the user can highlight on the map via their search results.
-Add additional search(es). What other questions might the user have about this data? Come up with some questions, write another query, then add to the UI to provide the user with the answer. Examples might be:
-
-- Which airports are within X distance of me? You could use a select dropdown to provide the user with distance choices that are likely to return results. Make sure that your response display shows them which airport and what distance they had searched for.
+After that, expand the functionality of your app.  Here are a few ideas.
+- Which airports are within X distance of me? 
 - How far are airports from each other? A distance query, you’d also need to provide a way to select a second airport.
 - (Your idea here)
 
+Feel free to get creative.
