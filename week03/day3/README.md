@@ -12,11 +12,11 @@ Today we begin our journey with Elasticsearch, focusing on basic concepts and qu
 
 ## Walkthrough
 
-[Elasticsearch Query Walkthrough](../../walkthroughs/elasticsearch1)
+[Elasticsearch Query Walkthrough](../../walkthroughs/elasticsearch1/)
 
 ## Studio
 
-[Elasticsearch Query Studio](../../studios/elasticsearch1)
+[Elasticsearch Query Studio](../../studios/elasticsearch1/)
 
 ## Resources
 
