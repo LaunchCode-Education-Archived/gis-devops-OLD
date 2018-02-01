@@ -109,49 +109,57 @@
 <p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>
 <h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data in Elasticsearch</h2>
 <p>You need to set up a data mapping in your new index and import the data.</p>
-<p>Get the <code>elasticsearch-starter</code> branch from the <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze repo</a> on Gitlab.  We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
+<p>Get the <code>elasticsearch-starter</code> branch from the <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze repo</a> on Gitlab. Change the filepath in the import.sql file to point to your own airports and routes. We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
 <p>You can test this script against your local Elasticsearch cluster:</p>
 <pre><code class="language-nohighlight">$ ruby upload-airports.rb</code></pre>
 <p>It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.</p>
-<p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <em>airwaze</em> for the name of your new domain (such as <em>airwaze-me</em>).</p>
-<p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this when you’re done:</p>
-<pre><code class="language-nohighight">host_name = “https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com”
-#host_name = “localhost:9200”</code></pre>
+<p>Once the script has finished, check the status of your new index with:</p>
+<pre><code>$ localhost:9200/_cat/indices?v</code></pre>
+<p>You should see 7116 documents in the airwaze index.</p>
+<h2 id="importing-data-to-your-aws-cluster">Importing data to your AWS cluster</h2>
+<p>Find your AWS ES endpoint URL by going to <em>Services &gt; Analytics &gt; Elasticsearch</em>, clicking on the name of your cluster, and looking for the <em>Endpoint</em> field. Note that this info will not display until your cluster has been fully provisioned.</p>
+<p><img src="aws-es-endpoint.png" alt="AWS ES Endpoint" /></p>
+<p>Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the <a href="../../walkthroughs/elasticsearch2/">walkthrough</a>, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <em>airwaze</em> for the name of your new domain (such as <em>airwaze-me</em>).</p>
+<p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:</p>
+<pre><code class="language-nohighight">host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
+#host_name = "localhost:9200"</code></pre>
+<p>Then, in this line:
+<code>test = Kernel.system "curl -XPOST '#{host_name}/airwaze/doc?pretty&amp;pretty'</code>
+replace &quot;airwaze&quot; with the name of your domain (again, like <code>airwaze-me</code>).</p>
 <p>Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.</p>
-<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/_cat/indices?v&amp;pretty'</code></pre>
-<p>Output is something like this:</p>
+<pre><code class="language-nohighlight">$ curl -XGET 'replace this with your aws endpoint here/_cat/indices?v&amp;pretty'</code></pre>
+<p>The output should be something like this:</p>
 <pre><code class="language-nohighlight">health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-yellow open   airwaze                                  B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
+yellow open   airwaze-me                                B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
 yellow open   book                                     cNIKN2CyQsacysajAuJH1A   5   1          4            0     19.3kb         19.3kb</code></pre>
 <h2 id="add-elasticsearchjs">Add Elasticsearch.js</h2>
 <p>Now that we have all that juicy data in Elasticsearch, let’s allow users to query against that data via a web form. What questions might our users have about this data? How can we answer them with the tools we have shown you?</p>
 <p>We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have <a href="https://www.npmjs.com/get-npm" target="_blank">node and npm</a> installed.</p>
-<p>Check out the <a href="https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html#_jquery_build" target="_blank">documentation</a>. Download the package and unzip it in the project directory <code>src/main/resources/static</code> folder.</p>
-<p>Underneath the jQuery include script, add this line to your <code>index.html</code> file to load up the es.js browser build package.</p>
-<pre><code class="language-noghighlight">&lt;script src="elasticsearch-js/elasticsearch.jquery.min.js"&gt;&lt;/script&gt;</code></pre>
-<p>In <code>src/main/resources/static/script.js</code> insert this code to create a client: </p>
+<p><a href="https://download.elasticsearch.org/elasticsearch/elasticsearch-js/elasticsearch-js-14.1.0.tar.gz" target="_blank">Download</a> the zip package and unzip it in the project directory <code>src/main/resources/static</code> folder.</p>
+<p>Next, add this line to your <code>index.html</code> file to load up the es.js browser build package. Make sure that this line is added after the jQuery source.</p>
+<pre><code class="language-html">&lt;script src="js/elasticsearch.jquery.js"&gt;&lt;/script&gt;</code></pre>
+<p>In <code>src/main/resources/static/script.js</code>, insert this code to create a client:</p>
 <pre><code class="language-nohighlight">let client = new $.es.Client({
   hosts: 'localhost:9200',
   log: 'trace'
 });</code></pre>
-<p>Press Command-F9 to rebuild your project, then go refresh in the browser. In Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.</p>
+<p>Build and run your project. In the browser's Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.</p>
 <pre><code class="language-nohighlight">Failed to load http://localhost:9200/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access.</code></pre>
 <h2 id="managing-cors">Managing CORS</h2>
 <p>Learn more about <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS online</a>.</p>
 <p>So we are having trouble making this request in the browser because it is coming from a different port number and therefore it’s treated as potentially dangerous like it was from a different server. We need to configure Elasticsearch to allow this behavior. Let’s investigate our current settings first.</p>
-<p>Navigate to the folder where Elasticsearch is installed on your computer. On Mac, that’s likely <code>/usr/local/etc/elasticsearch</code>. You should see a file <code>elasticsearch.yml</code> there. Add this configuration to the file:</p>
+<p>Navigate to the folder where Elasticsearch is installed on your computer. On Mac, this will be something like <code>/usr/local/bin/elasticsearch-2.4.6/</code>. To be certain, run <code>ls -l $(which elasticsearch)</code> in the Terminal and not the location of the link. The output will give you the location of your installation.</p>
+<p>Once there, descend into the <code>config</code> directory and you should see a file named <code>elasticsearch.yml</code>. Add this configuration to the file:</p>
 <pre><code class="language-nohighlight">http.cors.enabled : true
 http.cors.allow-origin : "*"
 http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
 http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length</code></pre>
 <p>We need to restart Elasticsearch for this to take effect.</p>
-<pre><code class="language-nohighlight">$ brew tap homebrew/services
-$ brew services list
-$ brew services restart elasticsearch</code></pre>
+<pre><code class="language-nohighlight">$ brew services restart elasticsearch</code></pre>
 <p>In the browser console, you should see a message like this if everything worked:</p>
 <pre><code class="language-nohighlight">INFO: 2018-01-28T22:29:52Z
   Adding connection to http://localhost:9200/</code></pre>
-<p>Kudos! Now change that “*” to be your actual information.</p>
+<p>Kudos! Now change that &quot;*&quot; to be your actual information.</p>
 <h2 id="queries">Queries</h2>
 <p>Now that we can connect to Elasticsearch, let’s write a query! This library provides a more succinct syntax for queries, as do most of the others. Let’s start with a basic query just to see what this particular library’s syntax looks like. Put this in your <code>script.js</code> file underneath the <code>let client…</code> block.</p>
 <pre><code class="language-nohighlight">    client.search({
@@ -182,7 +190,7 @@ $ brew services restart elasticsearch</code></pre>
         index: 'airwaze',
         body: {
             query: { "match": {
-                “name”: “Midway”
+                "name": "Midway"
             }},
             size: 10
         }
@@ -240,7 +248,7 @@ $ brew services restart elasticsearch</code></pre>
             console.log(hits);
             $('#airportList').empty();
             $('#airportList').append(`&lt;div id="airportList"&gt;&lt;h3&gt;${hits[0]._source.name}&lt;/h3&gt;&lt;/div&gt;`);</code></pre>
-<h2 id="extra-credit">Extra Credit:</h2>
+<h2 id="bonus-missions">Bonus Missions</h2>
 <p>When a user selects an airport by clicking on it in the map, more information than just the name is displayed in the Airport List. Add additional airport fields to the document mapping and import so that the user sees the same information no matter how they selected the airport.</p>
 <p>There are other JS functions happening when a user selects an airport by clicking on it. Refactor the JS so that those functions can be called either by the click or by search top hit. You can copy/paste as part of your refactoring process, but the end result should not have the function duplicated anywhere.</p>
 <p>How does the user know which airport they have selected? Add some kind of indicator of the currently selected airport on the map. (Perhaps fill in the circle.) This function should toggle on/off when the user changes their selection by clicking or searching.
