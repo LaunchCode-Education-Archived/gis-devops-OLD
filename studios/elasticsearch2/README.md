@@ -193,7 +193,7 @@ Let’s alter our test query from above to look for an airport by name:
         index: 'airwaze',
         body: {
             query: { "match": {
-                "name": "Midway"
+                name: 'Midway'
             }},
             size: 10
         }
