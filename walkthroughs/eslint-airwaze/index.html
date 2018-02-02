@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GIS DevOps :: GIS DevOps</title>
+        <title>Walkthrough: ESLint Ariwaze :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-gis-devops'>
+    <body id='page-walkthrough-eslint-ariwaze'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,84 +94,45 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>GIS DevOps</h1>
-                    <h2 id="week-1">Week 1</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week01/day1/">Day 1</a></td>
-<td>Git and GitLab, Java projects in IntelliJ, refactoring, unit testing</td>
-</tr>
-<tr>
-<td><a href="week01/day2/">Day 2</a></td>
-<td>Agile/Scrum ceremonies, Test-driven development</td>
-</tr>
-<tr>
-<td><a href="week01/day3/">Day 3</a></td>
-<td>Integration testing, dependency injection</td>
-</tr>
-<tr>
-<td><a href="week01/day4/">Day 4</a></td>
-<td>Postgres, Flyway</td>
-</tr>
-<tr>
-<td><a href="week01/day5/">Day 5</a></td>
-<td>AJAX, Open Layers</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-2">Week 2</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week02/project/">Day 1-5</a></td>
-<td>Zika Mission Control</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-3">Week 3</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week03/day1/">Day 1</a></td>
-<td>RESTful web services</td>
-</tr>
-<tr>
-<td><a href="week03/day2/">Day 2</a></td>
-<td>Swagger REST framework</td>
-</tr>
-<tr>
-<td><a href="week03/day3/">Day 3</a></td>
-<td>Intro to Elasticsearch</td>
-</tr>
-<tr>
-<td><a href="week03/day4/">Day 4</a></td>
-<td>Kibana and ElasticSearch.js</td>
-</tr>
-<tr>
-<td><a href="week03/day5/">Day 5</a></td>
-<td>ES2015, ESLint, OpenLayers</td>
-</tr>
-</tbody>
-</table>
+                                        <h1>Walkthrough: ESLint Ariwaze</h1>
+                    <h2 id="setup">Setup</h2>
+<ul>
+<li>Open the <code>airwaze</code> project/repository that you have used previously.</li>
+<li>Do a <code>git status</code> to see if you had any unfinished business, if so please add and commit</li>
+<li>Once you have a <em>clean</em> <code>git status</code>, checkout and create a new branch with <code>git checkout -b add-eslint</code></li>
+<li>Run <code>bootRun</code> and view your map in the browser to confirm a working state before adding any new functionality</li>
+</ul>
+<h2 id="lets-add-eslint">Let's Add ESLint</h2>
+<ul>
+<li>Open your <code>.gitignore</code> file and add <code>**/node_modules</code></li>
+<li>In terminal go to <code>airwaze/src/main/resources</code></li>
+<li>Run <code>$ npm init</code> and wait for instructor to help you answer the questions</li>
+<li>Review the <code>package.json</code> file that was just created</li>
+<li>Run <code>$ npm install eslint --save-dev</code></li>
+<li>Run <code>$ npm install eslint-plugin-import --save-dev</code></li>
+<li>Run <code>$ ./node_modules/.bin/eslint --init</code> and wait for instructor to help you answer the questions
+<ul>
+<li>We want to 1) Use a popular style guide. 2) Pick Airbnb 3) NO to using React</li>
+</ul></li>
+<li>Review the file that was just created <code>.eslintrc.js</code></li>
+<li>Add this to your <code>package.json</code> file OR if <code>"scripts"</code> is already defined, simply update the value
+<pre><code>"scripts": {
+    "test": "eslint static/js/script.js"
+},</code></pre></li>
+</ul>
+<h2 id="lets-do-some-linting">Let's Do Some Linting!</h2>
+<ul>
+<li>Run <code>$ npm test</code> and cringe at the &quot;errors&quot; that are found
+<ul>
+<li>Remember that errors in this case are lines of code that break an eslint rule</li>
+</ul></li>
+<li>Alter a line, save your file, and run <code>$ npm test</code> again</li>
+<li>It's a good idea to check that your map still loads in the browser, before fixing too many linting errors at one time</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://eslint.org/docs/rules/" target="_blank">ESLint Rules</a></li>
+</ul>
                                     </section>
 
             </div>
