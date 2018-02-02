@@ -27,3 +27,4 @@ Day | Topics
 [Day 2](week03/day2/) | Swagger REST framework
 [Day 3](week03/day3/) | Intro to Elasticsearch
 [Day 4](week03/day4/) | Kibana and ElasticSearch.js
+[Day 5](week03/day5/) | ES2015, ESLint, OpenLayers
