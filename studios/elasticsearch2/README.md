@@ -16,7 +16,11 @@ Click on *Services* and under *Analytics* click on *Elasticsearch Service*. Clic
 
 On the *Define domain* page, for *Elasticsearch domain name*, type a name for the domain. In this studio, we use the domain name **airwaze** with a dash and your name (e. g. **airwaze-me**). Leave *Version* set to the newest supported version. Click *Next*.
 
-On the *Configuration* page, let’s leave everything at the default values. Click *Next*.
+On the *Configuration* page, select *Instance Type* of `t2.small.elasticsearch`. Click *Next*.
+
+<aside class="aside-note" markdown="1">
+  ElasticSearch Instances are expensive.  A `m4.large.elasticsearch ElasticSearch instance on Amazon is billed at $0.15 per hour; which comes out to be about $25 a week or $100+ a month.  Larger instances can cost up ot $4 per hour! 
+</aside>
 
 On the *Set up access* page, in the *Network configuration* section, choose *Public Access*. (There may be an error window; after you click *Public Access*, you will be able to close that window and everything should be fine.) Under *Access Policy*, click *Allow open access to the domain*. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click *Next*.
 
