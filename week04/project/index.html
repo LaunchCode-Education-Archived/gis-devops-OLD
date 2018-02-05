@@ -125,7 +125,7 @@
 <p><a href="http://biogeo.ucdavis.edu/data/gadm2.8/shp/BRA_adm_shp.zip" target="_blank">Download the shapefile for Brazil</a>.</p>
 <p>The file <code>BRA_adm_shp.zip</code> will download.  Double click the file to unzip the file.  You should see three shapefiles: <code>BRA_adm0.shp</code>, <code>BRA_adm1.shp</code>, <code>BRA_adm2.shp</code>. <code>BRA_adm3.shp</code>.  Let's take a look at these shapefiles.  In order to look at a shapefile, you will need download <a href="https://qgis.org/en/site/" target="_blank">QGIS</a>, an open source desktop viewer for geospatial data.  <a href="https://connect.boundlessgeo.com/Downloads" target="_blank">Click Here to Download QGIS</a>.  Double click the <code>.dmg</code> file to install.</p>
 <aside class="aside-note">
-<p>Note: Use your personal email to register on Boundless Connect to get access to the QJIS download.</p>
+<p>Note: Use your personal email to register on Boundless Connect to get access to the QGIS download.</p>
 </aside>
 <p>After QGIS is installed, drag the <code>BRA_adm1.shp</code> file into the QGIS window in order to import the file. </p>
 <aside class="aside-note">
@@ -133,9 +133,9 @@
 <img src="../../materials/week04/QGIS_zoom_to_layer.png">
 </aside>
 <p>Great! That looks exactly like what we need.  Let's convert the file into GeoJSON so that we can serve it up from within our web application.  We can use the <code>ogr2ogr</code> command.</p>
-<pre><code>$ ogr2ogr -f "GeoJSON" brazil.geojson BRA_adm_shp/BRA_adm1.shp</code></pre>
-<p>After the command completes, check out the brazil.geojson.  Yikes! The file seems pretty big.  Let's check how big:</p>
-<pre><code>$ ls -lh brazil.geojson</code></pre>
+<pre><code class="language-nohighlight">$ ogr2ogr -f "GeoJSON" brazil.geojson BRA_adm_shp/BRA_adm1.shp</code></pre>
+<p>After the command completes, check out the <code>brazil.geojson</code> file.  Yikes! The file seems pretty big.  Let's check how big:</p>
+<pre><code class="language-nohighlight">$ ls -lh brazil.geojson</code></pre>
 <p><img src="../../materials/week04/CLI_check_file_size.png"></img></p>
 <p>Oh man... a 25M file is not going to work well in our web app.  And that's just Brazil!!! </p>
 <p>Fortunately, shapefiles can be compressed in size by reducing the amount of detail.  In QGIS, select <code>Vector &gt; Geometry Tools &gt; Simplify geometries</code> from the top menu.  Select your Brazil Geometry <code>BRA_adm1</code> and set the tolerance to <code>0.05</code>.  Hit Run.</p>
@@ -144,16 +144,16 @@
 <p>Right click on the newly created layer and select &quot;Save As...&quot;.  Save the file as GeoJSON with the name <code>brazil_compressed.geojson</code>.  Be sure to type in the entire path of the file that you are creating.</p>
 <p><img src="../../materials/week04/QGIS_save_as.png"></img>
 Now if you check the size of the newly created <code>brazil_compressed.geojson</code>, you should see that it is much smaller!</p>
-<p>Run the command</p>
-<pre><code>ls -lh brazil_compressed.geojson</code></pre>
+<p>Run the command:</p>
+<pre><code class="language-nohighlight">$ ls -lh brazil_compressed.geojson</code></pre>
 <p><img src="../../materials/week04/CLI_check_compressed_file_size.png"></img></p>
 <aside class="aside-note">
 <p>So 331K isn't actually that great for a webapp... it's still a bit large.  In a few weeks, we'll look at how some of the features of GeoServer allows you to display large amounts of data without a big download. </p>
 </aside>
-<p>Now we have to Repeat this process for all of the countries listed in <a href="https://github.com/cdcepi/zika" target="_blank">Zika Github Repository</a> including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.  </p>
+<p>Now we have to Repeat this process for all of the countries listed in <a href="https://github.com/cdcepi/zika" target="_blank">Zika Github Repository</a> including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.</p>
 <p>To save you time, we went ahead and optimized the geometries for all of these countries.  They are listed in <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week2-starter" target="_blank">/data/optimized</a>.</p>
-<p>The last step is to join all of the geojson files together.  To do that, we can use a nice Node.js library from MapBox.  Run the following commands:</p>
-<pre><code>$ npm install -g @mapbox/geojson-merge
+<p>The last step is to join all of the GeoJSON files together.  To do that, we can use a nice Node.js library from MapBox.  Run the following commands:</p>
+<pre><code class="language-nohighlight">$ npm install -g @mapbox/geojson-merge
 $ geojson-merge argentina_compressed.geojson brazil_compressed.geojson columbia_compressed.geojson dominican_republic_compressed.geojson el_salvador_compressed.geojson equador_compressed.geojson guatamala_compressed.geojson haiti_compressed.geojson mexico_compressed.geojson
 nicaragua_compressed.geojson panama_compressed.geojson &gt; states.geojson</code></pre>
 <p>Place the <code>states.geojson</code> file in the <code>src/main/resources/static/json</code> so that it can be statically served up in your web app under the <code>http://localhost:8080/json/states.geojson</code> path.</p>
