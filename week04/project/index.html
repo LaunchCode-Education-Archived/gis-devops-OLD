@@ -108,6 +108,16 @@
 <p>Remember, in Agile a story is just a &quot;guaranteed conversation&quot;.  Stories usually don't contain all of the details necessary to complete the task and that's why it is important to follow up with the client and talk through the exact needs of your customer.</p>
 </aside>
 <h2 id="breaking-down-the-stories">Breaking down the stories</h2>
+<p>CDC scientists want to be able to add new reports to the database.</p>
+<ol>
+<li>Add Geometry boundaries to the database.</li>
+<li>
+</li>
+</ol>
+<h2 id="setup">Setup</h2>
+<p>Install the following extension on your database:</p>
+<pre><code>$ psql -U zika_app_user zika
+# CREATE EXTENSION unaccent;</code></pre>
 <h3 id="setup-adding-boundary-geometries">Setup: Adding Boundary Geometries</h3>
 <p>The data that the scientists want to ingest is summarized in the <a href="https://github.com/cdcepi/zika" target="_blank">CDC Zika Repository</a>.  If you open up the <a href="https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv" target="_blank">data for Argentina</a>, you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field.  We should be able to indentify those locations to actual data points on a map.</p>
 <p>You Google for &quot;political boundaries geojson&quot; and you find <a href="http://www.gadm.org/" target="_blank">gadm.org</a>.  <a href="http://www.gadm.org/country" target="_blank">gadm.org</a> serves up geospatial data about administrative boundaries for each state.  Go to the <a href="http://www.gadm.org/country" target="_blank">GADM Downloads Page</a> to check out the data. </p>
