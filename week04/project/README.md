@@ -20,6 +20,18 @@ Your goal is to extend the CDC Zika Dashboard that you built last week.  The sci
 
 ## Breaking down the stories
 
+CDC scientists want to be able to add new reports to the database.
+1. Add Geometry boundaries to the database.
+2.  
+
+## Setup
+
+Install the following extension on your database:
+```
+$ psql -U zika_app_user zika
+# CREATE EXTENSION unaccent;
+```
+
 ### Setup: Adding Boundary Geometries
 
 The data that the scientists want to ingest is summarized in the [CDC Zika Repository](https://github.com/cdcepi/zika).  If you open up the [data for Argentina](https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv), you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field.  We should be able to indentify those locations to actual data points on a map.
