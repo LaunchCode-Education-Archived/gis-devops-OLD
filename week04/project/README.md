@@ -27,7 +27,8 @@ CDC scientists want to be able to add new reports to the database.
 ## Setup
 
 Install the following extension on your database:
-```
+
+```nohighlight
 $ psql -U zika_app_user zika
 # CREATE EXTENSION unaccent;
 ```
