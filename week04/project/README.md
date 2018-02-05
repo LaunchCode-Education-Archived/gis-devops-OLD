@@ -33,7 +33,7 @@ You Google for "political boundaries geojson" and you find [gadm.org](http://www
 The file `BRA_adm_shp.zip` will download.  Double click the file to unzip the file.  You should see three shapefiles: `BRA_adm0.shp`, `BRA_adm1.shp`, `BRA_adm2.shp`. `BRA_adm3.shp`.  Let's take a look at these shapefiles.  In order to look at a shapefile, you will need download [QGIS](https://qgis.org/en/site/), an open source desktop viewer for geospatial data.  [Click Here to Download QGIS](https://connect.boundlessgeo.com/Downloads).  Double click the `.dmg` file to install.
 
 <aside class="aside-note" markdown="1">
-  Note: Use your personal email to register on Boundless Connect to get access to the QJIS download.
+  Note: Use your personal email to register on Boundless Connect to get access to the QGIS download.
 </aside>
 
 After QGIS is installed, drag the `BRA_adm1.shp` file into the QGIS window in order to import the file. 
