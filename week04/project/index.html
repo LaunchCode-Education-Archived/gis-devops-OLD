@@ -116,7 +116,7 @@
 </ol>
 <h2 id="setup">Setup</h2>
 <p>Install the following extension on your database:</p>
-<pre><code>$ psql -U zika_app_user zika
+<pre><code class="language-nohighlight">$ psql -U zika_app_user zika
 # CREATE EXTENSION unaccent;</code></pre>
 <h3 id="setup-adding-boundary-geometries">Setup: Adding Boundary Geometries</h3>
 <p>The data that the scientists want to ingest is summarized in the <a href="https://github.com/cdcepi/zika" target="_blank">CDC Zika Repository</a>.  If you open up the <a href="https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv" target="_blank">data for Argentina</a>, you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field.  We should be able to indentify those locations to actual data points on a map.</p>
