@@ -1,5 +1,5 @@
 ---
-title: Week 3 - Project Week
+title: Week 4 - Project Week
 ---
 
 ## Project
@@ -106,5 +106,4 @@ After we talk to the scientists, we find out that they want the ability for repo
 ## Bonus Missions
 
 If you complete the studio early, here are some bonus missions to go after:
-1. Add ESLint to your project and ensure that all of your JavaScript meets the standards defined by the AirBNB standards.
-
+1. Add ESLint to your project and ensure that all of your JavaScript meets the standards defined by the AirBNB standards. (Hint: Review the instructions for the [ESLint Airwaze Walkthrough](../../walkthroughs/eslint-airwaze))
