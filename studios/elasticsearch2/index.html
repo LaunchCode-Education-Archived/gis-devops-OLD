@@ -103,7 +103,10 @@
 </aside>
 <p>Click on <em>Services</em> and under <em>Analytics</em> click on <em>Elasticsearch Service</em>. Click on the blue button that says <em>Create a new domain</em>.</p>
 <p>On the <em>Define domain</em> page, for <em>Elasticsearch domain name</em>, type a name for the domain. In this studio, we use the domain name <strong>airwaze</strong> with a dash and your name (e. g. <strong>airwaze-me</strong>). Leave <em>Version</em> set to the newest supported version. Click <em>Next</em>.</p>
-<p>On the <em>Configuration</em> page, let’s leave everything at the default values. Click <em>Next</em>.</p>
+<p>On the <em>Configuration</em> page, select <em>Instance Type</em> of <code>t2.small.elasticsearch</code>. Click <em>Next</em>.</p>
+<aside class="aside-note">
+<p>ElasticSearch Instances are expensive.  A `m4.large.elasticsearch ElasticSearch instance on Amazon is billed at $0.15 per hour; which comes out to be about $25 a week or $100+ a month.  Larger instances can cost up ot $4 per hour! </p>
+</aside>
 <p>On the <em>Set up access</em> page, in the <em>Network configuration</em> section, choose <em>Public Access</em>. (There may be an error window; after you click <em>Public Access</em>, you will be able to close that window and everything should be fine.) Under <em>Access Policy</em>, click <em>Allow open access to the domain</em>. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click <em>Next</em>.</p>
 <p>On the <em>Review</em> page, review your domain configuration, and then choose <em>Confirm</em>.</p>
 <p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>

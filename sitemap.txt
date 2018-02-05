@@ -35,4 +35,5 @@ https://education.launchcode.org/gis-devops/week03/day2/index.html
 https://education.launchcode.org/gis-devops/week03/day3/index.html
 https://education.launchcode.org/gis-devops/week03/day4/index.html
 https://education.launchcode.org/gis-devops/week03/day5/index.html
+https://education.launchcode.org/gis-devops/week04/project/index.html
 https://education.launchcode.org/gis-devops/sitemap.html
