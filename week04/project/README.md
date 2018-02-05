@@ -45,13 +45,13 @@ After QGIS is installed, drag the `BRA_adm1.shp` file into the QGIS window in or
 
 Great! That looks exactly like what we need.  Let's convert the file into GeoJSON so that we can serve it up from within our web application.  We can use the `ogr2ogr` command.
 
-```
+```nohighlight
 $ ogr2ogr -f "GeoJSON" brazil.geojson BRA_adm_shp/BRA_adm1.shp
 ```
 
-After the command completes, check out the brazil.geojson.  Yikes! The file seems pretty big.  Let's check how big:
+After the command completes, check out the `brazil.geojson` file.  Yikes! The file seems pretty big.  Let's check how big:
 
-```
+```nohighlight
 $ ls -lh brazil.geojson
 ```
 
@@ -70,9 +70,10 @@ Right click on the newly created layer and select "Save As...".  Save the file a
 <img src="../../materials/week04/QGIS_save_as.png"></img>
 Now if you check the size of the newly created `brazil_compressed.geojson`, you should see that it is much smaller!
 
-Run the command
-```
-ls -lh brazil_compressed.geojson
+Run the command:
+
+```nohighlight
+$ ls -lh brazil_compressed.geojson
 ```
 
 <img src="../../materials/week04/CLI_check_compressed_file_size.png"></img>
@@ -81,12 +82,13 @@ ls -lh brazil_compressed.geojson
   So 331K isn't actually that great for a webapp... it's still a bit large.  In a few weeks, we'll look at how some of the features of GeoServer allows you to display large amounts of data without a big download. 
 </aside>
 
-Now we have to Repeat this process for all of the countries listed in [Zika Github Repository](https://github.com/cdcepi/zika) including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.  
+Now we have to Repeat this process for all of the countries listed in [Zika Github Repository](https://github.com/cdcepi/zika) including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.
 
 To save you time, we went ahead and optimized the geometries for all of these countries.  They are listed in [/data/optimized](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week2-starter).
 
-The last step is to join all of the geojson files together.  To do that, we can use a nice Node.js library from MapBox.  Run the following commands:
-```
+The last step is to join all of the GeoJSON files together.  To do that, we can use a nice Node.js library from MapBox.  Run the following commands:
+
+```nohighlight
 $ npm install -g @mapbox/geojson-merge
 $ geojson-merge argentina_compressed.geojson brazil_compressed.geojson columbia_compressed.geojson dominican_republic_compressed.geojson el_salvador_compressed.geojson equador_compressed.geojson guatamala_compressed.geojson haiti_compressed.geojson mexico_compressed.geojson
 nicaragua_compressed.geojson panama_compressed.geojson > states.geojson
@@ -100,8 +102,6 @@ After we talk to the scientists, we find out that they want the ability for repo
 1. An integration test
 2. An endpoint that accepts a POST request and JSON.
 3. Swagger documentation that describes the endpoint and how the JSON is structured.
-
-
 
 ## Bonus Missions
 
