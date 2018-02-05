@@ -22,4 +22,4 @@ Today we'll learn about document mappings in Elasticsearch, and work with elasti
 
 - [Elasticsearch docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 - [Default Mapping](https://www.elastic.co/guide/en/elasticsearch/guide/current/default-mapping.html)
-
+- [Introduction to Elasticsearch Mappings](https://www.elastic.co/blog/found-elasticsearch-mapping-introduction)

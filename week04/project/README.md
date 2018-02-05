@@ -4,15 +4,15 @@ title: Week 4 - Project Week
 
 ## Project
 
-- [Mission Briefing 2]()
+[Mission Briefing 2](../../materials/week04/zika_mission_briefing-mission_2.pdf)
 
 ## Overview
 
 Your goal is to extend the CDC Zika Dashboard that you built last week.  The scientists need several new features for the dashboard.  Here are the stories:
+
 1. CDC scientists have the ability to add new reports to the database.
 2. CDC scientists have the  ability to visualize how the infection rate of each area changes over time.
 3. CDC scientists have the ability to perform fuzzy search across all of the data.
-
 
 <aside class="aside-note" markdown="1">
   Remember, in Agile a story is just a "guaranteed conversation".  Stories usually don't contain all of the details necessary to complete the task and that's why it is important to follow up with the client and talk through the exact needs of your customer.
