@@ -28,3 +28,9 @@ Day | Topics
 [Day 3](week03/day3/) | Intro to Elasticsearch
 [Day 4](week03/day4/) | Kibana and ElasticSearch.js
 [Day 5](week03/day5/) | ES2015, ESLint, OpenLayers
+
+## Week 4
+
+Day | Topics
+|----|--------|
+[Day 1-5](week04/project/) | Zika Mission Control Part 2
