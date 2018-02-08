@@ -1,5 +1,5 @@
 ---
-title: "Walkthrough: LaunchCart REST"
+title: "Walkthrough: Intro to DevOps"
 ---
 
 In this walkthrough, the instructor will show you how to work with a Unix operating system on the cloud.
@@ -301,7 +301,7 @@ your-app.jar
 
 In this exercise, we will just run the file locally in your home directory. 
 ```
-$ java -jar your-app.jar 
+$ java -jar your-app.jar  &
 ```
 
 This might work, but since everyone is trying to run their app on the same port, we should probably customize the app so that they can run on different ports.
@@ -320,6 +320,18 @@ Run the app and you should see that the app server has started up on port 9001.
 Once everyone has their servers up and running, use the following command to monitor server performance:
 ```
 htop
+```
+
+Before we end the walkthrough, let's go ahead and kill the server we just started.  Note that since the process is running as a daemon (in the background), cntrl-c will not kill it.  
+
+Instead run the following commands:
+```
+$ ps aux | grep my-app
+```
+
+Find the process id and send the kill signal to the process:
+```
+$ kill -9 {process-id}
 ```
 
 The end.  The Studio will be coming up soon.
