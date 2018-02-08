@@ -69,3 +69,14 @@ Deliver an app with the the following features:
 - At a high level, explain how authentication and authorization work for APIs
 - Explain HATEOAS from the perspective of the data returned by a REST service
 - Explain the four levels of the REST maturity model
+<<<<<<< HEAD
+=======
+
+## Week 5
+### Day 1
+- Use and configure SSH to access remote machines.
+- Manage Unix file permisions for owners and groups.
+- Manage Unix processes.
+- Configure systemd daemon processes to run on startup.
+- Use logs to troubleshoot applications.
+>>>>>>> 2696ed4... resolving conflict
