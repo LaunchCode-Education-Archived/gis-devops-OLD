@@ -1,6 +1,8 @@
-# Dev Ops Basics
+---
+title: "Studio: Devops Basics"
+---
 
-## Project
+<!--- testing with elasticsearch-starter branch! -->
 
 ## Overview
 
@@ -8,8 +10,8 @@ Your goal is to deploy a Spring Boot project to a remote server and verify its e
 
 ## Set Up Project
 
-- Build the Airwaze Studio project
-- Make sure the jar is built in `build/libs`
+- Build the Airwaze Studio project, or check out the `elasticsearch-starter` branch.
+- Make sure the jar is built in `build/libs`.  If you need to build one, go into IntelliJ's Gradle tool window, and click on `Tasks > build > bootRepackage`.
 
 ## Start an Instance on AWS
 
@@ -41,7 +43,7 @@ Next, the console will ask which type of instance to set up. Your choice here de
 
 The following screen allows for configuration of instance. We do not need to customize this image beyond the defaults, so you can continue to "Add Storage".
 
-On this screen, you can choose what storage is available to your instance. AWS will provision a virtual volumes in Elastic Block Store to serve as the valume(s) mounted in your instance. By default, it will create an 8 GiB volume to serve as the instance's root volume. The default 8 GiB volume is sufficient for this application. Click on "Add Tags" to progress to the next step.
+On this screen, you can choose what storage is available to your instance. AWS will provision a virtual volume in Elastic Block Store to serve as the volume(s) mounted in your instance. By default, it will create an 8 GiB volume to serve as the instance's root volume. The default 8 GiB volume is sufficient for this application. Click on "Add Tags" to progress to the next step.
 
 ![Screen shot showing pre-filled 8 GiB storage selection](storage-options.png)
 
@@ -73,22 +75,22 @@ AWS will now begin launching your instance. You can click the identifier for you
 
 ## Set up SSH
 
-- Open the terminal. (On Mac, it is an app under Utilities named Terminal.)
+- Open the terminal.
 - Navigate to your user's ssh configuration folder:
-```
+```nohighlight
 $ cd ~/.ssh
 ```
-- Copy your instance's *.pem file to your .ssh folder:
-```
+- Copy your instance's \*.pem file to your .ssh folder:
+```nohighlight
 $ cp /path/to/*.pem .
 ```
 - Change the permissions for this file to read-only by your user:
-```
+```nohighlight
 $ chmod 400 name-of-pem.pem
 ```
-- Using the Public DNS you noted before and your *.pem file, access your AWS instance:
-```
-$ ssh -i ~/.ssh/name-of-pem.pem ubuntu@ec2-public-dns.us-east-2.compute.amazonaws.com
+- Using the Public DNS you noted before and your \*.pem file, access your AWS instance:
+```nohighlight
+$ ssh -i ~/.ssh/name-of-pem.pem ubuntu@insert-public-DNS-here
 ```
 - The ssh program will likely warn that the authenticity of your host can't be established since it's not seen it before. Respond "yes" to continue connecting. It will add it to the list of known hosts and continue the connection process.
 - The remote terminal will appear
@@ -101,19 +103,21 @@ Congratulations! You have successfully created and connected to an instance runn
 
 Now that you have a server running in the cloud, you need to use it to do some work. Let's prepare the server to run our application.
 
-First, uou don't want the application running under your system account, so we need to create a new user with a password:
-```
+First, you don't want the application running under your system account, so we need to create a new user with a password:
+```nohighlight
 $ sudo adduser airwaze
 ```
-Next, upload the Airwaze Studio jar to the server. We'll use scp to securely transmit the file to our server.
-```
+Next, from your local machine, upload the Airwaze Studio jar to the server. We'll use scp to securely transmit the file to our server.
+```nohighlight
 $ scp -i ~/.ssh/name-of-pem.pem /path/to/local/app.jar ubuntu@ec2-public-dns.us-east-2.compute.amazonaws.com:/home/ubuntu/app.jar
 ```
 Then we'll log into the server, move the file to the airwaze home directory, and make it owned and executable by that user.
-```
+```nohighlight
 $ ssh -i ~/.ssh/name-of-pem.pem ubuntu@ec2-public-dns.us-east-2.compute.amazonaws.com
+```
 
-# Then, on AWS
+Then, on AWS:
+```nohighlight
 $ sudo apt-get install openjdk-8-jdk
 $ sudo mv ~/app.jar /home/airwaze/app.jar
 $ sudo chown airwaze:airwaze /home/airwaze/app.jar
@@ -121,22 +125,26 @@ $ sudo chmod 500 /home/airwaze/app.jar
 ```
 
 Before trying to start the application, we'll install `postgres` locally so we can start Airwaze Studio. **This is something you would *never* do in a real cloud instance**, but we'll do it just for this demonstration so our app will start.
-```
+```nohighlight
 $ sudo apt-get update
 $ sudo apt-get install postgresql postgresql-contrib postgis
 $ sudo -u postgres createdb devdb
-$ sudo vim /etc/postgresql/9.5/main/pg_hba.conf  # change all `peer` and `md5` to `trust` - also a general no-no!
+$ sudo vim /etc/postgresql/9.5/main/pg_hba.conf  
+```
+When the configuration file comes up, you'll see that almost all of the lines are commented out.  Towards the bottom you find lines that are not commented out.  Press `i` to get into Insert mode, and change all instances of `peer` and `md5` to `trust` (this is also a general no-no!)  When you're done, press `escape` to get out of insert mode.  Press `:` to bring up a prompt, the press `w` (for 'write') and `q` (for 'quit').  And `Enter`.
+
+```
 $ sudo /etc/init.d/postgresql restart
 ```
 
 Now that the app is on the cloud server and the database is ready, we can set up `systemd` to run this app as a service.
 
 In order to use `systemd`, we have to make a script in `/etc/systemd/system` to tell the service how to run our app.
-```
+```nohighlight
 $ sudo vim /etc/systemd/system/airwaze.service
 ```
 Press `i` to start inserting text into the file and paste the following:
-```
+```nohighlight
 [Unit]
 Description=Airwaze Studio
 After=syslog.target
@@ -149,13 +157,13 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
-Once this service definition is in place, set the service to starts automatically on boot with systemd using the `systemctl` utility and also start now:
-```
+Once this service definition is in place, set the service to start automatically on boot with systemd using the `systemctl` utility and also start now:
+```nohighlight
 $ sudo systemctl enable airwaze
 $ sudo systemctl start airwaze
 ```
 And you can view the logs for the service with `journalctl`.
-```
+```nohighlight
 $ journalctl -f -u airwaze.service
 ```
 
