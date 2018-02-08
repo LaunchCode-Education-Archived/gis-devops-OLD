@@ -30,6 +30,19 @@ Go to the [zika-cdc-dashboard](https://gitlab.com/LaunchCodeTraining/zika-cdc-da
 2. Create a new REST endpoint for adding reports to the (Postgres) database.
 3. When saving a new report to the main repository/db, also save it to the Elasticsearch document repository.
 4. Add Springfox to generate Swagger documentation.
+### Steps
+
+1.  Build out a Report endpoint that accepts a POST requrest with JSON body.
+2.  Index all incoming POST requests in ElasticSearch.
+3.  Pull data based on date from Elasticsearch and display it on the map.
+
+
+<aside class="aside-note" markdown="1">
+  To index all of your report data in ElasticSearch use the following command:
+  ```
+    curl -XPOST http://localhost:8080/api/_cluster/reindex
+  ```
+</aside>
 
 ## Setup
 
