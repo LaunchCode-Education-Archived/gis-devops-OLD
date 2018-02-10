@@ -124,9 +124,15 @@ Before trying to start the application, we'll install `postgres` locally so we c
 ```
 $ sudo apt-get update
 $ sudo apt-get install postgresql postgresql-contrib postgis
-$ sudo -u postgres createdb devdb
+$ sudo -u postgres createuser --pwprompt airwaze_app_user # give password `mysecretpassword`
+$ sudo -u postgres createdb -O airwaze_app_user airwaze
 $ sudo vim /etc/postgresql/9.5/main/pg_hba.conf  # change all `peer` and `md5` to `trust` - also a general no-no!
 $ sudo /etc/init.d/postgresql restart
+$ sudo -u postgresl psql
+CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;
+CREATE EXTENSION fuzzystrmatch;
+CREATE EXTENSION postgis_tiger_geocoder;
 ```
 
 Now that the app is on the cloud server and the database is ready, we can set up `systemd` to run this app as a service.
