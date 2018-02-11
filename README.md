@@ -37,7 +37,6 @@ Day | Topics
 
 ## Week 5
 
-
 Day | Topics
 |----|--------|
-[Day 1](week05/day1/) | Introduction to DevOps
+[Day 1](week05/day1/) | Intro to DevOps
