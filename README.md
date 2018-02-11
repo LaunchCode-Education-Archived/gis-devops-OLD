@@ -34,3 +34,10 @@ Day | Topics
 Day | Topics
 |----|--------|
 [Day 1-5](week04/project/) | Zika Mission Control Part 2
+
+## Week 5
+
+
+Day | Topics
+|----|--------|
+[Day 1](week05/day1/) | Introduction to DevOps
