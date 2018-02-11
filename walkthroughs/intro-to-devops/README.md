@@ -8,7 +8,7 @@ In this walkthrough, the instructor will show you how to work with a Unix operat
 
 The instructor is going to start a machine in the cloud that we can play around with.  In this case, the machine will be on DigitalOcean, but any cloud provider will suffice.
 
-After the machine is created, the instructor will SSH into the machine root@{ip address}.  If the instructor provided a key during the creation process, not password is necessary to login.  After logging in, the instructor will create a user for each person in the class:
+After the machine is created, the instructor will SSH into the machine root@{ip address}.  If the instructor provided a key during the creation process, no password is necessary to login.  After logging in, the instructor will create a user for each person in the class:
 
 ```
 sudo useradd -m classmate
@@ -16,10 +16,10 @@ passwd temporaryPassword
 chage -d 0 classmate
 ```
 
-While the instructor is creating a user for you, you need to create public / private key combination so that you can SSH into that machine.
+While the instructor is creating a user for you, you need to create your own public / private key combination so that you can SSH into that machine.
 
 Here is the command to create your keys.  By default, it will name the key id_rsa, but feel free to change that to whatever you like.
-```
+```nohighlight
 $ ssh-keygen -t rsa 
 Enter file in which to save the key (/home/demo/.ssh/id_rsa):     
 Enter passphrase (empty for no passphrase):
@@ -43,16 +43,16 @@ The key's randomart image is:
 ```
 
 Great.  Take a look and make sure that the keys have been generated correctly:
-```
-cat ~/.ssh/id_rsa.pub
+```nohighlight
+$ cat ~/.ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDb89Y9dyiRcSmkwvi9pcjvpBZTfsD3Vlj/eoQWf1EvF+x10y/DvHfMz8MJthMeCNGTqg/lsj4t1FgcfV6/SkuvTV0mBT0T9+owAtzd+s92QOCzrbH99HgQGlOCu4IUrMqREd7sYfK67QFFVOdITEn9hqH1ZN1XVh3f7UXOCL6s6g5J2HatmYWLVf2hm6ZRUH1hcZnjlN+oui67HTarqFy/3efWVLdG+lc9gaSy9shzx4fUJZnVrzQw+KEVtgxdZGZgKaDfoMfmjFwHZNl+LIFqIMDy/CfJnmCE/oAVjTymcdKsOICIqbXqopG/eOufqed4wR2nxE+a6K2jWQVYUwFN root@ubuntu-s-1vcpu-1gb-nyc2-01
 ```
 
-Slack the output of `cat ~/.ssh/id_rsa.pub` to the instructor so that they can add you to the remote machine.  Be sure that you are sending the `.pub` file and not your private key!.
+Slack the output of `cat ~/.ssh/id_rsa.pub` to the instructor so that they can add you to the remote machine.  Be sure that you are sending the `.pub` file and not your private key!
 
-Once the instructor receives your key, tell the instructor to add  your key to the `~/.ssh/authorized_keys` directory; at which point you should be able to log in using the command.
+Once the instructor receives your key, tell the instructor to add  your key to the `~/.ssh/authorized_keys` directory; at which point you should be able to log in using the command:
 ```
-ssh {your name}@{ip address}
+$ ssh {your name}@{ip address}
 ```
 
 Once you are on the machine, take a look around:
@@ -65,22 +65,22 @@ $ pwd
 
 Your next step is going to be launching a simple app server on the remote machine.
 
-Check out the [Simple Map App](https://gitlab.com/LaunchCodeTraining/simple-map-app) from Gitlab.
+Check out the [Simple Map App](https://gitlab.com/LaunchCodeTraining/simple-map-app) from GitLab.
 
-First, you will have to build an executable jar file that you can transfer to the remote machine.  Typically you would also need to setup a web server as well, but in this case SpringBoot packages the server inside the jar file itself.
+First, you will have to build an executable jar file that you can transfer to the remote machine.  Typically you would also need to set up a web server as well, but in this case Spring Boot packages the server inside the jar file itself.
 
 Open the command line in your Airwaze project and run the following command:
-```
-gradle clean bootRepackage
+```nohighlight
+$ gradle clean bootRepackage
 ```
 <aside class="aside-note" markdown="1">
-  Your project will need have all tests passing in order for Gradle to successfully build an executable jar for your project.
+  Your project will need to have all tests passing in order for Gradle to successfully build an executable jar for your project.
 </aside>
 
 You should now have a `app-0.0.1-SNAPSHOT.jar` file located in the `ls build/libs/` directory of your project.
 
 Remember that this jar file is actually just a zip file with a fancy name.  Use the following command to unzip the jar and see what is inside:
-```
+```nohighlight
 cd build/libs
 unzip build/libs/app-0.0.1-SNAPSHOT.jar
 Archive:  build/libs/app-0.0.1-SNAPSHOT.jar
@@ -265,13 +265,13 @@ Archive:  build/libs/app-0.0.1-SNAPSHOT.jar
 ```
 
 You'll notice that all the file contains three things:
-1. The compile class files of your project.
+1. The compiled class files of your project.
 2. All of the libraries that your project requires (jar files).
-3. The SpringBoot class files required to launch the server.
+3. The Spring Boot class files required to launch the server.
 
 Make sure that your jar file is working properly on your local machine by running:
 ``` nohighlight
-java -jar your-app.jar
+$ java -jar your-app.jar
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
@@ -287,14 +287,14 @@ java -jar your-app.jar
 ```
 
 Next transfer your project's executable jar file to the remote server.  To transfer the file, you'll use a command called `scp`.  The command looks somthing like this:
-```
+```nohighlight
 $ # scp {file you would like to transfer}  {username}@{host}:{directory on the remote machine}
 $ scp your-app.jar trainee@{ip address of machine}:/home/trainee
 ```
 
 If you SSH into your remote machine, you should see the file has been transferred to your home directory.
-```
-ssh trainee@{ip address of machine}
+```nohighlight
+$ ssh trainee@{ip address of machine}
 $ ls 
 your-app.jar
 ```
@@ -307,30 +307,30 @@ $ java -jar your-app.jar  &
 This might work, but since everyone is trying to run their app on the same port, we should probably customize the app so that they can run on different ports.
 
 Open the `my-map-app` and add the following line to the application.properties file.  
-```
+```nohighlight
 server.port=${APP_PORT}
 ```
 
 Run the app and you should see that the app server has started up on port 9001.
 
 <aside class="aside-note" markdown="1">
- Anytime you exit your bash, the environment variable that you set will disappear.  If you would like to make your environment variable persistent, add the line to your `~/.bash_rc` file.  The `~/.bash_rc` file gets ran everytime the terminal is access from your user. 
+ Anytime you exit your bash, the environment variable that you set will disappear.  If you would like to make your environment variable persistent, add the line to your `~/.bash_rc` file.  The `~/.bash_rc` file is run every time the terminal is accessed from your user. 
 </aside>
 
 Once everyone has their servers up and running, use the following command to monitor server performance:
 ```
-htop
+$ htop
 ```
 
-Before we end the walkthrough, let's go ahead and kill the server we just started.  Note that since the process is running as a daemon (in the background), cntrl-c will not kill it.  
+Before we end the walkthrough, let's go ahead and kill the server we just started.  Note that since the process is running as a daemon (in the background), ctrl-c will not kill it.  
 
 Instead run the following commands:
-```
+```nohighlight
 $ ps aux | grep my-app
 ```
 
 Find the process id and send the kill signal to the process:
-```
+```nohighlight
 $ kill -9 {process-id}
 ```
 
