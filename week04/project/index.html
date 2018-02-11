@@ -115,8 +115,18 @@
 <li>Add geometry boundaries to the database.</li>
 <li>Create a new REST endpoint for adding reports to the (Postgres) database.</li>
 <li>When saving a new report to the main repository/db, also save it to the Elasticsearch document repository.</li>
-<li>Add Springfox to generate Swagger documentation.</li>
+<li>
+<p>Add Springfox to generate Swagger documentation.</p>
+<h3 id="steps">Steps</h3>
+</li>
+<li>Build out a Report endpoint that accepts a POST requrest with JSON body.</li>
+<li>Index all incoming POST requests in ElasticSearch.</li>
+<li>Pull data based on date from Elasticsearch and display it on the map.</li>
 </ol>
+<aside class="aside-note">
+<p>To index all of your report data in ElasticSearch use the following command:</p>
+<pre><code>    curl -XPOST http://localhost:8080/api/_cluster/reindex</code></pre>
+</aside>
 <h2 id="setup">Setup</h2>
 <p>Install the following extension on your database:</p>
 <pre><code class="language-nohighlight">$ psql -U zika_app_user zika

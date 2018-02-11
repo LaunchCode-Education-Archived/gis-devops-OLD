@@ -125,7 +125,7 @@
 <p>You should see 7116 documents in the airwaze index.</p>
 <h2 id="importing-data-to-your-aws-cluster">Importing data to your AWS cluster</h2>
 <p>Find your AWS ES endpoint URL by going to <em>Services &gt; Analytics &gt; Elasticsearch</em>, clicking on the name of your cluster, and looking for the <em>Endpoint</em> field. Note that this info will not display until your cluster has been fully provisioned.</p>
-<p><img src="aws-es-endpoint.png" alt="AWS ES Endpoint" /></p>
+<p><img src="/../../materials/week03/aws-es-endpoint.png" alt="AWS ES Endpoint" /></p>
 <p>Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the <a href="../../walkthroughs/elasticsearch2/">walkthrough</a>, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <em>airwaze</em> for the name of your new domain (such as <em>airwaze-me</em>).</p>
 <p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:</p>
 <pre><code class="language-nohighight">host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
