@@ -207,3 +207,17 @@ This opens up a new port in the Security Group just for your IP. The Airwaze app
 If you kept `journalctl` running from before, you should see the logs progress as your browser communicates with the app.
 
 Congratulations! You now have your own application in the cloud!
+
+### Next Steps
+
+Your map is currently showing up on the screen; however, the map is not showing any airports.  Troubleshoot the application and figure out why the airports are not showing up.  Be sure to use your browser's developer tools. 
+
+When you have found the problem, build a new copy of your jar and deploy it on your server. 
+
+### Bonus Mission
+
+* Use Environment Variables to dynamically change the port that your application is served on.
+
+* Using the instructions above, deploy another one of your SpringBoot application to AWS.  Consider using the [LaunchCart Project](https://gitlab.com/LaunchCodeTraining/launchcart/tree/rest-studio).  
+
+
