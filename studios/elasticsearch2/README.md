@@ -60,7 +60,7 @@ You should see 7116 documents in the airwaze index.
 
 Find your AWS ES endpoint URL by going to *Services > Analytics > Elasticsearch*, clicking on the name of your cluster, and looking for the *Endpoint* field. Note that this info will not display until your cluster has been fully provisioned.
 
-![AWS ES Endpoint](aws-es-endpoint.png)
+![AWS ES Endpoint](/../../materials/week03/aws-es-endpoint.png)
 
 Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the [walkthrough](../../walkthroughs/elasticsearch2/), changing `localhost:9200` with your new AWS ES endpoint and changing out *airwaze* for the name of your new domain (such as *airwaze-me*).
 
