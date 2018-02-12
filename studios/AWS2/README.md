@@ -25,7 +25,7 @@ spring.datasource.password=${APP_DB_PASS}
 
 In order to isolate your application instances from other instances in AWS, you need to create a Virtal Private Cloud (VPC). This gives you your own little private network in the cloud which can help when establishing access controls as well as keeping your instances private from the rest of AWS. Typically, you'll have a few of these in an enterprise environment to keep strict boundaries between unrelated services.
 
-- Click "Services" in the header and locate "VPC" under "Networking & Content Delivery"
+- Click "Services" in the header and locate "VPC" under "Networking & Content Delivery."
 
 ![](../../materials/week05/lb-cloud/1-vpc-in-header.png)
 
@@ -279,7 +279,7 @@ ALTER TABLE route OWNER to airwaze_user;
 
 Now that the tables are created, you need to fill them with data.
 
-- Run the following commands to copy from your CSV files into the database.
+- Run the following commands to copy from your CSV files into the database. (You'll find the password along with the user you just created above).
 
 ```nohighlight
 $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user -c "\copy route(src, src_id, dst, dst_id, airline, route_geom) from STDIN DELIMITER ',' CSV HEADER" < /home/ubuntu/routes.csv
@@ -287,7 +287,8 @@ $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user
 $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user -c "\copy airport(airport_id, name, city, country, faa_code, icao, altitude, time_zone, airport_lat_long) from STDIN DELIMITER ',' CSV HEADER" < /home/ubuntu/Airports.csv
 ```
 
-At this point, everything is ready to go on this instance. You no longer need (or want) to connect to the database directly so uninstall the `postgresql` client package. Then you may start the Airwaze service.
+At this point, everything is ready to go on this instance. You no longer need (or want) to connect to the database directly so uninstall the `postgresql` client package. Then you may start the Airwaze service.  
+
 ```nohighlight
 $ sudo apt-get remove postgresql
 $ sudo systemctl start airwaze.service
