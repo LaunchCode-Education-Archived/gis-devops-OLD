@@ -356,59 +356,121 @@ After creating the instance, return to the EC2 Instances dashboard. Select your 
 
 ## Set Up Load Balancing
 
-Create new public VPC subnet
+In order to connect a load balancer (LB), you need to have two public subnets in different availability zones. Return to the VPC Subnet dashboard.
+
+- Click "Create Subnet"
+- Provide a useful name for the new subnet
+- Select your VPC
+- Pick a different availability zone than your other public subnet
+- Pick a new CIDR block
+- Click "Yes, Create"
 
 ![](../../materials/week05/lb-cloud/lb/lb-create-public-subnet.png)
 
-Select route table
+This new subnet is originally created as a private subnet, so you'll have to change its route table to allow connections with the internet.
+
+- Click the "Route Table" tab
+- Click "Edit"
 
 ![](../../materials/week05/lb-cloud/lb/public-subnet-route-table.png)
 
-Switch to public route table, includes internet gateway
+- Change the Route Table selection to one with a target that starts with `igw`. This is your VPC's internet gateway.
+  - An Internet Gateway allows communication between instances in your VPC and the internet.
+- Click "Save"
 
 ![](../../materials/week05/lb-cloud/lb/change-to-public-route-table.png)
 
-Select load balancers in sidebar
+With the new public subnet in place, you can now create your LB.
+
+- Return to the EC2 Dashboard
+- Select "Load Balancers" in the sidebar
+- Click "Create Load Balancer"
 
 ![](../../materials/week05/lb-cloud/lb/load-balancers-sidebar.png)
 
-Select application load balancer
+- Find the Application Load Balancer
+- Click "Create"
 
 ![](../../materials/week05/lb-cloud/lb/application-load-balancer.png)
 
-Create internet facing load balancer on port 80
+- Provide a useful name for your LB
+- Select an internet-facing LB
+- Set your LB protocol to `HTTP` and port to `80`
 
 ![](../../materials/week05/lb-cloud/lb/basic-lb-configuration.png)
 
-Configure lb routing with new target group pointing to internal port 8080
-
-![](../../materials/week05/lb-cloud/lb/configure-lb-routing.png)
-
-Select public availablility zones for load balancer instance
+- Under "Availability Zones" select your VPC
+- Select the two public subnets you created
+- Click "Next: Configure Security Settings"
 
 ![](../../materials/week05/lb-cloud/lb/lb-availability-zones.png)
 
-Configure new security group for load balancer to accept open traffic on port 80
+The "Configure Security Settings" screen will likely encourage you to improve the LB's security. This is because you opted to only allow HTTP connections. This is sufficient for the studio, but you should enable HTTPS for every service that can support it in an enterprise environment. Click "Next: Configure Security Groups".
+
+You will be presented with a screen similar to one you used when creating your instances. This will allow you to configure the firewall to manage access to your LB.
+
+- Create a new security group
+- Give the group a useful name and description
+- Select type `HTTP` and verify port 80 is selected
+- Make a custom source for 0.0.0.0/0, ::/0
+  - This allows for all IPv4 and IPv6 sources to connect through this LB
+- Click "Next: Configure Routing"
 
 ![](../../materials/week05/lb-cloud/lb/new-lb-security-group.png)
 
-Select your application instances to register them to the lb
+The next screen allows you to define a target group for the routing behavior of the LB. This will determine what protocol and internal port it uses to communicate with your application servers.
+
+- Select "New target group"
+- Give your new target group a useful name
+- Select port `8080` since that is the port Airwaze set up for listening
+- Select `instance` target type
+- Click "Next: Register Targets"
+
+![](../../materials/week05/lb-cloud/lb/configure-lb-routing.png)
+
+Now, you need to register your application instances to your LB so it can route traffic correctly.
+
+- Select your instances in the "Instances" section
+- Verify they are set to register for port 8080
+- Click "Add to registered" to add them to the LB
+- Click "Save"
 
 ![](../../materials/week05/lb-cloud/lb/register-instances-to-lb.png)
 
-Monitor load balancer provisioning
+At this point, AWS will begin configuring the LB. Find and note the DNS name they have assigned your LB.
 
 ![](../../materials/week05/lb-cloud/lb/load-balancer-instance.png)
 
-Change appication instance security group to only allow traffic from within the VPC
+While the LB is starting up, you can configure your application instances to stop listening to the public internet and only to internal traffic.
+
+- Return to the EC2 Security Groups Dashboard
+- Find your instance security group
+- Remove the SSH rule
+- Change the Source for the 8080 rule to listen only to your internal subnet
+- Click "Save"
 
 ![](../../materials/week05/lb-cloud/lb/make-instance-sg-internal-only.png)
 
-Open http://demo-lb-instance.us-east-2.elb.amazonaws.com in the browser and see the application
+Now it's time to see the result of your hard work:
 
+Open http://demo-lb-instance.us-east-2.elb.amazonaws.com in the browser and see the application running.
 
-Test traffic balancing.  Test one app going down.
+The real power in a load balancer is it can route traffic away from unhealthy instances. Time to test that out.
+
+- Return to the EC2 Instances Dashboard
+- Locate your application instances
+- Select one instance
+- Click "Actions" -> "Instance State" -> "Stop"
+- Wait for the instance state to switch to Stop
+- Refresh the browser and see the application still works
+- Stop your other instance
+- Refresh the browser and see the application no longer works
+- Click "Actions" -> "Instance State" -> "Start" to restart one of your instances
+- Refresh the browser and see the application return to a working state
+  - This step may take a while as the instance has to return to a good state and the LB has to verify the instance is healthy again before routing traffic
+
+Congratulations! You have successfully created a load-balanced application in the cloud.
 
 ## Bonus Mission
 
-Bonus: Provision an SSH bastion and make the application servers only accessible via http.
+Bonus: Provision an SSH bastion to give you a way to connect to the private application servers.
