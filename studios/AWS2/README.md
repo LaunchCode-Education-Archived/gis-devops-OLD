@@ -1,8 +1,8 @@
-+---
-+title: "Studio: Load Balanced Cloud"
-+---
+---
+title: "Studio: Load Balanced Cloud"
+---
 
-## Project
+
 
 ## Overview
 
@@ -10,16 +10,16 @@ This studio will expand on what was learned in the AWS basics unit. Your goal is
 
 ## Prepare the Code
 
-- Start with the corrected code you finished with in the last studio
-- Open the `application.properties` file, find and change the following lines:
+- Start with the corrected code you finished with in the last studio.
+- Open the `application.properties` file. Find and change the following lines:
 ```nohighlight
 spring.datasource.url=jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
 spring.datasource.username=${APP_DB_USER}
 spring.datasource.password=${APP_DB_PASS}
 # spring.jpa.hibernate.ddl-auto = create
 ```
-- Go into IntelliJ's Gradle tool window, and click on `Tasks > build > bootRepackage`.
-- Verify the jar appears in `build/libs`
+- Go into IntelliJ's Gradle tool window, and click on *Tasks > build > bootRepackage*.
+- Verify that the jar appears in `build/libs`.
 
 ## Provision a VPC
 
@@ -59,9 +59,9 @@ In order to isolate your application instances from other instances in AWS, you 
 ![](../../materials/week05/lb-cloud/5.2-create-subnet.png)
 
 - To create the subnet, give it a descriptive name to help identify it later.
-- Select your VPC from the VPC select list
-- Select one of the availablity zones for your region
-- Create a new CIDR block for this private subnet
+- Select your VPC from the VPC select list.
+- Select one of the availablity zones for your region.
+- Create a new CIDR block for this private subnet.
   - Remember, if you use a `x.x.x.x/24` subnet, that will contain 256 addresses, so increase the third number by one from the previously created subnet.
 - Do this twice, with a different availability zone and CIDR block for both subnets.
 
@@ -71,7 +71,7 @@ In order to isolate your application instances from other instances in AWS, you 
 
 Now that the VPC is set up and ready for use, you need to create your database server. In the last studio, you installed a PostgreSQL server on your instance. This time, you'll use AWS's Relational Database Service (RDS) to host and manage our DB instance.
 
-- Click "Services" in the header and select "Relational Database Service"
+- Click "Services" in the header and select "Relational Database Service."
 
 ![](../../materials/week05/lb-cloud/6-rds-in-header.png)
 
@@ -89,19 +89,19 @@ Now that the VPC is set up and ready for use, you need to create your database s
 
 - After selecting your VPC, select an availability zone you used above and select a subnet you created in that zone. Click "Add subnet".
 - Do this for both subnets you created above.
-- Click the "Create" button
+- Click the "Create" button.
 
 ![](../../materials/week05/lb-cloud/6.4-select-subnets.png)
 
 Now that you've created the database subnets, you need to create a database instance for your application to use.
 
-- Return to the RDS Dashboard
+- Return to the RDS Dashboard.
 - Scroll down and click the "Launch a DB instance" button.
 - For Airwaze, you will use a PostgreSQL database. Select that and click "Next".
 
 ![](../../materials/week05/lb-cloud/8-select-postgres.png)
 
-- AWS will next ask you how you plan to use the database. Production-ready databases will have multiple availability zone redundancy and higher-speed storage options, but are also more expensive. Select "Dev/Test" to access the lower-powered options then click "Next"
+- AWS will next ask you how you plan to use the database. Production-ready databases will have multiple availability zone redundancy and higher-speed storage options, but are also more expensive. Select "Dev/Test" to access the lower-powered options then click "Next."
 
 ![](../../materials/week05/lb-cloud/9-select-dev-test.png)
 
@@ -117,21 +117,21 @@ Next, you'll set up the instance's identifier and master user account. Do not se
 - Give your DB instance a useful name in the `DB instance identifier` field.
 - Make a master username that is difficult to guess, but easy for you to remember.
 - Use a secure password for your master user.
-- Click "Next".
+- Click "Next."
 
 ![](../../materials/week05/lb-cloud/11-db-instance-settings.png)
 
 Here you'll indicate where RDS should place your instance and how to secure it.
 
-- Select your VPC
-- Select the DB Subnet Group you made above
+- Select your VPC.
+- Select the DB Subnet Group you made above.
 - Do not make your DB publicly accessible. For security, you should limit the services that can be accessed from outside your VPC.
 
 ![](../../materials/week05/lb-cloud/12-db-instance-vpc.png)
 
 - Set up your desired database name and port.
 - Keep the default DB parameter group.
-- Then click "Launch DB instance".
+- Then click "Launch DB instance."
 
 ![](../../materials/week05/lb-cloud/13-db-options.png)
 
@@ -141,13 +141,13 @@ You'll also see the security group inbound and outbound rules set up. If the inb
 
 ![](../../materials/week05/lb-cloud/15-db-instance-dns.png)
 
-- Select the "Inbound" rules tab and click "Edit".
+- Select the "Inbound" rules tab and click "Edit."
 
 ![](../../materials/week05/lb-cloud/edit-db-security-group.png)
 
 - Find the PostgreSQL port line and change the Source to your VPC subnet CIDR.
   - This will allow traffic from all instances in your VPC, but not from the outside world.
-- Click "Save".
+- Click "Save."
 
 ![](../../materials/week05/lb-cloud/allow-db-internal-only.png)
 
@@ -159,13 +159,13 @@ Now that you have created your database, you need to create an instance to conne
 You'll follow the same steps as before, with a few changes that are described here.
 
 - On the "Configure Instance Details" screen while creating your instance:
-  - Select your VPC in the "Network" selection
-  - Select your Public subnet
-  - Enable auto-assigning a Public IP
+  - Select your VPC in the "Network" selection.
+  - Select your Public subnet.
+  - Enable auto-assigning a Public IP.
 
 ![](../../materials/week05/lb-cloud/16-select-your-vpc-and-public-subnet.png)
 
-- At the bottom of the "Configure Instance Details" screen is a collapsed area called "Advanced Details". Click the text "Advanced Details" to expand this.
+- At the bottom of the "Configure Instance Details" screen is a collapsed area called "Advanced Details." Click the text "Advanced Details" to expand this.
 - You will see a "User data" section. This is an area to specify extra configuration AWS should perform when launching your instance. Below is a script to configure many things for your application:
   - Installs Java
   - Creates the `airwaze` system user
@@ -224,7 +224,6 @@ systemctl enable airwaze.service
 $ scp -i ~/.ssh/aws-ssh-key.pem airwaze-application.jar ubuntu@ec2-instance.us-east-2.compute.amazonaws.com:/opt/airwaze/app.jar
 $ scp -i ~/.ssh/aws-ssh-key.pem routes.csv ubuntu@ec2-instance.us-east-2.compute.amazonaws.com:/home/ubuntu/routes.csv
 $ scp -i ~/.ssh/aws-ssh-key.pem Airports.csv ubuntu@ec2-instance.us-east-2.compute.amazonaws.com:/home/ubuntu/Airports.csv
-
 $ ssh -i ~/.ssh/aws-ssh-key.pem ubuntu@ec2-instance.us-east-2.compute.amazonaws.com
 $ chmod 555 /opt/airwaze/app.jar
 ```
@@ -246,12 +245,10 @@ $ psql -h rds-instance.us-east-2.rds.amazonaws.com -p 5432 -U rds_master_user ai
 - Then set your tables to be owned by your application's DB user.
 ```nohighlight
 CREATE USER airwaze_user WITH PASSWORD 'verysecurepassword';
-
 CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 CREATE EXTENSION fuzzystrmatch;
 CREATE EXTENSION postgis_tiger_geocoder;
-
 CREATE TABLE airport
 (
     id serial primary key,
@@ -265,7 +262,6 @@ CREATE TABLE airport
     name character varying(255),
     time_zone character varying(255)
 );
-
 CREATE TABLE route
 (
     id serial primary key,
@@ -277,7 +273,6 @@ CREATE TABLE route
     src character varying(255),
     src_id integer
 );
-
 ALTER TABLE airport OWNER to airwaze_user;
 ALTER TABLE route OWNER to airwaze_user;
 ```
@@ -295,7 +290,6 @@ $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user
 At this point, everything is ready to go on this instance. You no longer need (or want) to connect to the database directly so uninstall the `postgresql` client package. Then you may start the Airwaze service.
 ```nohighlight
 $ sudo apt-get remove postgresql
-
 $ sudo systemctl start airwaze.service
 ```
 
@@ -305,16 +299,16 @@ You can run `journalctl` as you learned in the previous studio to check the logs
 
 Now that your instance and service are running, return to the EC2 Security Group dashboard. Here you need to enable web access and remove SSH access. This will make your application usable to the world and decrease the risk of unintended access.
 
-- Find and select your instance's security group
-- Select the "Inbound" traffic tab and click "Edit".
+- Find and select your instance's security group.
+- Select the "Inbound" traffic tab and click "Edit."
 
 ![](../../materials/week05/lb-cloud/web-security-group.png)
 
-- Change to "Custom TCP Rule"
-- Enter port 8080
-- Select "My IP" for Source
+- Change to "Custom TCP Rule."
+- Enter port 8080.
+- Select "My IP" for Source.
   - This is where you would typically make the port accessible to the world, but only you need to access the studio instance for now.
-- Click "Save"
+- Click "Save."
 
 ![](../../materials/week05/lb-cloud/swap-web-for-ssh.png)
 
@@ -328,15 +322,15 @@ To facilitate spinning up more instances, you can take an image of your current 
 
 - Return to the EC2 Instances Dashboard.
 - Select your instance.
-- Above, click "Actions", then click "Image", then "Create Image"
+- Above, click "Actions", then click "Image", then "Create Image."
 
 ![](../../materials/week05/lb-cloud/create-image-menu.png)
 
-- Give your image a useful name so you can find it again later
-- Give your image a helpful description
-- Ensure "No reboot" is **not** selected
+- Give your image a useful name so you can find it again later.
+- Give your image a helpful description.
+- Ensure "No reboot" is **not** selected.
   - Taking an image of a running instance is risky as it may catch it in the middle of writing to a file. Just leave this as "No reboot" unless there's a valid reason to not.
-- Click "Create Image"
+- Click "Create Image."
 
 ![](../../materials/week05/lb-cloud/create-image-popup.png)
 
@@ -356,55 +350,55 @@ After creating the instance, return to the EC2 Instances dashboard. Select your 
 
 ## Set Up Load Balancing
 
-Create new public VPC subnet
+Create new public VPC subnet.
 
 ![](../../materials/week05/lb-cloud/lb/lb-create-public-subnet.png)
 
-Select route table
+Select route table.
 
 ![](../../materials/week05/lb-cloud/lb/public-subnet-route-table.png)
 
-Switch to public route table, includes internet gateway
+Switch to public route table, includes internet gateway.
 
 ![](../../materials/week05/lb-cloud/lb/change-to-public-route-table.png)
 
-Select load balancers in sidebar
+Select load balancers in sidebar.
 
 ![](../../materials/week05/lb-cloud/lb/load-balancers-sidebar.png)
 
-Select application load balancer
+Select application load balancer.
 
 ![](../../materials/week05/lb-cloud/lb/application-load-balancer.png)
 
-Create internet facing load balancer on port 80
+Create internet facing load balancer on port 80.
 
 ![](../../materials/week05/lb-cloud/lb/basic-lb-configuration.png)
 
-Configure lb routing with new target group pointing to internal port 8080
+Configure lb routing with new target group pointing to internal port 8080.
 
 ![](../../materials/week05/lb-cloud/lb/configure-lb-routing.png)
 
-Select public availablility zones for load balancer instance
+Select public availablility zones for load balancer instance.
 
 ![](../../materials/week05/lb-cloud/lb/lb-availability-zones.png)
 
-Configure new security group for load balancer to accept open traffic on port 80
+Configure new security group for load balancer to accept open traffic on port 80.
 
 ![](../../materials/week05/lb-cloud/lb/new-lb-security-group.png)
 
-Select your application instances to register them to the lb
+Select your application instances to register them to the lb.
 
 ![](../../materials/week05/lb-cloud/lb/register-instances-to-lb.png)
 
-Monitor load balancer provisioning
+Monitor load balancer provisioning.
 
 ![](../../materials/week05/lb-cloud/lb/load-balancer-instance.png)
 
-Change appication instance security group to only allow traffic from within the VPC
+Change application instance security group to only allow traffic from within the VPC.
 
 ![](../../materials/week05/lb-cloud/lb/make-instance-sg-internal-only.png)
 
-Open http://demo-lb-instance.us-east-2.elb.amazonaws.com in the browser and see the application
+Open http://demo-lb-instance.us-east-2.elb.amazonaws.com in the browser and see the application.
 
 
 Test traffic balancing.  Test one app going down.
