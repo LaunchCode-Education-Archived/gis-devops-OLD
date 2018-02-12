@@ -69,7 +69,7 @@ In order to isolate your application instances from other instances in AWS, you 
 
 ## Set Up RDS
 
-Now that the VPC is set up and ready for use, you need to create your database server. In the last studio, you installed a PostgreSQL server on your instance. This time, we'll use AWS's Relational Database Service (RDS) to host and manage our DB instance.
+Now that the VPC is set up and ready for use, you need to create your database server. In the last studio, you installed a PostgreSQL server on your instance. This time, you'll use AWS's Relational Database Service (RDS) to host and manage our DB instance.
 
 - Click "Services" in the header and select "Relational Database Service"
 
@@ -112,7 +112,7 @@ Now that you've created the database subnets, you need to create a database inst
 
 ![](../../materials/week05/lb-cloud/10-instance-class.png)
 
-Next, you'll set up the instance's identifier and master user account. Do not set up the application user as the master user. That would introduce a security risk for your database and data if your application were to be compromised. We will set up a separate DB user account later.
+Next, you'll set up the instance's identifier and master user account. Do not set up the application user as the master user. That would introduce a security risk for your database and data if your application were to be compromised. You will set up a separate DB user account later.
 
 - Give your DB instance a useful name in the `DB instance identifier` field.
 - Make a master username that is difficult to guess, but easy for you to remember.
@@ -229,12 +229,22 @@ $ ssh -i ~/.ssh/aws-ssh-key.pem ubuntu@ec2-instance.us-east-2.compute.amazonaws.
 $ chmod 555 /opt/airwaze/app.jar
 ```
 
-Now that you have your instance set up and ready, you need to log into the server to prepare your database and start the service. During development of the Airwaze studio application, it was set to reload the database on every start of the service. This is not something you want happening in your cloud environment. Instead, you'll create everything your application needs in
+Now that you have your instance set up and ready, you need to log into the server to prepare your database and start the service. During development of the Airwaze studio application, it was set to reload the database on every start of the service. This is not something you want happening in your cloud environment. Instead, you'll create everything your application needs in your instance by hand.
+
+- SSH to your instance, then install the `postgresql` client package.
+- Connect to your RDS instance using the master account you created before.
 ```nohighlight
 $ sudo apt-get update
 $ sudo apt-get install postgresql
 $ psql -h rds-instance.us-east-2.rds.amazonaws.com -p 5432 -U rds_master_user airwaze_db
+```
 
+- In the `psql` console, create:
+  - The application's DB user
+  - The postgis extensions
+  - The data tables
+- Then set your tables to be owned by your application's DB user.
+```nohighlight
 CREATE USER airwaze_user WITH PASSWORD 'verysecurepassword';
 
 CREATE EXTENSION postgis;
@@ -272,16 +282,43 @@ ALTER TABLE airport OWNER to airwaze_user;
 ALTER TABLE route OWNER to airwaze_user;
 ```
 
+Now that the tables are created, you need to fill them with data.
+
+- Run the following commands to copy from your CSV files into the database.
+
 ```nohighlight
 $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user -c "\copy route(src, src_id, dst, dst_id, airline, route_geom) from STDIN DELIMITER ',' CSV HEADER" < /home/ubuntu/routes.csv
 
 $ psql -h rds-instance.us-east-2.rds.amazonaws.com -d airwaze_db -U airwaze_user -c "\copy airport(airport_id, name, city, country, faa_code, icao, altitude, time_zone, airport_lat_long) from STDIN DELIMITER ',' CSV HEADER" < /home/ubuntu/Airports.csv
-
-sudo apt-get remove postgresql
-
-sudo systemctl start airwaze.service
 ```
 
+At this point, everything is ready to go on this instance. You no longer need (or want) to connect to the database directly so uninstall the `postgresql` client package. Then you may start the Airwaze service.
+```nohighlight
+$ sudo apt-get remove postgresql
+
+$ sudo systemctl start airwaze.service
+```
+
+You can run `journalctl` as you learned in the previous studio to check the logs for your running service.
+
+## Configure the Security Group
+
+Now that your instance and service are running, return to the EC2 Security Group dashboard. Here you need to enable web access and remove SSH access. This will make your application usable to the world and decrease the risk of unintended access.
+
+- Find and select your instance's security group
+- Select the "Inbound" traffic tab and click "Edit".
+
+![](../../materials/week05/lb-cloud/web-security-group.png)
+
+- Change to "Custom TCP Rule"
+- Enter port 8080
+- Select "My IP" for Source
+  - This is where you would typically make the port accessible to the world, but only you need to access the studio instance for now.
+- Click "Save"
+
+![](../../materials/week05/lb-cloud/swap-web-for-ssh.png)
+
+You may now try to access your application at http://ec2-instance.us-east-2.compute.amazonaws.com:8080 in your browser.
 
 ## Set Up Load Balancing
 
