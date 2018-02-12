@@ -10,6 +10,9 @@ title: Week 5 - Day 1
 
 ## Walkthrough
 
+- [Intro to DevOps](../../walkthroughs/intro-to-devops)
 
 ## Studio
+
+- [AWS DevOps Basics](../../studios/AWS)
 
