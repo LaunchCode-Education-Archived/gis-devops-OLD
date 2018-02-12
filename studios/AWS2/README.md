@@ -356,9 +356,57 @@ After creating the instance, return to the EC2 Instances dashboard. Select your 
 
 ## Set Up Load Balancing
 
+Create new public VPC subnet
 
-Spin up a second EC2 machine based on the server snapshot.
-Provision an ElasticLoadBalancer in front of the two EC2 machines.
+![](../../materials/week05/lb-cloud/lb/lb-create-public-subnet.png)
+
+Select route table
+
+![](../../materials/week05/lb-cloud/lb/public-subnet-route-table.png)
+
+Switch to public route table, includes internet gateway
+
+![](../../materials/week05/lb-cloud/lb/change-to-public-route-table.png)
+
+Select load balancers in sidebar
+
+![](../../materials/week05/lb-cloud/lb/load-balancers-sidebar.png)
+
+Select application load balancer
+
+![](../../materials/week05/lb-cloud/lb/application-load-balancer.png)
+
+Create internet facing load balancer on port 80
+
+![](../../materials/week05/lb-cloud/lb/basic-lb-configuration.png)
+
+Configure lb routing with new target group pointing to internal port 8080
+
+![](../../materials/week05/lb-cloud/lb/configure-lb-routing.png)
+
+Select public availablility zones for load balancer instance
+
+![](../../materials/week05/lb-cloud/lb/lb-availability-zones.png)
+
+Configure new security group for load balancer to accept open traffic on port 80
+
+![](../../materials/week05/lb-cloud/lb/new-lb-security-group.png)
+
+Select your application instances to register them to the lb
+
+![](../../materials/week05/lb-cloud/lb/register-instances-to-lb.png)
+
+Monitor load balancer provisioning
+
+![](../../materials/week05/lb-cloud/lb/load-balancer-instance.png)
+
+Change appication instance security group to only allow traffic from within the VPC
+
+![](../../materials/week05/lb-cloud/lb/make-instance-sg-internal-only.png)
+
+Open http://demo-lb-instance.us-east-2.elb.amazonaws.com in the browser and see the application
+
+
 Test traffic balancing.  Test one app going down.
 
 ## Bonus Mission
