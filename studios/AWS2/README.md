@@ -320,7 +320,42 @@ Now that your instance and service are running, return to the EC2 Security Group
 
 You may now try to access your application at http://ec2-instance.us-east-2.compute.amazonaws.com:8080 in your browser.
 
+## Take a Snapshot
+
+The benefit of the cloud is more than just having an application running on a single server in the cloud. You can make your application more resilient by having it run on multiple servers with a load balancer transferring traffic to the least-used server.
+
+To facilitate spinning up more instances, you can take an image of your current instance to start others.
+
+- Return to the EC2 Instances Dashboard.
+- Select your instance.
+- Above, click "Actions", then click "Image", then "Create Image"
+
+![](../../materials/week05/lb-cloud/create-image-menu.png)
+
+- Give your image a useful name so you can find it again later
+- Give your image a helpful description
+- Ensure "No reboot" is **not** selected
+  - Taking an image of a running instance is risky as it may catch it in the middle of writing to a file. Just leave this as "No reboot" unless there's a valid reason to not.
+- Click "Create Image"
+
+![](../../materials/week05/lb-cloud/create-image-popup.png)
+
+AWS will then shut down your instance, take an image of it, then restart it. Click the link in the confirmation dialog to montior the process of the image creation.
+
+![](../../materials/week05/lb-cloud/create-image-pending.png)
+
+Once the image creation is complete, you can launch new instances with this image. Select your Amazon Machine Image (AMI) and click "Launch".
+
+![](../../materials/week05/lb-cloud/launch-instance-from-image.png)
+
+This will start the familiar instance creation process, but with your image rather than the "standard" Ubuntu image you've been using. As before, on "Configure Instance Details", select your VPC, public subnet, and assign a Public IP. This time, ***do not*** provide a User data script since this image already has the full configuration run.
+
+After creating the instance, return to the EC2 Instances dashboard. Select your new instance and you'll see it was created from the image you created rather than the Ubuntu AMI used to create the previous one.
+
+![](../../materials/week05/lb-cloud/new-ami-id.png)
+
 ## Set Up Load Balancing
+
 
 Spin up a second EC2 machine based on the server snapshot.
 Provision an ElasticLoadBalancer in front of the two EC2 machines.
