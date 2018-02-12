@@ -412,15 +412,3 @@ Test traffic balancing.  Test one app going down.
 ## Bonus Mission
 
 Bonus: Provision an SSH bastion and make the application servers only accessible via http.
-
-
-
-
-
-Spin up one EC2 machine
-Load psql and load data to db
-Set up and connect to DB
-Take Snapshot
-Configure firewall to allow SSH and HTTP access.
-
-Build a new instance
