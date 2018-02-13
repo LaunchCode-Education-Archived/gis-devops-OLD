@@ -65,5 +65,59 @@ $ aws s3 sync s3://launchcode-gisdevops-c1-yourname/ /opt/airwaze
 
 ### Configure your VPC
 
+Next we want to configure the VPC to contain an autoscaling group. Navigate to EC2 and click on "Auto Scaling Group" in the left sidebar. Click "Create Auto Scaling Group"
+![Screenshot of autoscaling group](../../materials/week05/day3/autoscaling_group)
 
+Click "Create a new launch configuration"
+
+Select the custom AMI that we created last studio.  It should be located in the "My AMIs" section.
+
+Name the LaunchConfiguration `launchConfig-yourname`.  Give it the IAM role of `EC2_to_S3_readonly`.  In advanced details, pasted int eh following script:
+```
+#!/bin/bash
+# Install Java
+apt-get update -y && apt-get install -y openjdk-8-jdk awscli
+
+# Create airwaze user
+useradd -M airwaze
+mkdir /opt/airwaze
+aws s3 sync  s3://launchcode-gisdevops-c1-yourname/ /opt/airwaze
+mkdir /etc/opt/airwaze
+chown -R airwaze:airwaze /opt/airwaze /etc/opt/airwaze
+chmod 777 /opt/airwaze
+
+# Write Airwaze config file
+cat << EOF > /etc/opt/airwaze/airwaze.config
+APP_DB_HOST=rds-instance.us-east-2.rds.amazonaws.com
+APP_DB_PORT=5432
+APP_DB_NAME=airwaze_db
+APP_DB_USER=airwaze_user
+APP_DB_PASS=verysecurepassword
+EOF
+
+# Write systemd unit file
+cat << EOF > /etc/systemd/system/airwaze.service
+[Unit]
+Description=Airwaze Studio
+After=syslog.target
+
+[Service]
+User=airwaze
+EnvironmentFile=/etc/opt/airwaze/airwaze.config
+ExecStart=/usr/bin/java -jar /opt/airwaze/app.jar SuccessExitStatus=143
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable airwaze.service
+```
+
+Click "Assign a public IP address to every instance."
+
+
+Add general storage.  
+
+For the security group, you want to add the Security Group of your web servers in your VPC.  Both 22 and 80 should be kept open.
 
