@@ -476,4 +476,5 @@ Congratulations! You have successfully created a load-balanced application in th
 
 ## Bonus Mission
 
-Bonus: Provision an SSH bastion to give you a way to connect to the private application servers.
+There's no bonus mission today.  Use your time to work on your project or brush up on topics that you want to learn more about.
+
