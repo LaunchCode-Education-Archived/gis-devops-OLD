@@ -84,4 +84,3 @@ Deliver an app with the the following features:
 - Create ELB instances that distribute traffic across multiple EC2 servers.
 - Configure an EC2 instances to connect to an RDS database.
 - Use Telnet to troubleshoot TCP connections.
-- 
