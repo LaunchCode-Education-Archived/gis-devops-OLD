@@ -77,3 +77,10 @@ Deliver an app with the the following features:
 - Manage Unix processes.
 - Configure systemd daemon processes to run on startup.
 - Use logs to troubleshoot applications.
+
+### Day 2
+- Understand the role of the VPC in providing security for multiple instances.
+- Understand why AWS provides "High Availability" ELB and RDS instances.
+- Create ELB instances that distribute traffic across multiple EC2 servers.
+- Configure an EC2 instances to connect to an RDS database.
+- Use Telnet to troubleshoot TCP connections.

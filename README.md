@@ -40,3 +40,4 @@ Day | Topics
 Day | Topics
 |----|--------|
 [Day 1](week05/day1/) | Intro to DevOps
+[Day 2](week05/day2/) | Intro to AWS
