@@ -1,5 +1,5 @@
 ---
-title: "Walkthrough: Flyway"
+title: "Walkthrough: Introduction to Amazon Web Services"
 ---
 
 Follow along with the instructor as we configure an app to run inside a VPC.
