@@ -104,7 +104,7 @@
 <pre><code class="language-nohighlight">spring.datasource.url=jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
 spring.datasource.username=${APP_DB_USER}
 spring.datasource.password=${APP_DB_PASS}
-# spring.jpa.hibernate.ddl-auto = create</code></pre></li>
+spring.jpa.hibernate.ddl-auto = update</code></pre></li>
 <li>Go into IntelliJ's Gradle tool window, and click on <em>Tasks &gt; build &gt; bootRepackage</em>.</li>
 <li>Verify that the jar appears in <code>build/libs</code>.</li>
 </ul>
