@@ -6,8 +6,10 @@ title: Week 5 - Day 3
 
 ## Lesson Content
 
-- [12 Factor Apps](https://education.launchcode.org/gis-devops/week5/intro-to-devops.html)
+- [12 Factor Apps](https://education.launchcode.org/gis-devops-slides/week5/12-factor.html)
 
 ## Studio
+
 - [Scaling on AWS](../../studios/AWS3)
+
 

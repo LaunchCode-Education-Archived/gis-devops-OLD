@@ -15,7 +15,7 @@ This studio will expand on what was learned in the AWS basics unit. Your goal is
 spring.datasource.url=jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
 spring.datasource.username=${APP_DB_USER}
 spring.datasource.password=${APP_DB_PASS}
-# spring.jpa.hibernate.ddl-auto = create
+spring.jpa.hibernate.ddl-auto = update
 ```
 - Go into IntelliJ's Gradle tool window, and click on *Tasks > build > bootRepackage*.
 - Verify that the jar appears in `build/libs`.
