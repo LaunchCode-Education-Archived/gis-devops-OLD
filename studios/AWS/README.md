@@ -68,6 +68,8 @@ Configuring the security groups for your server is critical for protecting your 
 
 This screen gives you a final chance to review and change the settings you chose for this instance. Open the dropdowns on the screen and when you're ready, click "Launch".
 
+### Setting up a KeyPair
+
 This will open a popup on the screen that allows you to configure a key pair for the instance. This will generate the key necessary to SSH into the instance and without this you will not be able to access your instance. In an enterprise environment, there will likely already be multiple key pairs set up that you would use here. For the purpose of this project, create a new key pair:
   - Select "Create a new key pair" in the first select box
   - Give your key pair a good name, possibly the same name you gave your security group
