@@ -84,7 +84,7 @@ Deliver an app with the the following features:
 - Create ELB instances that distribute traffic across multiple EC2 servers.
 - Configure an EC2 instances to connect to an RDS database.
 - Use Telnet to troubleshoot TCP connections.
-- 
+
 ### Day 3
 - Understand why the 12 Factor App principles are important in building a Cloud Native app.
 - Explain why an ephemeral file system is required to scale apps on the cloud.
