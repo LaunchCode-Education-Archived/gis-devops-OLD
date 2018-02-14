@@ -8,9 +8,6 @@ title: Week 5 - Day 3
 
 - [12 Factor Apps](https://education.launchcode.org/gis-devops/week5/intro-to-devops.html)
 
-## Walkthrough
-- [ElasticBeanstalk Scaling](../../walkthroughs/elastic_beanstalk)
-
 ## Studio
 - [Scaling on AWS](../../studios/elastic_beanstalk)
 
