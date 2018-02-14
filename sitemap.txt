@@ -17,6 +17,7 @@ https://education.launchcode.org/gis-devops/studios/swagger-ui/index.html
 https://education.launchcode.org/gis-devops/studios/tdd/index.html
 https://education.launchcode.org/gis-devops/studios/user-stories/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/AWS2/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/AWS3/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch1/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch2/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/eslint-airwaze/index.html
