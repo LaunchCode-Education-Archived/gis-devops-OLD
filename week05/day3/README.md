@@ -9,4 +9,7 @@ title: Week 5 - Day 3
 - [12 Factor Apps](https://education.launchcode.org/gis-devops-slides/week5/12-factor.html)
 
 ## Studio
-- [Scaling on AWS](../../studios/elastic_beanstalk)
+
+- [Scaling on AWS](../../studios/AWS3)
+
+
