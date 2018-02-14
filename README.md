@@ -42,3 +42,4 @@ Day | Topics
 [Day 1](week05/day1/) | Intro to DevOps
 [Day 2](week05/day2/) | Intro to AWS
 [Day 3](week05/day3/) | 12 Factor Apps
+[Day 4](week05/day4/) | Continous Integration

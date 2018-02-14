@@ -92,3 +92,6 @@ Deliver an app with the the following features:
 - Understand the importance of parity between development, staging, and production environments.
 - Create an autoscaling app on AWS.
 - Describe why ELB and RDS databases are "high availability".
+
+### Day 4
+- TBD
