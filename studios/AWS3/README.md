@@ -36,7 +36,7 @@ Next configure your the AWS CLI tool.  Use the "Default region name" or `us-east
 $ aws configure
 AWS Access Key ID [None]: AK-------------------
 AWS Secret Access Key [None]: r4------------------
-Default region name [None]: us-east-2
+Default region name [None]: us-east-1
 Default output format [None]: 
 ```
 
