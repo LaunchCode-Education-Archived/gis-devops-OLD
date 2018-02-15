@@ -35,6 +35,7 @@ currentMenu: objectives
 - Flyway for database migrations
 
 ### Day 5
+
 - AJAX requests
 - Open Layers
 
@@ -49,6 +50,7 @@ Deliver an app with the the following features:
 ## Week 3
 
 ### Day 1
+
 - Describe the main features of a RESTful web service
 - Describe the usage of HTTP methods in a RESTful web service
 - Describe the URL format for a RESTful web service
@@ -61,6 +63,7 @@ Deliver an app with the the following features:
 - Use and design RESTful URLs, including nested resources and query/filtering parameters
 
 ### Day 2
+
 - Identify the difference between Swagger toolset and the Open API Specification
 - Compose Swagger YAML files to define the endpoints, responses, and schema of an API
 - Use `$ref` to reference reuseable definitions
@@ -71,7 +74,9 @@ Deliver an app with the the following features:
 - Explain the four levels of the REST maturity model
 
 ## Week 5
+
 ### Day 1
+
 - Use and configure SSH to access remote machines.
 - Manage Unix file permisions for owners and groups.
 - Manage Unix processes.
@@ -79,6 +84,7 @@ Deliver an app with the the following features:
 - Use logs to troubleshoot applications.
 
 ### Day 2
+
 - Understand the role of the VPC in providing security for multiple instances.
 - Understand why AWS provides "High Availability" ELB and RDS instances.
 - Create ELB instances that distribute traffic across multiple EC2 servers.
@@ -86,6 +92,7 @@ Deliver an app with the the following features:
 - Use Telnet to troubleshoot TCP connections.
 
 ### Day 3
+
 - Understand why the 12 Factor App principles are important in building a Cloud Native app.
 - Explain why an ephemeral file system is required to scale apps on the cloud.
 - Understand how to handle log files on the cloud.
@@ -94,4 +101,16 @@ Deliver an app with the the following features:
 - Describe why ELB and RDS databases are "high availability".
 
 ### Day 4
-- TBD
+
+- Understand the purpose of Gradle, and the types of tasks it can carry out
+- Describe the historical relationship between Gradle, Maven, Ivy, and Ant
+- Understand the content of Gradle files as written in Groovy and the Gradle DSL
+- Understand Gradle Java project structure
+- Describe the three task lifecycle phases
+- Recognize tasks as objects with associated behaviors
+- Create basic tasks, including tasks with dependencies
+- Understand that tasks can be built from provided task classes such as `DefaultTask`, `Copy`, `Jar`, and so on
+- Describe the types of behavior that plugins can provide to a project
+- Install and use plugins
+- Understand how to configure project dependencies with proper scope
+- Describe how Gradle resovles task and project dependencies using a directed acyclic graph representation
