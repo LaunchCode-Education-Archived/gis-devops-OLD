@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Walkthrough: Jenkins :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-walkthrough-jenkins'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Walkthrough: Jenkins</h1>
+                    <p>Follow along with the instructor as we configure Jenkins.</p>
+<h2 id="our-continous-integration-goals">Our Continous Integration Goals</h2>
+<p>After a branch/story is merged into our <code>master</code> branch. We want...</p>
+<ol>
+<li>Make sure the code compiles</li>
+<li>Makes sure the tests pass</li>
+<li>Deliver a <code>.jar</code> file that is ready to be deployed</li>
+</ol>
+<h2 id="install-and-configure-jenkins">Install and Configure Jenkins</h2>
+<ul>
+<li>Download jenkins from <a href="https://jenkins.io/download/" target="_blank">jenkins home page</a> by clicking <em>Generic Java War</em> options at the bottom</li>
+<li>Copy the <code>jenkins.war</code> file the folder to <code>~/jenkins</code></li>
+<li>Now start jenkins
+<pre><code>$ java -jar ~/jenkins/jenkins.war --httpPort=9090</code></pre>
+<aside class="aside-note">
+<p>Normally you would not install jenkins on your dev machine. You would isntall it on a server that would be continsouly running so that it could react to a commit at anytime.</p>
+</aside></li>
+</ul>
+<h4 id="configure-jenkins">Configure Jenkins</h4>
+<ul>
+<li>Go to <code>http:localhost:9090</code></li>
+<li>You should see screen asking for an admin key</li>
+<li>In terminal view the file listed and copy the key inside it</li>
+<li>Paste that key into the input box</li>
+</ul>
+<h4 id="install-plugins">Install Plugins</h4>
+<ul>
+<li>Click install suggested plugins (this will take a couple minutes)</li>
+</ul>
+<h4 id="create-a-jenkins-user">Create a Jenkins User</h4>
+<ul>
+<li>This will be how you login to jenkins going forward</li>
+<li>Be sure to remember the username and password</li>
+</ul>
+<h2 id="create-project-to-compile-airwaze">Create Project to Compile Airwaze</h2>
+<ul>
+<li>Click <em>New Item</em></li>
+<li>Enter name <code>Airwaze Compile</code></li>
+<li>Click <em>Freestyle Project</em></li>
+<li>Click <em>Ok</em> at bottom</li>
+</ul>
+<h4 id="configure-the-compile-project">Configure the Compile Project</h4>
+<ul>
+<li>In <em>Source Code Management</em> click <em>Git</em></li>
+<li>Post your gitlab repo url into <em>Repository URL</em></li>
+<li>Make sure you the branch you want to compile is in the <em>Branch Specifier</em> field </li>
+<li>Go to the <em>Build Triggers</em> section</li>
+<li>Select <em>Poll SCM</em> and enter <code>H/5 * * * *</code> into the <em>Schedule</em> input </li>
+<li>Go to the <em>Build</em> section</li>
+<li>Click <em>Add build step</em></li>
+<li>Click <em>Invode Gradle script</em></li>
+<li>Enter <code>clean build</code> into the <em>Tasks</em> input</li>
+</ul>
+<p>Now test out the build by clicking <em>Build Now</em></p>
+<h4 id="we-need-to-install-a-plugin">We Need to Install a Plugin</h4>
+<ul>
+<li>Go to your jenkins home page <code>http://localhost:9090</code></li>
+<li>Click <em>Manage Jenkins</em> on the left</li>
+<li>Click <em>Manage Plugins</em> on the right</li>
+<li>Click <em>Available</em></li>
+<li>Enter <em>Parameterized Trigger</em> in search box</li>
+<li>Install <em>Parameterized Trigger plugin</em> without restarting</li>
+</ul>
+<h2 id="create-test-createjar-and-deploytos3-projects">Create Test, CreateJar, and DeployToS3 Projects</h2>
+<ul>
+<li>Create three more <em>Freestyle</em> projects</li>
+<li><code>Airwaze Test</code></li>
+<li><code>Airwaze CreateJar</code> </li>
+<li><code>Airwaze Deliver</code></li>
+<li>Don't do anything but give these a name. We will configure them next.</li>
+</ul>
+<h3 id="edit-the-compile-project">Edit the Compile Project</h3>
+<p>We need the <em>Compile Project</em> to kick off the <em>Test Project</em> when it's done. We also want the two projects to share the same work space, so that the repo doesn't have to be checked out again.</p>
+<ul>
+<li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Compile/</code></li>
+<li>Click <em>Configure</em></li>
+<li>Go to <em>Post Build Actions</em></li>
+<li>Enter <code>Airwaze Test</code> as the projec to build</li>
+<li>Click <em>Add Parameters</em> and select <em>Build on the same node</em></li>
+<li>Click <em>Add Parameters</em> again and select <em>Predefined parameters</em></li>
+<li>Enter this <code>AIRWAZE_WORKSPACE=${WORKSPACE}</code> into input</li>
+<li>Click save</li>
+</ul>
+<h4 id="configure-test-project">Configure Test Project</h4>
+<ul>
+<li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Test/</code></li>
+<li>In <em>General</em> select <em>This project is parameterized</em></li>
+<li>Paste this <code>AIRWAZE_WORKSPACE</code> into <em>name</em> input</li>
+<li>Go to the <em>Build</em> section</li>
+<li>Click <em>Add build step</em></li>
+<li>Click <em>Invode Gradle script</em></li>
+<li>Enter <code>test</code> into the <em>Tasks</em> input
+Now we need to kick off the <em>CreateJar Project</em></li>
+<li>Go to <em>Post Build Actions</em></li>
+<li>Enter <code>Airwaze CreateJar</code> as the project to build</li>
+<li>Click <em>Add Parameters</em> and select <em>Build on the same node</em></li>
+<li>Click <em>Add Parameters</em> again and select <em>Predefined parameters</em></li>
+<li>Enter this <code>AIRWAZE_WORKSPACE=${WORKSPACE}</code> into input</li>
+<li>Click save</li>
+</ul>
+<p>Run the Test Project</p>
+<ul>
+<li>You can view the tests by finding the test results in the project <code>works space/builds/reports/tests/test</code></li>
+<li>Or we can configure the tests results to be pushlised on the project results</li>
+<li>Go to the <em>Post build actions</em> for the <em>Test Project</em></li>
+<li>Select <em>Publish JUnit test result report</em> and input this <code>build/test-results/test/*.xml</code> into input</li>
+<li>Run the project again and you will see the test results on the project page</li>
+</ul>
+<h4 id="configure-createjar-project">Configure CreateJar Project</h4>
+<ul>
+<li>Same configuration as the <em>Test Project</em>, with these exceptions</li>
+<li>In the <em>Build</em> section run this gradle command <code>bootRepackage</code></li>
+<li>In <em>Post Build Actions</em> project to build enter <code>Airwaze Deliver</code></li>
+<li>Do not have the test results copied as we did with the <em>Test Project</em></li>
+</ul>
+<h4 id="setup-s3-bucket-needed-so-we-can-configure-the-next-project">Setup S3 Bucket (Needed so we can configure the next project)</h4>
+<ul>
+<li>If you haven't already, you need to install <code>awscli</code>. Instructions can be found in the <a href="https://education.launchcode.org/gis-devops/studios/AWS3/" target="_blank">AWS3 Studio</a></li>
+<li>Create a new S3 bucket that will used for the <code>.jar</code> files your jenkins builds produce</li>
+<li>
+<p>Be sure to create the new bucket with <strong>VERSIONING</strong> enabled</p>
+<p>Make sure your s3 bucket shows up when you run this command in terminal</p>
+<pre><code>$ aws s3 ls</code></pre>
+</li>
+</ul>
+<h4 id="configure-deliver-project">Configure Deliver Project</h4>
+<ul>
+<li>Same configuration as <em>CreateJar Project</em>, with these two exceptions</li>
+<li>In the <em>Build</em> section select <em>Execute shell</em></li>
+<li>Enter this into input <code>aws s3 cp build/libs/app-0.0.1-SNAPSHOT.jar s3://YOUR-S3-BUCKET/</code></li>
+<li>There are NO <em>Post Build Actions</em></li>
+</ul>
+<h2 id="thats-it">That's It!</h2>
+<p>Now run the <em>Airwaze Compile</em> project now and watch it kick off the other projects automatically!</p>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>
