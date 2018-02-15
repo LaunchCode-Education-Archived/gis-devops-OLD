@@ -111,8 +111,9 @@ Run the Test Project
 #### Setup S3 Bucket (Needed so we can configure the next project)
  - If you haven't already, you need to install `awscli`. Instructions can be found in the [AWS3 Studio](https://education.launchcode.org/gis-devops/studios/AWS3/)
  - Create a new S3 bucket that will used for the `.jar` files your jenkins builds produce
- - TODO: instructions for creating bucket with VERSIONING
- Make sure your s3 bucket shows up when you run this command
+ - Be sure to create the new bucket with **VERSIONING** enabled
+ 
+ Make sure your s3 bucket shows up when you run this command in terminal
  ```
  $ aws s3 ls
  ```
