@@ -73,6 +73,29 @@ Deliver an app with the the following features:
 - Explain HATEOAS from the perspective of the data returned by a REST service
 - Explain the four levels of the REST maturity model
 
+### Day 3
+
+- Describe the use cases for Elasticsearch (ES)
+- Understand how NoSQL databases structure data, in contrast to relational databases
+- Describe the representation of data in ES as indexes of documents with fields
+- Describe the high-level architecture of ES as being based on a cluster with nodes and shards
+- Describe how ES is fault-tolerant
+- Know when ES should be used beyond the primary data store for an application
+- Use curl to query the search API of an index
+- Write filter queries
+- Understand query and filter context, and how each affects a result set
+- Describe how analyzers are used for full text queries
+- Describe how boost and highlighting can customize result sets
+- Use pagination of result sets
+- Describe and use fuzzy queries, geo queries, and aggregations
+
+### Day 4
+
+- Understand how parent/child relationships are represented, and how this contrasts with such relationships in relational databases
+- Describe and configure document mappings, and know the causes of and preventions for mapping explosion
+- Describe the purpose and procedure for reindexing
+- Use Elasticsearch.js to query ES instances from the browser
+
 ## Week 5
 
 ### Day 1
