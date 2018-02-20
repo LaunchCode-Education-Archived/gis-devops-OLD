@@ -18,7 +18,7 @@ The Zika Dashboard that your team has built is growing in popularity.  In fact, 
 To complete this project, your app should meet the following requirements:
   * Your application is deployed via AWS at a live URL.
   * Your application can consistently handle 300 requests per second.
-  * Jenkins pushes a release to S3 if all of the following pass:
+  * Bonus:  Jenkins watches your repo pushes a release to S3 if all of the following pass:
     * All JUnit tests pass.
     * ESLint has no warnings.  
 
