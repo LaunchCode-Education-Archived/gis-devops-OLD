@@ -26,8 +26,15 @@ To complete this project, your app should meet the following requirements:
 There will be a few differences in this project compared to previous week's studios:
 1. You will be using the `CentOS` database.  `CentOS` is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use `yum install` instead of `apt-get install`. Here is the [URL to the AWS Image of CentOS](https://wiki.centos.org/Cloud/AWS)
 2. You will be working in `us-west-2` region (also known as `Oregon`).
-3. The project has been upgraded to Gradle 4.4.  You'll want to use your existing project, but Feel free to merge in changes from the [week6-starter branch](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter).
-4. You will be running ElasticSearch remotely in this project.  You'll need to spin up a `t2.small` EC2 instance to serve ElasticSearch.  Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure the machine.
+3. The project has been upgraded to Gradle 4.4.  You'll want to use your existing project, but Feel free to merge in changes from the [week6-starter branch](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter). Use the command `gradle clean bootJar` to build your project.
+4. You will be running ElasticSearch remotely in this project.  You'll need to spin up a `t2.small` EC2 instance to serve ElasticSearch.  Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure the machine. To run Elasticsearch locally, we are going to be using Docker, here is the command:
+```
+/usr/bin/docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+```
+<aside class="aside-note" markdown="1">
+  Be sure to stop your home brew Elasticsearch by running `brew services stop elasticsearch`
+</aside>
+
 
 
 Deploy whatever app you currently have working.  For example, if you have ElasticSearch working be sure to spin up an ElasticSearch instance on AWS.
