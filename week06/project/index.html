@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GIS DevOps :: GIS DevOps</title>
+        <title>Week 6 - Project Week :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-gis-devops'>
+    <body id='page-week-6---project-week'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,128 +94,56 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>GIS DevOps</h1>
-                    <h2 id="week-1">Week 1</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week01/day1/">Day 1</a></td>
-<td>Git and GitLab, Java projects in IntelliJ, refactoring, unit testing</td>
-</tr>
-<tr>
-<td><a href="week01/day2/">Day 2</a></td>
-<td>Agile/Scrum ceremonies, Test-driven development</td>
-</tr>
-<tr>
-<td><a href="week01/day3/">Day 3</a></td>
-<td>Integration testing, dependency injection</td>
-</tr>
-<tr>
-<td><a href="week01/day4/">Day 4</a></td>
-<td>Postgres, Flyway</td>
-</tr>
-<tr>
-<td><a href="week01/day5/">Day 5</a></td>
-<td>AJAX, Open Layers</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-2">Week 2</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week02/project/">Day 1-5</a></td>
-<td>Zika Mission Control</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-3">Week 3</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week03/day1/">Day 1</a></td>
-<td>RESTful web services</td>
-</tr>
-<tr>
-<td><a href="week03/day2/">Day 2</a></td>
-<td>Swagger REST framework</td>
-</tr>
-<tr>
-<td><a href="week03/day3/">Day 3</a></td>
-<td>Intro to Elasticsearch</td>
-</tr>
-<tr>
-<td><a href="week03/day4/">Day 4</a></td>
-<td>Kibana and ElasticSearch.js</td>
-</tr>
-<tr>
-<td><a href="week03/day5/">Day 5</a></td>
-<td>ES2015, ESLint, OpenLayers</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-4">Week 4</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week04/project/">Day 1-5</a></td>
-<td>Zika Mission Control Part 2</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-5">Week 5</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week05/day1/">Day 1</a></td>
-<td>Intro to DevOps</td>
-</tr>
-<tr>
-<td><a href="week05/day2/">Day 2</a></td>
-<td>Intro to AWS</td>
-</tr>
-<tr>
-<td><a href="week05/day3/">Day 3</a></td>
-<td>12 Factor Apps</td>
-</tr>
-<tr>
-<td><a href="week05/day4/">Day 4</a></td>
-<td>Gradle, Continuous Integration</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-6">Week 6</h2>
-<p><a href="week06/project">Day 1-5</a> | Zika Mission Control Part 3</p>
+                                        <h1>Week 6 - Project Week</h1>
+                    <h2 id="project">Project</h2>
+<p><a href="../../materials/week06/zika_mission_briefing_3.pdf">Mission Briefing 3</a></p>
+<h2 id="overview">Overview</h2>
+<p>The Zika Dashboard that your team has built is growing in popularity.  In fact, the application is strained under increased load from CDC Scientists. Your team needs to find a way for you app to scale under increased load.  The goals of this mission are as follows:</p>
+<ol>
+<li>Deploy your application remotely using Amazon Web Services.</li>
+<li>Configure a Jenkins job to automatically build and test your code.  Jenkins should save an executable JAR file to S3 if all of the following checks pass:</li>
+</ol>
+<h2 id="requirements">Requirements</h2>
+<p>To complete this project, your app should meet the following requirements:</p>
+<ul>
+<li>Your application is deployed via AWS at a live URL.</li>
+<li>Your application can consistently handle 300 requests per second.</li>
+<li>Jenkins pushes a release to S3 if all of the following pass:
+<ul>
+<li>All JUnit tests pass.</li>
+<li>ESLint has no warnings.  </li>
+</ul></li>
+</ul>
+<h3 id="a-couple-of-notes">A Couple of Notes</h3>
+<p>There will be a few differences in this project compared to previous week's studios:</p>
+<ol>
+<li>You will be using the <code>CentOS</code> database.  <code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. Here is the <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">URL to the AWS Image of CentOS</a></li>
+<li>You will be working in <code>us-west-2</code> region (also known as <code>Oregon</code>).</li>
+<li>The project has been upgraded to Gradle 4.4.  You'll want to use your existing project, but Feel free to merge in changes from the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">week6-starter branch</a>.</li>
+<li>You will be running ElasticSearch remotely in this project.  You'll need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch.  Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure the machine.</li>
+</ol>
+<p>Deploy whatever app you currently have working.  For example, if you have ElasticSearch working be sure to spin up an ElasticSearch instance on AWS.</p>
+<aside class="aside-note">
+<p>To log into a CentOS instance, you will need to use the username <code>centos</code>.</p>
+</aside>
+<h2 id="setup">Setup</h2>
+<p>To get started, you are provided with a CloudFormation template in an S3 bucket. This CloudFormation template provisions a VPC with the following:</p>
+<ol>
+<li>Two public subnets with an internet gateway (each in their own availability zone). </li>
+<li>Two private subnets (each in their own availability zone).</li>
+<li>One security group for web servers (ports 80 and 22 open). <code>WebAppSecurityGroup</code></li>
+<li>One security group for databases (port 5432 open). <code>DatabaseSecurityGroup</code></li>
+<li>One security group for load balancers (port 80 open). <code>ELBSecurityGroup</code></li>
+</ol>
+<p>Here is the link to the setup CloudFormation script:
+<a href="https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json" target="_blank">https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json</a></p>
+<p>Follow the instruction from the <a href="https://education.launchcode.org/gis-devops/studios/AWS3#configure-your-vpc" target="_blank">Scaling AWS Studio</a> to setup your VPC from a CloudFormation script.</p>
+<p>Also, since we're working in <code>us-west-2</code>, remember we need to reconfigure your <code>aws-cli</code> so that you're working in a the <code>us-west-2</code> region.</p>
+<pre><code>$ aws configure
+AWS Access Key ID [****************7S3A]: 
+AWS Secret Access Key [****************hdWj]: 
+Default region name [us-east-1]: us-west-2
+Default output format [None]: </code></pre>
                                     </section>
 
             </div>
