@@ -149,6 +149,21 @@ AWS Access Key ID [****************7S3A]:
 AWS Secret Access Key [****************hdWj]: 
 Default region name [us-east-1]: us-west-2
 Default output format [None]: </code></pre>
+<h2 id="getting-things-working">Getting things Working</h2>
+<p>It will probably be helpful to spin up a machine to configure your database and check that everything works. After you set up the database and check your configuration with your <code>t2.medium</code> machine, it would be good to keep the machine around to perform long running tasks like reindexing Elasticsearch (Reindexing Elasticsearch requires a machine with 4GB of memory).  Be sure to run the reindex command directly on the machine's IP address; the command will time out if sent through the load balancer. </p>
+<p>Here are a few steps:</p>
+<ol>
+<li>Spin up a <code>t2.medium</code> CentOS instance in your VPC and name it something like <code>AdminMachine-YourName</code>.</li>
+<li>Install <code>telnet</code> using Yum.  Make sure that you can telnet to your database <code>telnet endpoint-of-your-db 5432</code>.</li>
+<li>Jump into the postgres console using <code>psql -h endpoint-of-your-db -U masterUsername zika</code> (hint you may need to install the <code>postgresql</code> library via <code>yum</code>).</li>
+<li>Once in the database, create a database user for the app <code>CREATE USER zika WITH PASSWORD 'verysecurepassword</code>.  </li>
+<li>Also, once in the database install all of the PostGIS extensions (see previous studios) as well as the <a href="https://www.postgresql.org/docs/10/static/unaccent.html" target="_blank">unaccent Postgres extension</a></li>
+<li>Upload your <code>location.csv</code> and your <code>all_reports.csv</code> and install them in the database using a command like:
+<pre><code>psql -h gary-zika-db.cq2s2klvmrfq.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre></li>
+<li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank">Elasticsearch UserData script</a> to spin up an Elasticsearch.</li>
+<li>Upload a copy of your executable jar to the home directory of the machine.  Set all of the environment variables on the command line (i.e. <code>export APP_DB_NAME=zika</code>)</li>
+<li>If your app runs, you know that everything is setup for your to start configuring your AutoScaling groups!</li>
+</ol>
                                     </section>
 
             </div>
