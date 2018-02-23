@@ -146,7 +146,7 @@
 <li>Go to the <em>Build</em> section</li>
 <li>Click <em>Add build step</em></li>
 <li>Click <em>Invode Gradle script</em></li>
-<li>Enter <code>clean build</code> into the <em>Tasks</em> input</li>
+<li>Enter <code>clean compileJava</code> into the <em>Tasks</em> input</li>
 </ul>
 <p>Now test out the build by clicking <em>Build Now</em></p>
 <h4 id="we-need-to-install-a-plugin">We Need to Install a Plugin</h4>
@@ -172,7 +172,7 @@
 <li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Compile/</code></li>
 <li>Click <em>Configure</em></li>
 <li>Go to <em>Post Build Actions</em></li>
-<li>Enter <code>Airwaze Test</code> as the projec to build</li>
+<li>Enter <code>Airwaze Test</code> as the project to build</li>
 <li>Click <em>Add Parameters</em> and select <em>Build on the same node</em></li>
 <li>Click <em>Add Parameters</em> again and select <em>Predefined parameters</em></li>
 <li>Enter this <code>AIRWAZE_WORKSPACE=${WORKSPACE}</code> into input</li>
@@ -183,10 +183,12 @@
 <li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Test/</code></li>
 <li>In <em>General</em> select <em>This project is parameterized</em></li>
 <li>Paste this <code>AIRWAZE_WORKSPACE</code> into <em>name</em> input</li>
+<li>Click <em>Advanced</em> button and select <em>Custom Workspace</em></li>
+<li>Enter <code>${AIRWAZE_WORKSPACE}</code> in the input</li>
 <li>Go to the <em>Build</em> section</li>
 <li>Click <em>Add build step</em></li>
 <li>Click <em>Invode Gradle script</em></li>
-<li>Enter <code>test</code> into the <em>Tasks</em> input
+<li>Enter <code>clean test</code> into the <em>Tasks</em> input
 Now we need to kick off the <em>CreateJar Project</em></li>
 <li>Go to <em>Post Build Actions</em></li>
 <li>Enter <code>Airwaze CreateJar</code> as the project to build</li>
