@@ -43,7 +43,7 @@ sonarqube {
 ```
 
 ## Run Sonarqube Gradle Task
-- In terminal or via the Gradle menu in Intellij, run the `sonarqube` gradle task
+- In terminal or via the Gradle menu in Intellij, run the `sonarqube` gradle task (note it's under *other* in intellij gradle menu)
 - This gradle task runs other gradle tasks like `compileJava` and then creates a report that is viewable on the sonarqube web app
 
 
