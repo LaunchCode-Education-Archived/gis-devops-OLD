@@ -49,7 +49,7 @@ Normally you would not install jenkins on your dev machine. You would isntall it
 - Go to the *Build* section
 - Click *Add build step*
 - Click *Invode Gradle script*
-- Enter `clean build` into the *Tasks* input
+- Enter `clean compileJava` into the *Tasks* input
 
 Now test out the build by clicking *Build Now*
 
@@ -73,7 +73,7 @@ We need the *Compile Project* to kick off the *Test Project* when it's done. We 
 - Navigate to project `http://localhost:9090/job/Airwaze%20Compile/`
 - Click *Configure*
 - Go to *Post Build Actions*
-- Enter `Airwaze Test` as the projec to build
+- Enter `Airwaze Test` as the project to build
 - Click *Add Parameters* and select *Build on the same node*
 - Click *Add Parameters* again and select *Predefined parameters*
 - Enter this `AIRWAZE_WORKSPACE=${WORKSPACE}` into input
@@ -83,10 +83,12 @@ We need the *Compile Project* to kick off the *Test Project* when it's done. We 
 - Navigate to project `http://localhost:9090/job/Airwaze%20Test/`
 - In *General* select *This project is parameterized*
 - Paste this `AIRWAZE_WORKSPACE` into *name* input
+- Click *Advanced* button and select *Custom Workspace*
+- Enter `${AIRWAZE_WORKSPACE}` in the input
 - Go to the *Build* section
 - Click *Add build step*
 - Click *Invode Gradle script*
-- Enter `test` into the *Tasks* input
+- Enter `clean test` into the *Tasks* input
 Now we need to kick off the *CreateJar Project*
 - Go to *Post Build Actions*
 - Enter `Airwaze CreateJar` as the project to build
