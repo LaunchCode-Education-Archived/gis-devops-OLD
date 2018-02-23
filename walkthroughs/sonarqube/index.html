@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>GIS DevOps :: GIS DevOps</title>
+        <title>Walkthrough: Sonarqube :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-gis-devops'>
+    <body id='page-walkthrough-sonarqube'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,132 +94,50 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>GIS DevOps</h1>
-                    <h2 id="week-1">Week 1</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week01/day1/">Day 1</a></td>
-<td>Git and GitLab, Java projects in IntelliJ, refactoring, unit testing</td>
-</tr>
-<tr>
-<td><a href="week01/day2/">Day 2</a></td>
-<td>Agile/Scrum ceremonies, Test-driven development</td>
-</tr>
-<tr>
-<td><a href="week01/day3/">Day 3</a></td>
-<td>Integration testing, dependency injection</td>
-</tr>
-<tr>
-<td><a href="week01/day4/">Day 4</a></td>
-<td>Postgres, Flyway</td>
-</tr>
-<tr>
-<td><a href="week01/day5/">Day 5</a></td>
-<td>AJAX, Open Layers</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-2">Week 2</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week02/project/">Day 1-5</a></td>
-<td>Zika Mission Control</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-3">Week 3</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week03/day1/">Day 1</a></td>
-<td>RESTful web services</td>
-</tr>
-<tr>
-<td><a href="week03/day2/">Day 2</a></td>
-<td>Swagger REST framework</td>
-</tr>
-<tr>
-<td><a href="week03/day3/">Day 3</a></td>
-<td>Intro to Elasticsearch</td>
-</tr>
-<tr>
-<td><a href="week03/day4/">Day 4</a></td>
-<td>Kibana and ElasticSearch.js</td>
-</tr>
-<tr>
-<td><a href="week03/day5/">Day 5</a></td>
-<td>ES2015, ESLint, OpenLayers</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-4">Week 4</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week04/project/">Day 1-5</a></td>
-<td>Zika Mission Control Part 2</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-5">Week 5</h2>
-<table>
-<thead>
-<tr>
-<th>Day</th>
-<th>Topics</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="week05/day1/">Day 1</a></td>
-<td>Intro to DevOps</td>
-</tr>
-<tr>
-<td><a href="week05/day2/">Day 2</a></td>
-<td>Intro to AWS</td>
-</tr>
-<tr>
-<td><a href="week05/day3/">Day 3</a></td>
-<td>12 Factor Apps</td>
-</tr>
-<tr>
-<td><a href="week05/day4/">Day 4</a></td>
-<td>Gradle, Continuous Integration</td>
-</tr>
-<tr>
-<td><a href="week05/day5/">Day 5</a></td>
-<td>Sonarqube</td>
-</tr>
-</tbody>
-</table>
-<h2 id="week-6">Week 6</h2>
-<p><a href="week06/project">Day 1-5</a> | Zika Mission Control Part 3</p>
+                                        <h1>Walkthrough: Sonarqube</h1>
+                    <p>Follow along with the instructor as we configure Sonarqube.</p>
+<h2 id="setup">Setup</h2>
+<p>Create a new feature branch in your <code>airwaze-studio</code> repoo. Name it <code>add-sonarqube</code>.  When finished with this walkthrough you can merge it into your <code>master</code> branch.</p>
+<h2 id="continuous-inspection">Continuous Inspection</h2>
+<p>Sonarqube is an open source tool for continuous inspection of code quality including: bug detection, code smells, and security vulnerabilities.</p>
+<p>We will use Sonarqube to analyze our Java code. It will search for duplicate code, unused variables/parameters, code smells, and much more. Fixing the issues found by sonarqube helps to
+keep our code consistent between developers and hopefully more secure and stable. Consider sonarqube to be Eslint for Java, with more features. Note that sonarqube will analyze multiple language, however for this class we are only using it for Java.</p>
+<p>Sonarqube runs as a service. Project configuration and reports are viewable in your browser via web interface. Defaults to <code>http:localhost:9000</code> if installed locally.</p>
+<p>Sonarqube can integrate with other tools such as gradle and jenkins.</p>
+<h2 id="install-and-configure-sonarqube">Install and Configure Sonarqube</h2>
+<ul>
+<li>Go to <a href="https://www.sonarqube.org" target="_blank"><a href="https://www.sonarqube.org" target="_blank">https://www.sonarqube.org</a></a></li>
+<li>Click <strong>Download</strong></li>
+<li>Choose the <strong>LTS Release</strong></li>
+<li>Unzip the downloaded file to <code>~/sonarqube-6.7.1</code>. (Note your version may vary)</li>
+<li>Open a terminal and run this command <code>$ ~/sonarqube-6.7.1/bin/macosx-universal-64/sonar.sh start</code></li>
+<li>Now go to this address in your browser: <code>http:localhost:9000</code></li>
+<li>Login with default user. username: admin password: admin</li>
+<li>Enter <code>airwaze</code> as the project key</li>
+</ul>
+<h2 id="configure-your-java-project">Configure your Java Project</h2>
+<ul>
+<li>Add both of these to your <code>build.gradle</code> file
+<pre><code class="language-javascript">plugins {
+id "org.sonarqube" version "2.5"
+}</code></pre>
+<pre><code class="language-javascript">sonarqube {
+properties {
+  property "sonar.projectKey", "airwaze-studio"
+}
+}</code></pre></li>
+</ul>
+<h2 id="run-sonarqube-gradle-task">Run Sonarqube Gradle Task</h2>
+<ul>
+<li>In terminal or via the Gradle menu in Intellij, run the <code>sonarqube</code> gradle task (note it's under <em>other</em> in intellij gradle menu)</li>
+<li>This gradle task runs other gradle tasks like <code>compileJava</code> and then creates a report that is viewable on the sonarqube web app</li>
+</ul>
+<h2 id="view-the-results-in-sonarqube">View the Results in Sonarqube</h2>
+<ul>
+<li>Navigate to <code>http://localhost:9000/projects</code></li>
+<li>Click on the project name</li>
+<li>On the project page, click on the numbers in each category to get a detailed report about that topic</li>
+</ul>
                                     </section>
 
             </div>
