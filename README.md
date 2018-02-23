@@ -43,6 +43,7 @@ Day | Topics
 [Day 2](week05/day2/) | Intro to AWS
 [Day 3](week05/day3/) | 12 Factor Apps
 [Day 4](week05/day4/) | Gradle, Continuous Integration
+[Day 5](week05/day5/) | Sonarqube
 
 ## Week 6
 [Day 1-5](week06/project) | Zika Mission Control Part 3
