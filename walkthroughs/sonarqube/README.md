@@ -5,10 +5,10 @@ title: "Walkthrough: Sonarqube"
 Follow along with the instructor as we configure Sonarqube.
 
 ## Setup
-Creat a new feature branch in your `airwaze-studio` repoo. Name it `add-sonarqube`.  When finished with this walkthrough you can merge it into your `master` branch.
+Create a new feature branch in your `airwaze-studio` repoo. Name it `add-sonarqube`.  When finished with this walkthrough you can merge it into your `master` branch.
 
-## Continous Inspection
-Sonarqube is an open source tool for continous inspection of code quality including: bug detection, code smells, and security vulnerabilities.
+## Continuous Inspection
+Sonarqube is an open source tool for continuous inspection of code quality including: bug detection, code smells, and security vulnerabilities.
 
 We will use Sonarqube to analyze our Java code. It will search for duplicate code, unused variables/parameters, code smells, and much more. Fixing the issues found by sonarqube helps to 
 keep our code consistent between developers and hopefully more secure and stable. Consider sonarqube to be Eslint for Java, with more features. Note that sonarqube will analyze multiple language, however for this class we are only using it for Java.
