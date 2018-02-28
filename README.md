@@ -18,7 +18,6 @@ Day | Topics
 |----|--------|
 [Day 1-5](week02/project/) | Zika Mission Control
 
-
 ## Week 3
 
 Day | Topics
@@ -46,4 +45,13 @@ Day | Topics
 [Day 5](week05/day5/) | Sonarqube
 
 ## Week 6
+
+Day | Topics
+|----|--------|
 [Day 1-5](week06/project) | Zika Mission Control Part 3
+
+## Week 7
+
+Day | Topics
+|----|--------|
+[Day 1-4] | Boundless Training: PostGIS and GeoServer
