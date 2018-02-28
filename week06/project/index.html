@@ -160,7 +160,7 @@ Default output format [None]:</code></pre>
 <li>Also, once in the database install all of the PostGIS extensions (see previous studios) as well as the <a href="https://www.postgresql.org/docs/10/static/unaccent.html" target="_blank">unaccent Postgres extension</a></li>
 <li>Upload your <code>location.csv</code> and your <code>all_reports.csv</code> and install them in the database using a command like:</li>
 </ol>
-<pre><code class="language-nohighlight"># psql -h gary-zika-db.cq2s2klvmrfq.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre>
+<pre><code class="language-nohighlight">$ psql -h gary-zika-db.cq2s2klvmrfq.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre>
 <ol start="7">
 <li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank">Elasticsearch UserData script</a> to spin up an Elasticsearch.</li>
 <li>Upload a copy of your executable jar to the home directory of the machine. Set all of the environment variables on the command line (i.e. <code>export APP_DB_NAME=zika</code>)</li>
