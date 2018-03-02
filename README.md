@@ -54,4 +54,4 @@ Day | Topics
 
 Day | Topics
 |----|--------|
-[Day 1-4] | Boundless Training: PostGIS and GeoServer
+Day 1-4 | Boundless Training: PostGIS and GeoServer
