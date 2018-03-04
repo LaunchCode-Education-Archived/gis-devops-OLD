@@ -2,23 +2,19 @@
 title: Week 8 - Project Week
 ---
 
-## Project
-
-TODO - need project briefing
-
-[Mission Briefing 4](../../materials/week06/zika_mission_briefing_4.pdf)
+- [Overview](#overview)
+- [Setup](#setup)
+  - [Create Docker containers](#create-docker-containers)
+  - [Populate PostGIS database](#populate-postgis-database)
+- [Requirements](#requirements)
 
 ## Overview
 
-TODO
+Read [Mission Briefing 4](../../materials/week06/zika_mission_briefing_4.pdf).
 
-## Requirements
+You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.
 
-TODO
-
-- Create workspace (lc/https://launchcode.org)
-- Create data store (w/ database gis)
-  - Note: use postgis as hostname
+After you have this new system fully set up, you'll be able to add additional layers to GeoServer to view temperature and elevation data.
 
 ## Setup
 
@@ -106,3 +102,11 @@ If your `locations` and `reports` databases aren't being populated, you can popu
 $ docker exec -it postgis psql -h localhost -U zika_app_user -d gis -a -f /tmp/data.sql
 ```
 </aside>
+
+## Requirements
+
+- Create workspace (lc/https://launchcode.org)
+- Create data store (w/ database gis)
+  - Note: use postgis as hostname
+- Create layer from `location` table
+- Preview the layer
