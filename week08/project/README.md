@@ -22,16 +22,18 @@ TODO
 
 ## Setup
 
+Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts.
+
 ### Create Docker containers
 
-Create `env.list`
+Create a file `env.list` in the root of your `zika-cdc-dashboard` project with the same contents as [our `envlist` file](https://gist.github.com/chrisbay/d74442a8e8707111472a742832d76796).
 
 ```nohighlight
 $ docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:9.4-2.1
 ```
 
 <aside class="aside-warning" markdown="1">
-TODO - note about database name not getting set correctly.
+In `env.list` you'll see that the `POSTGRES_DBNAME` environment variable is set to `zika`. This variable is supposed to set the name of our PostGIS-enabled database within the container to be `zika`. However, a bug in the Dockerfile for this image ignores the name, creating a database named `gis`.
 </aside>
 
 ```nohighlight
@@ -42,11 +44,19 @@ $ docker run --name "geoserver" --link postgis:postgis -p 8080:8080 -d -t kartoz
 If the `postgis` docker image is not running when starting the geoserver, the link will fail.
 </aside>
 
-If you don't have an ES container set up already, create one now:
+<aside class="aside-note" markdown="1">
+When it's container is running, you can access this GeoServer instance the same way in which you previously accessed GeoServer locally when running the Boundless virtual machine. It will be running on port 8080 (try http://localhost:8080/geoserver) with credientials **admin / geoserver**.
+</aside>
+
+If you don't have an Elasticsearch container set up already, create one now:
 
 ```nohighlight
 $ docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
 ```
+
+<aside class="aside-warning" markdown="1">
+If Docker has no more than 2G of memory allocated for container use, you may have issues with the `elasticsearch` container crashing due to lack of memory. If this happens, increase memorgy to at least 3G by going to *Docker > Preferences > Advanced*.
+</aside>
 
 ### Populate PostGIS database
 
@@ -59,15 +69,17 @@ $ docker cp locations.sql postgis:/tmp
 $ docker cp all_reports.sql postgis:/tmp
 ```
 
-Verify that the file made it:
+Verify that the files made it:
 
 ```nohighlight
 $ docker exec -it postgis ls -l /tmp
 ```
 
-The `data.sql` file that will be run on the `postgis` container will expect to find the data files in `/tmp`, so update that script accordingly (recall that `data.sql` is run on the database host). 
+The `data.sql` file that will be run on the `postgis` container will need to find the data files in `/tmp`, so update that script accordingly (recall that `data.sql` is run on the database host, which is the `postgis` container, in this case).
 
-Additionally, the script makes use of the `unaccnet` function, which is part of the `unaccent` Postgres extension. While our Docker image came with the PostGIS extension installed, this extention is not present. Fire up `psql`:
+Additionally, the script makes use of the `unaccent` function, which is part of the `unaccent` Postgres extension. While our Docker image came with the PostGIS extension installed, the `unaccent` extention is *not* present. Let's fix that.
+
+Fire up `psql`:
 
 ```nohighlight
 $ psql -h localhost -p 5432 -U zika_app_user -d gis
