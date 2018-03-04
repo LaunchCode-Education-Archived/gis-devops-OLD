@@ -13,6 +13,7 @@ title: Week 2 - Project Week
 Your goal is to build a web application to help CDC scientists visualize the reports of Zika infection in Central and South America. Using the concepts that you have learned from the past week, build a web application using Spring Boot that serves data to an OpenLayers map (starter code is provided below). Be sure that your web application is properly tested so that you can easily modify the application during the future weeks.
 
 Here are the user stories for your application.
+
 1. Scientists need to be able to populate the database with Zika reports that are in a CSV format.
 2. Scientists need to be able to see geographically where these infections are occurring so that they can respond with the appropriate assistance.
 3. Since each country reports data slightly differently, scientists need to be able to drill down into the data to understand what each report is saying.
@@ -42,6 +43,7 @@ Run `psql` CLI by double clicking on the `postgres` database in the Postgresql A
 
 Open the Postgres UI and double click on the `postgres` db to open a `psql` command prompt.
 Then execute:
+
 ```nohighlight
 $ createdb zika
 $ createdb zika_test
