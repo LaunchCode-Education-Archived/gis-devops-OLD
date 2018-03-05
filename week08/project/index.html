@@ -112,7 +112,7 @@
 </ul></li>
 </ul>
 <h2 id="overview">Overview</h2>
-<p>Read <a href="../../materials/week06/zika_mission_briefing_4.pdf">Mission Briefing 4</a>.</p>
+<p>Read <a href="../../materials/week08/zika_mission_briefing_4.pdf">Mission Briefing 4</a>.</p>
 <p>You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.</p>
 <p>After you have this new system fully set up, you'll be able to add additional layers to GeoServer to view temperature and elevation data.</p>
 <h2 id="get-starter-code">Get Starter Code</h2>
@@ -140,7 +140,7 @@
 <h3 id="enable-cors-in-geoserver">Enable CORS in GeoServer</h3>
 <p>You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.</p>
 <p>Open a shell within the Docker container and install a text editor:</p>
-<pre><code class="language-nohighlight">$ docker exec -it geoserver bash
+<pre><code class="language-nohighlight">$ docker exec -it bash
 root@2992f761f41e:/usr/local/tomcat# apt-get update
 root@2992f761f41e:/usr/local/tomcat# apt-get install vim</code></pre>
 <p>Open the GeoServer <code>web.xml</code> for editing:</p>
@@ -220,7 +220,102 @@ $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <p>There is a controller in <code>ReportController</code> called <code>saveNewReport</code> that saves creates a new report object and saves it in both data stores (Postgresql and Elasticsearch). Update this method so that it looks up and assigns the corresponding <code>Location</code> object (if one exists) for the given report.</p>
 <h3 id="updating-openlayers-code">Updating OpenLayers code</h3>
 <p>Following the <a href="https://openlayers.org/en/latest/examples/vector-wfs-getfeature.html" target="_blank">OpenLayers example</a> for querying <code>GetFeature</code>, update your OpenLayers code to query GeoServer to get locations with report totals by date. You'll need to use the <code>ol.format.filter.equalTo</code> filter.</p>
-<h3 id="deploying">Deploying</h3>
+<aside class="aside-warning">
+<p>For the geometries in your layer to be rendered properly on the map, the spatial reference systems (SRS) must match. You can control the SRS that is used to generate the returned features using the <code>srsName</code> parameter when create the request in OpenLayers.</p>
+</aside>
+<h2 id="deployment">Deployment</h2>
+<p>For deployment on AWS, you will be using a <code>t2.small</code> CentOS machine.  The following UserData script should be included in the &quot;Advanced Details&quot; details section of &quot;Configure Instance&quot;.  This script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on <code>http://{your IP}:8080/geoserver</code>.</p>
+<pre><code class="language-bash">#!/bin/bash
+
+yum update -y &amp;&amp; yum install -y wget firewalld telnet unzip java-1.8.0-openjdk.x86_64
+
+# Add a user for Tomcat
+groupadd tomcat
+mkdir /opt/tomcat
+useradd -s /bin/sh -g tomcat -d /opt/tomcat tomcat
+wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.28/bin/apache-tomcat-8.5.28.tar.gz
+tar -zxvf apache-tomcat-8.5.28.tar.gz -C /opt/tomcat --strip-components=1
+
+chmod g+rwx /opt/tomcat/conf
+chmod -R g+r /opt/tomcat/conf
+chmod g+x /opt/tomcat/conf
+chmod g+rwx /opt/tomcat/bin
+chmod -R g+r /opt/tomcat/bin
+chown -R tomcat:tomcat /opt/tomcat
+
+cat &lt;&lt; EOF &gt; /etc/systemd/system/tomcat.service
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/lib/jvm/jre
+Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+Environment=CATALINA_HOME=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=36000 -XX:-UsePerfData -Dorg.geotools.referencing.forceXY=true -Dorg.geotoools.render.lite.scale.unitCompensation=true'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+User=tomcat
+Group=tomcat
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Open up Port 80
+systemctl enable ferewalld
+systemctl start firewalld
+firewall-offline-cmd --zone=public --add-port=8080/tcp
+
+systemctl daemon-reload
+systemctl start tomcat
+systemctl enable tomcat
+
+# Install AWS CLI
+curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+unzip awscli-bundle.zip
+./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+
+# Install Geoserver WAR
+ /usr/local/bin/aws s3 cp s3://launchcode-gisdevops-cloudformation/BoundlessServer-1.0.2-war.zip .
+unzip BoundlessServer-1.0.2-war.zip 
+mkdir -p /var/opt/boundless/suite/geoserver/data
+unzip BoundlessServer-1.0.2-war/boundless-server-data-dir.zip -d /var/opt/boundless/suite/geoserver/data
+chown tomcat:tomcat -R /var/opt/boundless/suite/geoserver/data
+
+cat &lt;&lt; EOF &gt; /opt/tomcat/conf/Catalina/localhost/geoserver.xml
+&lt;Context docBase="geoserver.war"&gt;
+  &lt;!-- The location of the GeoServer configuration directory --&gt;
+  &lt;Parameter name="GEOSERVER_DATA_DIR"
+             value="/var/opt/boundless/suite/geoserver/data"
+             override="false"/&gt;
+
+  &lt;!-- The default location of the GWC tile cache --&gt;
+  &lt;Parameter name="GEOWEBCACHE_CACHE_DIR"
+             value="var/opt/boundless/suite/geoserver/tilecache"
+             override="false"/&gt;
+&lt;/Context&gt;
+EOF
+chown tomcat:tomcat /opt/tomcat/conf/Catalina/localhost/geoserver.xml
+chmod 755 /opt/tomcat/conf/Catalina/localhost/geoserver.xml
+
+mkdir -p /var/opt/boundless/suite/geoserver/tilecache
+chown tomcat:tomcat -R /var/opt/boundless/suite/geoserver/tilecache
+
+mv BoundlessServer-1.0.2-war/geoserver.war /opt/tomcat/webapps/geoserver.war
+chown tomcat:tomcat /opt/tomcat/webapps/geoserver.war
+chmod 755 /opt/tomcat/webapps/geoserver.war</code></pre>
+<p>The script can also be found in the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh" target="_blank">week 8 starter branch</a>.</p>
+<aside class="aside-hint">
+Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
+</aside>
+<h2 id="bonus-missions">Bonus Missions</h2>
                                     </section>
 
             </div>
