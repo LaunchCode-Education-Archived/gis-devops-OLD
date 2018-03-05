@@ -105,13 +105,13 @@ Now requests from origins other than `localhost:8080` will be accepted by our Ge
 
 ### Populate PostGIS database
 
-We need to put our data files on the server. First, let's change the paths referenced in the file to `'/tmp/locations.csv'` and `'/tmp/all_reports.csv'`.
+We need to put our data files on the server. First, let's change the paths referenced in the `data.sql` file to `'/tmp/locations.csv'` and `'/tmp/all_reports.csv'`.
 
 Then copy the file to the `postgis` contianer:
 
 ```nohighlight
-$ docker cp locations.sql postgis:/tmp
-$ docker cp all_reports.sql postgis:/tmp
+$ docker cp locations.csv postgis:/tmp
+$ docker cp all_reports.csv postgis:/tmp
 ```
 
 Verify that the files made it:
@@ -124,7 +124,7 @@ The `data.sql` file that will be run on the `postgis` container will need to fin
 
 Additionally, the script makes use of the `unaccent` function, which is part of the `unaccent` Postgres extension. While our Docker image came with the PostGIS extension installed, the `unaccent` extention is *not* present. Let's fix that.
 
-Fire up `psql`:
+Fire up `psql`, note the password for zika_app_user is "somethingsensible":
 
 ```nohighlight
 $ psql -h localhost -p 5432 -U zika_app_user -d gis
@@ -141,6 +141,11 @@ Exit `psql`.
 Now, configure your `zika-cdc-dashboard` app so it can connect to the PostGIS datbase. This requires editing the environment variables in the `Application` run configuration. The only edit you should need to make is to set the `APP_DB_NAME` to `gis` (see the Warning above).
 
 Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding `server.port=8000` to `application.properties`.
+
+<aside class="aside-note" markdown="1">
+You may also need to change the port referenced in `script.js`. `url: 'http://localhost:8000/api/es/report/?date=2016-03-05'`. Another solution for this is to use a relative path `url: '/api/es/report/?date=2016-03-05'`
+</aside>
+
 
 Start up your Spring app. Verify that the app started up cleanly, and that the `locations` and `reports` databases were built and populated properly.
 
