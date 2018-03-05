@@ -164,7 +164,7 @@ We want to set up explicit relationships between reports and locations in the da
 Start up your Spring app and hit the endpoint from the command line:
 
 ```nohighlight
-$ curl -XPOST http://localhost:8000/api/reports/assignStates
+$ curl -XPOST http://localhost:8000/api/report/assignStates
 ```
 
 This will take a few minutes to run. When the request is complete, all `Report` objects for which there is a corresponding `Location` will have the relationship stored as a foreign key in the `report.state_id` column.
