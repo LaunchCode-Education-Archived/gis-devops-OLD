@@ -140,7 +140,7 @@
 <h3 id="enable-cors-in-geoserver">Enable CORS in GeoServer</h3>
 <p>You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.</p>
 <p>Open a shell within the Docker container and install a text editor:</p>
-<pre><code class="language-nohighlight">$ docker exec -it bash
+<pre><code class="language-nohighlight">$ docker exec -it geoserver bash
 root@2992f761f41e:/usr/local/tomcat# apt-get update
 root@2992f761f41e:/usr/local/tomcat# apt-get install vim</code></pre>
 <p>Open the GeoServer <code>web.xml</code> for editing:</p>
