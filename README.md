@@ -56,7 +56,7 @@ Day | Topics
 |----|--------|
 Day 1-5 | Boundless Training: PostGIS and GeoServer
 
-## Week 7
+## Week 8
 
 Day | Topics
 |----|--------|
