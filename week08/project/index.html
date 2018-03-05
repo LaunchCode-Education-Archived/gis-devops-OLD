@@ -185,7 +185,7 @@ $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <h3 id="add-foreigh-keys-to-reports">Add foreigh keys to reports</h3>
 <p>We want to set up explicit relationships between reports and locations in the database. To do this, we've created an endpoint that for each <code>Report</code> object, will look for a corresponding <code>Location</code> object and create a reference/foreign key relationship.</p>
 <p>Start up your Spring app and hit the endpoint from the command line:</p>
-<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8000/api/reports/assignStates</code></pre>
+<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8000/api/report/assignStates</code></pre>
 <p>This will take a few minutes to run. When the request is complete, all <code>Report</code> objects for which there is a corresponding <code>Location</code> will have the relationship stored as a foreign key in the <code>report.state_id</code> column.</p>
 <h2 id="requirements">Requirements</h2>
 <p>The requirements for this project are:</p>
