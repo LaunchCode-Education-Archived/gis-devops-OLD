@@ -15,7 +15,7 @@ title: Week 8 - Project Week
 
 ## Overview
 
-Read [Mission Briefing 4](../../materials/week06/zika_mission_briefing_4.pdf).
+Read [Mission Briefing 4](../../materials/week08/zika_mission_briefing_4.pdf).
 
 You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.
 
