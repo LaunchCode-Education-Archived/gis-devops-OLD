@@ -212,11 +212,15 @@ There is a controller in `ReportController` called `saveNewReport` that saves cr
 
 Following the [OpenLayers example](https://openlayers.org/en/latest/examples/vector-wfs-getfeature.html) for querying `GetFeature`, update your OpenLayers code to query GeoServer to get locations with report totals by date. You'll need to use the `ol.format.filter.equalTo` filter.
 
+<aside class="aside-warning" markdown="1">
+For the geometries in your layer to be rendered properly on the map, the spatial reference systems (SRS) must match. You can control the SRS that is used to generate the returned features using the `srsName` parameter when create the request in OpenLayers.
+</aside>
+
 ## Deployment
 
-For deployment on AWS, you will be using a `t2.small` CentOS machine.  The following UserData script should be included in the "Advanced Details" details section of "Configure Instance".  This script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on http://{your IP}:8080/geoserver.
+For deployment on AWS, you will be using a `t2.small` CentOS machine.  The following UserData script should be included in the "Advanced Details" details section of "Configure Instance".  This script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on `http://{your IP}:8080/geoserver`.
 
-```
+```bash
 #!/bin/bash
 
 yum update -y && yum install -y wget firewalld telnet unzip java-1.8.0-openjdk.x86_64
@@ -308,7 +312,7 @@ chmod 755 /opt/tomcat/webapps/geoserver.war
 The script can also be found in the [week 8 starter branch](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh).
 
 <aside class="aside-hint">
-	Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
+Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
 </aside>
 
 <h2 id="bonus-missions">Bonus Missions</h2>#
