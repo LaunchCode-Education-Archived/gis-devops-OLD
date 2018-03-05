@@ -54,4 +54,10 @@ Day | Topics
 
 Day | Topics
 |----|--------|
-Day 1-4 | Boundless Training: PostGIS and GeoServer
+Day 1-5 | Boundless Training: PostGIS and GeoServer
+
+## Week 7
+
+Day | Topics
+|----|--------|
+[Day 1-5](week06/project) | Zika Mission Control Part 4
