@@ -6,7 +6,7 @@ title: Week 5 - Day 1
 
 ## Lesson Content
 
-- [Intro to DevOps](https://education.launchcode.org/gis-devops/week5/intro-to-devops.html)
+- [Intro to DevOps](https://education.launchcode.org/gis-devops-slides/week5/intro-to-devops.html)
 
 ## Walkthrough
 
