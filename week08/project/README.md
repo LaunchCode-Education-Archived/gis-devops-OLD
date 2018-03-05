@@ -70,7 +70,7 @@ You'll be making requests to the GeoServer container from a port other than the 
 Open a shell within the Docker container and install a text editor:
 
 ```nohighlight
-$ docker exec -it bash
+$ docker exec -it geoserver bash
 root@2992f761f41e:/usr/local/tomcat# apt-get update
 root@2992f761f41e:/usr/local/tomcat# apt-get install vim
 ```
