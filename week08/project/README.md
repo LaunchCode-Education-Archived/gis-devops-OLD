@@ -5,8 +5,13 @@ title: Week 8 - Project Week
 - [Overview](#overview)
 - [Setup](#setup)
   - [Create Docker containers](#create-docker-containers)
+  - [Enable CORS in GeoServer](#enable-cors-in-geoserver)
   - [Populate PostGIS database](#populate-postgis-database)
 - [Requirements](#requirements)
+  - [Database and layer setup](#database-and-layer-setup)
+  - [Update POST endoint for creating new reports](#update-post-endpoint-for-creating-new-reports)
+  - [Updating OpenLayers code](#updating-openlayers-code)
+  - [Deploying](#deploying)
 
 ## Overview
 
@@ -16,9 +21,13 @@ You will be adding GeoServer to your local and deployed application. This will r
 
 After you have this new system fully set up, you'll be able to add additional layers to GeoServer to view temperature and elevation data.
 
+## Get Starter Code
+
+Fetch the `week8-starter` branch from the project repository and merge it with your working branch. This contains a few changes that we'll use below.
+
 ## Setup
 
-Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts.
+Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts. It is not enough to pause the VM; you must shut it down completely or select *Save State*.
 
 ### Create Docker containers
 
@@ -53,6 +62,46 @@ $ docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-nod
 <aside class="aside-warning" markdown="1">
 If Docker has no more than 2G of memory allocated for container use, you may have issues with the `elasticsearch` container crashing due to lack of memory. If this happens, increase memorgy to at least 3G by going to *Docker > Preferences > Advanced*.
 </aside>
+
+### Enable CORS in GeoServer
+
+You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.
+
+Open a shell within the Docker container and install a text editor:
+
+```nohighlight
+$ docker exec -it bash
+root@2992f761f41e:/usr/local/tomcat# apt-get update
+root@2992f761f41e:/usr/local/tomcat# apt-get install vim
+```
+
+Open the GeoServer `web.xml` for editing:
+
+```nohighlight
+root@2992f761f41e:/usr/local/tomcat# vi conf/web.xml
+```
+
+Add the following XML just within the opening `<web-app>` tag:
+
+```xml
+<filter>
+  <filter-name>CorsFilter</filter-name>
+  <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+</filter>
+<filter-mapping>
+  <filter-name>CorsFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+Save and exit. Then exit the container shell. Stop and start the `geoserver` container:
+
+```nohighlight
+$ docker stop geoserver
+$ docker start geoserver
+```
+
+Now requests from origins other than `localhost:8080` will be accepted by our GeoServer instance.
 
 ### Populate PostGIS database
 
@@ -103,10 +152,59 @@ $ docker exec -it postgis psql -h localhost -U zika_app_user -d gis -a -f /tmp/d
 ```
 </aside>
 
+### Add foreigh keys to reports
+
+We want to set up explicit relationships between reports and locations in the database. To do this, we've created an endpoint that for each `Report` object, will look for a corresponding `Location` object and create a reference/foreign key relationship.
+
+Start up your Spring app and hit the endpoint from the command line:
+
+```nohighlight
+$ curl -XPOST http://localhost:8000/api/reports/assignStates
+```
+
+This will take a few minutes to run. When the request is complete, all `Report` objects for which there is a corresponding `Location` will have the relationship stored as a foreign key in the `report.state_id` column.
+
 ## Requirements
 
-- Create workspace (lc/https://launchcode.org)
-- Create data store (w/ database gis)
-  - Note: use postgis as hostname
-- Create layer from `location` table
-- Preview the layer
+The requirements for this project are:
+
+1. You can run your code with OpenLayers hitting the GeoServer instance to get report data.
+2. You have incorporated additional layers using external data.
+3. You have deployed your application to AWS.
+
+Some tips on these steps are below.
+
+### Database and layer setup
+
+Using either `psql` or PSequel, connect to the PostGIS database (recall that it is accessible on port 5432 from your local environment). Create two views:
+
+```sql
+CREATE view cases_by_state_and_date AS 
+  SELECT state_id,report_date,sum(value) AS cases FROM report 
+  GROUP BY state_id,report_date;
+```
+
+```sql
+CREATE view states_with_cases_by_date AS 
+  SELECT * FROM location INNER JOIN cases_by_state_and_date ON location.id=cases_by_state_and_date.state_id;
+```
+
+These views will allow us to create a layer in GeoServer that will allow us to query location geometries with case totals by date. Go ahead and do that now. Here are the high-level steps:
+
+- Create a workspace in GeoServer (we recommend `lc/https://launchcode.org`)
+- Create a PostGIS data store 
+  - Use `gis` as the database name and `postgis` as the hostname
+- Create a new layer from the `states_with_cases_by_date` table
+  - Make sure Native and Declared SRS are set to **EPSG:4326**
+  - For Native Bounding Box, click on *Compute from data*
+  - For Lat/Lon Bounding Box, click on *Compute from native bounds*
+
+### Update POST endoint for creating new reports
+
+There is a controller in `ReportController` called `saveNewReport` that saves creates a new report object and saves it in both data stores (Postgresql and Elasticsearch). Update this method so that it looks up and assigns the corresponding `Location` object (if one exists) for the given report.
+
+### Updating OpenLayers code
+
+Following the [OpenLayers example](https://openlayers.org/en/latest/examples/vector-wfs-getfeature.html) for querying `GetFeature`, update your OpenLayers code to query GeoServer to get locations with report totals by date. You'll need to use the `ol.format.filter.equalTo` filter.
+
+### Deploying
