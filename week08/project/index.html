@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Week 8 - Project Week :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-week-8---project-week'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Week 8 - Project Week</h1>
+                    <ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#setup">Setup</a>
+<ul>
+<li><a href="#create-docker-containers">Create Docker containers</a></li>
+<li><a href="#enable-cors-in-geoserver">Enable CORS in GeoServer</a></li>
+<li><a href="#populate-postgis-database">Populate PostGIS database</a></li>
+</ul></li>
+<li><a href="#requirements">Requirements</a>
+<ul>
+<li><a href="#database-and-layer-setup">Database and layer setup</a></li>
+<li><a href="#update-post-endpoint-for-creating-new-reports">Update POST endoint for creating new reports</a></li>
+<li><a href="#updating-openlayers-code">Updating OpenLayers code</a></li>
+<li><a href="#deploying">Deploying</a></li>
+</ul></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>Read <a href="../../materials/week06/zika_mission_briefing_4.pdf">Mission Briefing 4</a>.</p>
+<p>You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.</p>
+<p>After you have this new system fully set up, you'll be able to add additional layers to GeoServer to view temperature and elevation data.</p>
+<h2 id="get-starter-code">Get Starter Code</h2>
+<p>Fetch the <code>week8-starter</code> branch from the project repository and merge it with your working branch. This contains a few changes that we'll use below.</p>
+<h2 id="setup">Setup</h2>
+<p>Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts. It is not enough to pause the VM; you must shut it down completely or select <em>Save State</em>.</p>
+<h3 id="create-docker-containers">Create Docker containers</h3>
+<p>Create a file <code>env.list</code> in the root of your <code>zika-cdc-dashboard</code> project with the same contents as <a href="https://gist.github.com/chrisbay/d74442a8e8707111472a742832d76796" target="_blank">our <code>envlist</code> file</a>.</p>
+<pre><code class="language-nohighlight">$ docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:9.4-2.1</code></pre>
+<aside class="aside-warning">
+<p>In <code>env.list</code> you'll see that the <code>POSTGRES_DBNAME</code> environment variable is set to <code>zika</code>. This variable is supposed to set the name of our PostGIS-enabled database within the container to be <code>zika</code>. However, a bug in the Dockerfile for this image ignores the name, creating a database named <code>gis</code>.</p>
+</aside>
+<pre><code class="language-nohighlight">$ docker run --name "geoserver" --link postgis:postgis -p 8080:8080 -d -t kartoza/geoserver</code></pre>
+<aside class="aside-warning">
+<p>If the <code>postgis</code> docker image is not running when starting the geoserver, the link will fail.</p>
+</aside>
+<aside class="aside-note">
+<p>When it's container is running, you can access this GeoServer instance the same way in which you previously accessed GeoServer locally when running the Boundless virtual machine. It will be running on port 8080 (try <a href="http://localhost:8080/geoserver" target="_blank">http://localhost:8080/geoserver</a>) with credientials <strong>admin / geoserver</strong>.</p>
+</aside>
+<p>If you don't have an Elasticsearch container set up already, create one now:</p>
+<pre><code class="language-nohighlight">$ docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
+<aside class="aside-warning">
+<p>If Docker has no more than 2G of memory allocated for container use, you may have issues with the <code>elasticsearch</code> container crashing due to lack of memory. If this happens, increase memorgy to at least 3G by going to <em>Docker &gt; Preferences &gt; Advanced</em>.</p>
+</aside>
+<h3 id="enable-cors-in-geoserver">Enable CORS in GeoServer</h3>
+<p>You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.</p>
+<p>Open a shell within the Docker container and install a text editor:</p>
+<pre><code class="language-nohighlight">$ docker exec -it bash
+root@2992f761f41e:/usr/local/tomcat# apt-get update
+root@2992f761f41e:/usr/local/tomcat# apt-get install vim</code></pre>
+<p>Open the GeoServer <code>web.xml</code> for editing:</p>
+<pre><code class="language-nohighlight">root@2992f761f41e:/usr/local/tomcat# vi conf/web.xml</code></pre>
+<p>Add the following XML just within the opening <code>&lt;web-app&gt;</code> tag:</p>
+<pre><code class="language-xml">&lt;filter&gt;
+  &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
+  &lt;filter-class&gt;org.apache.catalina.filters.CorsFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+  &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;</code></pre>
+<p>Save and exit. Then exit the container shell. Stop and start the <code>geoserver</code> container:</p>
+<pre><code class="language-nohighlight">$ docker stop geoserver
+$ docker start geoserver</code></pre>
+<p>Now requests from origins other than <code>localhost:8080</code> will be accepted by our GeoServer instance.</p>
+<h3 id="populate-postgis-database">Populate PostGIS database</h3>
+<p>We need to put our data files on the server. First, let's change the paths referenced in the <code>data.sql</code> file to <code>'/tmp/locations.csv'</code> and <code>'/tmp/all_reports.csv'</code>.</p>
+<p>Then copy the file to the <code>postgis</code> contianer:</p>
+<pre><code class="language-nohighlight">$ docker cp locations.csv postgis:/tmp
+$ docker cp all_reports.csv postgis:/tmp</code></pre>
+<p>Verify that the files made it:</p>
+<pre><code class="language-nohighlight">$ docker exec -it postgis ls -l /tmp</code></pre>
+<p>The <code>data.sql</code> file that will be run on the <code>postgis</code> container will need to find the data files in <code>/tmp</code>, so update that script accordingly (recall that <code>data.sql</code> is run on the database host, which is the <code>postgis</code> container, in this case).</p>
+<p>Additionally, the script makes use of the <code>unaccent</code> function, which is part of the <code>unaccent</code> Postgres extension. While our Docker image came with the PostGIS extension installed, the <code>unaccent</code> extention is <em>not</em> present. Let's fix that.</p>
+<p>Fire up <code>psql</code>, note the password for zika_app_user is &quot;somethingsensible&quot;:</p>
+<pre><code class="language-nohighlight">$ psql -h localhost -p 5432 -U zika_app_user -d gis</code></pre>
+<p>And then install the extension:</p>
+<pre><code class="language-nohighlight"># create extension unaccent;</code></pre>
+<p>Exit <code>psql</code>.</p>
+<p>Now, configure your <code>zika-cdc-dashboard</code> app so it can connect to the PostGIS datbase. This requires editing the environment variables in the <code>Application</code> run configuration. The only edit you should need to make is to set the <code>APP_DB_NAME</code> to <code>gis</code> (see the Warning above).</p>
+<p>Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding <code>server.port=8000</code> to <code>application.properties</code>.</p>
+<aside class="aside-note">
+<p>You may also need to change the port referenced in <code>script.js</code>. <code>url: 'http://localhost:8000/api/es/report/?date=2016-03-05'</code>. Another solution for this is to use a relative path <code>url: '/api/es/report/?date=2016-03-05'</code></p>
+</aside>
+<p>Start up your Spring app. Verify that the app started up cleanly, and that the <code>locations</code> and <code>reports</code> databases were built and populated properly.</p>
+<aside class="aside-pro-tip">
+<p>If your <code>locations</code> and <code>reports</code> databases aren't being populated, you can populat them manually by copying the <code>data.sql</code> file in <code>src/main/resources/</code> to the <code>postgis</code> container (see above) and running:</p>
+<pre><code class="language-nohighlight">$ docker exec -it postgis psql -h localhost -U zika_app_user -d gis -a -f /tmp/data.sql</code></pre>
+</aside>
+<h3 id="add-foreigh-keys-to-reports">Add foreigh keys to reports</h3>
+<p>We want to set up explicit relationships between reports and locations in the database. To do this, we've created an endpoint that for each <code>Report</code> object, will look for a corresponding <code>Location</code> object and create a reference/foreign key relationship.</p>
+<p>Start up your Spring app and hit the endpoint from the command line:</p>
+<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8000/api/reports/assignStates</code></pre>
+<p>This will take a few minutes to run. When the request is complete, all <code>Report</code> objects for which there is a corresponding <code>Location</code> will have the relationship stored as a foreign key in the <code>report.state_id</code> column.</p>
+<h2 id="requirements">Requirements</h2>
+<p>The requirements for this project are:</p>
+<ol>
+<li>You can run your code with OpenLayers hitting the GeoServer instance to get report data.</li>
+<li>You have incorporated additional layers using external data.</li>
+<li>You have deployed your application to AWS.</li>
+</ol>
+<p>Some tips on these steps are below.</p>
+<h3 id="database-and-layer-setup">Database and layer setup</h3>
+<p>Using either <code>psql</code> or PSequel, connect to the PostGIS database (recall that it is accessible on port 5432 from your local environment). Create two views:</p>
+<pre><code class="language-sql">CREATE view cases_by_state_and_date AS 
+  SELECT state_id,report_date,sum(value) AS cases FROM report 
+  GROUP BY state_id,report_date;</code></pre>
+<pre><code class="language-sql">CREATE view states_with_cases_by_date AS 
+  SELECT * FROM location INNER JOIN cases_by_state_and_date ON location.id=cases_by_state_and_date.state_id;</code></pre>
+<p>These views will allow us to create a layer in GeoServer that will allow us to query location geometries with case totals by date. Go ahead and do that now. Here are the high-level steps:</p>
+<ul>
+<li>Create a workspace in GeoServer (we recommend <code>lc/https://launchcode.org</code>)</li>
+<li>Create a PostGIS data store 
+<ul>
+<li>Use <code>gis</code> as the database name and <code>postgis</code> as the hostname</li>
+</ul></li>
+<li>Create a new layer from the <code>states_with_cases_by_date</code> table
+<ul>
+<li>Make sure Native and Declared SRS are set to <strong>EPSG:4326</strong></li>
+<li>For Native Bounding Box, click on <em>Compute from data</em></li>
+<li>For Lat/Lon Bounding Box, click on <em>Compute from native bounds</em></li>
+</ul></li>
+</ul>
+<h3 id="update-post-endoint-for-creating-new-reports">Update POST endoint for creating new reports</h3>
+<p>There is a controller in <code>ReportController</code> called <code>saveNewReport</code> that saves creates a new report object and saves it in both data stores (Postgresql and Elasticsearch). Update this method so that it looks up and assigns the corresponding <code>Location</code> object (if one exists) for the given report.</p>
+<h3 id="updating-openlayers-code">Updating OpenLayers code</h3>
+<p>Following the <a href="https://openlayers.org/en/latest/examples/vector-wfs-getfeature.html" target="_blank">OpenLayers example</a> for querying <code>GetFeature</code>, update your OpenLayers code to query GeoServer to get locations with report totals by date. You'll need to use the <code>ol.format.filter.equalTo</code> filter.</p>
+<h3 id="deploying">Deploying</h3>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>

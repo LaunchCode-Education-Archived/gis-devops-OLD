@@ -115,17 +115,17 @@
 <li>Add geometry boundaries to the database.</li>
 <li>Create a new REST endpoint for adding reports to the (Postgres) database.</li>
 <li>When saving a new report to the main repository/db, also save it to the Elasticsearch document repository.</li>
-<li>
-<p>Add Springfox to generate Swagger documentation.</p>
+<li>Add Springfox to generate Swagger documentation.</li>
+</ol>
 <h3 id="steps">Steps</h3>
-</li>
+<ol>
 <li>Build out a Report endpoint that accepts a POST requrest with JSON body.</li>
 <li>Index all incoming POST requests in ElasticSearch.</li>
 <li>Pull data based on date from Elasticsearch and display it on the map.</li>
 </ol>
 <aside class="aside-note">
 <p>To index all of your report data in ElasticSearch use the following command:</p>
-<pre><code>    curl -XPOST http://localhost:8080/api/_cluster/reindex</code></pre>
+<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8080/api/_cluster/reindex</code></pre>
 </aside>
 <h2 id="setup">Setup</h2>
 <p>Install the following extension on your database:</p>
@@ -133,35 +133,35 @@
 # CREATE EXTENSION unaccent;</code></pre>
 <h3 id="adding-boundary-geometries">Adding Boundary Geometries</h3>
 <p>The data that the scientists want to ingest is summarized in the <a href="https://github.com/cdcepi/zika" target="_blank">CDC Zika Repository</a>. If you open up the <a href="https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv" target="_blank">data for Argentina</a>, you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field. We should be able to indentify those locations to actual data points on a map.</p>
-<p>You Google for &quot;political boundaries geojson&quot; and you find <a href="http://www.gadm.org/" target="_blank">gadm.org</a>. <a href="http://www.gadm.org/country" target="_blank">gadm.org</a> serves up geospatial data about administrative boundaries for each state. Go to the <a href="http://www.gadm.org/country" target="_blank">GADM Downloads Page</a> to check out the data. </p>
+<p>You Google for &quot;political boundaries geojson&quot; and you find <a href="http://www.gadm.org/" target="_blank">gadm.org</a>. <a href="http://www.gadm.org/country" target="_blank">gadm.org</a> serves up geospatial data about administrative boundaries for each state. Go to the <a href="http://www.gadm.org/country" target="_blank">GADM Downloads Page</a> to check out the data.</p>
 <p><img src="../../materials/week04/GADM_download_page.png"></img></p>
 <p><a href="http://biogeo.ucdavis.edu/data/gadm2.8/shp/BRA_adm_shp.zip" target="_blank">Download the shapefile for Brazil</a>.</p>
 <p>The file <code>BRA_adm_shp.zip</code> will download. Double click the file to unzip the file. You should see three shapefiles: <code>BRA_adm0.shp</code>, <code>BRA_adm1.shp</code>, <code>BRA_adm2.shp</code>. <code>BRA_adm3.shp</code>. Let's take a look at these shapefiles. In order to look at a shapefile, you will need download <a href="https://qgis.org/en/site/" target="_blank">QGIS</a>, an open source desktop viewer for geospatial data. <a href="https://connect.boundlessgeo.com/Downloads" target="_blank">Click Here to Download QGIS</a>. Double click the <code>.dmg</code> file to install.</p>
 <aside class="aside-note">
 <p>Note: Use your personal email to register on Boundless Connect to get access to the QGIS download.</p>
 </aside>
-<p>After QGIS is installed, drag the <code>BRA_adm1.shp</code> file into the QGIS window in order to import the file. </p>
+<p>After QGIS is installed, drag the <code>BRA_adm1.shp</code> file into the QGIS window in order to import the file.</p>
 <aside class="aside-note">
 <p>The zoom on the QGIS window is VERY sensitive. You may need to automatically zoom to the layer you would like to view. Right click on your layer in the <code>Layers Panel</code>, and select <code>Zoom to Layer</code>.</p>
 <img src="../../materials/week04/QGIS_zoom_to_layer.png">
 </aside>
 <p>Great! That looks exactly like what we need. Let's convert the file into GeoJSON so that we can serve it up from within our web application. We can use the <code>ogr2ogr</code> command.</p>
 <pre><code class="language-nohighlight">$ ogr2ogr -f "GeoJSON" brazil.geojson BRA_adm_shp/BRA_adm1.shp</code></pre>
-<p>After the command completes, check out the <code>brazil.geojson</code> file. Yikes! The file seems pretty big. Let's check how big:</p>
+<p>After the command completes, check out the <code>brazil.geojson</code> file. Yikes! The file seems pretty big. Let's see how big:</p>
 <pre><code class="language-nohighlight">$ ls -lh brazil.geojson</code></pre>
 <p><img src="../../materials/week04/CLI_check_file_size.png"></img></p>
-<p>Oh man... a 25M file is not going to work well in our web app. And that's just Brazil!!! </p>
+<p>A 25M file is not going to work well in our web app. And that's just Brazil!</p>
 <p>Fortunately, shapefiles can be compressed in size by reducing the amount of detail. In QGIS, select <code>Vector &gt; Geometry Tools &gt; Simplify geometries</code> from the top menu. Select your Brazil Geometry <code>BRA_adm1</code> and set the tolerance to <code>0.05</code>. Hit Run.</p>
 <p><img src="../../materials/week04/QGIS_simplify_geometries.png"></img></p>
 <p>QGIS should generate a new layer that looks pretty much the same as the last layer.</p>
-<p>Right click on the newly created layer and select &quot;Save As...&quot;. Save the file as GeoJSON with the name <code>brazil_compressed.geojson</code>. Be sure to type in the entire path of the file that you are creating.</p>
+<p>Right click on the newly created layer and select <em>Save As...</em>. Save the file as GeoJSON with the name <code>brazil_compressed.geojson</code>. Be sure to type in the entire path of the file that you are creating.</p>
 <p><img src="../../materials/week04/QGIS_save_as.png"></img>
 Now if you check the size of the newly created <code>brazil_compressed.geojson</code>, you should see that it is much smaller!</p>
 <p>Run the command:</p>
 <pre><code class="language-nohighlight">$ ls -lh brazil_compressed.geojson</code></pre>
 <p><img src="../../materials/week04/CLI_check_compressed_file_size.png"></img></p>
 <aside class="aside-note">
-<p>So 331K isn't actually that great for a webapp... it's still a bit large. In a few weeks, we'll look at how some of the features of GeoServer allows you to display large amounts of data without a big download. </p>
+<p>A file size of 331K isn't great for a webapp; it's still a bit large. In a few weeks, we'll look at how some of the features of GeoServer allows you to display large amounts of data without a big download.</p>
 </aside>
 <p>Now we have to Repeat this process for all of the countries listed in <a href="https://github.com/cdcepi/zika" target="_blank">Zika Github Repository</a> including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.</p>
 <p>To save you time, we went ahead and optimized the geometries for all of these countries. They are listed in <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week2-starter" target="_blank">/data/optimized</a>.</p>
