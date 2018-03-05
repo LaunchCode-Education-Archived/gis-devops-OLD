@@ -310,3 +310,7 @@ The script can also be found in the [week 8 starter branch](https://gitlab.com/L
 <aside class="aside-hint">
 	Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
 </aside>
+
+<h2 id="bonus-missions">Bonus Missions</h2>#
+
+When you complete all of these instructions, check out the [ElasticGeo Plugin](https://github.com/ngageoint/elasticgeo).  [ElasticGeo](https://github.com/ngageoint/elasticgeo) is an Elasticsearch plugin that allows you to integrate Elasticsearch into Geoserver.  The great thing is that that you can do Elasticsearch queries directly through Geoserver via WFS calls.  Here are the setup instructions and instructions on how to make the calls. [ElasticGeo Instructions](https://github.com/ngageoint/elasticgeo/blob/master/gs-web-elasticsearch/doc/index.rst). 
