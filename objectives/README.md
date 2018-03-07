@@ -137,3 +137,16 @@ Deliver an app with the the following features:
 - Install and use plugins
 - Understand how to configure project dependencies with proper scope
 - Describe how Gradle resovles task and project dependencies using a directed acyclic graph representation
+
+## Week 9
+
+### Day 3
+
+- Understand how Docker differs from traditional VMs.
+- Describe the underlying Docker technologies such as Linux Containers and UnionFS.
+- Spin up containers from existing images locally mapped ports.
+- Spin up containers with both volumes and write through mounts.
+- Create a Dockerfile that is capable of running a SpringBoot server.
+- Understand Docker Network and how Docker containers are interconnected.
+- Ability to create, inspect, and delete both images and containers.
+- Create a Docker Compose config to spin up a web app, database, and Elasticsearch instance.

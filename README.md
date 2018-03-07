@@ -61,3 +61,10 @@ Day 1-5 | Boundless Training: PostGIS and GeoServer
 Day | Topics
 |----|--------|
 [Day 1-5](week08/project) | Zika Mission Control Part 4
+
+## Week 9
+
+Day | Topics
+|----|--------|
+[Day 3](week09/day3/) | Intro to Docker 
+
