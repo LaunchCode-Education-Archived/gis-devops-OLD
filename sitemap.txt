@@ -6,6 +6,7 @@ https://education.launchcode.org/gis-devops/studios/AWS/index.html
 https://education.launchcode.org/gis-devops/studios/AWS2/index.html
 https://education.launchcode.org/gis-devops/studios/AWS3/index.html
 https://education.launchcode.org/gis-devops/studios/airwaze/index.html
+https://education.launchcode.org/gis-devops/studios/docker/index.html
 https://education.launchcode.org/gis-devops/studios/elastic_beanstalk/index.html
 https://education.launchcode.org/gis-devops/studios/elasticsearch1/index.html
 https://education.launchcode.org/gis-devops/studios/elasticsearch2/index.html
@@ -17,6 +18,7 @@ https://education.launchcode.org/gis-devops/studios/swagger-ui/index.html
 https://education.launchcode.org/gis-devops/studios/tdd/index.html
 https://education.launchcode.org/gis-devops/studios/user-stories/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/AWS2/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/docker/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch1/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch2/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/eslint-airwaze/index.html
@@ -52,4 +54,5 @@ https://education.launchcode.org/gis-devops/week05/day4/index.html
 https://education.launchcode.org/gis-devops/week05/day5/index.html
 https://education.launchcode.org/gis-devops/week06/project/index.html
 https://education.launchcode.org/gis-devops/week08/project/index.html
+https://education.launchcode.org/gis-devops/week09/day3/index.html
 https://education.launchcode.org/gis-devops/sitemap.html
