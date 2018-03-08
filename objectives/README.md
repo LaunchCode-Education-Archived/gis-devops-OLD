@@ -150,3 +150,10 @@ Deliver an app with the the following features:
 - Understand Docker Network and how Docker containers are interconnected.
 - Ability to create, inspect, and delete both images and containers.
 - Create a Docker Compose config to spin up a web app, database, and Elasticsearch instance.
+
+### Day 4
+
+- Understand the role certificates play in validating the identity of a server.
+- Undertstand the role that a Certificate Authority plays in determining trust.
+- Configure the browser to add new trusted certificates.
+- Configure the browser to add client-side access certificates.

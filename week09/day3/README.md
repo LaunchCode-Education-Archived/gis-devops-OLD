@@ -1,8 +1,8 @@
 ---
-title: Week 8 - Project Week
+title: Week 9 - Day 3
 ---
 
-[Learning objectives for this module[(../../objectives/#day-9-3)
+[Learning objectives for this module](../../objectives/#day-9-3)
 
 ## Walkthrough
 
