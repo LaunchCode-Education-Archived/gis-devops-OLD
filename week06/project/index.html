@@ -121,8 +121,14 @@
 <li>You will be working in <code>us-west-2</code> region (also known as <code>Oregon</code>).</li>
 <li>The project has been upgraded to Gradle 4.4. You'll want to use your existing project, but Feel free to merge in changes from the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">week6-starter branch</a>. Use the command <code>gradle clean bootJar</code> to build your project.</li>
 <li>You will be running ElasticSearch remotely in this project. You'll need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch. Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.medium</code> machine. If you get an &quot;Out of Memory Exception&quot;, be sure to increase the heap size by setting <code>Xms3g</code> and <code>Xmx4g</code> in the <code>/etc/elasticsearch/jvm.options</code> file.</li>
+<li>You will need to setup a temporary <code>t2.medium</code> that also has your java web app on it. You will only use this instance to run the <code>\reindex</code> endpoint. That endpoint requires a lot of memory, if you try to have your web app handle that on a <code>t2.micro</code> or <code>t2.small</code> they will return java heap errors. After you have ran the endopint and populated your Elasticsearch you can delete the <code>t2.medium</code></li>
 </ol>
 <p>To run Elasticsearch locally, we are going to be using Docker, here is the command:</p>
+<ul>
+<li>Download docker installer from <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank">here</a></li>
+<li>That will isntall docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)</li>
+<li>Now you can run <code>$ docker</code> commands in your terminal. Like the one below.</li>
+</ul>
 <pre><code class="language-nohighlight">$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
 <aside class="aside-note">
 <p>Be sure to stop your home brew Elasticsearch by running <code>brew services stop elasticsearch</code></p>
