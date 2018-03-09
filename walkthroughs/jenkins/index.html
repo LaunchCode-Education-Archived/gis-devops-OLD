@@ -115,7 +115,7 @@
 </ul>
 <h4 id="configure-jenkins">Configure Jenkins</h4>
 <ul>
-<li>Go to <code>http:localhost:9090</code></li>
+<li>Go to <a href="http://localhost:9090" target="_blank"><a href="http://localhost:9090" target="_blank">http://localhost:9090</a></a></li>
 <li>You should see screen asking for an admin key</li>
 <li>In terminal view the file listed and copy the key inside it</li>
 <li>Paste that key into the input box</li>
@@ -139,13 +139,13 @@
 <h4 id="configure-the-compile-project">Configure the Compile Project</h4>
 <ul>
 <li>In <em>Source Code Management</em> click <em>Git</em></li>
-<li>Post your gitlab repo url into <em>Repository URL</em></li>
+<li>Post your SSH gitlab repo url into <em>Repository URL</em>. Example: git@gitlab.com:welzie/zika-cdc-dashboard.git</li>
 <li>Make sure you the branch you want to compile is in the <em>Branch Specifier</em> field </li>
 <li>Go to the <em>Build Triggers</em> section</li>
 <li>Select <em>Poll SCM</em> and enter <code>H/5 * * * *</code> into the <em>Schedule</em> input </li>
 <li>Go to the <em>Build</em> section</li>
 <li>Click <em>Add build step</em></li>
-<li>Click <em>Invode Gradle script</em></li>
+<li>Click <em>Invoke Gradle script</em></li>
 <li>Enter <code>clean compileJava</code> into the <em>Tasks</em> input</li>
 </ul>
 <p>Now test out the build by clicking <em>Build Now</em></p>
@@ -172,6 +172,7 @@
 <li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Compile/</code></li>
 <li>Click <em>Configure</em></li>
 <li>Go to <em>Post Build Actions</em></li>
+<li>Select <em>Trigger parameterized build on other projects</em> from the select box</li>
 <li>Enter <code>Airwaze Test</code> as the project to build</li>
 <li>Click <em>Add Parameters</em> and select <em>Build on the same node</em></li>
 <li>Click <em>Add Parameters</em> again and select <em>Predefined parameters</em></li>
@@ -197,13 +198,23 @@ Now we need to kick off the <em>CreateJar Project</em></li>
 <li>Enter this <code>AIRWAZE_WORKSPACE=${WORKSPACE}</code> into input</li>
 <li>Click save</li>
 </ul>
-<p>Run the Test Project</p>
+<h4 id="run-the-compile-project-which-runs-the-test-project">Run the Compile Project, which runs the Test Project</h4>
 <ul>
-<li>You can view the tests by finding the test results in the project <code>works space/builds/reports/tests/test</code></li>
-<li>Or we can configure the tests results to be pushlised on the project results</li>
+<li>Run the Compile Project</li>
+<li>After both the Compile Project and Test Project have finished</li>
+<li>You can view the tests by finding the test results in the project work space</li>
+<li>Naviage to project works space by clicking <em>Work Space</em> in the left menu of a project. Example: <a href="http://localhost:9090/job/Airwaze%20Test/ws/" target="_blank"><a href="http://localhost:9090/job/Airwaze%20Test/ws/" target="_blank">http://localhost:9090/job/Airwaze%20Test/ws/</a></a></li>
+<li>Once on the <em>Work Space</em> page click on the folder names and navigate to <code>/build/reports/tests/test/index.html</code></li>
+<li>Clicking on <code>index.html</code> should open up the junit test results. Example: [<a href="http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html])(http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html" target="_blank">http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html])(http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html</a>)</li>
+</ul>
+<h4 id="configure-the-tests-results-to-be-published-automatically">Configure the Tests Results to be Published Automatically</h4>
+<ul>
+<li>We can configure the tests results to be pushlised on the project results after every run</li>
 <li>Go to the <em>Post build actions</em> for the <em>Test Project</em></li>
 <li>Select <em>Publish JUnit test result report</em> and input this <code>build/test-results/test/*.xml</code> into input</li>
-<li>Run the project again and you will see the test results on the project page</li>
+<li>Run the project again and you will see a link named <em>Latest Test Results</em> on the project page</li>
+<li>You can also click on a specific build and see a link named <em>Test Results</em></li>
+<li>NOTE: a graph will appear on the project page that shows a history of test results</li>
 </ul>
 <h4 id="configure-createjar-project">Configure CreateJar Project</h4>
 <ul>

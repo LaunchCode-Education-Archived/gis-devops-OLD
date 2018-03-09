@@ -269,7 +269,7 @@ WantedBy=multi-user.target
 EOF
 
 # Open up Port 80
-systemctl enable ferewalld
+systemctl enable firewalld
 systemctl start firewalld
 firewall-offline-cmd --zone=public --add-port=8080/tcp
 
