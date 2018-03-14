@@ -2,7 +2,7 @@
 title: Week 8 - Project Week
 ---
 
-[Learning objectives for this module[(../../objectives/#day-9-3)
+[Learning objectives for this module](../../objectives/#day-9-3)
 
 ## Walkthrough
 
