@@ -131,7 +131,7 @@
 <p>For running <strong>Postgis</strong>, we used the following docker command:
 docker run --name &quot;postgis&quot; -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:10.0-2.4</p>
 <h2 id="hints">Hints</h2>
-<p>If you expose the port <code>5432</code> on your PostGIS container using the <code>-p 5432:5432</code> option, you will only be able to connect to it via<code>psql -h 127.0.0.1 -p 5432 -U ariwaze_app_user airwaze</code></p>
+<p>If you expose the port <code>5432</code> on your PostGIS container using the <code>-p 5432:5432</code> option, you will only be able to connect to it via<code>psql -h 127.0.0.1 -p 5432 -U airwaze_app_user airwaze</code></p>
 <p>Settings up databases in Docker can be kind of tricky because they typically require setting up users and a schema before they can be used by an application server. Here </p>
 <pre><code>  postgis:
     image: "kartoza/postgis:10.0-2.4"
