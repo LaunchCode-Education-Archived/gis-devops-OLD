@@ -22,7 +22,7 @@ Normally you would not install jenkins on your dev machine. You would isntall it
 </aside>
 
 #### Configure Jenkins
-- Go to `http:localhost:9090`
+- Go to [http://localhost:9090](http://localhost:9090)
 - You should see screen asking for an admin key
 - In terminal view the file listed and copy the key inside it
 - Paste that key into the input box
@@ -42,13 +42,13 @@ Normally you would not install jenkins on your dev machine. You would isntall it
 
 #### Configure the Compile Project
 - In *Source Code Management* click *Git*
-- Post your gitlab repo url into *Repository URL*
+- Post your SSH gitlab repo url into *Repository URL*. Example: git@gitlab.com:welzie/zika-cdc-dashboard.git
 - Make sure you the branch you want to compile is in the *Branch Specifier* field 
 - Go to the *Build Triggers* section
 - Select *Poll SCM* and enter `H/5 * * * *` into the *Schedule* input 
 - Go to the *Build* section
 - Click *Add build step*
-- Click *Invode Gradle script*
+- Click *Invoke Gradle script*
 - Enter `clean compileJava` into the *Tasks* input
 
 Now test out the build by clicking *Build Now*
@@ -73,6 +73,7 @@ We need the *Compile Project* to kick off the *Test Project* when it's done. We 
 - Navigate to project `http://localhost:9090/job/Airwaze%20Compile/`
 - Click *Configure*
 - Go to *Post Build Actions*
+- Select *Trigger parameterized build on other projects* from the select box
 - Enter `Airwaze Test` as the project to build
 - Click *Add Parameters* and select *Build on the same node*
 - Click *Add Parameters* again and select *Predefined parameters*
@@ -97,12 +98,21 @@ Now we need to kick off the *CreateJar Project*
 - Enter this `AIRWAZE_WORKSPACE=${WORKSPACE}` into input
 - Click save
 
-Run the Test Project
-- You can view the tests by finding the test results in the project `works space/builds/reports/tests/test`
-- Or we can configure the tests results to be pushlised on the project results
+####Run the Compile Project, which runs the Test Project
+- Run the Compile Project
+- After both the Compile Project and Test Project have finished
+- You can view the tests by finding the test results in the project work space
+- Naviage to project works space by clicking *Work Space* in the left menu of a project. Example: [http://localhost:9090/job/Airwaze%20Test/ws/](http://localhost:9090/job/Airwaze%20Test/ws/)
+- Once on the *Work Space* page click on the folder names and navigate to `/build/reports/tests/test/index.html`
+- Clicking on `index.html` should open up the junit test results. Example: [http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html])(http://localhost:9090/job/Airwaze%20Test/ws/build/reports/tests/test/index.html)
+
+#### Configure the Tests Results to be Published Automatically
+- We can configure the tests results to be pushlised on the project results after every run
 - Go to the *Post build actions* for the *Test Project*
 - Select *Publish JUnit test result report* and input this `build/test-results/test/*.xml` into input
-- Run the project again and you will see the test results on the project page
+- Run the project again and you will see a link named *Latest Test Results* on the project page
+- You can also click on a specific build and see a link named *Test Results*
+- NOTE: a graph will appear on the project page that shows a history of test results
 
 #### Configure CreateJar Project
 - Same configuration as the *Test Project*, with these exceptions

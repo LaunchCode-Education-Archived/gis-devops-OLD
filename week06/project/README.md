@@ -31,8 +31,12 @@ There will be a few differences in this project compared to previous week's stud
 2. You will be working in `us-west-2` region (also known as `Oregon`).
 3. The project has been upgraded to Gradle 4.4. You'll want to use your existing project, but Feel free to merge in changes from the [week6-starter branch](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter). Use the command `gradle clean bootJar` to build your project.
 4. You will be running ElasticSearch remotely in this project. You'll need to spin up a `t2.small` EC2 instance to serve ElasticSearch. Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure a `t2.medium` machine. If you get an "Out of Memory Exception", be sure to increase the heap size by setting `Xms3g` and `Xmx4g` in the `/etc/elasticsearch/jvm.options` file.
+5. You will need to setup a temporary `t2.medium` that also has your java web app on it. You will only use this instance to run the `\reindex` endpoint. That endpoint requires a lot of memory, if you try to have your web app handle that on a `t2.micro` or `t2.small` they will return java heap errors. After you have ran the endopint and populated your Elasticsearch you can delete the `t2.medium`
 
 To run Elasticsearch locally, we are going to be using Docker, here is the command:
+- Download docker installer from [here](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+- That will isntall docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)
+- Now you can run `$ docker` commands in your terminal. Like the one below.
 
 ```nohighlight
 $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
