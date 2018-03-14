@@ -48,7 +48,7 @@ docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/pos
 
 ## Hints
 
-If you expose the port `5432` on your PostGIS container using the `-p 5432:5432` option, you will only be able to connect to it via`psql -h 127.0.0.1 -p 5432 -U ariwaze_app_user airwaze`
+If you expose the port `5432` on your PostGIS container using the `-p 5432:5432` option, you will only be able to connect to it via`psql -h 127.0.0.1 -p 5432 -U airwaze_app_user airwaze`
 
 Settings up databases in Docker can be kind of tricky because they typically require setting up users and a schema before they can be used by an application server. Here 
 
