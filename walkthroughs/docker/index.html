@@ -136,13 +136,13 @@ if __name__ == "__main__":
 
 ADD . /code</code></pre>
 <p>Build the image and then check to make sure that it built correctly:</p>
-<pre><code>$ sudo docker build --tag my-centos
+<pre><code>$ sudo docker build --tag my-centos .
 $ sudo docker images 
 REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
 my-centos                                       latest              ff426288ea90        8 weeks ago         207MB</code></pre>
 <p>Great. We can exactly when it was created and how large the image is.</p>
 <p>Since the <code>Dockerfile</code> doesn't have a command to start a process, let's start the container on the terminal using the <code>-i -t</code> flags and the command <code>/bin/bash</code>.  Also, we will use the <code>-p 5000:5000</code> option to map port 5000 on the host machine to port 5000 inside the docker container.</p>
-<pre><code>$ sudo docker run -i -t -p 5000:5000 /bin/bash my-centos
+<pre><code>$ sudo docker run -i -t -p 5000:5000 my-centos /bin/bash
 $ [root@7b3cfec32b83 /]#</code></pre>
 <p>Now that we have the terminal, we can <strong>manually</strong> walk though the setup steps before we script them into the <code>Dockerfile</code>.</p>
 <pre><code>$ yum -y install epel-release
@@ -267,7 +267,9 @@ services:
 <p>Remember, we don't have to make any changes to the <code>app.py</code> file.  Inside of the containers, Docker Compose is handling the local DNS so that any reference to <code>redis</code> gets redirected to the <code>redis</code> container.</p>
 <p>Use the following command to stand up the two containers:</p>
 <pre><code>$ docker-compose up -d</code></pre>
-<p>You should see the app come up on <code>localhost:5000</code>. Notice that only the Python Flask server has access to the Redis server at <code>6379</code>, but you can't <code>telnet localhost 6379</code>.  This is because we did not forward the port of the Redis server.  Use the following command to forward the port of the Redis server to the local machine:</p>
+<p>You should see the app come up on <code>localhost:5000</code>. Notice that only the Python Flask server has access to the Redis server at <code>6379</code>, but you can't <code>telnet localhost 6379</code>.  This is because we did not forward the port of the Redis server.  Add the following config to your <code>docker-compose</code> to forward the port of the Redis server to the host machine:</p>
+<pre><code>ports:
+- "6379:6379"</code></pre>
 <p>Notice also that Docker Compose is spinning up multiple containers on your behalf. Run:</p>
 <pre><code>$ sudo docker ps 
 </code></pre>

@@ -30,6 +30,7 @@ https://education.launchcode.org/gis-devops/walkthroughs/jenkins/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/launchcart-rest/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/openlayers-http/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/serverside-certificates/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/sonarqube/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/swagger-ui/index.html
@@ -55,4 +56,5 @@ https://education.launchcode.org/gis-devops/week05/day5/index.html
 https://education.launchcode.org/gis-devops/week06/project/index.html
 https://education.launchcode.org/gis-devops/week08/project/index.html
 https://education.launchcode.org/gis-devops/week09/day3/index.html
+https://education.launchcode.org/gis-devops/week09/day4/index.html
 https://education.launchcode.org/gis-devops/sitemap.html

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Server-side Certificates :: GIS DevOps</title>
+
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
+        <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
+        <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
+    </head>
+    <body id='page-server-side-certificates'>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <ul class="nav navbar-nav">
+
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle glyphicon glyphicon-menu-hamburger" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                        <ul class="dropdown-menu">
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/objectives/">
+                                        Objectives
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/resources/">
+                                        Resources
+                                    </a>
+                                </li>
+                                                            <li class=" lc-button">
+                                    <a href="https://education.launchcode.org/gis-devops/about/">
+                                        About This Course
+                                    </a>
+                                </li>
+                                                        <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#modalSearch" data-toggle="modal" data-target="#modalSearch">Search This Site</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                
+            </ul>
+
+            <div>
+                <a class="navbar-brand site-title navbar-center" href="https://education.launchcode.org/gis-devops/">
+                    <h1>GIS DevOps</h1>
+                </a>
+            </div>
+
+            <div class="nav navbar-nav navbar-right">
+                <a class="navbar-brand dabomb" href="https://education.launchcode.org/gis-devops/"></a>
+            </div>
+
+        </header>
+
+        <!-- Search Modal -->
+        <div id="modalSearch" class="modal fade" role="dialog">
+           <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Search GIS DevOps</h4>
+                </div>
+                <div class="modal-body">
+                    <script>
+                      (function() {
+                        var cx = "014657181352409571810:oq1krtyri4k";
+                        var gcse = document.createElement('script');
+                        gcse.type = 'text/javascript';
+                        gcse.async = true;
+                        gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(gcse, s);
+                      })();
+                    </script>
+                    <gcse:search></gcse:search>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+           </div>
+        </div>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                <section id="content" class="col-sm-offset-2 col-sm-8">
+                                        <h1>Server-side Certificates</h1>
+                    <p>In this walkthrough, we will be looking at how a servers use certificates to validate their identity.</p>
+<h2 id="setup">Setup</h2>
+<p>For this walkthrough, we will be using the Spring Security to attach a certificate to a server.  </p>
+<p>Check out the [Server Certificate Repo]() from Gitlab.  The project in the [Server Certificate Repo]() contains a simple project that contains the following:</p>
+<ol>
+<li>
+<p><code>UserController</code> that checks the certificate of the user</p>
+</li>
+<li>
+<p>A properties file that contains defines to the <code>jks</code>, the <code>truststore</code>, and other configuration for SSL.</p>
+</li>
+<li>A Makefile that simplifies the process of creating certificates.</li>
+</ol>
+<h3 id="certificate-setup">Certificate Setup</h3>
+<p>After checking out the example project, you will neeed to generate the cryptographic components required for Spring Boot to host a certificate.</p>
+<p>A <code>jks</code> also known as a <code>Java Key Store</code> will need to be generated.  Since we will be using a self-signed certificate, this <code>jks</code> file will act as our local Certificate Authority.  Run the following command (be sure to use a secure password!):</p>
+<pre><code>$ make create-keystore PASSWORD=changeit
+$ # Generate a certificate authority (CA)
+keytool -genkey -alias ca -ext BC=ca:true \
+        -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -keypass changeit \
+        -validity 3650 -dname 'CN=LaunchCode CA,OU=launchcode.org,O=LaunchCode,L=Saint Louis,ST=Missouri,C=CC' \
+        -keystore keystore.jks -storepass changeit</code></pre>
+<p>By doing an <code>ls</code>, you should now see that you <code>keystore.jks</code> file in your directory.</p>
+<p>Next you will create a certificate for you local development environment. Run the following command:</p>
+<pre><code>$ make add-host HOSTNAME=localhost</code></pre>
+<p>Running <code>ls</code> will show that there are now two additional files in your director: <code>localhost.csr</code> and <code>localhost.cst</code>.</p>
+<p>Next, you will need to create a <code>truststore</code>.  The <code>truststore</code> is where all trusted certificates are located.  It is essentially the <code>known_hosts</code> for certificates.</p>
+<pre><code>$ make create-truststore PASSWORD=verysecurepassword
+# Export certificate authority
+keytool -export -alias ca -file ca.crt -rfc \
+        -keystore keystore.jks -storepass verysecurepassword
+Certificate stored in file &lt;ca.crt&gt;
+# Import certificate authority into a new truststore
+keytool -import -trustcacerts -noprompt -alias ca -file ca.crt \
+        -keystore truststore.jks -storepass verysecurepassword
+Certificate was added to keystore</code></pre>
+<p>Running <code>ls</code> will show that two more files have been added to your directory: <code>ca.crt</code> and <code>truststore.jks</code>.</p>
+<p>Next, you will add the certificate that you generated to the <code>truststore.jks</code> so that your user can access the the site.</p>
+<pre><code>$ make add-client CLIENTNAME=cid
+keytool -genkey -alias cid \
+        -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -keypass verysecurepassword \
+        -validity 3650 -dname 'CN=cid,OU=launchcode.com,O=LaunchCode,L=Saint Louis,ST=Missouri,C=CC' \
+        -keystore truststore.jks -storepass verysecurepassword
+# Generate a host certificate signing request
+keytool -certreq -alias cid -ext BC=ca:true \
+        -keyalg RSA -keysize 4096 -sigalg SHA512withRSA \
+        -validity 3650 -file "cid.csr" \
+        -keystore truststore.jks -storepass verysecurepassword
+# Generate signed certificate with the certificate authority
+keytool -gencert -alias ca \
+        -validity 3650 -sigalg SHA512withRSA \
+        -infile "cid.csr" -outfile "cid.crt" -rfc \
+        -keystore keystore.jks -storepass verysecurepassword
+# Import signed certificate into the truststore
+keytool -import -trustcacerts -alias cid \
+        -file "cid.crt" \
+        -keystore truststore.jks -storepass verysecurepassword
+Certificate reply was installed in keystore
+# Export private certificate for importing into a browser
+keytool -importkeystore -srcalias cid \
+        -srckeystore truststore.jks -srcstorepass verysecurepassword \
+        -destkeystore "cid.p12" -deststorepass verysecurepassword \
+        -deststoretype PKCS12</code></pre>
+<p>A lot just happened, let's review.</p>
+<ul>
+<li>
+<p>First, it needs to create a key for your user. A key is created and plaed in the <code>keystore.jks</code>. </p>
+</li>
+<li>
+<p>Second, a signing requrest <code>.csr</code> file was generated based on the key.  This is what is used to aske the Certificate Authority to sign your certificate.</p>
+</li>
+<li>
+<p>Third, the signing requrest <code>.csr</code> is passed to the Certificate Authority and a signed certificate is passed back as the <code>cid.crt</code>.</p>
+</li>
+<li>
+<p>Fourth, the <code>cid.crt</code> file is stored in the <code>truststore.jks</code>.  </p>
+</li>
+<li>Fifth and finally, the <code>cid.crt</code> file needs to be exported so that it can be included in the browser.  The result is a <code>cid.p12</code> file that can be given to the user and used to authenticate against an X509 server. </li>
+</ul>
+<h3 id="authorization">Authorization</h3>
+<p>Now that everything has been setup in on the server side, let's run the app and try to get access.  </p>
+<p>Before you click run on your application, make sure that the <code>application.properties</code> is configured to point to the <code>keystore.jks</code> and the <code>truststore.jks</code>.  You will need to add the password for both the <code>keystore.jks</code> and the <code>truststore.jks</code> in order for the Java app to access those files.</p>
+<p>Upon running the app, navigate to <a href="https://localhost:8443" target="_blank">https://localhost:8443</a>.  Notice that the app is now running on <code>https</code>.  This says that all traffic going over the write is encrypted.  The only question is &quot;Do you trust the person that you are talking to?&quot;. </p>
+<p>The first thing you will notice is that your browser doesn't recognize the certificate from the server. Anytime there is a bad certificate on a server, your browser will freak out.  Let's fix that.
+<img src="../../materials/week09/server-mad.png" alt="" /></p>
+<p>Open the Settings tab on Chrome (or the browser of your choie).
+<img src="../../materials/week09/settings-bar.png" alt="" /></p>
+<p>Under Advanced Settings, you will find the link to the <code>Privacy and security</code> page.
+<img src="../../materials/week09/advanced-settings.png" alt="" /></p>
+<p>Finally, you should find the <code>Manage certificates</code> link on the page to be able to configure the certificates your browser trusts.
+<img src="../../materials/week09/manage-certificates.png" alt="" /></p>
+<p>By clicking on <code>Certificates</code> in the bottom left hand corner of the screen, you should be able to see all of the certificates your browser supports.  They may be spread across several keychains. Be sure that you do not have any certificates selected otherwise the &quot;+&quot; button will not be enabled.
+<img src="../../materials/week09/add-certifcates.png" alt="" /></p>
+<p>Click the &quot;+&quot; button and add the <code>localhost.crt</code> certificate that you had generated earlier in the walkthrough.</p>
+<h3 id="adding-client-side-certificates-for-authorization">Adding client-side certificates for Authorization</h3>
+<p>Open the Keychain Access program again and click on <code>MyCertificates</code>.  These are the client-side certificates that are currently installed on your compuster and that can be used to access a remote server.  Let's add a new certificate by clicking <code>File &gt; Import Items...</code>.  Import the <code>cid.p12</code> file that you created earlier in the studio.
+<img src="../../materials/week09/import-clientside-cert.png" alt="" /></p>
+<p>After adding the client-side cert your browser will ask you to select a certificate and it works!</p>
+                                    </section>
+
+            </div>
+        </main>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/highlight.pack.js"></script>
+        <script type="text/javascript" src="https://education.launchcode.org/gis-devops/js/libgif.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+
+                // Syntax highlighting
+                hljs.configure({ displayLabels: true });
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', "UA-78748330-11", 'auto');
+            ga('send', 'pageview');
+
+        </script>
+
+    </body>
+</html>
