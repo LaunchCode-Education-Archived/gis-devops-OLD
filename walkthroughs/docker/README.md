@@ -81,7 +81,7 @@ ADD . /code
 Build the image and then check to make sure that it built correctly:
 
 ```
-$ sudo docker build --tag my-centos
+$ sudo docker build --tag my-centos .
 $ sudo docker images 
 REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
 my-centos                                       latest              ff426288ea90        8 weeks ago         207MB
@@ -91,7 +91,7 @@ Great. We can exactly when it was created and how large the image is.
 
 Since the `Dockerfile` doesn't have a command to start a process, let's start the container on the terminal using the `-i -t` flags and the command `/bin/bash`.  Also, we will use the `-p 5000:5000` option to map port 5000 on the host machine to port 5000 inside the docker container.
 ```
-$ sudo docker run -i -t -p 5000:5000 /bin/bash my-centos
+$ sudo docker run -i -t -p 5000:5000 my-centos /bin/bash
 $ [root@7b3cfec32b83 /]#
 ```
 
@@ -268,7 +268,12 @@ Use the following command to stand up the two containers:
 $ docker-compose up -d
 ```
 
-You should see the app come up on `localhost:5000`. Notice that only the Python Flask server has access to the Redis server at `6379`, but you can't `telnet localhost 6379`.  This is because we did not forward the port of the Redis server.  Use the following command to forward the port of the Redis server to the local machine:
+You should see the app come up on `localhost:5000`. Notice that only the Python Flask server has access to the Redis server at `6379`, but you can't `telnet localhost 6379`.  This is because we did not forward the port of the Redis server.  Add the following config to your `docker-compose` to forward the port of the Redis server to the host machine:
+
+```
+ports:
+- "6379:6379"
+```
 
 Notice also that Docker Compose is spinning up multiple containers on your behalf. Run:
 
