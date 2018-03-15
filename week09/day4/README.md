@@ -8,4 +8,7 @@ title: Week 8 - Day 4
 
 [OAuth2 Slides](https://education.launchcode.org/gis-devops-slides/week9/oauth2.html#1)
 
+## Walkthrough
 
+[Server-side Certificates]()
+[Client-side Certificate Authorization]()
