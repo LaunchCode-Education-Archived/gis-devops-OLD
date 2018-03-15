@@ -66,5 +66,6 @@ Day | Topics
 
 Day | Topics
 |----|--------|
-[Day 3](week09/day3/) | Intro to Docker 
+[Day 3](week09/day3/) | Intro to Docker
+[Day 4](week09/day4/) | OAuth2
 
