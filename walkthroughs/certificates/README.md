@@ -1,5 +1,5 @@
 ---
-title: "Server-side Certificates"
+title: "Certificates"
 ---
 
 In this walkthrough, we will be looking at how a servers use certificates to validate their identity.
@@ -8,7 +8,7 @@ In this walkthrough, we will be looking at how a servers use certificates to val
 
 For this walkthrough, we will be using the Spring Security to attach a certificate to a server.  
 
-Check out the [Server Certificate Repo]() from Gitlab.  The project in the [Server Certificate Repo]() contains a simple project that contains the following:
+Check out the [Server Certificate Repo](https://gitlab.com/LaunchCodeTraining/x509-certificate-starter) from Gitlab.  The project in the [Server Certificate Repo](https://gitlab.com/LaunchCodeTraining/x509-certificate-starter) contains a simple project that contains the following:
 
 1. `UserController` that checks the certificate of the user
 
@@ -88,7 +88,7 @@ keytool -importkeystore -srcalias cid \
 
 A lot just happened, let's review.
 
-* First, it needs to create a key for your user. A key is created and plaed in the `keystore.jks`. 
+* First, it needs to create a key for your user. A key is created and placed in the `keystore.jks`. 
 
 * Second, a signing requrest `.csr` file was generated based on the key.  This is what is used to aske the Certificate Authority to sign your certificate.
  
@@ -107,7 +107,6 @@ Before you click run on your application, make sure that the `application.proper
 Upon running the app, navigate to https://localhost:8443.  Notice that the app is now running on `https`.  This says that all traffic going over the write is encrypted.  The only question is "Do you trust the person that you are talking to?". 
 
 The first thing you will notice is that your browser doesn't recognize the certificate from the server. Anytime there is a bad certificate on a server, your browser will freak out.  Let's fix that.
-![](../../materials/week09/server-mad.png)
 
 Open the Settings tab on Chrome (or the browser of your choie).
 ![](../../materials/week09/settings-bar.png)
@@ -119,7 +118,7 @@ Finally, you should find the `Manage certificates` link on the page to be able t
 ![](../../materials/week09/manage-certificates.png)
 
 By clicking on `Certificates` in the bottom left hand corner of the screen, you should be able to see all of the certificates your browser supports.  They may be spread across several keychains. Be sure that you do not have any certificates selected otherwise the "+" button will not be enabled.
-![](../../materials/week09/add-certifcates.png)
+![](../../materials/week09/adding-certificate.png)
 
 Click the "+" button and add the `localhost.crt` certificate that you had generated earlier in the walkthrough.
 
