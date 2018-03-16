@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Server-side Certificates :: GIS DevOps</title>
+        <title>Certificates :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-server-side-certificates'>
+    <body id='page-certificates'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,11 +94,11 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Server-side Certificates</h1>
+                                        <h1>Certificates</h1>
                     <p>In this walkthrough, we will be looking at how a servers use certificates to validate their identity.</p>
 <h2 id="setup">Setup</h2>
 <p>For this walkthrough, we will be using the Spring Security to attach a certificate to a server.  </p>
-<p>Check out the [Server Certificate Repo]() from Gitlab.  The project in the [Server Certificate Repo]() contains a simple project that contains the following:</p>
+<p>Check out the <a href="https://gitlab.com/LaunchCodeTraining/x509-certificate-starter" target="_blank">Server Certificate Repo</a> from Gitlab.  The project in the <a href="https://gitlab.com/LaunchCodeTraining/x509-certificate-starter" target="_blank">Server Certificate Repo</a> contains a simple project that contains the following:</p>
 <ol>
 <li>
 <p><code>UserController</code> that checks the certificate of the user</p>
@@ -161,7 +161,7 @@ keytool -importkeystore -srcalias cid \
 <p>A lot just happened, let's review.</p>
 <ul>
 <li>
-<p>First, it needs to create a key for your user. A key is created and plaed in the <code>keystore.jks</code>. </p>
+<p>First, it needs to create a key for your user. A key is created and placed in the <code>keystore.jks</code>. </p>
 </li>
 <li>
 <p>Second, a signing requrest <code>.csr</code> file was generated based on the key.  This is what is used to aske the Certificate Authority to sign your certificate.</p>
@@ -178,8 +178,7 @@ keytool -importkeystore -srcalias cid \
 <p>Now that everything has been setup in on the server side, let's run the app and try to get access.  </p>
 <p>Before you click run on your application, make sure that the <code>application.properties</code> is configured to point to the <code>keystore.jks</code> and the <code>truststore.jks</code>.  You will need to add the password for both the <code>keystore.jks</code> and the <code>truststore.jks</code> in order for the Java app to access those files.</p>
 <p>Upon running the app, navigate to <a href="https://localhost:8443" target="_blank">https://localhost:8443</a>.  Notice that the app is now running on <code>https</code>.  This says that all traffic going over the write is encrypted.  The only question is &quot;Do you trust the person that you are talking to?&quot;. </p>
-<p>The first thing you will notice is that your browser doesn't recognize the certificate from the server. Anytime there is a bad certificate on a server, your browser will freak out.  Let's fix that.
-<img src="../../materials/week09/server-mad.png" alt="" /></p>
+<p>The first thing you will notice is that your browser doesn't recognize the certificate from the server. Anytime there is a bad certificate on a server, your browser will freak out.  Let's fix that.</p>
 <p>Open the Settings tab on Chrome (or the browser of your choie).
 <img src="../../materials/week09/settings-bar.png" alt="" /></p>
 <p>Under Advanced Settings, you will find the link to the <code>Privacy and security</code> page.
@@ -187,7 +186,7 @@ keytool -importkeystore -srcalias cid \
 <p>Finally, you should find the <code>Manage certificates</code> link on the page to be able to configure the certificates your browser trusts.
 <img src="../../materials/week09/manage-certificates.png" alt="" /></p>
 <p>By clicking on <code>Certificates</code> in the bottom left hand corner of the screen, you should be able to see all of the certificates your browser supports.  They may be spread across several keychains. Be sure that you do not have any certificates selected otherwise the &quot;+&quot; button will not be enabled.
-<img src="../../materials/week09/add-certifcates.png" alt="" /></p>
+<img src="../../materials/week09/adding-certificate.png" alt="" /></p>
 <p>Click the &quot;+&quot; button and add the <code>localhost.crt</code> certificate that you had generated earlier in the walkthrough.</p>
 <h3 id="adding-client-side-certificates-for-authorization">Adding client-side certificates for Authorization</h3>
 <p>Open the Keychain Access program again and click on <code>MyCertificates</code>.  These are the client-side certificates that are currently installed on your compuster and that can be used to access a remote server.  Let's add a new certificate by clicking <code>File &gt; Import Items...</code>.  Import the <code>cid.p12</code> file that you created earlier in the studio.
