@@ -229,7 +229,7 @@ yum update -y && yum install -y wget firewalld telnet unzip java-1.8.0-openjdk.x
 groupadd tomcat
 mkdir /opt/tomcat
 useradd -s /bin/sh -g tomcat -d /opt/tomcat tomcat
-wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.28/bin/apache-tomcat-8.5.28.tar.gz
+wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.29/bin/apache-tomcat-8.5.29.tar.gz
 tar -zxvf apache-tomcat-8.5.28.tar.gz -C /opt/tomcat --strip-components=1
  
 chmod g+rwx /opt/tomcat/conf
