@@ -154,7 +154,7 @@ Then execute:</p>
 <li>When an airport is clicked on the map, show the routes for that airport.</li>
 <li>This will require you to add a new layer to the map. Refer to the &quot;airports layer&quot; for help.</li>
 <li>You will need to add more code to the function <code>map.forEachFeatureAtPixel(event.pixel, function(feature,layer)</code> in <code>resources/static/js/scripts.js</code></li>
-<li>The data for the new layer will be provided by <code>http://localhost:8080/route?srcId=X</code>, where X will be the <code>airportId</code> from the feature.</li>
+<li>The data for the new layer will be provided by <code>http://localhost:8080/route/?srcId=X</code>, where X will be the <code>airportId</code> from the feature.</li>
 </ul>
 <h2 id="problems">Problems</h2>
 <p>Invalid JSON will cause the jQuery callback to not fire.  If you are having an issue, validate the JSON that you are sending across the wire.  Here is a <a href="https://jsonlint.com/" target="_blank">JSON Validator</a>.</p>
