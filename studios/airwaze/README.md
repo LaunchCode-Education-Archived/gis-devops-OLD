@@ -87,7 +87,7 @@ Be sure that the `import.sql` points to local copies of the `airports.csv` and `
 * When an airport is clicked on the map, show the routes for that airport.
 * This will require you to add a new layer to the map. Refer to the "airports layer" for help.
 * You will need to add more code to the function `map.forEachFeatureAtPixel(event.pixel, function(feature,layer)` in `resources/static/js/scripts.js`
-* The data for the new layer will be provided by `http://localhost:8080/route?srcId=X`, where X will be the `airportId` from the feature.
+* The data for the new layer will be provided by `http://localhost:8080/route/?srcId=X`, where X will be the `airportId` from the feature.
 
 ## Problems
 
