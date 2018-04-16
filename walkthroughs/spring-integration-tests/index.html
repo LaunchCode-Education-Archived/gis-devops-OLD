@@ -138,28 +138,6 @@
 </tr>
 </tbody>
 </table>
-<h3 id="configure-test-database-connection">Configure Test Database Connection</h3>
-<ul>
-<li>Use a separate properties file (w/ @TestPropertySource) to configure a separate data source
-<ul>
-<li>Create file <code>PORJECT-ROOT/src/test/resources/application-test.properties</code>
-<pre><code>spring.datasource.driver-class-name=org.h2.Driver
-spring.datasource.url=jdbc:h2:mem:test
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=update</code></pre></li>
-</ul></li>
-<li>
-<p>Add h2 dependency to build.gradle</p>
-<pre><code>dependencies {
-//Add this entry to include the h2 in memory database
-compile('com.h2database:h2')
-
-//other libaries will be listed already, such as
-compile('org.springframework.boot:spring-boot-starter-data-jpa')
-compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-compile('org.springframework.boot:spring-boot-starter-web')
-runtime('org.springframework.boot:spring-boot-devtools')
-}</code></pre>
 <h3 id="executing-and-verifying-results">Executing and Verifying Results</h3>
 <table>
 <thead>
@@ -191,8 +169,6 @@ runtime('org.springframework.boot:spring-boot-devtools')
 </tr>
 </tbody>
 </table>
-</li>
-</ul>
 <p>Example</p>
 <pre><code>  //make a GET request to /cars/99
   mockMvc.perform(get("/cars/99"))
@@ -202,7 +178,6 @@ runtime('org.springframework.boot:spring-boot-devtools')
       .andExpect(content(string(containsString("Tesla"))));</code></pre>
 <h2 id="resources">Resources</h2>
 <ul>
-<li><a href="http://www.h2database.com/html/main.html" target="_blank">http://www.h2database.com/html/main.html</a></li>
 <li><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing" target="_blank">https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing</a></li>
 </ul>
                                     </section>
