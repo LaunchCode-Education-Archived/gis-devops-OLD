@@ -97,8 +97,10 @@
                                         <h1>Studio: LaunchCart Part 1</h1>
                     <p>This activity gives you practice writing integration tests in Spring.</p>
 <h2 id="getting-ready">Getting Ready</h2>
-<p>Fork the <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank">LaunchCodeTraining/launchcart repo</a> and clone it to your laptop. Import the project into IntelliJ and make sure all of the tests pass.</p>
+<p>Fork the <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank">LaunchCodeTraining/launchcart repo</a> and clone it to your laptop. For this project we will start with the <code>master</code> branch. After forking and cloning, it's a good idea to make a <em>feature branch</em> to contain your work. Example: <code>git checkout -b day3-studio</code> creates
+a branch named <em>day3-studio</em> and checks it out at the same time.</p>
 <h2 id="your-tasks">Your Tasks</h2>
+<p>Import the project into IntelliJ and make sure all of the tests pass.</p>
 <p>This application is a very basic shopping cart. It has items that can be added to a cart. We can also currently add new items. There are no users, there is only one universal cart, and other basic functionality is missing.</p>
 <p>You will add features, writing integration and unit tests as you go, and using a TDD approach.</p>
 <h3 id="add-price-to-items-listing">Add Price To Items Listing</h3>
@@ -118,26 +120,18 @@
 <p>As always, write your tests before writing any application code. As before, you'll have both unit and integration tests, since you'll need to add modify the <code>Cart</code> model class (to add a <code>removeItem</code> method) as well as add functionality to the web app.</p>
 <p>After you have written your tests and they pass, run <em>all</em> of the tests and commit.</p>
 <p>At this point, you may <a href="#turning-in-your-work">turn in your work</a> before continuing on to the Bonus Mission.</p>
-<h2 id="bonus-mission">Bonus Mission</h2>
-<p>Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, <code>CartItem</code>.</p>
-<aside class="aside-pro-tip">
-<p>Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your <code>master</code> branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.</p>
+<h3 id="implement-unit-test-for-itemmemoryrepositorytests">Implement Unit Test for ItemMemoryRepositoryTests</h3>
+<p>The previous programmer left a <code>TODO</code> in the unit test <code>/launchcart/src/test/java/org/launchcode/launchcart/data/ItemMemoryRepositoryTests.java.testAddItems()</code>. Please write this test so that
+we can be sure our repository class correctly saves items.</p>
+<aside class="aside-note">
+<p>This version of LaunchCart does not use an SQL database. Use this test as a way to get familair with how Items and Carts are persisted for this project.</p>
 </aside>
-<p>Create a <code>CartItem</code> class with fields <code>item</code> and <code>quantity</code>, and refactor <code>Cart</code> to store a collection of <code>CartItem</code> objects instead of <code>Item</code> objects. As <code>Cart</code> and <code>Item</code> have done, you should extend <code>AbstractEntity</code> to get the common identifier configuration contained in that base class.</p>
-<p>Start by refactoring the model:</p>
-<ul>
-<li>Add the new model class</li>
-<li>Re/write tests in <code>TestCart</code> as necessary</li>
-<li>Refactor <code>Cart</code> to use <code>CartItem</code></li>
-</ul>
-<p>Once you have a working model that uses <code>CartItem</code>, run <em>all</em> of your tests, including the integration tests. You'll have some work to do here, since changing the model will break parts of the controller and view.</p>
-<aside class="aside-hint">
-<p>You may experience a situation where your integration tests fail because a new item that is seemingly added to the cart isn't actually there when viewing <code>/cart</code>. If this is the case, it's likely that Hibernate isn't persisting your new <code>CartItem</code> instances. These objects are never handled directly by the controller, and thus never saved via a repository.</p>
-<p>You can force Hibernate to save new <code>CartItem</code> objects in all situations by adding a cascade property to the <code>@OneToMany</code> collection storing <code>CartItem</code> objects:</p>
-<pre><code class="language-java">@OneToMany(cascade = { CascadeType.ALL })</code></pre>
-</aside>
-<p>After your model has been refactored, and all of your tests pass, you'll need to refactor the controller and view layers heavily to get this to work. This will include adding functionality that allows the user to enter a quantity when adding an item to the cart.</p>
-<p>As always, write your tests first!</p>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<ol>
+<li>How long is the data persisted? What makes the data disappear?</li>
+<li>Don’t allow Add to Cart button to be clicked unless an item is selected</li>
+<li>Don’t let two items with the same name be stored</li>
+</ol>
 <h2 id="turning-in-your-work">Turning In Your Work</h2>
 <p>If you don't complete each of the tasks, turn in as much as you have completed by the end of the day. <em>You should make sure you have working code committed to your fork.</em></p>
 <ul>
