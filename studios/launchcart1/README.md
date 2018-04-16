@@ -6,9 +6,12 @@ This activity gives you practice writing integration tests in Spring.
 
 ## Getting Ready
 
-Fork the [LaunchCodeTraining/launchcart repo](https://gitlab.com/LaunchCodeTraining/launchcart) and clone it to your laptop. Import the project into IntelliJ and make sure all of the tests pass.
+Fork the [LaunchCodeTraining/launchcart repo](https://gitlab.com/LaunchCodeTraining/launchcart) and clone it to your laptop. For this project we will start with the `master` branch. After forking and cloning, it's a good idea to make a *feature branch* to contain your work. Example: `git checkout -b day3-studio` creates 
+a branch named *day3-studio* and checks it out at the same time.
 
 ## Your Tasks
+
+Import the project into IntelliJ and make sure all of the tests pass.
 
 This application is a very basic shopping cart. It has items that can be added to a cart. We can also currently add new items. There are no users, there is only one universal cart, and other basic functionality is missing.
 
@@ -46,35 +49,18 @@ After you have written your tests and they pass, run *all* of the tests and comm
 
 At this point, you may [turn in your work](#turning-in-your-work) before continuing on to the Bonus Mission.
 
-## Bonus Mission
+### Implement Unit Test for ItemMemoryRepositoryTests
+The previous programmer left a `TODO` in the unit test `/launchcart/src/test/java/org/launchcode/launchcart/data/ItemMemoryRepositoryTests.java.testAddItems()`. Please write this test so that 
+we can be sure our repository class correctly saves items.
 
-Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, `CartItem`.
-
-<aside class="aside-pro-tip" markdown="1">
-Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your `master` branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.
+<aside class="aside-note" markdown="1">
+This version of LaunchCart does not use an SQL database. Use this test as a way to get familair with how Items and Carts are persisted for this project.
 </aside>
 
-Create a `CartItem` class with fields `item` and `quantity`, and refactor `Cart` to store a collection of `CartItem` objects instead of `Item` objects. As `Cart` and `Item` have done, you should extend `AbstractEntity` to get the common identifier configuration contained in that base class.
-
-Start by refactoring the model:
-- Add the new model class
-- Re/write tests in `TestCart` as necessary
-- Refactor `Cart` to use `CartItem`
-
-Once you have a working model that uses `CartItem`, run *all* of your tests, including the integration tests. You'll have some work to do here, since changing the model will break parts of the controller and view.
-
-<aside class="aside-hint" markdown="1">
-You may experience a situation where your integration tests fail because a new item that is seemingly added to the cart isn't actually there when viewing `/cart`. If this is the case, it's likely that Hibernate isn't persisting your new `CartItem` instances. These objects are never handled directly by the controller, and thus never saved via a repository.
-
-You can force Hibernate to save new `CartItem` objects in all situations by adding a cascade property to the `@OneToMany` collection storing `CartItem` objects:
-```java
-@OneToMany(cascade = { CascadeType.ALL })
-```
-</aside>
-
-After your model has been refactored, and all of your tests pass, you'll need to refactor the controller and view layers heavily to get this to work. This will include adding functionality that allows the user to enter a quantity when adding an item to the cart.
-
-As always, write your tests first!
+## Bonus Missions
+1. How long is the data persisted? What makes the data disappear?
+2. Don’t allow Add to Cart button to be clicked unless an item is selected
+3. Don’t let two items with the same name be stored
 
 ## Turning In Your Work
 
