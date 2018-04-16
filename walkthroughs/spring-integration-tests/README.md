@@ -22,28 +22,6 @@ Annotation | What it does
  `@AutoConfigureMockMvc` | allows for autowiring of MockMvc instance
  `@Transactional` | wraps each test method in a transaction, and rolls it back after each method runs
 
-###Configure Test Database Connection
-- Use a separate properties file (w/ @TestPropertySource) to configure a separate data source
-  - Create file `PORJECT-ROOT/src/test/resources/application-test.properties`
-  ```
-  spring.datasource.driver-class-name=org.h2.Driver
-  spring.datasource.url=jdbc:h2:mem:test
-  spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
-  spring.jpa.hibernate.ddl-auto=update
-  ```
-- Add h2 dependency to build.gradle
-```
-dependencies {
-	//Add this entry to include the h2 in memory database
-	compile('com.h2database:h2')
-
-  //other libaries will be listed already, such as
-  compile('org.springframework.boot:spring-boot-starter-data-jpa')
-  compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-  compile('org.springframework.boot:spring-boot-starter-web')
-  runtime('org.springframework.boot:spring-boot-devtools')
-}
-```
 ###Executing and Verifying Results
 Method | Info
 |----|-----|
@@ -64,5 +42,4 @@ Example
 ```
 
 ## Resources
- - http://www.h2database.com/html/main.html
  - https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#integration-testing
