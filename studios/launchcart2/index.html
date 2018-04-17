@@ -95,71 +95,31 @@
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>Studio: LaunchCart Part 2</h1>
-                    <p>In this studio, we revisit the <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank">LaunchCart application</a> that we worked on in <a href="../launchcart1/">yesterday's studio</a>. We'll refactor the app to use Postgres and Flyway, and add a couple of features.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>Open up your <code>launchcart</code> project and make sure you are on the <code>master</code> branch and that your code is in a working state. To verify this, run your tests.</p>
-<p>If you have any uncommitted changes, stash them using <code>git stash</code>. You can retrieve them later via <code>git stash pop</code>.</p>
-<p>We'll work in a new branch for this studio, so run:</p>
-<pre><code class="language-nohighlight">$ git checkout -b launchcart2</code></pre>
-<h2 id="your-tasks">Your Tasks</h2>
-<p>Each section outlines one task or group of tasks for you to complete.</p>
-<h3 id="set-up-a-postgres-db">Set Up A Postgres DB</h3>
-<p>From <code>psql</code>, create a Postgres database named <code>launchcart</code>. Then create a role with the same username and password (<code>launchcart</code>). Using insecure passwords for local development is generally acceptable. Be sure to grant all privileges on the <code>launchcart</code> database to the <code>launchcart</code> user.</p>
-<h3 id="configure-the-app-to-use-the-database">Configure the App To Use the Database</h3>
-<p>In your project, open <code>application.properties</code> and modify the database section to use the correct connection string, driver class, username, and password. You'll need to set these values properly:</p>
-<ul>
-<li><code>spring.datasource.driver-class-name</code></li>
-<li><code>spring.datasource.url</code></li>
-<li><code>spring.datasource.username</code></li>
-<li><code>spring.datasource.password</code></li>
-</ul>
-<p>Then add the associated Postgres dependency to <code>build.gradle</code> as a compile-time dependency. As you're doing so, change the h2 dependency from a <code>compile</code> dependency to a <code>testCompile</code> dependency, since it will only be needed for running tests at this point.</p>
-<p>Finally, since we'll be using Flyway to manage our database schema, we no longer want Hibernate to try to automatically manage the schema for us. Change the <code>spring.jpa.hibernate.ddl-auto</code> propertly in <code>application.properties</code> from <code>update</code> to <code>validate</code>.</p>
-<h3 id="configure-flyway">Configure Flyway</h3>
-<p>Your app now has all of the infrastructure to store entities in a Postgres database. The only thing keeping us from actually doing so a this point is having a database schema that reflects our model. To take care of this, you must first configure Flyway by:</p>
-<ul>
-<li>Adding the classpath depedency for Flyway's Gradle plugin to the <code>dependencies</code> section within the <code>buildscript</code> configuration of <code>build.gradle</code>.</li>
-<li>Add Postgres as a classpath dependency as well. This makes the Postgres driver available to Flyway outside of the context of your compiled, running Spring application.</li>
-<li>Adding the Flyway plugin to your <code>build.gradle</code>.</li>
-<li>Adding the info Flyway needs to connect to your database. This will be within a <code>flyway</code> section, as so:
-<pre><code class="language-gradle">flyway {
-    url = '...'
-    user = '...'
-    password = '...'
-}</code></pre></li>
-</ul>
-<p>For specific details on any of these items, refer to documentation and course resources.</p>
-<p>If you are successful, you will see a new group of Flyway tasks in the Gradle pane.</p>
-<h3 id="initial-migration">Initial Migration</h3>
-<p>To create your first migration, which will set up your basic schema, first create the folder <code>src/main/resources/db/migration/</code>. Then create your first script within this directory in a file named <code>V2__InitialMigration.sql</code>.</p>
-<aside class="aside-note">
-<p>We mentioned previously that the version/ordering of your migrations is important for Flyway to run the in the correct order. Here, it may seem odd that we are starting with V2. When using Flyway within Spring Boot, V1 will be the first migration run in order to initialize the Flyway history table, so we start with the second version number.</p>
-</aside>
-<p>We could create this migration by inspecting the persistent model classes in our app, but that's a bit tedious. To take a shortcut, change the value of <code>spring.jpa.hibernate.ddl-auto</code> in <code>application.properties</code> from <code>validate</code> back to <code>update</code>. Then start up your application.</p>
-<p>If you open a Postgres client (such as PSequel) you can then connect to your local database and inspect its structure as generated by Hibernate. Then you should:</p>
-<ul>
-<li>Create the contents of your initial migration to generate an identical schema as that one generated by Hibernate.</li>
-<li>Drop the tables generated by Hibernate and change <code>spring.jpa.hibernate.ddl-auto</code> back to <code>validate</code></li>
-<li>Run the <code>flywayBaseline</code> Gradle task to initialize the Flyway history table. Note that this is the &quot;V1&quot; migration.</li>
-<li>Run your migration by running the <code>flywayMigrate</code> Gradle task.</li>
-<li>Start up the app and so a bit of functional testing.</li>
-</ul>
-<aside class="aside-hint">
-<p>Use <code>serial</code> as the data type for the <code>uid</code> columns. This implies the columns will be <code>int not null</code> and also creates a generating sequence for populating the column.</p>
-</aside>
-<p>A quick and easy way to test your <code>create table</code> commands is to run them in the Query pane of your Postgres client. If you're using PSequel, you'll need to refresh the tables pane in order to see your newly created table. Don't forget to delete them before running the migration via Flyway.</p>
+                    <p>In this studio, we revisit the <a href="https://gitlab.com/LaunchCodeTraining/launchcart" target="_blank">LaunchCart application</a> that we worked on in <a href="../launchcart1/">yesterday's studio</a>. We'll refactor the app to use Postgres, and add a couple of features.</p>
+<h2 id="setup">Setup</h2>
+<ol>
+<li>In the terminal go to project folder for <em>Car Integration Tests</em></li>
+<li>Checkout the branch that contains the solution for the Day 3 walkthrough. Example: <code>$ git checkout master</code> or <code>$git checkout solution</code></li>
+<li>Create a new branch for today's work: <code>$ get checkout -b day4-add-hibernate</code></li>
+</ol>
 <aside class="aside-pro-tip">
-<p>One thing to keep in mind when writing these migration commands is that often the order of statments matters. For example, if a column in one table is a foreign key into another table, you'll need to create the referenced table first.</p>
+<p>If you have any uncommitted changes, stash them using <code>git stash</code>. You can retrieve them later via <code>git stash pop</code>.</p>
 </aside>
-<p>Once this all works, commit your changes.</p>
-<h3 id="model-changes-and-migrations">Model Changes and Migrations</h3>
-<p>Now we'll get practice creating additional migrations.</p>
+<h2 id="your-tasks">Your Tasks</h2>
+<p>Each section outlines one task or group of tasks you need to complete.</p>
+<h3 id="refactor-to-use-hiberante-keep-existing-functionality">Refactor to Use Hiberante (Keep Existing Functionality)</h3>
+<ol>
+<li>Set Up A Postgres DB</li>
+<li>Configure the App To Use the Database (controllers, entities, repositories, tests)</li>
+<li>Get the tests to pass</li>
+<li>Commit your changes</li>
+</ol>
+<h3 id="add-newitem-to-item-model">Add newItem to Item Model</h3>
 <p>Let's add a new boolean property to <code>Item</code> to keep track of whether or not an item is new.</p>
 <ul>
-<li>Modify the <code>testNewItemFormCreatesItemAndRedirects</code> test within <code>ItemControllerTests</code> to post an additional parameter, <code>newItem</code>, with value <code>"true"</code>.</li>
+<li>Modify the <code>testNewItemFormCreatesItemAndRedirects</code> test within <code>ItemControllerTests</code> to post an additional parameter, <code>newItem</code>, with value <code>"true"</code>. (TDD FTW)</li>
 <li>Add a boolean field <code>newItem</code> to <code>Item</code>, along with a getter and setter. Add <code>@NotNull</code> to the field.</li>
-<li>Run all of the tests to ensure that they pass.</li>
-<li>Write a new database migration script to add the column <code>is_new</code> to the <code>item</code> table. Be sure to set an apropriate default value for this column. This will ensure that any existing rows will have an appropriate value that isn't null set for the new column.</li>
+<li>Run all of the tests to ensure that they pass</li>
 <li>Add a checkbox to <code>templates/item/new.html</code>:
 <pre><code class="language-html">&lt;div class="form-group"&gt;
     &lt;input type="checkbox" id="newItem"
@@ -169,6 +129,26 @@
 <li>Run the app and ensure the New Item form submits, and that the chosen value is properly set in the database.</li>
 <li>Commit!</li>
 </ul>
+<h2 id="bonus-mission">Bonus Mission</h2>
+<p>Another basic feature that is missing is the ability to add some quantity of items (greater than 1) to the cart. To do this, we need to introduce a new model class, <code>CartItem</code>.</p>
+<aside class="aside-pro-tip">
+<p>Before embarking on this mission, create a feature branch to isolate your work. Aside from being a best-practice, this will also keep your <code>master</code> branch nice and clean in the event you don't finish the mission. This will be helpful since we'll continue working on this app in a future studio.</p>
+</aside>
+<p>Create a <code>CartItem</code> class with fields <code>item</code> and <code>quantity</code>, and refactor <code>Cart</code> to store a collection of <code>CartItem</code> objects instead of <code>Item</code> objects. As <code>Cart</code> and <code>Item</code> have done, you should extend <code>AbstractEntity</code> to get the common identifier configuration contained in that base class.</p>
+<p>Start by refactoring the model:</p>
+<ul>
+<li>Add the new model class</li>
+<li>Re/write tests in <code>TestCart</code> as necessary</li>
+<li>Refactor <code>Cart</code> to use <code>CartItem</code></li>
+</ul>
+<p>Once you have a working model that uses <code>CartItem</code>, run <em>all</em> of your tests, including the integration tests. You'll have some work to do here, since changing the model will break parts of the controller and view.</p>
+<aside class="aside-hint">
+<p>You may experience a situation where your integration tests fail because a new item that is seemingly added to the cart isn't actually there when viewing <code>/cart</code>. If this is the case, it's likely that Hibernate isn't persisting your new <code>CartItem</code> instances. These objects are never handled directly by the controller, and thus never saved via a repository.</p>
+<p>You can force Hibernate to save new <code>CartItem</code> objects in all situations by adding a cascade property to the <code>@OneToMany</code> collection storing <code>CartItem</code> objects:</p>
+<pre><code class="language-java">@OneToMany(cascade = { CascadeType.ALL })</code></pre>
+</aside>
+<p>After your model has been refactored, and all of your tests pass, you'll need to refactor the controller and view layers heavily to get this to work. This will include adding functionality that allows the user to enter a quantity when adding an item to the cart.</p>
+<p>As always, write your tests first!</p>
 <h2 id="turning-in-your-work">Turning In Your Work</h2>
 <p>If you don't complete each of the tasks, turn in as much as you have completed by the end of the day.</p>
 <ul>
