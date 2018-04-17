@@ -7,11 +7,12 @@ title: Week 1 - Day 4
 ## Lesson Content
 
 - [PostgreSQL Slides](https://education.launchcode.org/gis-devops-slides/week1/postgresql.html#1)
+- Spring Data, JPA, Hibernate
 
 ## Walkthroughs
 
 - [Using PostgreSQL](../../walkthroughs/postgres/#Install)
-- [Using Flyway for Migrations](../../walkthroughs/flyway/#Setup)
+- [Spring Data, JPA, Hibernate](../../walkthroughs/spring-data-jpa-hibernate)
 
 ## Studio
 
@@ -24,5 +25,3 @@ Complete the [LaunchCart 2 studio](../../studios/launchcart2/).
 - [Postgres: Inserting Data](https://www.postgresql.org/docs/10/static/ddl.html)
 - [Postgres: Complete Documentation (contains everything about Postgres, be sure to use search box)](https://www.postgresql.org/docs/10/static/index.html)
 - [Video Tutorial of psql commands](https://www.youtube.com/watch?v=fD7x8hd9yE4)
-- [Additional Slides About Flyway Configuration](https://education.launchcode.org/codecamp-slides/unit4/deploying.html#18)
-- [Official Flyway Documentation](https://flywaydb.org/documentation/migrations)

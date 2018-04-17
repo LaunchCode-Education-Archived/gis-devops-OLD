@@ -2,6 +2,8 @@
 title: "Walkthrough: Flyway"
 ---
 
+# THIS WALKTHROUGH IS NOT USED ANYMORE
+
 Follow along with the instructor as we use Flyway to create and alter our database.
 
 ## Setup
