@@ -32,6 +32,7 @@ https://education.launchcode.org/gis-devops/walkthroughs/launchcart-rest/index.h
 https://education.launchcode.org/gis-devops/walkthroughs/openlayers-http/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/postgres/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/sonarqube/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/spring-data-jpa-hibernate/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/spring-integration-tests/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/swagger-ui/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/tdd/index.html

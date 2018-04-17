@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Walkthrough: Flyway :: GIS DevOps</title>
+        <title>Walkthrough: Cars Demo - Spring Data, JPA, Hibernate :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-walkthrough-flyway'>
+    <body id='page-walkthrough-cars-demo---spring-data-jpa-hibernate'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,28 +94,95 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Walkthrough: Flyway</h1>
-                    <h1 id="this-walkthrough-is-not-used-anymore">THIS WALKTHROUGH IS NOT USED ANYMORE</h1>
-<p>Follow along with the instructor as we use Flyway to create and alter our database.</p>
+                                        <h1>Walkthrough: Cars Demo - Spring Data, JPA, Hibernate</h1>
+                    <p>In this walkthrough, we revisit the <a href="https://gitlab.com/LaunchCodeTraining/car-integration-test-starter" target="_blank">Car Integration Tests</a> that we worked on in <a href="../walkthroughs/spring-integration-tests/">yesterday's walkthrough</a>. We'll refactor the app to use Postgres and Hiberante.</p>
 <h2 id="setup">Setup</h2>
-<ul>
-<li>Fork this repo <a href="https://gitlab.com/LaunchCodeTraining/car-flyway-demo" target="_blank"><a href="https://gitlab.com/LaunchCodeTraining/car-flyway-demo" target="_blank">https://gitlab.com/LaunchCodeTraining/car-flyway-demo</a></a></li>
-<li>In Intellij go to File open</li>
-<li>Navigate to and select open for car-flyway-demo/gradle.build</li>
-<li>Select open as a project</li>
-</ul>
-<h2 id="follow-along-as-we">Follow Along as we...</h2>
-<ul>
-<li>Review Car class</li>
-<li>Review gradle dependencies</li>
-<li>Configure application.properties settings</li>
-<li>Configure flyway settings in gradle.build</li>
-<li>Add migrations to create cars table</li>
-<li>Use a migration to seed the database</li>
-<li>Run web app and display cars</li>
-<li>Add properties to Car class</li>
-<li>Use a migration to alter the database</li>
-</ul>
+<ol>
+<li>In the terminal go to project folder for <em>Car Integration Tests</em></li>
+<li>Checkout the branch that contains the solution for the Day 3 walkthrough. Example: <code>$ git checkout master</code> or <code>$git checkout solution</code></li>
+<li>Create a new branch for today's work: <code>$ get checkout -b day4-add-hibernate</code></li>
+</ol>
+<h2 id="our-tasks">Our Tasks</h2>
+<p>Each section outlines one task or group of tasks we need to complete.</p>
+<h3 id="set-up-a-postgres-db">Set Up A Postgres DB</h3>
+<ol>
+<li>From <code>psql</code>, create a Postgres user: <code>psql=# create user cart_user with encrypted password 'catdogbluehouse';</code></li>
+<li>Create a database: <code>psql=# create database cart;</code></li>
+<li>Grant the user access to the database:<code>psql=# grant all privileges on database cart to cart_user</code></li>
+</ol>
+<h3 id="configure-the-app-to-use-the-database">Configure the App To Use the Database</h3>
+<p>In intellij, open <code>/car-integration-tests/src/main/resources/application.properties</code> then set each of these values:</p>
+<pre><code class="language-nohighlight">spring.datasource.driver-class-name=
+spring.datasource.url=jdbc:postgresql://HOST-HERE:5432/DB-NAME-HERE
+spring.datasource.username=USERNAME-HERE
+spring.datasource.password=PASSWORD-HERE
+spring.jpa.hibernate.ddl-auto=</code></pre>
+<aside class="aside-warning">
+<p>Committing passwords to source control is a BAD idea, ESPECIALLY a public repo!</p>
+</aside>
+<p>Then add the associated Postgres dependency to <code>build.gradle</code> as a compile-time dependency.
+Set h2 dependency to be a <code>testCompile</code> dependency, since it will only be needed for running tests at this point.</p>
+<pre><code class="language-java">dependencies {
+    runtime('org.springframework.boot:spring-boot-devtools')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile(group: 'org.postgresql', name: 'postgresql', version: '42.1.4')
+    testCompile('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}</code></pre>
+<h3 id="add-annotations-to-car-model">Add Annotations to Car Model</h3>
+<pre><code class="language-java">package org.launchcode.training.models;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Car {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+    //rest of class is not shown...</code></pre>
+<h3 id="add-carrepository">Add CarRepository</h3>
+<pre><code class="language-java">package org.launchcode.training.data;
+
+import org.launchcode.training.models.Car;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CarRepository extends JpaRepository&lt;Cart, Integer&gt; {
+}</code></pre>
+<h3 id="autowire-repositories-into-controllers">Autowire Repositories into Controllers</h3>
+<pre><code class="language-java">@Controller
+@RequestMapping("car")
+public class CarController {
+
+    @Autowired
+    private org.launchcode.training.data.CarRepository carRepository;</code></pre>
+<h3 id="autowire-repositories-in-tests">Autowire Repositories in Tests</h3>
+<pre><code class="language-java">@RunWith(SpringRunner.class)
+@IntegrationTestConfig
+public class CarControllerTests {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private CarRepository carRepository;</code></pre>
+<h3 id="configure-test-db">Configure Test DB</h3>
+<p>Add a <code>/car-integration-tests/src/test/resources/application-test.properties</code> file with below contents.</p>
+<pre><code class="language-java">spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.url=jdbc:h2:mem:test
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update</code></pre>
+<p>We need to make sure our test properaties are used when running tests. Add the below code to <code>/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java</code></p>
+<pre><code class="language-java">@TestPropertySource(locations = "classpath:application-test.properties")</code></pre>
+<h3 id="do-the-tests-pass">Do the Tests Pass?</h3>
+<p>If not, fix them ;p</p>
                                     </section>
 
             </div>
