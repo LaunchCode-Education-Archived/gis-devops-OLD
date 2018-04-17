@@ -179,8 +179,10 @@ public class CarControllerTests {
 spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update</code></pre>
-<p>We need to make sure our test properaties are used when running tests. Add the below code to <code>/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java</code></p>
-<pre><code class="language-java">@TestPropertySource(locations = "classpath:application-test.properties")</code></pre>
+<p>We need to make sure our test properaties are used when running tests. Add the below code to <code>/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java</code>.
+The <code>@Transactional</code> annotation insures that any sql executed during a test will only exist for that single test and won't pollute another test.</p>
+<pre><code class="language-java">@TestPropertySource(locations = "classpath:application-test.properties")
+@Transactional</code></pre>
 <h3 id="do-the-tests-pass">Do the Tests Pass?</h3>
 <p>If not, fix them ;p</p>
                                     </section>
