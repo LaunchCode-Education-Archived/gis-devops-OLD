@@ -114,9 +114,11 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-We need to make sure our test properaties are used when running tests. Add the below code to `/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java`
+We need to make sure our test properaties are used when running tests. Add the below code to `/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java`.
+The `@Transactional` annotation insures that any sql executed during a test will only exist for that single test and won't pollute another test.
 ```java
 @TestPropertySource(locations = "classpath:application-test.properties")
+@Transactional
 ```
 
 ### Do the Tests Pass?
