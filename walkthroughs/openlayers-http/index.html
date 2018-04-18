@@ -96,20 +96,22 @@
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>Walkthrough: OpenLayers and jQuery</h1>
                     <p>Follow along with the instructor as we get started with jQuery and OpenLayers.</p>
-<h2 id="getting-started">Getting Started</h2>
-<p>Fork and clone the <a href="https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter" target="_blank">JQuery OpenLayers Starter</a> repo. Open this folder with any editor you choose.</p>
+<h2 id="setup">Setup</h2>
+<ul>
+<li>Fork and clone the <a href="https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter" target="_blank">JQuery OpenLayers Starter</a> repo.</li>
+<li>Create a feature branch named <code>day3-solution</code> or <code>my-solution</code></li>
+<li>Open this folder with any editor you choose. We suggest Visual Studio Code since this project is only JavaScript and HTML.</li>
+</ul>
 <h2 id="review-the-code">Review the code</h2>
-<p>Open file <code>index.html</code> and review its contents</p>
+<p>Open file  and review its contents</p>
 <ul>
-<li>Has a link to a script to <code>js/script.js</code></li>
-<li>Has a <code>&lt;body&gt;</code> and <code>&lt;h2&gt;</code> but not much else</li>
+<li><code>index.html</code> has a link to a script to <code>js/script.js</code></li>
+<li><code>index.html</code> has a <code>&lt;body&gt;</code> and <code>&lt;h2&gt;</code> but not much else</li>
+<li><code>js/script.js</code> contains code to instantiate a map</li>
+<li><code>js/script.js</code> defines styles</li>
+<li><code>js/script.js</code> uses OpenLayers Tile layer <a href="https://openlayers.org/en/v4.6.4/apidoc/ol.source.html" target="_blank">Layer Types</a></li>
+<li><code>js/script.js</code> sets the <code>map.view</code> attribute which allows us to position the map at a certain lat long and zoom level using an <code>ol.View</code> object</li>
 </ul>
-<p>Review contents of <code>js/script.js</code></p>
-<ul>
-<li>Contains code to instantiate a map</li>
-</ul>
-<p>This creates a map that can contain multiple layers in the <code>layers: []</code> object. In this case we are using a Tile layer. You can find all of the layer types <a href="https://openlayers.org/en/v4.6.4/apidoc/ol.source.html" target="_blank">here</a>.</p>
-<p>The <code>view</code> attribute allows us to position the map at a certain lat long and zoom level using an <code>ol.View</code> object.</p>
 <h2 id="lets-make-a-map-show-up">Let's make a map show up</h2>
 <p>Next, add OpenLayers to your project by including the JavaScript source in the head.</p>
 <pre><code class="language-html"> &lt;script src="https://openlayers.org/en/v4.6.4/build/ol.js"
@@ -131,20 +133,20 @@
 <li>Check python version via:
 <pre><code class="language-nohighlight">$ python -V</code></pre></li>
 <li>If Python version returned above is 3.X:
-<pre><code class="language-nohighlight">$ python -m http.server 8080</code></pre>
+<pre><code class="language-nohighlight">$ python -m http.server 7070</code></pre>
 <p>If Python version returned above is 2.X:</p>
-<pre><code class="language-nohighlight">$ python -m SimpleHTTPServer 8080</code></pre></li>
+<pre><code class="language-nohighlight">$ python -m SimpleHTTPServer 7070</code></pre></li>
 </ol>
-<p>In a browser go to <code>http://localhost:8080/index.html</code>. You should see a map that includes Germany.</p>
+<p>In a browser go to <code>http://localhost:7070/index.html</code>. You should see a map that includes Germany.</p>
 <h2 id="show-list-of-airports">Show list of airports</h2>
 <p>Add the following HTML to <code>index.html</code></p>
-<pre><code class="language-html">&lt;button id="airport-list"&gt;list airports&lt;/button&gt;
-&lt;ul id="airport-list"&gt;&lt;/ul&gt;</code></pre>
+<pre><code class="language-html">&lt;button id="list-all-airports"&gt;list airports&lt;/button&gt;
+&lt;ul id="all-airports"&gt;&lt;/ul&gt;</code></pre>
 <p>Add the following JavaScript to <code>js/script.js</code></p>
 <pre><code class="language-js">$('#list-all-airports').on('click', function() {
     console.log('pulling data');
-    $('#airport-list').empty();        
-    $.getJSON('http://localhost:8080/json/german_airports.geojson', {}).done(function(json) {
+    $('#all-airports').empty();        
+    $.getJSON('http://localhost:7070/json/german_airports.geojson', {}).done(function(json) {
         for (var i=0; i&lt;json.features.length; i++) {
             $('#all-airports').append('&lt;li&gt;' + json.features[i].properties.dataField + '&lt;/li&gt;');
         }
@@ -154,7 +156,7 @@
 <p>Paste this JS into <code>js/script.js</code>:</p>
 <pre><code class="language-js">let vectorSource = new ol.source.Vector({
     format: new ol.format.GeoJSON(),
-    url: 'http://localhost:8080/json/german_airports.geojson'
+    url: 'http://localhost:7070/json/german_airports.geojson'
 });
 vectorLayer = new ol.layer.Vector({
     source: vectorSource,
@@ -176,7 +178,7 @@ map.addLayer(vectorLayer);</code></pre>
     });
 });</code></pre>
 <p>We want to add data about this report to our map dashboard. Here is an example of what we want to show:</p>
-<pre><code class="language-html">&lt;ul id="airport-list"&gt;
+<pre><code class="language-html">&lt;ul id="all-airports"&gt;
     &lt;li&gt;
         &lt;h3&gt;Aalen-Heidenheim/Elchingen Airport&lt;/h3&gt;
         &lt;p&gt;ICAO: EPDA&lt;/p&gt;
@@ -192,7 +194,12 @@ map.addLayer(vectorLayer);</code></pre>
         &lt;p&gt;Time Zone: Europe/Berlin&lt;/p&gt;
     &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-<p>Update the Map onclick code to display airports for that city using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank">Javascript Template Literals</a> to populate the feature data into the HTML. Here is what your code should look like:</p>
+<p>For the next feature we will need to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank">Javascript Template Literals</a>. Template literals example below.</p>
+<pre><code class="language-javascript">const name = 'Jasmine';
+const = `Template literals start and end with ticks and you can includes variables like so. Hello ${name}. 
+You can include ' and " inside of the template literals. And you can break into multiple lines.
+`;</code></pre>
+<p>Update the Map onclick code to display airports. For each feature at a certain pixel, we want to add that feature to the list below the map. OpenLayers will handle some of this work for us via <code>map.forEachFeatureAtPixel()</code>. Remember that the features in this case are airports and we are styling them to be displayed as red circles:</p>
 <pre><code class="language-js">map.on('click', function(event) {
     $('#airport-list').empty();    
     map.forEachFeatureAtPixel(event.pixel, function(feature,layer) {
@@ -214,6 +221,11 @@ map.addLayer(vectorLayer);</code></pre>
 <p>If you get the message <code>The element type "link" must be terminated by the matching end-tag "&lt;/link&gt;".</code>, then add the following tag:<br />
 <code>&lt;html lang="en" xmlns:th="http://www.thymeleaf.org/"&gt;</code>;</p>
 <p>If you get the message <code>The content of elements must consist of well-formed character data or markup.</code>, then change your inline javascript tags to <code>&lt;script&gt;/*&lt;![CDATA[*/ ..... /*]]&gt;*/&lt;/script&gt;</code>. Here is a <a href="ihttps://stackoverflow.com/questions/4338538/error-parsing-xhtml-the-content-of-elements-must-consist-of-well-formed-charact/4338816">StackOverflow question</a> that discusses this.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://openlayers.org/en/latest/apidoc/" target="_blank">Open Layers Docs</a></li>
+<li><a href="https://openlayers.org/en/latest/examples/" target="_blank">Open Layers Examples</a></li>
+</ul>
                                     </section>
 
             </div>
