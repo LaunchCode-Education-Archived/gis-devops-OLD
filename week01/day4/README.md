@@ -25,3 +25,8 @@ Complete the [LaunchCart 2 studio](../../studios/launchcart2/).
 - [Postgres: Inserting Data](https://www.postgresql.org/docs/10/static/ddl.html)
 - [Postgres: Complete Documentation (contains everything about Postgres, be sure to use search box)](https://www.postgresql.org/docs/10/static/index.html)
 - [Video Tutorial of psql commands](https://www.youtube.com/watch?v=fD7x8hd9yE4)
+- [JPA Home Page](http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html)
+- [What is JPA and Hibernate](https://www.thoughts-on-java.org/difference-jpa-hibernate-eclipselink/)
+- [Hiberante Home Page](http://hibernate.org/orm/)
+- [Spring Data Home Page](https://projects.spring.io/spring-data/)
+- [Spring Data JPA Home Page](https://projects.spring.io/spring-data-jpa/)
