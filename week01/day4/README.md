@@ -7,7 +7,7 @@ title: Week 1 - Day 4
 ## Lesson Content
 
 - [PostgreSQL Slides](https://education.launchcode.org/gis-devops-slides/week1/postgresql.html#1)
-- Spring Data, JPA, Hibernate
+- [Spring Data, JPA, Hibernate](https://education.launchcode.org/gis-devops-slides/week1/spring-data-jpa-hibernate.html#1)
 
 ## Walkthroughs
 
