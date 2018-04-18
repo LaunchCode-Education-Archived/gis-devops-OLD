@@ -15,4 +15,8 @@ title: Week 1 - Day 5
 
 ## Studio
 
-Complete the [Airwaze studio](../../studios/airwaze/).
+Complete the [Airwaze studio](../../studios/airwaze/)
+
+## Additional Resources
+- [Open Layers Docs](https://openlayers.org/en/latest/apidoc/)
+- [Open Layers Examples](https://openlayers.org/en/latest/examples/)

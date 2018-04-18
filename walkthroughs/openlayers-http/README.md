@@ -4,21 +4,20 @@ title: "Walkthrough: OpenLayers and jQuery"
 
 Follow along with the instructor as we get started with jQuery and OpenLayers.
 
-## Getting Started
+## Setup
 
-Fork and clone the [JQuery OpenLayers Starter](https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter) repo. Open this folder with any editor you choose.
+- Fork and clone the [JQuery OpenLayers Starter](https://gitlab.com/LaunchCodeTraining/jquery-open-layers-starter) repo.
+- Create a feature branch named `day3-solution` or `my-solution`
+- Open this folder with any editor you choose. We suggest Visual Studio Code since this project is only JavaScript and HTML.
 
 ## Review the code
-Open file `index.html` and review its contents
-- Has a link to a script to `js/script.js`
-- Has a `<body>` and `<h2>` but not much else
-
-Review contents of `js/script.js`
-- Contains code to instantiate a map
-
-This creates a map that can contain multiple layers in the `layers: []` object. In this case we are using a Tile layer. You can find all of the layer types [here](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html).
-
-The `view` attribute allows us to position the map at a certain lat long and zoom level using an `ol.View` object.
+Open file  and review its contents
+- `index.html` has a link to a script to `js/script.js`
+- `index.html` has a `<body>` and `<h2>` but not much else
+- `js/script.js` contains code to instantiate a map
+- `js/script.js` defines styles
+- `js/script.js` uses OpenLayers Tile layer [Layer Types](https://openlayers.org/en/v4.6.4/apidoc/ol.source.html)
+- `js/script.js` sets the `map.view` attribute which allows us to position the map at a certain lat long and zoom level using an `ol.View` object
 
 ## Let's make a map show up
 Next, add OpenLayers to your project by including the JavaScript source in the head.
@@ -52,28 +51,28 @@ Start a web server using `python` using one of the below commands.
     ```
 3. If Python version returned above is 3.X:
     ```nohighlight
-    $ python -m http.server 8080
+    $ python -m http.server 7070
     ```
     If Python version returned above is 2.X:
     ```nohighlight
-    $ python -m SimpleHTTPServer 8080
+    $ python -m SimpleHTTPServer 7070
     ```
 
-In a browser go to `http://localhost:8080/index.html`. You should see a map that includes Germany.
+In a browser go to `http://localhost:7070/index.html`. You should see a map that includes Germany.
 
 ## Show list of airports
 Add the following HTML to `index.html`
 ```html
-<button id="airport-list">list airports</button>
-<ul id="airport-list"></ul>
+<button id="list-all-airports">list airports</button>
+<ul id="all-airports"></ul>
 ```
 
 Add the following JavaScript to `js/script.js`
 ```js
 $('#list-all-airports').on('click', function() {
     console.log('pulling data');
-    $('#airport-list').empty();        
-    $.getJSON('http://localhost:8080/json/german_airports.geojson', {}).done(function(json) {
+    $('#all-airports').empty();        
+    $.getJSON('http://localhost:7070/json/german_airports.geojson', {}).done(function(json) {
         for (var i=0; i<json.features.length; i++) {
             $('#all-airports').append('<li>' + json.features[i].properties.dataField + '</li>');
         }
@@ -86,7 +85,7 @@ Paste this JS into `js/script.js`:
 ```js
 let vectorSource = new ol.source.Vector({
     format: new ol.format.GeoJSON(),
-    url: 'http://localhost:8080/json/german_airports.geojson'
+    url: 'http://localhost:7070/json/german_airports.geojson'
 });
 vectorLayer = new ol.layer.Vector({
     source: vectorSource,
@@ -120,7 +119,7 @@ map.on('click', function(event) {
 We want to add data about this report to our map dashboard. Here is an example of what we want to show:
 
 ```html
-<ul id="airport-list">
+<ul id="all-airports">
     <li>
         <h3>Aalen-Heidenheim/Elchingen Airport</h3>
         <p>ICAO: EPDA</p>
@@ -138,7 +137,15 @@ We want to add data about this report to our map dashboard. Here is an example o
 </ul>
 ```
 
-Update the Map onclick code to display airports for that city using [Javascript Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) to populate the feature data into the HTML. Here is what your code should look like:
+For the next feature we will need to use [Javascript Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals). Template literals example below.
+```javascript
+const name = 'Jasmine';
+const = `Template literals start and end with ticks and you can includes variables like so. Hello ${name}. 
+You can include ' and " inside of the template literals. And you can break into multiple lines.
+`;
+```
+
+Update the Map onclick code to display airports. For each feature at a certain pixel, we want to add that feature to the list below the map. OpenLayers will handle some of this work for us via `map.forEachFeatureAtPixel()`. Remember that the features in this case are airports and we are styling them to be displayed as red circles:
 ```js
 map.on('click', function(event) {
     $('#airport-list').empty();    
@@ -168,3 +175,8 @@ If you get the message `The element type "link" must be terminated by the matchi
  `<html lang="en" xmlns:th="http://www.thymeleaf.org/">`;
 
 If you get the message `The content of elements must consist of well-formed character data or markup.`, then change your inline javascript tags to `<script>/*<![CDATA[*/ ..... /*]]>*/</script>`. Here is a [StackOverflow question](ihttps://stackoverflow.com/questions/4338538/error-parsing-xhtml-the-content-of-elements-must-consist-of-well-formed-charact/4338816) that discusses this.
+
+
+## References
+- [Open Layers Docs](https://openlayers.org/en/latest/apidoc/)
+- [Open Layers Examples](https://openlayers.org/en/latest/examples/)
