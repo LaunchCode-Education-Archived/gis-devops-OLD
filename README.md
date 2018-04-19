@@ -66,7 +66,14 @@ Day | Topics
 
 Day | Topics
 |----|--------|
+Day 1-2 | Pivotal Training
 [Day 3](week09/day3/) | Intro to Docker 
 [Day 4](week09/day4/) | OAuth2
 [Day 5](week09/day5/) | Certificates
+
+## Week 10
+Day | Topics
+|----|--------|
+Day 1-4 | Finishing Zika Project
+Day 5 | Graduation and Demonstrate Zika Project
 
