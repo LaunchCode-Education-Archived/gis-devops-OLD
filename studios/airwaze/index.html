@@ -97,7 +97,11 @@
                                         <h1>Studio: Airwazes</h1>
                     <p>Your goal is to add an additional layer that shows flight routes and display it on the map.  This time we will incorporate our map into a Spring Boot project. Some starter code has been provided for you.</p>
 <h2 id="set-up-project">Set Up Project</h2>
-<p>Fork and clone this <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Gitlab project</a>. Then open the project in IntelliJ.</p>
+<ul>
+<li>Fork and clone this <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Gitlab project</a>.</li>
+<li>Then open the project in IntelliJ</li>
+<li>Create a feature branch <code>$ git checkout -b day5-solution</code></li>
+</ul>
 <h2 id="set-up-postgis">Set Up PostGIS</h2>
 <p>To install PostGIS, run the following commands in terminal:</p>
 <pre><code class="language-nohighlight">$ brew update
@@ -117,18 +121,24 @@ Then execute:</p>
 # CREATE EXTENSION postgis_tiger_geocoder;</code></pre>
 <p>Make sure that everything installed correctly by running this query:</p>
 <pre><code class="language-nohighlight"># SELECT POSTGIS_FULL_VERSION();</code></pre>
-<p>Remember to do that for your test database as well!  </p>
-<p>Open the Postgres UI and double click on the <code>airwaze_test</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze_test</code> db.</p>
-<pre><code class="language-nohighlight"># CREATE EXTENSION postgis;
-# CREATE EXTENSION postgis_topology;
-# CREATE EXTENSION fuzzystrmatch;
-# CREATE EXTENSION postgis_tiger_geocoder;
-# SELECT POSTGIS_FULL_VERSION();</code></pre>
-<p>Create a new user for your application. Open the Postgres UI and double click on the <code>airwaze</code> db to open a <code>psql</code> command prompt connected to the <code>airwaze</code> db.</p>
-<pre><code class="language-nohighlight"># CREATE USER airwaze_app_user WITH PASSWORD 'somethingsensible' CREATEDB;
-# ALTER ROLE airwaze_app_user WITH SUPERUSER; </code></pre>
+<p>Remember to do that for your test database <code>airwaze_test</code> as well!</p>
+<h2 id="create-users-and-grant-access-rights">Create Users and Grant Access Rights</h2>
+<ul>
+<li>Create users <code>airwaze_user</code> and <code>airwaze_test_user</code></li>
+<li>Grant the users access to only what they need <code>airwaze_user</code> -&gt; <code>airwaze</code> and <code>airwaze_test_user</code> -&gt; <code>airewaze_test</code></li>
+</ul>
 <h2 id="now-lets-use-the-new-database">Now Let's Use the New Database</h2>
+<p>Notice in <code>application.properties</code> and <code>application-test.properties</code> that the db configurtion refers to token values like <code>${APP_DB_NAME}</code> and <code>${APP_DB_HOST}</code>.</p>
+<ul>
+<li>Define each in environmment variables OR in Intellij run configurations</li>
+<li>Do not commit db config information to source control</li>
+</ul>
+<h2 id="seed-data">Seed Data</h2>
 <p>This application uses Spring Boot. If you have a <code>src/main/resources/import.sql</code> file, it will automatically run when the project boots up. Take a second to review <code>import.sql</code> in IntelliJ. The two <code>.csv</code> files were created from <code>.geojson</code> data.</p>
+<ul>
+<li>Review the <code>import.sql</code> file in the airwaze project</li>
+<li>Open the <code>csv</code> files to see what data is being imported for routes and airports</li>
+</ul>
 <aside class="aside-note">
 <p>Be sure that the <code>import.sql</code> points to local copies of the <code>airports.csv</code> and <code>routes.csv</code>. It needs to be the &quot;full path&quot; to each file on your local computer.</p>
 </aside>
@@ -138,23 +148,40 @@ Then execute:</p>
 <li>Make sure there aren't any errors in the log.</li>
 <li>Then go to <code>http://localhost:8080</code>. You should see a map with Mexico on it that includes a map layer for airports as red circles.</li>
 </ul>
+<h2 id="review-the-created-tables-and-imported-data-in-postgis">Review the Created Tables and Imported Data in Postgis</h2>
+<p>Open a <code>psql</code> prompt connected to <code>airwaze</code> database and then run these commands one at a time</p>
+<pre><code class="language-sql">airwaze=# select count(*) from route;
+airwaze=# select count(*) from airport;
+airwaze=# \d
+airwaze=# \d airport
+airwaze=# \d route</code></pre>
 <h2 id="review-airportcontroller">Review AirportController</h2>
 <ul>
 <li>Visit this url in your browser: <a href="http://localhost:8080/airport/" target="_blank">http://localhost:8080/airport/</a>.  Note the trailing <code>/</code> is important.</li>
 <li>Then look at the code that returns that data.</li>
 </ul>
-<h2 id="review-routecontroller">Review RouteController</h2>
-<ul>
-<li>Visit this url in your browser : <a href="http://localhost:8080/route/?srcId=12" target="_blank">http://localhost:8080/route/?srcId=12</a> .</li>
-<li>Then look at the code that returns that data.</li>
-<li>Think about how this route could be used to show the routes for an airport.  </li>
-</ul>
 <h2 id="tasks">Tasks</h2>
+<ol>
+<li>When the map is clicked, list all airports that are at that pixel
 <ul>
-<li>When an airport is clicked on the map, show the routes for that airport.</li>
-<li>This will require you to add a new layer to the map. Refer to the &quot;airports layer&quot; for help.</li>
 <li>You will need to add more code to the function <code>map.forEachFeatureAtPixel(event.pixel, function(feature,layer)</code> in <code>resources/static/js/scripts.js</code></li>
-<li>The data for the new layer will be provided by <code>http://localhost:8080/route/?srcId=X</code>, where X will be the <code>airportId</code> from the feature.</li>
+</ul></li>
+<li>Create a route endpoint that returns routes for a certain srcId. Example: <code>http://localhost:8080/route/?srcId=12</code></li>
+<li>When an airport feature is clicked on the map, show the routes for that airport
+<ul>
+<li>By adding a router layer that only contains routes connected to the clicked airport</li>
+<li>The data for the new layer will be provided by <code>http://localhost:8080/route/?srcId=X</code>, where X will be the <code>airportId</code> from the feature. </li>
+</ul></li>
+<li>Write tests for all of this. Tests are your friend :) </li>
+</ol>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<ul>
+<li>Get this to work without jQuery. Hints: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">fetch</a> and <code>document.findElementById</code></li>
+<li>Change the style of the dots: color, size, fill in</li>
+<li>Sort airports by alpha order when they are displayed below the map</li>
+<li>Check what kind of feature was clicked when map.onclick runs</li>
+<li>Remove previous route layers when adding a new one</li>
+<li>Add a list of routes in HTML form below the map</li>
 </ul>
 <h2 id="problems">Problems</h2>
 <p>Invalid JSON will cause the jQuery callback to not fire.  If you are having an issue, validate the JSON that you are sending across the wire.  Here is a <a href="https://jsonlint.com/" target="_blank">JSON Validator</a>.</p>
