@@ -67,7 +67,19 @@ Add the following HTML to `index.html`
 <ul id="all-airports"></ul>
 ```
 
-Add the following JavaScript to `js/script.js`
+We need to GET the data by making an AJAX request to `http://localhost:7070/json/german_airports.geojson`. For this we will use jQuery. Add 
+the below code to `script.js`. Then click the button and see what was logged in the console.
+```js
+$('#list-all-airports').on('click', function() {
+    console.log('pulling data');
+    $('#all-airports').empty();        
+    $.getJSON('http://localhost:7070/json/german_airports.geojson', {}).done(function(json) {
+        console.log(json);
+    });
+});
+```
+
+Now let's loop over the results and add each feature to the airport list. Edit the onclick handler to append a `<li>` for each feature returned.
 ```js
 $('#list-all-airports').on('click', function() {
     console.log('pulling data');
@@ -178,5 +190,5 @@ If you get the message `The content of elements must consist of well-formed char
 
 
 ## References
-- [Open Layers Docs](https://openlayers.org/en/latest/apidoc/)
-- [Open Layers Examples](https://openlayers.org/en/latest/examples/)
+- [OpenLayers Docs](https://openlayers.org/en/latest/apidoc/)
+- [OpenLayers Examples](https://openlayers.org/en/latest/examples/)
