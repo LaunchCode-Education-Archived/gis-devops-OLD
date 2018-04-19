@@ -189,6 +189,6 @@ If you get the message `The element type "link" must be terminated by the matchi
 If you get the message `The content of elements must consist of well-formed character data or markup.`, then change your inline javascript tags to `<script>/*<![CDATA[*/ ..... /*]]>*/</script>`. Here is a [StackOverflow question](ihttps://stackoverflow.com/questions/4338538/error-parsing-xhtml-the-content-of-elements-must-consist-of-well-formed-charact/4338816) that discusses this.
 
 
-## References
+## Resources
 - [OpenLayers Docs](https://openlayers.org/en/latest/apidoc/)
 - [OpenLayers Examples](https://openlayers.org/en/latest/examples/)

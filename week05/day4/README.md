@@ -14,7 +14,7 @@ title: Week 5 - Day 4
 - [Gradle](../../walkthroughs/gradle/)
 - [Jenkins](../../walkthroughs/jenkins/)
 
-## References
+## Resources
 
 - [Gradle](https://gradle.org/)
 - [Groovy Language Documentation](http://docs.groovy-lang.org/latest/html/documentation/index.html)

@@ -19,7 +19,7 @@ In the morning, continue working on the [LaunchCart REST studio](../../studios/l
 
 Complete the [SwaggerUI Studio](../../studios/swagger-ui/)
 
-## References
+## Resources
 
 - [Authentication vs. Authorization](https://www.cyberciti.biz/faq/authentication-vs-authorization/) (ignore last section on Linux / Unix details)
 - [API Authentication (Basic and Key)](https://zapier.com/learn/apis/chapter-4-authentication-part-1/)
