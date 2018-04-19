@@ -142,7 +142,16 @@
 <p>Add the following HTML to <code>index.html</code></p>
 <pre><code class="language-html">&lt;button id="list-all-airports"&gt;list airports&lt;/button&gt;
 &lt;ul id="all-airports"&gt;&lt;/ul&gt;</code></pre>
-<p>Add the following JavaScript to <code>js/script.js</code></p>
+<p>We need to GET the data by making an AJAX request to <code>http://localhost:7070/json/german_airports.geojson</code>. For this we will use jQuery. Add
+the below code to <code>script.js</code>. Then click the button and see what was logged in the console.</p>
+<pre><code class="language-js">$('#list-all-airports').on('click', function() {
+    console.log('pulling data');
+    $('#all-airports').empty();        
+    $.getJSON('http://localhost:7070/json/german_airports.geojson', {}).done(function(json) {
+        console.log(json);
+    });
+});</code></pre>
+<p>Now let's loop over the results and add each feature to the airport list. Edit the onclick handler to append a <code>&lt;li&gt;</code> for each feature returned.</p>
 <pre><code class="language-js">$('#list-all-airports').on('click', function() {
     console.log('pulling data');
     $('#all-airports').empty();        
@@ -223,8 +232,8 @@ You can include ' and " inside of the template literals. And you can break into 
 <p>If you get the message <code>The content of elements must consist of well-formed character data or markup.</code>, then change your inline javascript tags to <code>&lt;script&gt;/*&lt;![CDATA[*/ ..... /*]]&gt;*/&lt;/script&gt;</code>. Here is a <a href="ihttps://stackoverflow.com/questions/4338538/error-parsing-xhtml-the-content-of-elements-must-consist-of-well-formed-charact/4338816">StackOverflow question</a> that discusses this.</p>
 <h2 id="references">References</h2>
 <ul>
-<li><a href="https://openlayers.org/en/latest/apidoc/" target="_blank">Open Layers Docs</a></li>
-<li><a href="https://openlayers.org/en/latest/examples/" target="_blank">Open Layers Examples</a></li>
+<li><a href="https://openlayers.org/en/latest/apidoc/" target="_blank">OpenLayers Docs</a></li>
+<li><a href="https://openlayers.org/en/latest/examples/" target="_blank">OpenLayers Examples</a></li>
 </ul>
                                     </section>
 
