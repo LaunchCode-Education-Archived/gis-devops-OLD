@@ -18,5 +18,6 @@ title: Week 1 - Day 5
 Complete the [Airwaze studio](../../studios/airwaze/)
 
 ## Additional Resources
+- [GeoJSON](https://macwright.org/2015/03/23/geojson-second-bite)
 - [Open Layers Docs](https://openlayers.org/en/latest/apidoc/)
 - [Open Layers Examples](https://openlayers.org/en/latest/examples/)
