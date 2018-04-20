@@ -15,9 +15,9 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - IntelliJ IDEA Community Edition installed
 - git installed locally
 
-## Lesson Content
-
-- [Slides](https://education.launchcode.org/gis-devops-slides/week1/day1.html#1)
+## Slides
+- [Class Introduction](https://education.launchcode.org/gis-devops-slides/week1/class-intro.html#1)
+- [Git, Gitlab, Intellij, Refactoring, Unit Tests](https://education.launchcode.org/gis-devops-slides/week1/day1.html#1)
 
 ## Walkthrough
 
