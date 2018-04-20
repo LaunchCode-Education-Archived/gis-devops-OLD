@@ -37,6 +37,7 @@ Get the class off to a great start with a review of git, introduction to gitlab.
 - [Studio Repository](https://gitlab.com/LaunchCodeTraining/junit-studio)
 - Turn in instructions
   - Fork then clone repository
+  - Create a feature branch for your work
   - Follow readme instructions
   - Push changes up to your repository
   - Inform instructor you are done
