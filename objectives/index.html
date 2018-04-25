@@ -107,7 +107,7 @@
 <li>Understand Java project structure</li>
 </ul></li>
 <li>Improve applications by refactoring code</li>
-<li>Describe the purpose of unit testing, and the qualities of a good unit test </li>
+<li>Describe the purpose of unit testing, and the qualities of a good unit test</li>
 <li>Create unit tests in Java using JUnit</li>
 </ul>
 <h3 id="day-2">Day 2</h3>
@@ -120,21 +120,36 @@
 </ul>
 <h3 id="day-3">Day 3</h3>
 <ul>
-<li>Integration Tests in Spring Boot</li>
+<li>Understand what an integration test is compared to a unit test</li>
+<li>Write integration tests in Spring using the MockMvc class and associated utilities</li>
+<li>Exercise common MVC integration test patterns to verify return codes, response content, header content</li>
+<li>Understand how dependency injection works within Spring Boot</li>
+<li>Use @Autowired along with Spring component annotations (@Controller, @Repository, etc) to enable management and injection of components</li>
 </ul>
 <h3 id="day-4">Day 4</h3>
 <ul>
-<li>Install and use postgreSQL</li>
-<li>Create, alter, update, delete: databases, schemas, tables, columns, contraints</li>
+<li>Install and use PostgreSQL via the <code>psql</code> CLI</li>
+<li>Write common SQL commands in PostgreSQL: select, insert, update, delete</li>
+<li>Understand relational database components: databases, schemas, tables, columns, constraints</li>
+<li>Understand the benefits of using schemas</li>
 <li>Use application.properties settings to configure a database connection in Spring Boot</li>
+<li>Understand how Spring Data, JPA, and Hibernate relate to each other</li>
 </ul>
 <h3 id="day-5">Day 5</h3>
 <ul>
-<li>AJAX requests</li>
-<li>Open Layers</li>
+<li>Understand the structure of HTTP requests and responses, including differences based on request type (GET, PUT, POST, HEAD, DELETE)</li>
+<li>Understand common HTTP status codes</li>
+<li>Understand JSON syntax</li>
+<li>User cURL to make HTTP requests</li>
+<li>Understand what an API is, and how they are commonly used</li>
+<li>Understand the structure of GeoJSON</li>
+<li>Understand geometry types: Point, LineString, Polygon, MultiPolygon</li>
+<li>Understand the data provided by a WMS service using GetCapabilities and GetMap</li>
+<li>Create map and layer objects in OpenLayers</li>
+<li>Make AJAX HTTP requests using jQuery</li>
 </ul>
 <h2 id="week-2">Week 2</h2>
-<p>Deliver an app with the the following features:</p>
+<p>Utilize the skills learned in week 1 to build a Spring Boot application that uses OpenLayers to display geospatial data on a map. Deliver an app with the the following features:</p>
 <ul>
 <li>Ingestion of geospatial data via CSV.</li>
 <li>Display Zika infection data on a map using OpenLayers.</li>
@@ -186,33 +201,47 @@
 <li>Understand how parent/child relationships are represented, and how this contrasts with such relationships in relational databases</li>
 <li>Describe and configure document mappings, and know the causes of and preventions for mapping explosion</li>
 <li>Describe the purpose and procedure for reindexing</li>
-<li>Use Elasticsearch.js to query ES instances from the browser</li>
+<li>Integrate Elasticsearch into a Spring Boot application</li>
+</ul>
+<h3 id="day-5-1">Day 5</h3>
+<ul>
+<li>Understand the origins of JavaScript and the ECMAScript specification</li>
+<li>Understand both client and server JS runtime environments</li>
+<li>Understand what a transpiler is, and how it enables use of different versions of JS in different environments</li>
+<li>Understand the benefits of linting code</li>
+<li>Use ESLint to ensure JS code adheres to a set of standards</li>
+<li>Understand and use ES2015 additions: <code>let</code>, <code>const</code>, template strings, arrow functions, default parameter values</li>
+<li>Understand and use Webpack to build static client-side applications</li>
+</ul>
+<h2 id="week-4">Week 4</h2>
+<ul>
+<li>Use the REST, Elasticsearch, and JavaScript skills obtained in week 3 within a student-built application.</li>
 </ul>
 <h2 id="week-5">Week 5</h2>
 <h3 id="day-1-2">Day 1</h3>
 <ul>
-<li>Use and configure SSH to access remote machines.</li>
-<li>Manage Unix file permisions for owners and groups.</li>
-<li>Manage Unix processes.</li>
-<li>Configure systemd daemon processes to run on startup.</li>
-<li>Use logs to troubleshoot applications.</li>
+<li>Use and configure SSH to access remote machines</li>
+<li>Manage Unix file permissions for owners and groups</li>
+<li>Manage Unix processes</li>
+<li>Configure systemd daemon processes to run on startup</li>
+<li>Use logs to troubleshoot applications</li>
 </ul>
 <h3 id="day-2-2">Day 2</h3>
 <ul>
-<li>Understand the role of the VPC in providing security for multiple instances.</li>
-<li>Understand why AWS provides &quot;High Availability&quot; ELB and RDS instances.</li>
-<li>Create ELB instances that distribute traffic across multiple EC2 servers.</li>
-<li>Configure an EC2 instances to connect to an RDS database.</li>
-<li>Use Telnet to troubleshoot TCP connections.</li>
+<li>Understand the role of the VPC in providing security for multiple instances</li>
+<li>Understand why AWS provides &quot;High Availability&quot; ELB and RDS instances</li>
+<li>Create ELB instances that distribute traffic across multiple EC2 servers</li>
+<li>Configure an EC2 instances to connect to an RDS database</li>
+<li>Use Telnet to troubleshoot TCP connections</li>
 </ul>
 <h3 id="day-3-2">Day 3</h3>
 <ul>
-<li>Understand why the 12 Factor App principles are important in building a Cloud Native app.</li>
-<li>Explain why an ephemeral file system is required to scale apps on the cloud.</li>
-<li>Understand how to handle log files on the cloud.</li>
-<li>Understand the importance of parity between development, staging, and production environments.</li>
-<li>Create an autoscaling app on AWS.</li>
-<li>Describe why ELB and RDS databases are &quot;high availability&quot;.</li>
+<li>Understand why the 12 Factor App principles are important in building a Cloud Native app</li>
+<li>Explain why an ephemeral file system is required to scale apps on the cloud</li>
+<li>Understand how to handle log files on the cloud</li>
+<li>Understand the importance of parity between development, staging, and production environments</li>
+<li>Create an autoscaling app on AWS</li>
+<li>Describe why ELB and RDS databases are &quot;high availability&quot;</li>
 </ul>
 <h3 id="day-4-2">Day 4</h3>
 <ul>
@@ -227,26 +256,123 @@
 <li>Describe the types of behavior that plugins can provide to a project</li>
 <li>Install and use plugins</li>
 <li>Understand how to configure project dependencies with proper scope</li>
-<li>Describe how Gradle resovles task and project dependencies using a directed acyclic graph representation</li>
+<li>Describe how Gradle resolves task and project dependencies using a directed acyclic graph representation</li>
 <li>Understand the concepts: Continuous Integration and Continuous Delivery</li>
 <li>Install Jenkins</li>
 <li>Create and configure Projects in Jenkins</li>
 <li>Make Projects that trigger other Projects</li>
 <li>Reuse the same workspace for multiple Projects</li>
-<li>Use Git polling to trigger a build</li>
+<li>Use Git polling to trigger a Jenkins Project to run</li>
 <li>Configure Jenkins to run and show results of tests</li>
 <li>Create a Jenkins Project to deliver the build artifact (.jar file)</li>
 </ul>
-<h3 id="day-5-1">Day 5</h3>
+<h3 id="day-5-2">Day 5</h3>
 <ul>
-<li>Understand the concept of Continous Inspection</li>
+<li>Understand the concept of Continuous Inspection</li>
 <li>Install Sonarqube</li>
-<li>Configure build.gradle to use sonarqube</li>
-<li>Configure project name for sonarqube gradle task</li>
-<li>How to create a project in sonarqube</li>
-<li>How to read results in sonarqube UI</li>
+<li>Configure <code>build.gradle</code> to use Sonarqube</li>
+<li>Configure project name for Sonarqube Gradle task</li>
+<li>How to create a project in Sonarqube</li>
+<li>How to read results in Sonarqube UI</li>
+</ul>
+<h2 id="week-6">Week 6</h2>
+<ul>
+<li>Use the AWS skills learned in the previous week to deploy a cloud-hosted, scalable application to AWS</li>
+</ul>
+<h2 id="week-7">Week 7</h2>
+<aside class="aside-note">
+<p>GeoServer training is delivered by Boundless.</p>
+</aside>
+<h3 id="su-101-spatial-basics">SU 101 Spatial Basics</h3>
+<ul>
+<li>Gain a basic understanding of spatial concepts, mapping, open source, open data, data formats, geospatial concepts, and cartography.</li>
+</ul>
+<h3 id="gs101-data-publishing">GS101 Data Publishing</h3>
+<ul>
+<li>Publish simple datasets in GeoServer</li>
+<li>Accessing published data via WMS and WFS.</li>
+<li>Understand basic spatial file formats</li>
+<li>Read and configure files in the GeoServer web interface.</li>
+</ul>
+<h3 id="su102-spatial-web-services">SU102 Spatial Web Services</h3>
+<ul>
+<li>Gain a basic understanding of web service concepts</li>
+<li>Demonstrate working knowledge of Web Map Service, Web Feature Service and OGC standards.</li>
+</ul>
+<h3 id="gs102-administration">GS102 Administration</h3>
+<ul>
+<li>Demonstrate GeoServer management, specifically the web administration interface.</li>
+<li>Be able to configure individual web services, manage the security system.</li>
+<li>Apply basic troubleshooting techniques.</li>
+</ul>
+<h3 id="gs103-data-management">GS103 Data Management</h3>
+<ul>
+<li>Apply tools tools to manipulate data to resolve issues of performance or data security.</li>
+<li>Recognize more advanced store types which GeoServer supports and how and why a GeoServer administrator would select these to serve their spatial data.</li>
+</ul>
+<h3 id="gw101-geowebcache">GW101 GeoWebCache</h3>
+<ul>
+<li>Discuss and explain concepts behind GeoWebCache as a specialized type of web cache and understanding how it can be configured to function as a component of a GeoServer instance in production.</li>
+<li>Demonstrate basic configuration.</li>
+</ul>
+<h3 id="pg101-introduction-to-spatial-databases">PG101 Introduction to Spatial Databases</h3>
+<ul>
+<li>Gain a basic understanding of spatial databases, competing technologies, application and use.</li>
+<li>Explain value of PostGIS with capabilities, history and success stories.</li>
+<li>Demonstrate basis skills such as creating a PostGIS database, connecting to a database from QGIS and GeoServer.</li>
+</ul>
+<h3 id="pg102-postgis-explained">PG102 PostGIS Explained</h3>
+<ul>
+<li>Demonstrate knowledge of geometry use in a PostGIS.</li>
+<li>Apply skills to import and export data.</li>
+<li>Describe, explain and apply basic SQL knowledge.</li>
+</ul>
+<h3 id="pg103-postgis-explored">PG103 PostGIS Explored</h3>
+<ul>
+<li>Demonstrate SQL knowledge in applied queries</li>
+<li>Apply spatial joins, spatial indexes.</li>
+<li>Demonstrate Knowledge of projects and apply knowledge to effectively work with data.</li>
+<li>Represent 3D data.</li>
+<li>Apply linear referencing.</li>
+<li>Load raster data into a database.</li>
+<li>Load a road network into PgRouting.</li>
+<li>Gain a basic understanding of point cloud data.</li>
+</ul>
+<h3 id="pg-104-postgis-analysis">PG 104 PostGIS Analysis</h3>
+<ul>
+<li>Demonstrate proficient knowledge of SQL for spatial analysis.</li>
+<li>Demonstrate proficient knowledge of spatial joins.</li>
+<li>Explain DIM-9 Spatial relationship optimization.</li>
+<li>Apply nearest neighbor analysis.</li>
+<li>Apply raster analysis.</li>
+<li>Apply topology relationships through SQL.</li>
+</ul>
+<h2 id="week-8">Week 8</h2>
+<ul>
+<li>Use the skills learned in the previous week to integrate GeoServer with a Spring Boot + OpenLayers application, both locally and on AWS</li>
 </ul>
 <h2 id="week-9">Week 9</h2>
+<h3 id="days-1-2">Days 1-2</h3>
+<aside class="aside-note">
+<p>Pivotal Cloud Foundry training is delivered by Boundless.</p>
+</aside>
+<ul>
+<li>PCF architecture</li>
+<li>How to interact with PCF: Command Line Interface (CLI), Apps Manager UI</li>
+<li>Orgs, spaces, user roles</li>
+<li>Deploy a Simple Application</li>
+<li>Scaling an app (Ver / Hor)</li>
+<li>Buildpacks</li>
+<li>Application Manifests</li>
+<li>Domains and Routes</li>
+<li>Logging and Metrics</li>
+<li>Application Monitoring</li>
+<li>Blue/Green App Deployment</li>
+<li>Services Marketplace</li>
+<li>Create &amp; Bind a Service</li>
+<li>Platform Security</li>
+<li>NGA’s PCF envs</li>
+</ul>
 <h3 id="day-3-3">Day 3</h3>
 <ul>
 <li>Understand how Docker differs from traditional VMs.</li>
@@ -260,8 +386,20 @@
 </ul>
 <h3 id="day-4-3">Day 4</h3>
 <ul>
+<li>Understand the difference between authentication and authorization</li>
+<li>Understand OAuth roles: resource owner, client, resource server, authorization server</li>
+<li>Know how to register an application</li>
+<li>Understand the general OAuth2 flow</li>
+<li>Understand the roles of cliend ID and client secret</li>
+<li>Understand OAuth authorization parameters: endpoint, client ID, redirect URI, response type, scope</li>
+<li>Understand the role of an access token in the authorization flow</li>
+<li>Understand the four OAuth grant types: auth code, implicit, resource owner password credentials, client credentials</li>
+<li>Understand the refresh token flow</li>
+</ul>
+<h3 id="day-5-3">Day 5</h3>
+<ul>
 <li>Understand the role certificates play in validating the identity of a server.</li>
-<li>Undertstand the role that a Certificate Authority plays in determining trust.</li>
+<li>Understand the role that a certificate authority plays in determining trust.</li>
 <li>Configure the browser to add new trusted certificates.</li>
 <li>Configure the browser to add client-side access certificates.</li>
 </ul>
