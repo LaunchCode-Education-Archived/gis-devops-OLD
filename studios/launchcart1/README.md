@@ -47,8 +47,6 @@ As always, write your tests before writing any application code. As before, you'
 
 After you have written your tests and they pass, run *all* of the tests and commit.
 
-At this point, you may [turn in your work](#turning-in-your-work) before continuing on to the Bonus Mission.
-
 ### Implement Unit Test for ItemMemoryRepositoryTests
 The previous programmer left a `TODO` in the unit test `/launchcart/src/test/java/org/launchcode/launchcart/data/ItemMemoryRepositoryTests.java.testAddItems()`. Please write this test so that 
 we can be sure our repository class correctly saves items.
@@ -56,6 +54,8 @@ we can be sure our repository class correctly saves items.
 <aside class="aside-note" markdown="1">
 This version of LaunchCart does not use an SQL database. Use this test as a way to get familair with how Items and Carts are persisted for this project.
 </aside>
+
+At this point, you may [turn in your work](#turning-in-your-work) before continuing on to the Bonus Mission.
 
 ## Bonus Missions
 1. How long is the data persisted? What makes the data disappear?
