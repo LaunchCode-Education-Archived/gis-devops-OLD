@@ -136,6 +136,23 @@ Deliver an app with the the following features:
 - Install and use plugins
 - Understand how to configure project dependencies with proper scope
 - Describe how Gradle resovles task and project dependencies using a directed acyclic graph representation
+- Understand the concepts: Continuous Integration and Continuous Delivery
+- Install Jenkins
+- Create and configure Projects in Jenkins
+- Make Projects that trigger other Projects
+- Reuse the same workspace for multiple Projects
+- Use Git polling to trigger a build
+- Configure Jenkins to run and show results of tests
+- Create a Jenkins Project to deliver the build artifact (.jar file)
+
+
+### Day 5
+- Understand the concept of Continous Inspection
+- Install Sonarqube
+- Configure build.gradle to use sonarqube
+- Configure project name for sonarqube gradle task
+- How to create a project in sonarqube
+- How to read results in sonarqube UI
 
 ## Week 9
 
