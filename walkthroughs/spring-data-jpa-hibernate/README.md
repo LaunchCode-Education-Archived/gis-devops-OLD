@@ -26,15 +26,14 @@ Each section outlines one task or group of tasks we need to complete.
 In intellij, open `/car-integration-tests/src/main/resources/application.properties` then set each of these values:
 
 ```nohighlight
-spring.datasource.driver-class-name=
-spring.datasource.url=jdbc:postgresql://HOST-HERE:5432/DB-NAME-HERE
-spring.datasource.username=USERNAME-HERE
-spring.datasource.password=PASSWORD-HERE
-spring.jpa.hibernate.ddl-auto=
+spring.datasource.url=jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
+spring.datasource.username=${APP_DB_USER}
+spring.datasource.password=${APP_DB_PASS}
+spring.jpa.hibernate.ddl-auto=update
 ```
 
 <aside class="aside-warning" markdown="1">
-  Committing passwords to source control is a BAD idea, ESPECIALLY a public repo!
+  Committing passwords to source control is a BAD idea. We are using a spring data feature that searches for and uses enviroment variables.
 </aside>
 
 Then add the associated Postgres dependency to `build.gradle` as a compile-time dependency. 
