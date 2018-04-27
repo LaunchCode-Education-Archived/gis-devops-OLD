@@ -106,9 +106,9 @@
 <p>Each section outlines one task or group of tasks we need to complete.</p>
 <h3 id="set-up-a-postgres-db">Set Up A Postgres DB</h3>
 <ol>
-<li>From <code>psql</code>, create a Postgres user: <code>psql=# create user cart_user with encrypted password 'catdogbluehouse';</code></li>
-<li>Create a database: <code>psql=# create database cart;</code></li>
-<li>Grant the user access to the database:<code>psql=# grant all privileges on database cart to cart_user</code></li>
+<li>From <code>psql</code>, create a Postgres user: <code>psql=# create user car_user with encrypted password 'catdogbluehouse';</code></li>
+<li>Create a database: <code>psql=# create database car;</code></li>
+<li>Grant the user access to the database:<code>psql=# grant all privileges on database car to car_user</code></li>
 </ol>
 <h3 id="configure-the-app-to-use-the-database">Configure the App To Use the Database</h3>
 <p>In intellij, open <code>/car-integration-tests/src/main/resources/application.properties</code> then set each of these values:</p>
@@ -153,7 +153,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarRepository extends JpaRepository&lt;Cart, Integer&gt; {
+public interface CarRepository extends JpaRepository&lt;Car, Integer&gt; {
 }</code></pre>
 <h3 id="autowire-repositories-into-controllers">Autowire Repositories into Controllers</h3>
 <pre><code class="language-java">@Controller
@@ -178,7 +178,7 @@ public class CarControllerTests {
 spring.datasource.url=jdbc:h2:mem:test
 spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update</code></pre>
-<p>We need to make sure our test properaties are used when running tests. Add the below code to <code>/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java</code>.
+<p>We need to make sure our test properaties are used when running tests. Add the below code to <code>/car-integration-tests/src/test/java/org/launchcode/training/IntegrationTestConfig.java</code>.
 The <code>@Transactional</code> annotation insures that any sql executed during a test will only exist for that single test and won't pollute another test.</p>
 <pre><code class="language-java">@TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional</code></pre>
