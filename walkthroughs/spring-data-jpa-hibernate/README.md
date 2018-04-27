@@ -16,9 +16,9 @@ Each section outlines one task or group of tasks we need to complete.
 
 ### Set Up A Postgres DB
 
-1. From `psql`, create a Postgres user: `psql=# create user cart_user with encrypted password 'catdogbluehouse';`
-2. Create a database: `psql=# create database cart;`
-3. Grant the user access to the database:`psql=# grant all privileges on database cart to cart_user`
+1. From `psql`, create a Postgres user: `psql=# create user car_user with encrypted password 'catdogbluehouse';`
+2. Create a database: `psql=# create database car;`
+3. Grant the user access to the database:`psql=# grant all privileges on database car to car_user`
 
 
 ### Configure the App To Use the Database
@@ -77,7 +77,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarRepository extends JpaRepository<Cart, Integer> {
+public interface CarRepository extends JpaRepository<Car, Integer> {
 }
 ```
 
@@ -113,7 +113,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-We need to make sure our test properaties are used when running tests. Add the below code to `/car-integration-tests/src/test/java/org/launchcode/launchcart/IntegrationTestConfig.java`.
+We need to make sure our test properaties are used when running tests. Add the below code to `/car-integration-tests/src/test/java/org/launchcode/training/IntegrationTestConfig.java`.
 The `@Transactional` annotation insures that any sql executed during a test will only exist for that single test and won't pollute another test.
 ```java
 @TestPropertySource(locations = "classpath:application-test.properties")
