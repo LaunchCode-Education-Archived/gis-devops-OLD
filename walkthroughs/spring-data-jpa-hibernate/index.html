@@ -112,13 +112,12 @@
 </ol>
 <h3 id="configure-the-app-to-use-the-database">Configure the App To Use the Database</h3>
 <p>In intellij, open <code>/car-integration-tests/src/main/resources/application.properties</code> then set each of these values:</p>
-<pre><code class="language-nohighlight">spring.datasource.driver-class-name=
-spring.datasource.url=jdbc:postgresql://HOST-HERE:5432/DB-NAME-HERE
-spring.datasource.username=USERNAME-HERE
-spring.datasource.password=PASSWORD-HERE
-spring.jpa.hibernate.ddl-auto=</code></pre>
+<pre><code class="language-nohighlight">spring.datasource.url=jdbc:postgresql://${APP_DB_HOST}:${APP_DB_PORT}/${APP_DB_NAME}
+spring.datasource.username=${APP_DB_USER}
+spring.datasource.password=${APP_DB_PASS}
+spring.jpa.hibernate.ddl-auto=update</code></pre>
 <aside class="aside-warning">
-<p>Committing passwords to source control is a BAD idea, ESPECIALLY a public repo!</p>
+<p>Committing passwords to source control is a BAD idea. We are using a spring data feature that searches for and uses enviroment variables.</p>
 </aside>
 <p>Then add the associated Postgres dependency to <code>build.gradle</code> as a compile-time dependency.
 Set h2 dependency to be a <code>testCompile</code> dependency, since it will only be needed for running tests at this point.</p>
