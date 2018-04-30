@@ -94,25 +94,15 @@ airwaze=# \d route
 4. Write tests for all of this. Tests are your friend :) 
 
 ## Bonus Missions
-- Get this to work without jQuery. Hints: [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) and `document.findElementById`
+- Get this to work without jQuery. Hints: `fetch`([info here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)) and `document.findElementById`
 - Change the style of the dots: color, size, fill in
 - Sort airports by alpha order when they are displayed below the map
 - Check what kind of feature was clicked when map.onclick runs
 - Remove previous route layers when adding a new one
-- Add a list of routes in HTML form below the map
-
-
-## Problems
-
-Invalid JSON will cause the jQuery callback to not fire.  If you are having an issue, validate the JSON that you are sending across the wire.  Here is a [JSON Validator](https://jsonlint.com/).
-
-Invalid GeoJSON will not show up on your map.  You will see the data pull back, but you will not see any data displayed.  Validate your GeoJSON.  Here is a [GeoJSON Validator](http://geojson.io/o).
-
-If you get the message `The element type "link" must be terminated by the matching end-tag "</link>".`, then add the following tag `<html lang="en" xmlns:th="http://www.thymeleaf.org/">`.
 
 ## Resources
 - [Read about constructing GeoJSON](https://macwright.org/2015/03/23/geojson-second-bite)
 - [OpenLayers Examples](https://openlayers.org/en/latest/examples/)
-- [Adding and Removing Layers](http://www.acuriousanimal.com/thebookofopenlayers3/chapter02_01_adding_removing_layers.html)
+- [Adding and Removing Layers with OpenLayers](http://www.acuriousanimal.com/thebookofopenlayers3/chapter02_01_adding_removing_layers.html)
 - [Validate your GeoJSON!](http://geojson.io)
 - [OpenLayers Drawing Examples](http://openlayers.org/en/latest/examples/geojson.html)
