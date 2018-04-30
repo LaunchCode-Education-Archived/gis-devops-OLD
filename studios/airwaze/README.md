@@ -90,8 +90,8 @@ airwaze=# \d route
 2. Create a route endpoint that returns routes for a certain srcId. Example: `http://localhost:8080/route/?srcId=12`
 3. When an airport feature is clicked on the map, show the routes for that airport
  * By adding a router layer that only contains routes connected to the clicked airport
- * The data for the new layer will be provided by `http://localhost:8080/route/?srcId=X`, where X will be the `airportId` from the feature. 
-4. Write tests for all of this. Tests are your friend :) 
+ * The data for the new layer will be provided by `http://localhost:8080/route/?srcId=X`, where X will be the `airportId` from the feature
+4. Write integration tests for `RouteController` use `AirportControllerTests` as a guide
 
 ## Bonus Missions
 - Get this to work without jQuery. Hints: `fetch`([info here](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)) and `document.findElementById`
@@ -106,3 +106,4 @@ airwaze=# \d route
 - [Adding and Removing Layers with OpenLayers](http://www.acuriousanimal.com/thebookofopenlayers3/chapter02_01_adding_removing_layers.html)
 - [Validate your GeoJSON!](http://geojson.io)
 - [OpenLayers Drawing Examples](http://openlayers.org/en/latest/examples/geojson.html)
+- [JSONPath](http://goessner.net/articles/JsonPath/)
