@@ -170,9 +170,9 @@ airwaze=# \d route</code></pre>
 <li>When an airport feature is clicked on the map, show the routes for that airport
 <ul>
 <li>By adding a router layer that only contains routes connected to the clicked airport</li>
-<li>The data for the new layer will be provided by <code>http://localhost:8080/route/?srcId=X</code>, where X will be the <code>airportId</code> from the feature. </li>
+<li>The data for the new layer will be provided by <code>http://localhost:8080/route/?srcId=X</code>, where X will be the <code>airportId</code> from the feature</li>
 </ul></li>
-<li>Write tests for all of this. Tests are your friend :) </li>
+<li>Write integration tests for <code>RouteController</code> use <code>AirportControllerTests</code> as a guide</li>
 </ol>
 <h2 id="bonus-missions">Bonus Missions</h2>
 <ul>
@@ -189,6 +189,7 @@ airwaze=# \d route</code></pre>
 <li><a href="http://www.acuriousanimal.com/thebookofopenlayers3/chapter02_01_adding_removing_layers.html" target="_blank">Adding and Removing Layers with OpenLayers</a></li>
 <li><a href="http://geojson.io" target="_blank">Validate your GeoJSON!</a></li>
 <li><a href="http://openlayers.org/en/latest/examples/geojson.html" target="_blank">OpenLayers Drawing Examples</a></li>
+<li><a href="http://goessner.net/articles/JsonPath/" target="_blank">JSONPath</a></li>
 </ul>
                                     </section>
 
