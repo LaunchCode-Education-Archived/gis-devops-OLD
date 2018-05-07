@@ -10,10 +10,7 @@ From the same [`launchcart` project/repository](https://gitlab.com/LaunchCodeTra
 
 If you don't have the walkthrough code, you can fetch changes from the remote and check out the `rest-studio` branch.
 
-```nohighlight
-$ git fetch
-$ git checkout rest-studio
-```
+Create a feature branch `$ git checkout -b rest-studio-solution`
 
 ## Add `new` Parameter to `/api/items`
 
@@ -51,4 +48,5 @@ If you finish the primary studio tasks, try one or more of the following:
 If you don't complete each of the tasks, turn in as much as you have completed by the end of the day.
 
 - Commit and push your work to GitLab
-- Notify the instructor that you are done, along with the name of the branch that you completed your work in
+- Create a MergeRequest for your `rest-stuio-solution`
+- Post the URL to your MergeRequest in slack

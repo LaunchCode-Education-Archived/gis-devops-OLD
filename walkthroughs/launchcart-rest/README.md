@@ -16,6 +16,11 @@ $ git checkout rest-walkthrough
 
 This starter code has some functionality beyond what you added in the [LaunchCart 2 studio](../../studios/launchcart2/). In particular, it has a `Customer` class, along with functionality for users to register and log in as customers.
 
+<aside class="aside-hint" markdown="1">
+A good way to see what has been added in a branch is to you use the **comparison** feature of Gitlab.
+Example: [https://gitlab.com/LaunchCodeTraining/launchcart/branches](https://gitlab.com/LaunchCodeTraining/launchcart/branches) and notice the **Compare** button next to each branch.
+</aside>
+
 ## Adding a REST Controller
 
 Let's complete a few setup steps before starting to code:
