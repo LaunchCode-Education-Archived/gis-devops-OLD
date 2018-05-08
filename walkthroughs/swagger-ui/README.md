@@ -229,17 +229,17 @@ But wait, `/api/items` has two optional query parameters `/api/items?price=99&ne
 ```yaml
 parameters:
 	- in: query
-		name: price
-		schema:
-		type: double
-		required: false
-		description: match items by price
+	  name: price
+	  schema:
+	  type: double
+	  required: false
+	  description: match items by price
 	- in: query
-		name: new
-		schema:
-		type: boolean
-		required: false
-		description: match items by newItem true/false
+	  name: new
+	  schema:
+	  type: boolean
+	  required: false
+	  description: match items by newItem true/false
 ```
 
 ### Parameters
