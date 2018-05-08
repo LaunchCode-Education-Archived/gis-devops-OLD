@@ -274,17 +274,17 @@ Incorrect indentation may cause your API endpoints not to show up or display err
 <p>But wait, <code>/api/items</code> has two optional query parameters <code>/api/items?price=99&amp;new=true</code>. Add <code>parameters</code> to <code>item</code></p>
 <pre><code class="language-yaml">parameters:
     - in: query
-        name: price
-        schema:
-        type: double
-        required: false
-        description: match items by price
+      name: price
+      schema:
+      type: double
+      required: false
+      description: match items by price
     - in: query
-        name: new
-        schema:
-        type: boolean
-        required: false
-        description: match items by newItem true/false</code></pre>
+      name: new
+      schema:
+      type: boolean
+      required: false
+      description: match items by newItem true/false</code></pre>
 <h3 id="parameters">Parameters</h3>
 <p>There are two types of parameters <code>query</code> and <code>path</code>.  <a href="https://swagger.io/docs/specification/describing-parameters/" target="_blank">See this for more info about documenting parameters</a></p>
 <h2 id="continue-on">Continue On</h2>
