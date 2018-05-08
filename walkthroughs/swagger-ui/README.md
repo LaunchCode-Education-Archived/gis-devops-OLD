@@ -220,7 +220,9 @@ Add this to the `paths` section
           200:
             description: successful operation
             schema:
-              $ref: "#/definitions/Item"
+              type: array
+              items:
+                $ref: "#/definitions/Item"
 ```
 
 But wait, `/api/items` has two optional query parameters `/api/items?price=99&new=true`. Add `parameters` to `item`
