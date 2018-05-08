@@ -31,6 +31,9 @@ Navigate into the repo that you just cloned and copy the contents of `swagger-ui
 ```nohighlight
 $ cp -R dist/* {path of launchcart project}/src/main/resources/static/swagger
 ```
+<aside class="aside-note" markdown="1">
+  You will need to create the `static/swagger` directory first.
+</aside>
 
 <aside class="aside-note" markdown="1">
   The `dist` directory contains all of the HTML, CSS, and JavaScript required to generate a Swagger document
@@ -94,9 +97,13 @@ Let's start with the `/api/carts` path.
 
 Add an entry to the `tags` section, to add a header for all of the endpoints for the `/api/carts` path.
 
+<aside class="aside-warning" markdown="1">
+  YAML is white-spaced based. Be VERY careful with tabs and spaces. [YAML Reference](http://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+</aside>
+
 ```yaml
 - name: cart
-	description: Cart provides access to all of the items you are about to buy.
+  description: Cart provides access to all of the items you are about to buy.
 ```
 
 Also, let's add the `GET` endpoint for `/api/carts` in the `paths` section.
@@ -128,46 +135,37 @@ Next, fill in the schema for the `/api/carts` endpoint. In order to do that, fir
 [{"uid":1,"items":[{"uid":1,"name":"Chacos","price":1000.0,"newItem":true,"description":"I think they're sandals"}]}]
 ``` 
 
-To represent this as a schema, add the following to your Swagger config:
+To represent the cart and it's contents, update the `/carts` definition to this.:
 
 ```yaml
-schema:
-	type: object
-	required:
-	- uid
-	- items
-	properties:
-		uid:
-			type: integer
-			format: int32
-			example: 34
-		items:
-			type: array
-			items:
-				type: object
-				required:
-				- uid
-				- name
-				- price
-				- newItem
-				- description
-				properties:
-					uid:
-						type: integer
-						format: int32
-					name:
-						type: string
-						example: "Chacos"
-					price:
-						type: number
-						format: int64
-						example: 1.00
-					newItem:
-						type: boolean
-						example: true
-					description:
-						type: string
-						example: "I think they're a type of sandals"
+paths:
+    /carts:
+        get:
+            tags:
+            - cart
+            summary: Returns all carts that exist..
+            operationId: getAllCarts
+            produces:
+            - application/json
+            responses:
+                200:
+                  description: successful operation
+                  schema:
+                    type: object
+                    required:
+                    - uid
+                    - items
+                    properties:
+                      uid:
+                        type: integer
+                        format: int32
+                        example: 34
+                      items:
+                        type: array
+                        items:
+                          $ref: "#/definitions/Item"
+                        security:
+                          - api_key: []
 ```
 
 <aside class="aside-note" markdown="1">
@@ -175,10 +173,8 @@ schema:
 	Incorrect indentation may cause your API endpoints not to show up or display erros.
 </aside>
 
-### Yikes!
-That was a lot of YAML. Let's see if we can simplify it and make it less dense.
-
-Move the `items` schema to the the `definitions` section of the yaml config file:
+### Definitions
+We can define types that are returned. Add the below `yaml` to the `defintions` section. Notice that this is referenced in the `responses` section of `/cart`
 
 ```yaml
 definitions:
@@ -203,11 +199,49 @@ definitions:
 				example: "I think they're a type of sandals"
 ```
 
-Replace the `item` schema with a reference to the item in the `definitions` section.
-
+### Now for Items
+Add this to the `tags` section
 ```yaml
-	$ref: "#/definitions/Item"
+  - name: item
+    description: Items to be added to cart.
 ```
+
+Add this to the `paths` section
+```yaml
+    /items:
+      get:
+        tags:
+        - item
+        summary: Returns items
+        operationId: getItems
+        produces:
+        - application/json
+        responses:
+          200:
+            description: successful operation
+            schema:
+              $ref: "#/definitions/Item"
+```
+
+But wait, `/api/items` has two optional query parameters `/api/items?price=99&new=true`. Add `parameters` to `item`
+```yaml
+parameters:
+	- in: query
+		name: price
+		schema:
+		type: double
+		required: false
+		description: match items by price
+	- in: query
+		name: new
+		schema:
+		type: boolean
+		required: false
+		description: match items by newItem true/false
+```
+
+### Parameters
+There are two types of parameters `query` and `path`.  [See this for more info about documenting parameters](https://swagger.io/docs/specification/describing-parameters/)
 
 ## Continue On
 
