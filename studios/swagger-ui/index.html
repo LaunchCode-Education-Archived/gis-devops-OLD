@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Studio: SwaggerUI :: GIS DevOps</title>
+        <title>Studio: Springfox and Swagger :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-studio-swaggerui'>
+    <body id='page-studio-springfox-and-swagger'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,46 +94,38 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Studio: SwaggerUI</h1>
-                    <p>In this studio, we will be adding Swagger documentation to the Airwaze application.</p>
+                                        <h1>Studio: Springfox and Swagger</h1>
+                    <p>In this studio, we will be learning how to use Springfox to autogenerate the Swagger docs.</p>
 <h2 id="getting-ready">Getting Ready</h2>
-<p>We are going to use the Intellij project and repo <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze</a> that we created in the <a href="https://education.launchcode.org/gis-devops/studios/airwaze/" target="_blank">OpenLayers Studio</a>.</p>
-<h2 id="rename-your-api-endpoints">Rename your API endpoints</h2>
-<p>First we want to do some cleanup.  Now that we know how Restful API endpoints are supposed to be structured, refactor your application as follows:</p>
-<ul>
-<li>
-<p>Change the <code>/airport/</code> endpoint to <code>/api/airport</code>.</p>
-</li>
-<li>Change the <code>/route/</code> endpoint to <code>/api/route</code>.</li>
-</ul>
-<aside class="aside-pro-tip">
-<p>To follow TDD, be sure to change your test first.  Once you see your tests fail, you can confidently refactor the routes in your application.</p>
-</aside>
-<h2 id="add-swagger-documentation">Add Swagger documentation</h2>
-<ul>
-<li>Use the <code>dist</code> directory in the <a href="https://github.com/swagger-api/swagger-ui/tree/2.x" target="_blank">SwaggerUI repository</a> to generate your SwaggerUI page.</li>
-<li>Create this file <code>airwaze/src/main/resources/static/swagger/swagger.yaml</code></li>
-<li>Configure <code>airwaze/src/main/resources/static/swagger/index.html</code> to point to your <code>.yaml</code> file</li>
-<li>The swagger documentation should be displayed at <code>http://localhost:8080/swagger/index.html</code>.</li>
-</ul>
-<h2 id="add-geojson-definitions">Add GeoJSON definitions</h2>
-<p>In the <code>definitions</code> section of your <code>swagger.yaml</code>, you will need to be able to account for geojson. Copy the following <a href="https://gist.github.com/idkw/fc35bb78c4bf08e47708f57b060996fe" target="_blank">gist</a> to <code>airwaze/src/main/resources/static/swagger/swagger.yaml</code>.  This will allow you to access the existing yaml defitions for common geometries such as Point, MultiLineString, etc.</p>
-<aside class="aside-pro-tip">
-<p>In Swagger, to reference YAML in another file, use the following command <code>$ref: ./swagger-geojson.yaml</code>.  Here is a <a href="http://azimi.me/2015/07/16/split-swagger-into-smaller-files.html" target="_blank">blog post</a> that has a full explanation.</p>
-</aside>
+<p>Create a <code>add-springfox</code> branch off of your <code>launchcart\rest-studio-solution</code>. Do NOT create the branch off of the walkthrough studio.</p>
+<h2 id="configure-springfox">Configure Springfox</h2>
+<p>Add these to your <code>dependencies {</code> in <code>build.gradle</code></p>
+<pre><code class="language-no-highlight">    compile(group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0')
+    compile(group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0')</code></pre>
+<p>Add <code>@EnableSwagger2</code> annotation to <code>LaunchcartApplication</code></p>
+<pre><code class="language-java">  @EnableSwagger2
+  @SpringBootApplication
+  public class LaunchcartApplication {
+
+    public static void main(String[] args) {
+      SpringApplication.run(LaunchcartApplication.class, args);
+    }
+  }</code></pre>
+<p>Now go to <a href="http://localhost:8080/swagger-ui.html" target="_blank"><a href="http://localhost:8080/swagger-ui.html" target="_blank">http://localhost:8080/swagger-ui.html</a></a>.</p>
 <h2 id="tasks">Tasks</h2>
 <ul>
-<li>Add Swagger documentation for the <code>airport</code> endpoint in the Airwaze app.</li>
-<li>Add Swagger documentation for the <code>route</code> endpoint in the Airwaze app.</li>
+<li>Figure out how to change <code>AuthenticationInterceptor.preHandle</code> to allow this request to work when you are NOT logged in <a href="http://localhost:8080/swagger-ui.html" target="_blank"><a href="http://localhost:8080/swagger-ui.html" target="_blank">http://localhost:8080/swagger-ui.html</a></a></li>
+<li>Only show <code>/api</code> endpoints in the Swagger report</li>
+</ul>
+<h2 id="bonus-mission">Bonus Mission</h2>
+<ul>
+<li>Add Swagger documentation to your Airwaze app</li>
 </ul>
 <h2 id="turn-in-your-work">Turn in your Work</h2>
 <ul>
 <li>Commit and push your work to GitLab.</li>
+<li>Create a MergeRequest and post it to slack</li>
 <li>Notify the instructor that you are done, along with the name of the branch that you completed your work in.</li>
-</ul>
-<h2 id="resources">Resources</h2>
-<ul>
-<li><a href="https://swagger.io/docs/specification/2-0/paths-and-operations/" target="_blank">Swagger Docs</a></li>
 </ul>
                                     </section>
 
