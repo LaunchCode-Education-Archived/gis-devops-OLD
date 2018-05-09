@@ -25,6 +25,4 @@ Today we begin our journey with Elasticsearch, focusing on basic concepts and qu
 - [Term Level Queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html)
 - [Lucene Basic Concepts](http://lucenetutorial.com/basic-concepts.html)
 - [Lucene Query Parser Syntax](http://lucene.apache.org/core/7_2_1/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package.description)
-- [boost parameter](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-boost.html)
 - [cat API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat.html)
-- [Geo Queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-queries.html)
