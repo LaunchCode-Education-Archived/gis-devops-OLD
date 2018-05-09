@@ -2,9 +2,7 @@
 title: Elasticsearch Query Walkthrough
 ---
 
-
-
-Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against.  The URL is:
+Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against. The URL is:
 
 ```nohighlight
 https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net
@@ -32,12 +30,11 @@ epoch      timestamp cluster       status node.total node.data shards pri relo i
 1516559163 18:26:03  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%
 ```
 
-
 Cluster health is expressed as the color green, yellow, or red.
 
-- Green - everything is good (cluster is fully functional)
-- Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)
-- Red - some data is not available for whatever reason (cluster is partially functional)
+- **Green** - everything is good (cluster is fully functional)
+- **Yellow** - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)
+- **Red** - some data is not available for whatever reason (cluster is partially functional)
 
 <aside class="aside-note" markdown="1">
 The numbers in the above example will vary based on the arrangement of the data.
@@ -46,7 +43,7 @@ The numbers in the above example will vary based on the arrangement of the data.
 Cool, now let's see what indices are available.
 
 ```nohighlight
-$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/indices?v&pretty'
+GET /_cat/indices?v&pretty
 ```
 
 ```nohighlight
@@ -98,7 +95,6 @@ Output:
       },
 
 ```
-[some output omitted]
 
 
 If you don't specify the number of results to be returned, ES will return 10 documents. You can request a certain number of documents by setting the size.
@@ -111,8 +107,6 @@ $ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-e
   "size": 3
 }'
 ```
-
-
 
 ## Text Search
 
