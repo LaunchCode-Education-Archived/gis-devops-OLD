@@ -95,7 +95,7 @@
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>Elasticsearch Query Walkthrough</h1>
-                    <p>Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against.  The URL is:</p>
+                    <p>Bonsai's hosted ES service provides an Elasticsearch cluster that we can practice queries against. The URL is:</p>
 <pre><code class="language-nohighlight">https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net</code></pre>
 <aside class="aside-note">
 <p>Free Bonsai clusters must sleep for 8 hours out of every 24. <a href="https://docs.bonsai.io/docs/sleeping-clusters?utm_swu=9264&amp;amp;utm_source=sendwithus&amp;amp;utm_content=sandbox-welcome-email-v01&amp;amp;utm_medium=email&amp;amp;utm_campaign=heroku-sandbox-emails" target="_blank">Bonsai's documentation</a> explains how these accounts work.</p>
@@ -110,15 +110,15 @@
 1516559163 18:26:03  elasticsearch green           3         3      0   0    0    0        0             0                  -                100.0%</code></pre>
 <p>Cluster health is expressed as the color green, yellow, or red.</p>
 <ul>
-<li>Green - everything is good (cluster is fully functional)</li>
-<li>Yellow - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)</li>
-<li>Red - some data is not available for whatever reason (cluster is partially functional)</li>
+<li><strong>Green</strong> - everything is good (cluster is fully functional)</li>
+<li><strong>Yellow</strong> - all data is available but some replicas are not yet allocated (cluster is fully functional, but more vulnerable to data loss/corruption)</li>
+<li><strong>Red</strong> - some data is not available for whatever reason (cluster is partially functional)</li>
 </ul>
 <aside class="aside-note">
 <p>The numbers in the above example will vary based on the arrangement of the data.</p>
 </aside>
 <p>Cool, now let's see what indices are available.</p>
-<pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/_cat/indices?v&amp;pretty'</code></pre>
+<pre><code class="language-nohighlight">GET /_cat/indices?v&amp;pretty</code></pre>
 <pre><code class="language-nohighlight">health status index                  uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 
 green  open   book E_jXjglKRNertzCBvONueg   1   1          0            0       260b           130b</code></pre>
@@ -159,7 +159,6 @@ green  open   book E_jXjglKRNertzCBvONueg   1   1          0            0       
         }
       },
 </code></pre>
-<p>[some output omitted]</p>
 <p>If you don't specify the number of results to be returned, ES will return 10 documents. You can request a certain number of documents by setting the size.</p>
 <pre><code class="language-nohighlight">$ curl -XGET 'https://ekyqz8nza5:6gz15xze7h@elasticsearch-traini-2142321757.us-east-1.bonsaisearch.net/book/_search?pretty' -H 'Content-Type: application/json' -d'
 {
