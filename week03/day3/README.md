@@ -2,6 +2,8 @@
 title: Week 3 - Day 3
 ---
 
+[Learning objectives for this module](../../objectives/#day-3-1)
+
 ## Summary
 
 Today we begin our journey with Elasticsearch, focusing on basic concepts and queries.
@@ -10,16 +12,13 @@ Today we begin our journey with Elasticsearch, focusing on basic concepts and qu
 
 [Slides](https://education.launchcode.org/gis-devops-slides/week3/elasticsearch1.html)
 
-## Walkthrough
-
-[Elasticsearch Query Walkthrough](../../walkthroughs/elasticsearch1/)
-
 ## Studio
 
 [Elasticsearch Query Studio](../../studios/elasticsearch1/)
 
 ## Resources
 
+- [curl](https://curl.haxx.se/)
 - [Elasticsearch docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 - [What Is An Elasticsearch Index?](https://www.elastic.co/blog/what-is-an-elasticsearch-index)
 - [Full Text Queries](https://www.elastic.co/guide/en/elasticsearch/reference/current/full-text-queries.html)

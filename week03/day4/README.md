@@ -2,6 +2,8 @@
 title: Week 3 - Day 4
 ---
 
+[Learning objectives for this module](../../objectives/#day-4-1)
+
 ## Summary
 
 Today we'll learn about document mappings in Elasticsearch, and work with elasticsearch.js.
