@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Elasticsearch Studio 2 :: GIS DevOps</title>
+        <title>Elasticsearch Queries Studio 2 :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-elasticsearch-studio-2'>
+    <body id='page-elasticsearch-queries-studio-2'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,176 +94,63 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Elasticsearch Studio 2</h1>
-                    <p>Time for you to have an opportunity to practice on your own. We’re going to be setting up Elasticsearch in AWS, indexing data from our project, and writing a few queries in our project.</p>
-<h2 id="setting-up-aws-elasticsearch-service">Setting Up AWS Elasticsearch Service</h2>
-<p>Sign in to the AWS console. </p>
+                                        <h1>Elasticsearch Queries Studio 2</h1>
+                    <h2 id="kibana-setup">Kibana Setup</h2>
+<p>Install Kibana by running the following HomeBrew command:</p>
+<pre><code class="language-nohighlight">$ brew install kibana</code></pre>
+<p>To start the Kibana server in the background, run the following command:</p>
+<pre><code class="language-nohighlight">$ kibana &amp;</code></pre>
+<p>Navigate to <a href="localhost:5601"><a href="http://localhost:5601" target="_blank">http://localhost:5601</a></a> to view the running server.</p>
+<p>Take a second to look at each of the pages below. They may be beneficial during your development:</p>
+<ol>
+<li><a href="http://localhost:5601/app/kibana#/dev_tools" target="_blank">Dev Tools</a> - Use the Dev Tools to run queries against your ElasticSearch (without cURL!)</li>
+<li><a href="http://localhost:5601/app/kibana#/discover" target="_blank">Discover</a> - lists all of the data in your ElasticSearch instance.</li>
+<li><a href="http://localhost:5601/app/kibana#/visualize" target="_blank">Visualize</a> - Perform analysis and create graphics describing your data.</li>
+<li><a href="http://localhost:5601/app/kibana#/dashboard" target="_blank">Dashboard</a> - Combine graphs to give you a comprehensive picture of your data.</li>
+</ol>
 <aside class="aside-note">
-<p>Your instructor should have provided you with a free AWS account. If you don't have access to one yet, talk to them.</p>
+<p>If your indices are listed in the Discover pane, you're likely missing a default index pattern. Add the <code>twitter</code> index as a default pattern. This can be changed later in the Management pane.</p>
 </aside>
-<p>Click on <em>Services</em> and under <em>Analytics</em> click on <em>Elasticsearch Service</em>. Click on the blue button that says <em>Create a new domain</em>.</p>
-<p>On the <em>Define domain</em> page, for <em>Elasticsearch domain name</em>, type a name for the domain. In this studio, we use the domain name <strong>airwaze</strong> with a dash and your name (e. g. <strong>airwaze-me</strong>). Leave <em>Version</em> set to the newest supported version. Click <em>Next</em>.</p>
-<p>On the <em>Configuration</em> page, select <em>Instance Type</em> of <code>t2.small.elasticsearch</code>. Click <em>Next</em>.</p>
-<aside class="aside-note">
-<p>ElasticSearch Instances are expensive.  A `m4.large.elasticsearch ElasticSearch instance on Amazon is billed at $0.15 per hour; which comes out to be about $25 a week or $100+ a month.  Larger instances can cost up ot $4 per hour! </p>
-</aside>
-<p>On the <em>Set up access</em> page, in the <em>Network configuration</em> section, choose <em>Public Access</em>. (There may be an error window; after you click <em>Public Access</em>, you will be able to close that window and everything should be fine.) Under <em>Access Policy</em>, click <em>Allow open access to the domain</em>. We don’t recommend you do this with production applications, especially sensitive data. More information about AWS and access policies will be covered later. Click <em>Next</em>.</p>
-<p>On the <em>Review</em> page, review your domain configuration, and then choose <em>Confirm</em>.</p>
-<p>New domains take up to ten minutes to initialize. After your domain is initialized, you can upload data and make changes to the domain.</p>
-<h2 id="index-airwaze-data-in-elasticsearch">Index Airwaze Data in Elasticsearch</h2>
-<p>You need to set up a data mapping in your new index and import the data.</p>
-<p>Get the <code>elasticsearch-starter</code> branch from the <a href="https://gitlab.com/LaunchCodeTraining/airwaze-studio" target="_blank">Airwaze repo</a> on Gitlab. Change the filepath in the import.sql file to point to your own airports and routes. We’ve written a little script for you to index the data from the <code>Airport.csv</code>. Take a look at <code>upload-airports.rb</code> in the root directory of your project. As you can see, the script is reading in the airport file one line at a time, manipulating the data into the correct format, and using cURL to index the data, just like we’ve been doing it manually.</p>
-<p>You can test this script against your local Elasticsearch cluster:</p>
-<pre><code class="language-nohighlight">$ ruby upload-airports.rb</code></pre>
-<p>It does take several minutes to run, and it fails on a few of the airports (some are not formatted correctly in the csv), but this is ok for demonstration purposes.</p>
-<aside class="aside-note">
-<p>The ruby script is slow because it is submitting one request at a time.  ElasticSearch also has a bulk API that allows you to upload hundreds or thousands of records at once.  Feel free to try it out.  Here's a Node library that makes it easy to import CSV files: <a href="https://www.npmjs.com/package/elastic-import" target="_blank">elastic-import</a>.</p>
-</aside>
-<p>Create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the walkthrough, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <em>airwaze</em> for the name of your new domain (such as <em>airwaze-me</em>).</p>
-<p>Once the script has finished, check the status of your new index with:</p>
-<pre><code>$ localhost:9200/_cat/indices?v</code></pre>
-<p>You should see 7116 documents in the airwaze index.</p>
-<h2 id="importing-data-to-your-aws-cluster">Importing data to your AWS cluster</h2>
-<p>Find your AWS ES endpoint URL by going to <em>Services &gt; Analytics &gt; Elasticsearch</em>, clicking on the name of your cluster, and looking for the <em>Endpoint</em> field. Note that this info will not display until your cluster has been fully provisioned.</p>
-<p><img src="/../../materials/week03/aws-es-endpoint.png" alt="AWS ES Endpoint" /></p>
-<p>Now let's create the airwaze index and upload the document mapping in your new AWS ES domain. You can follow the instructions from the <a href="../../walkthroughs/elasticsearch2/">walkthrough</a>, changing <code>localhost:9200</code> with your new AWS ES endpoint and changing out <em>airwaze</em> for the name of your new domain (such as <em>airwaze-me</em>).</p>
-<p>In the script file, comment out the line where the script is using your localhost. Uncomment the other <code>host_name</code> line, and replace <code>your_url_here</code> with the endpoint for your AWS Elasticsearch domain when it is ready. It should look something like this:</p>
-<pre><code class="language-nohighight">host_name = "https://search-airwaze-some-long-hash.us-east-2.es.amazonaws.com"
-#host_name = "localhost:9200"</code></pre>
-<p>Then, in this line:
-<code>test = Kernel.system "curl -XPOST '#{host_name}/airwaze/doc?pretty&amp;pretty'</code>
-replace &quot;airwaze&quot; with the name of your domain (again, like <code>airwaze-me</code>).</p>
-<p>Once you’ve confirmed the index is ready to receive data, in the terminal in the project’s directory, run the revised script. When it’s done running, now check out that document count in the index.</p>
-<pre><code class="language-nohighlight">$ curl -XGET 'replace this with your aws endpoint here/_cat/indices?v&amp;pretty'</code></pre>
-<p>The output should be something like this:</p>
-<pre><code class="language-nohighlight">health status index                                    uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-yellow open   airwaze-me                                B7lSfnmJR0OdUH6LQlKBKw   5   1       7119            0      1.5mb          1.5mb
-yellow open   book                                     cNIKN2CyQsacysajAuJH1A   5   1          4            0     19.3kb         19.3kb</code></pre>
-<h2 id="add-elasticsearchjs">Add Elasticsearch.js</h2>
-<p>Now that we have all that juicy data in Elasticsearch, let’s allow users to query against that data via a web form. What questions might our users have about this data? How can we answer them with the tools we have shown you?</p>
-<p>We’re going to start by using Elasticsearch.js, a client-side library for ES maintained by Elasticsearch. To install it, first make sure you have <a href="https://www.npmjs.com/get-npm" target="_blank">node and npm</a> installed.</p>
-<p><a href="https://download.elasticsearch.org/elasticsearch/elasticsearch-js/elasticsearch-js-14.1.0.tar.gz" target="_blank">Download</a> the zip package and unzip it in the project directory <code>src/main/resources/static</code> folder.</p>
-<p>Next, add this line to your <code>index.html</code> file to load up the es.js browser build package. Make sure that this line is added after the jQuery source.</p>
-<pre><code class="language-html">&lt;script src="js/elasticsearch.jquery.js"&gt;&lt;/script&gt;</code></pre>
-<p>In <code>src/main/resources/static/script.js</code>, insert this code to create a client:</p>
-<pre><code class="language-nohighlight">let client = new $.es.Client({
-  hosts: 'localhost:9200',
-  log: 'trace'
-});</code></pre>
-<p>Build and run your project. In the browser's Dev Tools, go to Sources, js, and check that the file contents are there. Now look at the console and you should see what’s referred to as a CORS error.</p>
-<pre><code class="language-nohighlight">Failed to load http://localhost:9200/: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access.</code></pre>
-<h2 id="managing-cors">Managing CORS</h2>
-<p>Learn more about <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank">CORS online</a>.</p>
-<p>So we are having trouble making this request in the browser because it is coming from a different port number and therefore it’s treated as potentially dangerous like it was from a different server. We need to configure Elasticsearch to allow this behavior. Let’s investigate our current settings first.</p>
-<p>Navigate to the folder where Elasticsearch is installed on your computer. On Mac, this will be something like <code>/usr/local/bin/elasticsearch-2.4.6/</code>. To be certain, run <code>ls -l $(which elasticsearch)</code> in the Terminal and not the location of the link. The output will give you the location of your installation.</p>
-<p>Once there, descend into the <code>config</code> directory and you should see a file named <code>elasticsearch.yml</code>. Add this configuration to the file:</p>
-<pre><code class="language-nohighlight">http.cors.enabled : true
-http.cors.allow-origin : "*"
-http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
-http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length</code></pre>
-<p>We need to restart Elasticsearch for this to take effect.</p>
-<pre><code class="language-nohighlight">$ brew services restart elasticsearch</code></pre>
-<p>In the browser console, you should see a message like this if everything worked:</p>
-<pre><code class="language-nohighlight">INFO: 2018-01-28T22:29:52Z
-  Adding connection to http://localhost:9200/</code></pre>
-<p>Kudos! Now change that &quot;*&quot; to be your actual information.</p>
-<h2 id="queries">Queries</h2>
-<p>Now that we can connect to Elasticsearch, let’s write a query! This library provides a more succinct syntax for queries, as do most of the others. Let’s start with a basic query just to see what this particular library’s syntax looks like. Put this in your <code>script.js</code> file underneath the <code>let client…</code> block.</p>
-<pre><code class="language-nohighlight">    client.search({
-        index: 'airwaze',
-        body: {
-            query: { "match_all": {}},
-            size: 10
-        }
-    }).then(function (resp) {
-        let hits = resp.hits.hits;
-        console.log(hits);
-    }, function (err) {
-        console.trace(err.message);
-    });</code></pre>
-<p>Rebuild and reload in the browser, and you should see a response in the console with an Object like this:</p>
-<p><img src="/../../materials/week03/responseObject.png" alt="response object" /></p>
-<p>Good, we can work with that.</p>
-<h3 id="search-by-name">Search by Name</h3>
-<p>Writing out the query by hand, you would probably come up with something like this:</p>
-<pre><code class="language-nohighlight">$ curl -XGET 'localhost:9200/airwaze/_search?pretty' -H 'Content-Type: application/json' -d'
+<h2 id="using-kibana">Using Kibana</h2>
+<p>Open the <a href="http://localhost:5601/app/kibana#/dev_tools" target="_blank">Dev Tools</a>. Let's run a few queries.</p>
+<p>Instead of using cURL. Queries can be put into Dev Tools by specifing the HTTP verb and the query text.</p>
+<pre><code class="language-json">GET _search
 {
-    "query" : {
-        "match" : { "name" : "Midway" }
+  "query": {
+    "match_all": {
+      ""
     }
-}'</code></pre>
-<p>Let’s alter our test query from above to look for an airport by name:</p>
-<pre><code class="language-js">    client.search({
-        index: 'airwaze',
-        body: {
-            query: { "match": {
-                "name": "Midway"
-            }},
-            size: 10
-        }
-    }).then(function (resp) {
-        let hits = resp.hits.hits;
-        console.log(hits);
-    }, function (err) {
-        console.trace(err.message);
-    });</code></pre>
-<p>Check this query like we did before (rebuild and reload in browser) and you will see the response has changed.</p>
-<p><img src="/../../materials/week03/infoObject.png" alt="The response has changed" /></p>
-<h3 id="name-search-ui">Name Search UI</h3>
-<p>Now that we have the data, let’s set up a basic UI so the users can interact with search. We’ll add a label, a text box, and a button to submit. We won’t be using a full form here, we’ll just use a jquery function on button click so the user will not have to wait on a round trip to the server or a page reload.</p>
-<p>First, in <code>index.html</code> add the form elements. I’ve used bootstrap to split the screen with the <code>#airportList</code> element and added a little padding below the map to make it easier to click in the box.</p>
-<pre><code class="language-html">&lt;br /&gt;
-&lt;div class="row"&gt;
-    &lt;div class="col-md-6"&gt;
-        &lt;div id="airportList"&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class="col-md-6"&gt;
-        &lt;div id="search"&gt;
-            &lt;label&gt;Name Search&lt;/label&gt;
-            &lt;input name="name" type="text" id="nameTextbox"&gt;
-            &lt;button type="button" id="nameSearchButton"&gt;Submit&lt;/button&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-<p>In the <code>script.js</code> file, add this below the block where the es client is defined. Make sure it is enclosed within the document ready function, or else the function might not bind to the element properly.</p>
-<pre><code class="language-js">    $("#nameSearchButton").on( "click", function() {
-        let name = document.getElementById('nameTextbox').value;
-        console.log("Searching for " + name);
-        client.search({
-            index: 'airwaze',
-            body: {
-                query: {
-                    "match": {
-                        "name": name
-                    }
-                },
-                size: 10
-            }
-        }).then(function (resp) {
-            let hits = resp.hits.hits;
-            console.log(hits);
-        }, function (err) {
-            console.trace(err.message);
-        });
-    });</code></pre>
-<p>Now stop and restart your project and check it out in the browser. When you reload, make sure to hold down <shift> in addition to the usual <command>-R to make sure the browser retrieve fresh assets. Let’s search for <code>Lambert</code> and see what comes up to test it.</p>
-<p><img src="/../../materials/week03/airportMap.png" alt="what comes up for a Lambert search" /></p>
-<p>Cool! But our users aren’t going to use the console to see their results. Let’s show the data in the airport list on the left side. Change the response of our on click function.</p>
-<pre><code class="language-js">        }).then(function (resp) {
-            let hits = resp.hits.hits;
-            console.log(hits);
-            $('#airportList').empty();
-            $('#airportList').append(`&lt;div id="airportList"&gt;&lt;h3&gt;${hits[0]._source.name}&lt;/h3&gt;&lt;/div&gt;`);</code></pre>
-<h2 id="bonus-missions">Bonus Missions:</h2>
-<p>Use <a href="https://www.npmjs.com/package/elastic-import" target="_blank">elastic-import</a> to import all of the routes into ElasticSearch.  Add an index and mapping to the <code>route</code> documents.  Integrate the route data into your project.</p>
-<p>After that, expand the functionality of your app.  Here are a few ideas.</p>
-<ul>
-<li>Which airports are within X distance of me? </li>
-<li>How far are airports from each other? A distance query, you’d also need to provide a way to select a second airport.</li>
-<li>(Your idea here)</li>
-</ul>
-<p>Feel free to get creative.</p>
+  }
+}</code></pre>
+<p>Also, notice that the left panel provides error messages with the line number of the error. In this case we have some errand quote marks in our query. Remove them and run the query again.</p>
+<p>Next, open the <a href="http://localhost:5601/app/kibana#/discover" target="_blank">Discover Page</a>. This page provides a paginated list of all of the documents in your cluster. The search bar provides a quick way to search by attribute name.</p>
+<p>Next, click on the <a href="http://localhost:5601/app/kibana#/visualize" target="_blank">Visualize Page</a>. This page allows you to create detailed graphs of your data.</p>
+<p>Click on create a visualization and create a simple visualization of how many books are in the ElasticSearch.</p>
+<h2 id="loading-data">Loading Data</h2>
+<p>First, let's delete the data in the <code>twitter</code> index:</p>
+<pre><code>$ curl -XDELETE 'localhost:9200/twitter'</code></pre>
+<p>As we did yesterday, let's load some data. Create a script:</p>
+<pre><code>$ touch load_data_geo.sh
+$ chmod +x load_data_geo.sh</code></pre>
+<p>Then copy/paste the contents of <a href="https://gist.github.com/chrisbay/8ef471ed1ac903c2bcaa2b82b49917a4" target="_blank">this gist</a>. Save and run the script:</p>
+<pre><code>$ ./load_data_geo.sh</code></pre>
+<p>Verify that the mapping was created properly by running the following command and checking that the <code>location</code> field is of type <code>geo_point</code>:</p>
+<pre><code>$ curl 'localhost:9200/twitter/_mappings?pretty'</code></pre>
+<p>If something went wrong, delete the index, get help from an instructor, and try again.</p>
+<h2 id="your-tasks">Your Tasks</h2>
+<p>Now you'll get some practice with Elasticsearch. Carry out each of the following tasks. Once you have a successful query/command for each, save the commend in a <code>.txt</code> file for submission</p>
+<ol>
+<li>Find all tweets with between 5 and 10 likes, inclusive of those endpoints.</li>
+<li>Find all tweets by Mary Jones that have at least 2 likes</li>
+<li>Find all tweets that contain the text &quot;Elasticsearch&quot;, including mispellings up to distance of 3 away.</li>
+<li>Find all tweets that have a location (Hint: Try the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html" target="_blank">exists query</a>)</li>
+<li>Find all tweets that do not have a location</li>
+<li>Find the average number of likes for tweets that have a location</li>
+<li>Find the average number of likes for tweets that do not have a location</li>
+<li>Find all tweets with locations within 500km of Boise, ID</li>
+</ol>
+<h2 id="turning-in-your-work">Turning In Your Work</h2>
+<p>Submit your queries to an instructor via Slack once you're finished.</p>
                                     </section>
 
             </div>
