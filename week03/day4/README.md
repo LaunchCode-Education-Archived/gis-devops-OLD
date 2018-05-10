@@ -12,9 +12,15 @@ Today we'll learn about filtering in Elasticsearch, along with some other featur
 
 [Slides](https://education.launchcode.org/gis-devops-slides/week3/elasticsearch2.html)
 
-## Studio
+## Studios
 
 [ElasticSearch Queries Studio 2](../../studios/elasticsearch2)
+
+## Walkthrough
+
+In the afternoon, we'll look at how to integrate Elasticsearch with Spring.
+
+[Elasticsearch in Spring](../../walkthroughs/elasticsearch-spring)
 
 ## Resources
 

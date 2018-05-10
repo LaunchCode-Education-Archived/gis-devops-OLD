@@ -52,8 +52,6 @@ Next, open the [Discover Page](http://localhost:5601/app/kibana#/discover). This
 
 Next, click on the [Visualize Page](http://localhost:5601/app/kibana#/visualize). This page allows you to create detailed graphs of your data.
 
-Click on create a visualization and create a simple visualization of how many books are in the ElasticSearch.
-
 ## Loading Data
 
 First, let's delete the data in the `twitter` index:
