@@ -106,20 +106,39 @@
 <ul>
 <li>Open your <code>.gitignore</code> file and add <code>**/node_modules</code></li>
 <li>In terminal go to <code>airwaze/src/main/resources</code></li>
-<li>Run <code>$ npm init</code> and wait for instructor to help you answer the questions</li>
+<li>Run <code>$ npm init</code>. <strong>See below</strong> for prompts
+<ol>
+<li>airwaze</li>
+<li>enter to accept default</li>
+<li>js to display airports and routes</li>
+<li>enter to accept default</li>
+<li>test</li>
+<li>press enter for remaining to accept default</li>
+</ol></li>
 <li>Review the <code>package.json</code> file that was just created</li>
 <li>Run <code>$ npm install eslint --save-dev</code></li>
 <li>Run <code>$ npm install eslint-plugin-import --save-dev</code></li>
-<li>Run <code>$ ./node_modules/.bin/eslint --init</code> and wait for instructor to help you answer the questions
-<ul>
-<li>We want to 1) Use a popular style guide. 2) Pick Airbnb 3) NO to using React</li>
-</ul></li>
+<li>Run <code>$ ./node_modules/.bin/eslint --init</code> <strong>See below</strong> for how answer prompts
+<ol>
+<li>Use a popular style guide. </li>
+<li>Pick Airbnb </li>
+<li>NO to using React</li>
+<li>Pick JavaScript for config file type</li>
+</ol></li>
 <li>Review the file that was just created <code>.eslintrc.js</code></li>
 <li>Add this to your <code>package.json</code> file OR if <code>"scripts"</code> is already defined, simply update the value
 <pre><code>"scripts": {
     "test": "eslint static/js/script.js"
 },</code></pre></li>
 </ul>
+<h2 id="override-the-airbnb-indentation-rule">Override the Airbnb indentation rule</h2>
+<p>Modify <code>.eslintrc.js</code> to look like this. If you don't, you will get numerious <code>indent</code> errors because Airbnb lint rules detault to two spaces.</p>
+<pre><code>{
+    "extends": "airbnb-base",
+    "rules": {
+        "indent": ["error", 4]
+    }
+}</code></pre>
 <h2 id="lets-do-some-linting">Let's Do Some Linting!</h2>
 <ul>
 <li>Run <code>$ npm test</code> and cringe at the &quot;errors&quot; that are found
@@ -128,6 +147,10 @@
 </ul></li>
 <li>Alter a line, save your file, and run <code>$ npm test</code> again</li>
 <li>It's a good idea to check that your map still loads in the browser, before fixing too many linting errors at one time</li>
+</ul>
+<h2 id="bonus-mission">Bonus Mission</h2>
+<ul>
+<li>Get Visual Studio code to &quot;auto lint&quot; using our defined linting rules. You will not have to save and re-run <code>$ npm test</code> if you enable the auto linting feature</li>
 </ul>
 <h2 id="resources">Resources</h2>
 <ul>
