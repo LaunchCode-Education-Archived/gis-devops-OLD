@@ -20,6 +20,7 @@ https://education.launchcode.org/gis-devops/studios/user-stories/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/AWS2/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/certificates/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/docker/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch-spring/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/eslint-airwaze/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/flyway/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/gitlab/index.html

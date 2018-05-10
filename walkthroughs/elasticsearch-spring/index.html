@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Elasticsearch Queries Studio 2 :: GIS DevOps</title>
+        <title>Walkthrough: Elasticsearch in Spring :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-elasticsearch-queries-studio-2'>
+    <body id='page-walkthrough-elasticsearch-in-spring'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,62 +94,46 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Elasticsearch Queries Studio 2</h1>
-                    <h2 id="kibana-setup">Kibana Setup</h2>
-<p>Install Kibana by running the following HomeBrew command:</p>
-<pre><code class="language-nohighlight">$ brew install kibana</code></pre>
-<p>To start the Kibana server in the background, run the following command:</p>
-<pre><code class="language-nohighlight">$ kibana &amp;</code></pre>
-<p>Navigate to <a href="localhost:5601"><a href="http://localhost:5601" target="_blank">http://localhost:5601</a></a> to view the running server.</p>
-<p>Take a second to look at each of the pages below. They may be beneficial during your development:</p>
-<ol>
-<li><a href="http://localhost:5601/app/kibana#/dev_tools" target="_blank">Dev Tools</a> - Use the Dev Tools to run queries against your ElasticSearch (without cURL!)</li>
-<li><a href="http://localhost:5601/app/kibana#/discover" target="_blank">Discover</a> - lists all of the data in your ElasticSearch instance.</li>
-<li><a href="http://localhost:5601/app/kibana#/visualize" target="_blank">Visualize</a> - Perform analysis and create graphics describing your data.</li>
-<li><a href="http://localhost:5601/app/kibana#/dashboard" target="_blank">Dashboard</a> - Combine graphs to give you a comprehensive picture of your data.</li>
-</ol>
+                                        <h1>Walkthrough: Elasticsearch in Spring</h1>
+                    <p>We'll walk through the steps to integrate Elasticsearch with Spring, using the Launchcart application.</p>
+<h2 id="integrating-elasticsearch">Integrating Elasticsearch</h2>
+<p>We'll walk through several steps needed to use Elasticsearch within Spring.</p>
 <aside class="aside-note">
-<p>If your indices are listed in the Discover pane, you're likely missing a default index pattern. Add the <code>twitter</code> index as a default pattern. This can be changed later in the Management pane.</p>
+<p>The code that we'll look at is in the <code>elasticsearch</code> branch of the <code>LaunchCodeTraining/launchcart</code> repository.</p>
+<p>To view the specific changes, look at <a href="https://gitlab.com/LaunchCodeTraining/launchcart/commit/cb706a682be3fb432fe4a3dd9c27963d76f30a5e" target="_blank">this commit</a>.</p>
 </aside>
-<h2 id="using-kibana">Using Kibana</h2>
-<p>Open the <a href="http://localhost:5601/app/kibana#/dev_tools" target="_blank">Dev Tools</a>. Let's run a few queries.</p>
-<p>Instead of using cURL. Queries can be put into Dev Tools by specifing the HTTP verb and the query text.</p>
-<pre><code class="language-json">GET _search
-{
-  "query": {
-    "match_all": {
-      ""
-    }
-  }
-}</code></pre>
-<p>Also, notice that the left panel provides error messages with the line number of the error. In this case we have some errand quote marks in our query. Remove them and run the query again.</p>
-<p>Next, open the <a href="http://localhost:5601/app/kibana#/discover" target="_blank">Discover Page</a>. This page provides a paginated list of all of the documents in your cluster. The search bar provides a quick way to search by attribute name.</p>
-<p>Next, click on the <a href="http://localhost:5601/app/kibana#/visualize" target="_blank">Visualize Page</a>. This page allows you to create detailed graphs of your data.</p>
-<h2 id="loading-data">Loading Data</h2>
-<p>First, let's delete the data in the <code>twitter</code> index:</p>
-<pre><code>$ curl -XDELETE 'localhost:9200/twitter'</code></pre>
-<p>As we did yesterday, let's load some data. Create a script:</p>
-<pre><code>$ touch load_data_geo.sh
-$ chmod +x load_data_geo.sh</code></pre>
-<p>Then copy/paste the contents of <a href="https://gist.github.com/chrisbay/8ef471ed1ac903c2bcaa2b82b49917a4" target="_blank">this gist</a>. Save and run the script:</p>
-<pre><code>$ ./load_data_geo.sh</code></pre>
-<p>Verify that the mapping was created properly by running the following command and checking that the <code>location</code> field is of type <code>geo_point</code>:</p>
-<pre><code>$ curl 'localhost:9200/twitter/_mappings?pretty'</code></pre>
-<p>If something went wrong, delete the index, get help from an instructor, and try again.</p>
-<h2 id="your-tasks">Your Tasks</h2>
-<p>Now you'll get some practice with Elasticsearch. Carry out each of the following tasks. Once you have a successful query/command for each, save the commend in a <code>.txt</code> file for submission</p>
 <ol>
-<li>Find all tweets with between 5 and 10 likes, inclusive of those endpoints.</li>
-<li>Find all tweets by Mary Jones that have at least 2 likes</li>
-<li>Find all tweets that contain the text &quot;Elasticsearch&quot;, including mispellings up to distance of 3 away.</li>
-<li>Find all tweets that have a location (Hint: Try the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html" target="_blank">exists query</a>)</li>
-<li>Find all tweets that do not have a location</li>
-<li>Find the average number of likes for tweets that have a location</li>
-<li>Find the average number of likes for tweets that do not have a location</li>
-<li>Find all tweets with locations within 500km of Boise, ID</li>
+<li>Add Gradle dependencies
+<pre><code>compile('org.springframework.boot:spring-boot-starter-data-elasticsearch:1.5.10.RELEASE')
+compile(group: 'org.elasticsearch.client', name: 'transport', version: '6.2.3')</code></pre></li>
+<li>Create the <code>EsConfig</code> class to setup an embedded Elasticsearch instance</li>
+<li>Write an integration test for the desired behavior</li>
+<li>Create the <code>ItemDocument</code> and <code>ItemDocumentRepository</code> classes</li>
+<li>Create <code>ItemDocumentController</code> and implement the <code>search</code> method</li>
+<li>Create <code>EsController</code> and <code>EsUtils</code> to enable admin-oriented interactions with the ES instance</li>
 </ol>
-<h2 id="turning-in-your-work">Turning In Your Work</h2>
-<p>Submit your queries to an instructor via Slack once you're finished.</p>
+<aside class="aside-warning">
+<p>This approach uses the <code>TransportClient</code> class to connect to a cluster over port 9300 via the transport protocol. This technique requires that the ES instance and the <code>TransportClient</code> have the <em>same major versions</em>. Elasticsearch is in the process of replacing this client with a REST API client that will be version agnostic.</p>
+<p>Read more about the <a href="https://www.elastic.co/blog/state-of-the-official-elasticsearch-java-clients" target="_blank">state of the official Elasticsearch Java clients</a>.</p>
+</aside>
+<h2 id="your-tasks">Your Tasks</h2>
+<p>On your own, study the code above and make sure you understand each of the components, referring to the linked resources below as necessary. When you come across something that isn't clear, talk through it with another student or with an instrutor.</p>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<p>We looked at how to push a new item to Elasticsearch when creating it via the REST API. There are still several tasks that can be immediately carried out to fully integrate ES with the application. Try one more more of the following:</p>
+<ul>
+<li>Push a new document to ES when adding an item via the web view.</li>
+<li>Update a document in ES when updating via the API or web view.</li>
+<li>Add a search view that displays results of a fuzzy search. This may be done either via an AJAX request to <code>ItemDocumentRepository.search</code>, or by creating a new controller method that passes fuzzy search results into a template.</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="http://www.baeldung.com/spring-data-elasticsearch-tutorial" target="_blank">Spring Data Elasticsearch tutoria</a></li>
+<li><a href="https://docs.spring.io/spring-data/elasticsearch/docs/current/api/org/springframework/data/elasticsearch/repository/ElasticsearchRepository.html" target="_blank">ElasticSearchRepository</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/6.2/transport-client.html" target="_blank">TransportClient</a></li>
+<li><a href="https://static.javadoc.io/org.elasticsearch/elasticsearch/2.4.0/org/elasticsearch/index/query/QueryBuilders.html" target="_blank">QueryBuilders</a></li>
+<li><a href="http://www.baeldung.com/spring-data-elasticsearch-queries" target="_blank">Spring Data Elasticsearch Queries</a></li>
+<li><a href="http://www.baeldung.com/spring-value-annotation" target="_blank">The @Value annotation</a></li>
+</ul>
                                     </section>
 
             </div>
