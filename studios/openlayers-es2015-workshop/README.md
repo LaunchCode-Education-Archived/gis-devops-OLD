@@ -20,6 +20,7 @@ Go Through Each Example in the Instructions
 - Take your time and read the examples and documentation
 - The example code does NOT pass our project's defined eslint rules
 - After copying or retyping the examples, make the code pass the eslint rules
+- You can do this all in one branch. Please commit after each main section `Basics`, `Vector Data`, `Vector Tiles`, `Raster Operations`
 
 <aside class="aside-note" markdown="1">
 *If* you have `npm start` running in a terminal. The ESLint rules will run automatically each time you save a `*.js` file. Also your `index.html` will refresh automatically in your browser, no need to manually refresh.
@@ -30,5 +31,5 @@ Go Through Each Example in the Instructions
 If you don't complete each of the tasks, turn in as much as you have completed by the end of the day. *You should make sure you have working code committed to your fork.*
 
 - Commit and push your work to GitLab
-- If your repo isn't public, be sure to add your instructor as a member
-- Notify the instructor that you are done
+- Create a MergeRequest and post it to slack for others to review
+- If your repo isn't public, be sure to add your instructor and other members of the class to your project
