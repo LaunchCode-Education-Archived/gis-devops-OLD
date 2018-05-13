@@ -108,29 +108,61 @@
 <p>Remember, in Agile a story is just a &quot;guaranteed conversation&quot;. Stories usually don't contain all of the details necessary to complete the task and that's why it is important to follow up with the client and talk through the exact needs of your customer.</p>
 </aside>
 <h2 id="getting-the-code">Getting the code</h2>
-<p>Go to the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard" target="_blank">zika-cdc-dashboard</a> directory in Terminal and check out the <code>week4-starter</code> branch.</p>
-<h2 id="breaking-down-the-stories">Breaking down the stories</h2>
-<p><em>CDC scientists want to be able to add new reports to the database.</em></p>
 <ol>
-<li>Add geometry boundaries to the database.</li>
-<li>Create a new REST endpoint for adding reports to the (Postgres) database.</li>
-<li>When saving a new report to the main repository/db, also save it to the Elasticsearch document repository.</li>
-<li>Add Springfox to generate Swagger documentation.</li>
-</ol>
-<h3 id="steps">Steps</h3>
-<ol>
-<li>Build out a Report endpoint that accepts a POST requrest with JSON body.</li>
-<li>Index all incoming POST requests in ElasticSearch.</li>
-<li>Pull data based on date from Elasticsearch and display it on the map.</li>
+<li>Create a feature branch named <code>week4-solution</code> from your solution to the week 2 zika project</li>
+<li>Make sure you have a remote in your repo that points to <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard" target="_blank">https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard</a></li>
+<li>Run <code>git fetch upstream</code> (Assuming upstream points to the above repo)</li>
+<li>Run <code>git checkout -b week4-starter upstream/week4-starter</code></li>
+<li>Run <code>git checkout week4-soltuion</code></li>
+<li>Now you can get the new files by pulling them in. Run <code>git pull week4-starter</code> OR by simply pasting in select files. The choice is up to you.</li>
 </ol>
 <aside class="aside-note">
-<p>To index all of your report data in ElasticSearch use the following command:</p>
+<p>If you decide to back out of a merge and try something else you can always reset your branch to it's previous state.
+The below command destroys all non committed changes in your local branch and reverts back to the previous commit.</p>
+<pre><code class="language-nohighlight">$ git reset --hard</code></pre>
+</aside>
+<h2 id="whats-new-in-the-code">What's new in the code</h2>
+<ul>
+<li>CSV files <code>data/locations.csv</code> and <code>data/all_reports.csv</code></li>
+<li><code>src/main/resources/data.sql</code> copies the csv data into Postgis when SpringBoot is ran</li>
+<li>Location data now contains multi-polygons instead of a single point</li>
+<li>ElasticSearch dependencies and Repositories have been added</li>
+<li><code>ESController</code> contains an endpoint to populate ElasticSearch with all data in your Postgis db</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<p>Use TDD when implementing these requirements</p>
+<ol>
+<li><code>api/report?date=2016-05-14</code> should return GeoJSON created from Postgis filtered by report date</li>
+<li><code>api/search?search=brzil</code> should return GeoJSON created from ElasticSearch using fuzzy search</li>
+<li>Build out a <code>/api/resport</code> endpoint that accepts a POST containing Report JSON in the body.
+<ul>
+<li>Store the Report created from JSON in PostGis</li>
+<li>Store the ReportDocument created from JSON in ElasticSearch</li>
+</ul></li>
+<li>Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)</li>
+<li>When a feature is clicked show the related report data (like in week 2 zika project)</li>
+<li>Ability to change the data displayed by changing the report date </li>
+<li>Search input and search button
+<ul>
+<li>When search is executed matching reports should be shown below map</li>
+<li>And/Or Features present on map should change to be only those that match report date and fuzzy search term</li>
+</ul></li>
+<li>Create API docs with springfox and swagger</li>
+<li>Use Eslint and Airbnb ruleset to make sure your JS meets team standards</li>
+</ol>
+<aside class="aside-note">
+<p>To index all of the reports in Postgis into ElasticSearch use the following command:</p>
 <pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8080/api/_cluster/reindex</code></pre>
 </aside>
-<h2 id="setup">Setup</h2>
-<p>Install the following extension on your database:</p>
-<pre><code class="language-nohighlight">$ psql -U zika_app_user zika
-# CREATE EXTENSION unaccent;</code></pre>
+<h2 id="database-setup">Database Setup</h2>
+<p>Install the following extension on your Postgis databases (don't forget your test db):</p>
+<pre><code class="language-nohighlight"># CREATE EXTENSION unaccent;</code></pre>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<ol>
+<li>The requirements should do enough damage for now ;p</li>
+</ol>
+<h2 id="walkthrough-on-creating-the-location-data">Walkthrough on Creating the Location Data</h2>
+<p>All the spatial data you need is already included in the starter branch. However before starting to code this project please go through this walkthrough to see how it was created.  This will provide somei insight into creating and configuring spatial data such as country and state boundaries.</p>
 <h3 id="adding-boundary-geometries">Adding Boundary Geometries</h3>
 <p>The data that the scientists want to ingest is summarized in the <a href="https://github.com/cdcepi/zika" target="_blank">CDC Zika Repository</a>. If you open up the <a href="https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv" target="_blank">data for Argentina</a>, you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field. We should be able to indentify those locations to actual data points on a map.</p>
 <p>You Google for &quot;political boundaries geojson&quot; and you find <a href="http://www.gadm.org/" target="_blank">gadm.org</a>. <a href="http://www.gadm.org/country" target="_blank">gadm.org</a> serves up geospatial data about administrative boundaries for each state. Go to the <a href="http://www.gadm.org/country" target="_blank">GADM Downloads Page</a> to check out the data.</p>
@@ -163,25 +195,12 @@ Now if you check the size of the newly created <code>brazil_compressed.geojson</
 <aside class="aside-note">
 <p>A file size of 331K isn't great for a webapp; it's still a bit large. In a few weeks, we'll look at how some of the features of GeoServer allows you to display large amounts of data without a big download.</p>
 </aside>
-<p>Now we have to Repeat this process for all of the countries listed in <a href="https://github.com/cdcepi/zika" target="_blank">Zika Github Repository</a> including Argentina, Columbia, Dominican Republic, Ecuador, El Salvador, Guatamala, Haiti, Mexico, Nicaragua, and Panama.</p>
-<p>To save you time, we went ahead and optimized the geometries for all of these countries. They are listed in <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week2-starter" target="_blank">/data/optimized</a>.</p>
 <p>The last step is to join all of the GeoJSON files together. To do that, we can use a nice Node.js library from MapBox. Run the following commands:</p>
 <pre><code class="language-nohighlight">$ npm install -g @mapbox/geojson-merge
 $ geojson-merge argentina_compressed.geojson brazil_compressed.geojson columbia_compressed.geojson dominican_republic_compressed.geojson el_salvador_compressed.geojson equador_compressed.geojson guatamala_compressed.geojson haiti_compressed.geojson mexico_compressed.geojson
 nicaragua_compressed.geojson panama_compressed.geojson &gt; states.geojson</code></pre>
-<p>Place the <code>states.geojson</code> file in the <code>src/main/resources/static/json</code> so that it can be statically served up in your web app under the <code>http://localhost:8080/json/states.geojson</code> path.</p>
-<h4 id="adding-new-reports">Adding new Reports</h4>
-<p>After we talk to the scientists, we find out that they want the ability for reports to be automatically ingested into the database. You decide that you are going to build a RESTful API. Specifically, the API needs to have the following:</p>
-<ol>
-<li>An integration test</li>
-<li>An endpoint that accepts a POST request and JSON.</li>
-<li>Swagger documentation that describes the endpoint and how the JSON is structured.</li>
-</ol>
-<h2 id="bonus-missions">Bonus Missions</h2>
-<p>If you complete the studio early, here are some bonus missions to go after:</p>
-<ol>
-<li>Add ESLint to your project and ensure that all of your JavaScript meets the standards defined by the AirBNB standards. (Hint: Review the instructions for the <a href="../../walkthroughs/eslint-airwaze">ESLint Airwaze Walkthrough</a>)</li>
-</ol>
+<p>To save you time, we went ahead and optimized the geometries for each country. Some might still need some work, but can
+tackle that some day when you are bored.</p>
                                     </section>
 
             </div>
