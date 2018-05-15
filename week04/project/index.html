@@ -114,7 +114,7 @@
 <li>Run <code>git fetch upstream</code> (Assuming upstream points to the above repo)</li>
 <li>Run <code>git checkout -b week4-starter upstream/week4-starter</code></li>
 <li>Run <code>git checkout week4-soltuion</code></li>
-<li>Now you can get the new files by pulling them in. Run <code>git pull week4-starter</code> OR by simply pasting in select files. The choice is up to you.</li>
+<li>Now you can get the new files by pulling them in. Run <code>git merge week4-starter</code> OR by simply pasting in select files. The choice is up to you.</li>
 </ol>
 <aside class="aside-note">
 <p>If you decide to back out of a merge and try something else you can always reset your branch to it's previous state.
@@ -132,8 +132,12 @@ The below command destroys all non committed changes in your local branch and re
 <h2 id="requirements">Requirements</h2>
 <p>Use TDD when implementing these requirements</p>
 <ol>
-<li><code>api/report?date=2016-05-14</code> should return GeoJSON created from Postgis filtered by report date</li>
-<li><code>api/search?search=brzil</code> should return GeoJSON created from ElasticSearch using fuzzy search</li>
+<li><code>api/report?date=2016-05-14</code> should return GeoJSON created from reports filtered by report date
+<ul>
+<li>Most likey you want this data to come from ElasticSearch because of requirement #2</li>
+</ul></li>
+<li><code>api/report?search=brzil</code> should return GeoJSON created from ElasticSearch filtered using fuzzy search</li>
+<li><code>api/report?search=brzil&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>search</code> query parameters to limit the results</li>
 <li>Build out a <code>/api/resport</code> endpoint that accepts a POST containing Report JSON in the body.
 <ul>
 <li>Store the Report created from JSON in PostGis</li>
@@ -147,6 +151,7 @@ The below command destroys all non committed changes in your local branch and re
 <li>When search is executed matching reports should be shown below map</li>
 <li>And/Or Features present on map should change to be only those that match report date and fuzzy search term</li>
 </ul></li>
+<li>Make sure you application is secure from <a href="https://www.owasp.org/index.php/SQL_Injection" target="_blank">sql injection attacks</a> by validating the query parameters</li>
 <li>Create API docs with springfox and swagger</li>
 <li>Use Eslint and Airbnb ruleset to make sure your JS meets team standards</li>
 </ol>
@@ -158,11 +163,11 @@ The below command destroys all non committed changes in your local branch and re
 <p>Install the following extension on your Postgis databases (don't forget your test db):</p>
 <pre><code class="language-nohighlight"># CREATE EXTENSION unaccent;</code></pre>
 <h2 id="bonus-missions">Bonus Missions</h2>
-<ol>
-<li>The requirements should do enough damage for now ;p</li>
-</ol>
+<ul>
+<li>No bonsuses. Do as much as you can this week. We will build on this project in all upcoming project weeks.</li>
+</ul>
 <h2 id="walkthrough-on-creating-the-location-data">Walkthrough on Creating the Location Data</h2>
-<p>All the spatial data you need is already included in the starter branch. However before starting to code this project please go through this walkthrough to see how it was created.  This will provide somei insight into creating and configuring spatial data such as country and state boundaries.</p>
+<p>All the spatial data you need is already included in the starter branch. However before starting to code this project please go through this walkthrough to see how it was created.  This will provide some insight into creating and configuring spatial data such as country and state boundaries.</p>
 <h3 id="adding-boundary-geometries">Adding Boundary Geometries</h3>
 <p>The data that the scientists want to ingest is summarized in the <a href="https://github.com/cdcepi/zika" target="_blank">CDC Zika Repository</a>. If you open up the <a href="https://github.com/cdcepi/zika/blob/master/Argentina/Surveillance_Bulletin/data/Surveillance_Bulletin_01_2017-01-12.csv" target="_blank">data for Argentina</a>, you'll notice that the data looks pretty similiar to last mission, except that there is no latitude or longitude to GeoCode each row; however, each row does have a location field. We should be able to indentify those locations to actual data points on a map.</p>
 <p>You Google for &quot;political boundaries geojson&quot; and you find <a href="http://www.gadm.org/" target="_blank">gadm.org</a>. <a href="http://www.gadm.org/country" target="_blank">gadm.org</a> serves up geospatial data about administrative boundaries for each state. Go to the <a href="http://www.gadm.org/country" target="_blank">GADM Downloads Page</a> to check out the data.</p>
