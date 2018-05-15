@@ -132,13 +132,7 @@ The below command destroys all non committed changes in your local branch and re
 <h2 id="requirements">Requirements</h2>
 <p>Use TDD when implementing these requirements</p>
 <ol>
-<li><code>api/report?date=2016-05-14</code> should return GeoJSON created from reports filtered by report date
-<ul>
-<li>Most likey you want this data to come from ElasticSearch because of requirement #2</li>
-</ul></li>
-<li><code>api/report?search=brzil</code> should return GeoJSON created from ElasticSearch filtered using fuzzy search</li>
-<li><code>api/report?search=brzil&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>search</code> query parameters to limit the results</li>
-<li>Build out a <code>/api/resport</code> endpoint that accepts a POST containing Report JSON in the body.
+<li>Build out a <code>/api/report</code> endpoint that accepts a POST containing Report JSON in the body.
 <ul>
 <li>Store the Report created from JSON in PostGis</li>
 <li>Store the ReportDocument created from JSON in ElasticSearch</li>
@@ -146,7 +140,7 @@ The below command destroys all non committed changes in your local branch and re
 <li>Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)</li>
 <li>When a feature is clicked show the related report data (like in week 2 zika project)</li>
 <li>Ability to change the data displayed by changing the report date </li>
-<li>Search input and search button
+<li>Search input and search button that uses ElasticSearch fuzzy search
 <ul>
 <li>When search is executed matching reports should be shown below map</li>
 <li>And/Or Features present on map should change to be only those that match report date and fuzzy search term</li>
@@ -154,6 +148,18 @@ The below command destroys all non committed changes in your local branch and re
 <li>Make sure you application is secure from <a href="https://www.owasp.org/index.php/SQL_Injection" target="_blank">sql injection attacks</a> by validating the query parameters</li>
 <li>Create API docs with springfox and swagger</li>
 <li>Use Eslint and Airbnb ruleset to make sure your JS meets team standards</li>
+</ol>
+<h2 id="suggested-endpointsparameters">Suggested Endpoints/Parameters</h2>
+<ol>
+<li><code>api/report?date=2016-05-14</code> should return GeoJSON created from reports filtered by report date
+<ul>
+<li>Most likey you want this data to come from ElasticSearch because of requirement #2</li>
+</ul></li>
+<li><code>api/report?search=brzil</code> should return GeoJSON created from ElasticSearch filtered using fuzzy search</li>
+<li><code>api/report?search=brzil&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>search</code> query parameters to limit the results3. </li>
+<li><code>api/report?location=Brazil Rhondina</code> should return GeoJSON created from filtered by location</li>
+<li><code>api/report?location=Brazil Rhondina&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>location</code> query parameters to limit the results</li>
+<li><code>api/dates</code> all unique reports dates</li>
 </ol>
 <aside class="aside-note">
 <p>To index all of the reports in Postgis into ElasticSearch use the following command:</p>
