@@ -63,7 +63,7 @@ Use TDD when implementing these requirements
 3. `api/report?search=brzil&date=2016-05-14` should use both the `date` and `search` query parameters to limit the results3. 
 4. `api/report?location=Brazil Rhondina` should return GeoJSON created from filtered by location
 5. `api/report?location=Brazil Rhondina&date=2016-05-14` should use both the `date` and `location` query parameters to limit the results
-6. `api/dates` all unique reports dates
+6. `api/report/unique-dates` returns json containing all unique report dates
 
 <aside class="aside-note" markdown="1">
 To index all of the reports in Postgis into ElasticSearch use the following command:
