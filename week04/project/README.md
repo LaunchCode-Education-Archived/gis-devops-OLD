@@ -24,7 +24,7 @@ Remember, in Agile a story is just a "guaranteed conversation". Stories usually 
 3. Run `git fetch upstream` (Assuming upstream points to the above repo)
 4. Run `git checkout -b week4-starter upstream/week4-starter`
 5. Run `git checkout week4-soltuion`
-6. Now you can get the new files by pulling them in. Run `git pull week4-starter` OR by simply pasting in select files. The choice is up to you.
+6. Now you can get the new files by pulling them in. Run `git merge week4-starter` OR by simply pasting in select files. The choice is up to you.
 
 <aside class="aside-note" markdown="1">
 If you decide to back out of a merge and try something else you can always reset your branch to it's previous state. 
@@ -43,19 +43,22 @@ $ git reset --hard
 
 ## Requirements
 Use TDD when implementing these requirements
-1. `api/report?date=2016-05-14` should return GeoJSON created from Postgis filtered by report date
-2. `api/search?search=brzil` should return GeoJSON created from ElasticSearch using fuzzy search
-3. Build out a `/api/resport` endpoint that accepts a POST containing Report JSON in the body.
+1. `api/report?date=2016-05-14` should return GeoJSON created from reports filtered by report date
+* Most likey you want this data to come from ElasticSearch because of requirement #2
+2. `api/report?search=brzil` should return GeoJSON created from ElasticSearch filtered using fuzzy search
+3. `api/report?search=brzil&date=2016-05-14` should use both the `date` and `search` query parameters to limit the results
+4. Build out a `/api/resport` endpoint that accepts a POST containing Report JSON in the body.
 * Store the Report created from JSON in PostGis
 * Store the ReportDocument created from JSON in ElasticSearch
-4. Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)
-5. When a feature is clicked show the related report data (like in week 2 zika project)
-6. Ability to change the data displayed by changing the report date 
-7. Search input and search button
+5. Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)
+6. When a feature is clicked show the related report data (like in week 2 zika project)
+7. Ability to change the data displayed by changing the report date 
+8. Search input and search button
 * When search is executed matching reports should be shown below map
 * And/Or Features present on map should change to be only those that match report date and fuzzy search term
-8. Create API docs with springfox and swagger
-9. Use Eslint and Airbnb ruleset to make sure your JS meets team standards
+9. Make sure you application is secure from [sql injection attacks](https://www.owasp.org/index.php/SQL_Injection) by validating the query parameters
+10. Create API docs with springfox and swagger
+11. Use Eslint and Airbnb ruleset to make sure your JS meets team standards
 
 <aside class="aside-note" markdown="1">
 To index all of the reports in Postgis into ElasticSearch use the following command:
@@ -73,12 +76,11 @@ Install the following extension on your Postgis databases (don't forget your tes
 ```
 
 ## Bonus Missions
-
-1. The requirements should do enough damage for now ;p
+- No bonsuses. Do as much as you can this week. We will build on this project in all upcoming project weeks.
 
 ## Walkthrough on Creating the Location Data
 
-All the spatial data you need is already included in the starter branch. However before starting to code this project please go through this walkthrough to see how it was created.  This will provide somei insight into creating and configuring spatial data such as country and state boundaries.
+All the spatial data you need is already included in the starter branch. However before starting to code this project please go through this walkthrough to see how it was created.  This will provide some insight into creating and configuring spatial data such as country and state boundaries.
 
 ### Adding Boundary Geometries
 
