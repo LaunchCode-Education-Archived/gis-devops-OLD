@@ -159,7 +159,7 @@ The below command destroys all non committed changes in your local branch and re
 <li><code>api/report?search=brzil&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>search</code> query parameters to limit the results3. </li>
 <li><code>api/report?location=Brazil Rhondina</code> should return GeoJSON created from filtered by location</li>
 <li><code>api/report?location=Brazil Rhondina&amp;date=2016-05-14</code> should use both the <code>date</code> and <code>location</code> query parameters to limit the results</li>
-<li><code>api/dates</code> all unique reports dates</li>
+<li><code>api/report/unique-dates</code> returns json containing all unique report dates</li>
 </ol>
 <aside class="aside-note">
 <p>To index all of the reports in Postgis into ElasticSearch use the following command:</p>
