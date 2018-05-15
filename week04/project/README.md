@@ -43,22 +43,27 @@ $ git reset --hard
 
 ## Requirements
 Use TDD when implementing these requirements
+1. Build out a `/api/report` endpoint that accepts a POST containing Report JSON in the body.
+* Store the Report created from JSON in PostGis
+* Store the ReportDocument created from JSON in ElasticSearch
+2. Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)
+3. When a feature is clicked show the related report data (like in week 2 zika project)
+4. Ability to change the data displayed by changing the report date 
+5. Search input and search button that uses ElasticSearch fuzzy search
+* When search is executed matching reports should be shown below map
+* And/Or Features present on map should change to be only those that match report date and fuzzy search term
+6. Make sure you application is secure from [sql injection attacks](https://www.owasp.org/index.php/SQL_Injection) by validating the query parameters
+7. Create API docs with springfox and swagger
+8. Use Eslint and Airbnb ruleset to make sure your JS meets team standards
+
+## Suggested Endpoints/Parameters
 1. `api/report?date=2016-05-14` should return GeoJSON created from reports filtered by report date
 * Most likey you want this data to come from ElasticSearch because of requirement #2
 2. `api/report?search=brzil` should return GeoJSON created from ElasticSearch filtered using fuzzy search
-3. `api/report?search=brzil&date=2016-05-14` should use both the `date` and `search` query parameters to limit the results
-4. Build out a `/api/resport` endpoint that accepts a POST containing Report JSON in the body.
-* Store the Report created from JSON in PostGis
-* Store the ReportDocument created from JSON in ElasticSearch
-5. Show Zika report data for a certain date on a map via OpenLayers (reports grouped by state for a certain date)
-6. When a feature is clicked show the related report data (like in week 2 zika project)
-7. Ability to change the data displayed by changing the report date 
-8. Search input and search button
-* When search is executed matching reports should be shown below map
-* And/Or Features present on map should change to be only those that match report date and fuzzy search term
-9. Make sure you application is secure from [sql injection attacks](https://www.owasp.org/index.php/SQL_Injection) by validating the query parameters
-10. Create API docs with springfox and swagger
-11. Use Eslint and Airbnb ruleset to make sure your JS meets team standards
+3. `api/report?search=brzil&date=2016-05-14` should use both the `date` and `search` query parameters to limit the results3. 
+4. `api/report?location=Brazil Rhondina` should return GeoJSON created from filtered by location
+5. `api/report?location=Brazil Rhondina&date=2016-05-14` should use both the `date` and `location` query parameters to limit the results
+6. `api/dates` all unique reports dates
 
 <aside class="aside-note" markdown="1">
 To index all of the reports in Postgis into ElasticSearch use the following command:
