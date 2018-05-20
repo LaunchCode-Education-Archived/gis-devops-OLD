@@ -2,6 +2,8 @@
 title: "Walkthrough: Intro to DevOps"
 ---
 
+NOTE: this was replaced with an intro to AWS console walkthrough. I'm leaving it because I feel bad for deleting it.
+
 In this walkthrough, the instructor will show you how to work with a Unix operating system on the cloud.
 
 ## Getting Started

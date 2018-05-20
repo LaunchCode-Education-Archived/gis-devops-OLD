@@ -10,6 +10,4 @@ title: Week 5 - Day 3
 
 ## Studio
 
-- [Scaling on AWS](../../studios/AWS3)
-
-
+- [Scaling on AWS](../../studios/AWS-auto-scaling)
