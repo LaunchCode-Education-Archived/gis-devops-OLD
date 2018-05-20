@@ -302,8 +302,6 @@ This opens up a new port in the Security Group just for your IP. The Airwaze app
 </ul></li>
 </ul>
 <p>If you kept <code>journalctl</code> running from before, you should see the logs progress as your browser communicates with the app.</p>
-<h3 id="where-are-the-features">Where are the Features?</h3>
-<p>If you see a map, but don't see any features it's likely due to the fact that your layer source is pointing to <code>url: http://localhost:8080/airport/</code> which refers to your computer. You need to change the url to refer to the remote server by using a reletive url <code>url: /airport/</code>. You will need to <code>scp</code> the jar file back up and start and stop the service for your changes to appear.</p>
 <p>Congratulations! You now have your own application in the cloud!</p>
 <h2 id="next-steps">Next Steps</h2>
 <p>Your map is currently showing up on the screen; however, the map is not showing any airports.  Troubleshoot the application and figure out why the airports are not showing up.  Be sure to use your browser's developer tools. </p>
