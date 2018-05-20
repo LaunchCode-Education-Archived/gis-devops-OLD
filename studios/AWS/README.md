@@ -258,9 +258,6 @@ This opens up a new port in the Security Group just for your IP. The Airwaze app
 
 If you kept `journalctl` running from before, you should see the logs progress as your browser communicates with the app.
 
-### Where are the Features?
-If you see a map, but don't see any features it's likely due to the fact that your layer source is pointing to `url: http://localhost:8080/airport/` which refers to your computer. You need to change the url to refer to the remote server by using a reletive url `url: /airport/`. You will need to `scp` the jar file back up and start and stop the service for your changes to appear.
-
 Congratulations! You now have your own application in the cloud!
 
 ## Next Steps
