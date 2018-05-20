@@ -2,9 +2,9 @@ https://education.launchcode.org/gis-devops/about/index.html
 https://education.launchcode.org/gis-devops/index.html
 https://education.launchcode.org/gis-devops/objectives/index.html
 https://education.launchcode.org/gis-devops/resources/index.html
-https://education.launchcode.org/gis-devops/studios/AWS/index.html
-https://education.launchcode.org/gis-devops/studios/AWS2/index.html
-https://education.launchcode.org/gis-devops/studios/AWS3/index.html
+https://education.launchcode.org/gis-devops/studios/AWS-EC2-basics/index.html
+https://education.launchcode.org/gis-devops/studios/AWS-RDS-VPC/index.html
+https://education.launchcode.org/gis-devops/studios/AWS-auto-scaling/index.html
 https://education.launchcode.org/gis-devops/studios/airwaze/index.html
 https://education.launchcode.org/gis-devops/studios/docker/index.html
 https://education.launchcode.org/gis-devops/studios/elastic_beanstalk/index.html
@@ -17,7 +17,8 @@ https://education.launchcode.org/gis-devops/studios/openlayers-es2015-workshop/i
 https://education.launchcode.org/gis-devops/studios/swagger-ui/index.html
 https://education.launchcode.org/gis-devops/studios/tdd/index.html
 https://education.launchcode.org/gis-devops/studios/user-stories/index.html
-https://education.launchcode.org/gis-devops/walkthroughs/AWS2/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/AWS-RDS-VPC/index.html
+https://education.launchcode.org/gis-devops/walkthroughs/AWS-intro/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/certificates/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/docker/index.html
 https://education.launchcode.org/gis-devops/walkthroughs/elasticsearch-spring/index.html

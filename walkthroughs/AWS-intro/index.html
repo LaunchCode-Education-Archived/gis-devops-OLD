@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Week 5 - Day 2 :: GIS DevOps</title>
+        <title>Walkthrough: Intro to AWS :: GIS DevOps</title>
 
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/highlight.launchcode.css">
         <link rel="stylesheet" href="https://education.launchcode.org/gis-devops/css/main.css">
         <link rel="stylesheet" href="https://djwbyvgln9kts.cloudfront.net/launch_ed_style/custom.css">
     </head>
-    <body id='page-week-5---day-2'>
+    <body id='page-walkthrough-intro-to-aws'>
 
         <header class="navbar navbar-default navbar-fixed-top">
 
@@ -94,24 +94,43 @@
             <div class="row">
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
-                                        <h1>Week 5 - Day 2</h1>
-                    <p><a href="../../objectives/#day-2">Learning objectives for this module</a></p>
-<h2 id="lesson-content">Lesson Content</h2>
+                                        <h1>Walkthrough: Intro to AWS</h1>
+                    <p>We will walkthrough getting signed into AWS console and then have a look around</p>
+<h2 id="look-around-aws-console">Look Around AWS Console</h2>
+<h3 id="top-menu">Top Menu</h3>
 <ul>
-<li><a href="https://education.launchcode.org/gis-devops-slides/week5/intro-to-aws.html" target="_blank">AWS Features and Services</a></li>
+<li>Has drop down menu for your account</li>
+<li>Has drop down menu for the current Region</li>
+<li>Support Menu for getting help or finding docs</li>
 </ul>
-<h2 id="walkthrough">Walkthrough</h2>
+<h3 id="regions">Regions</h3>
+<p>Regions are seperate geographic locations where you can deploy AWS services. Everything in the AWS UI is based off of
+Region, so if you don't see a instance you created you are probably in the wrong Region. <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html" target="_blank">More about Regions and Availability Zones</a></p>
+<p><img src="../../materials/week05/regions.png" alt="AWS Regions" /></p>
+<h3 id="services-search-bar-and-menu">Services Search Bar and Menu</h3>
+<p>This is where AWS can get a little overwhelming because there are so many services available. We are only to look at a
+few in the class.  On your own time, please read about all the new terms/tools you see listed here. You may want to use
+them some day. Our focus today is <code>EC2</code>.</p>
+<p><img src="../../materials/week05/services.png" alt="AWS Services" /></p>
+<h2 id="setup-you-aws-account">Setup You AWS Account</h2>
+<h3 id="logging-into-aws">Logging into AWS</h3>
 <ul>
-<li><a href="../../walkthroughs/AWS-RDS-VPC">AWS, RDS, VPC Walkthrough</a></li>
+<li>Please check your email for an invite to AWS Console from your instructor</li>
+<li>Reset Password</li>
 </ul>
-<h2 id="studio">Studio</h2>
-<ul>
-<li><a href="../../studios/AWS-RDS-VPC">AWS, RDS, VPC Studio</a></li>
-</ul>
-<h2 id="resources">Resources</h2>
-<ul>
-<li><a href="https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs" target="_blank">Using Journalctl</a></li>
-</ul>
+<h3 id="add-two-factor-authentication">Add Two Factor Authentication</h3>
+<ol>
+<li>Go to <strong>IAM</strong> via <strong>Services</strong></li>
+<li>Click <strong>Users</strong></li>
+<li>Click your username</li>
+<li>Click <strong>Security credentials</strong> tab</li>
+<li>Click the pencil for <strong>Assigned MFA device</strong></li>
+<li>Download an Authenticator such as Google Authenticator on your phone</li>
+<li>Open the Authenticator app</li>
+<li>Now connection your Authenticator app by entering informatin provided by AWS</li>
+<li>Now you have to enter a key from your Auth app into AWS and then wait for it to expire and enter the next key that appears</li>
+<li>Now log out and see if works. Fingers crossed.</li>
+</ol>
                                     </section>
 
             </div>
