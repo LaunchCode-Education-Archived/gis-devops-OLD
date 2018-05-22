@@ -110,99 +110,10 @@
 <h2 id="goals">Goals</h2>
 <p>There are two goals for this walkthrough:</p>
 <ol>
-<li>Connect to a remote Postgres database.</li>
-<li>Load balance an application.</li>
+<li>Create an RDS instance</li>
+<li>Use the RDS instance in your airwaze app running on EC2</li>
+<li>Use environment variables to connect to the RDS (if you haven't already)</li>
 </ol>
-<h3 id="setting-up-a-simple-vpc">Setting up a simple VPC.</h3>
-<p>Create a VPC with a CIDR address of <code>10.0.0.0/16</code>.</p>
-<h3 id="setting-up-an-rds">Setting up an RDS</h3>
-<p>An RDS needs multiple Subnets in different Availability Zones in order to be high availability.</p>
-<p>Create two Subnets, <code>Walkthrough-DBSubnet</code> and <code>Walkthrough-AltDBsubnet</code>, in your VPC with respective CIDR blocks <code>10.0.1.0/24</code> and <code>10.0.2.0/24</code>.  Be sure that each one is in a different Availability Zone.  </p>
-<p>Create an RDS Subnet Group with <code>Walkthrough-DBSubnet</code> and <code>Walkthrough-AltDBsubnet</code>.  </p>
-<p>Create an RDS Intances with a Postgres server. Make the databasename <code>my_db</code>.  Make the username <code>launchcode_admin</code>.  Make the password <code>launchcode</code>.</p>
-<p>Take a look at the RDS monitoring. It's cool.</p>
-<h3 id="setting-up-the-server-without-a-loadbalancer">Setting up the server (without a LoadBalancer)</h3>
-<p>Create a public subnet for your server. <code>10.0.3.0/24</code> </p>
-<p>Create a new EC2 instance.  Be sure to make the instance as &quot;Assign Public IP&quot; and include the bash script in &quot;Advanced&quot;.</p>
-<p>We can include all of the setup instructions for an EC2 at startup by including a BASH script.    </p>
-<p>Use this BASH script when you spin up your server:</p>
-<pre><code>#!/bin/bash
-# Install Java
-apt-get update -y &amp;&amp; apt-get install -y openjdk-8-jdk
-
-useradd -M simpleApp
-mkdir /opt/simpleApp
-mkdir /etc/opt/simpleApp
-chown -R simpleApp:simpleApp /opt/simpleApp /etc/opt/simpleApp
-chmod 777 /opt/simpleApp
-
-# Write SimpleApp config file
-cat &lt;&lt; EOF &gt; /etc/opt/simpleApp/simpleApp.config
-APP_DB_HOST={your database here}
-APP_DB_PORT=5432
-APP_DB_NAME=myApp_db
-APP_DB_USER=launchcode_admin
-APP_DB_PASS=launchcode
-EOF
-
-# Write systemd unit file
-cat &lt;&lt; EOF &gt; /etc/systemd/system/simpleApp.service
-[Unit]
-Description=SimpleApp Walkthrough
-After=syslog.target
-
-[Service]
-User=simpleApp
-EnvironmentFile=/etc/opt/simpleApp/simpleApp.config
-ExecStart=/usr/bin/java -jar /opt/simpleApp/app.jar SuccessExitStatus=143
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-systemctl enable simpleApp.service</code></pre>
-<p>Create a new Security Group called <code>Walkthrough-WebAppSecurityGroup</code>.</p>
-<p>You will also need to add a Internet Gatway and attach it to the VPC.  After that, configure the route table to push all traffic <code>0.0.0.0/0</code> to the gateway. You will need to create a <code>Walkthrough-InternetRouteTable</code>.  Edit the route table to send <code>0.0.0.0/0</code> to the internet gateway.</p>
-<p>Finally, configure the Route Table on the <code>Walkthrough-PublicSubnet</code> to point to the the <code>Walkthrough-InternetRouteTable</code>.</p>
-<p>Now you should be able to telnet the machine and check the port.  <code>telnet {EC2 endpoint} 22</code>.  Success.</p>
-<h3 id="setting-up-the-machine">Setting up the machine</h3>
-<p>Once this machine spins up.  Grab the public IP address and try to SSH into the machine.</p>
-<pre><code>$ ssh -i /path/to/your/pem ubuntu@{ip address}</code></pre>
-<p>Run a telnet command to check if the server connection is open:
-<code>telnet {RDS IP Address} 5432</code></p>
-<p>Open a port on the database by adding a rule to the RDS Security group that allows traffic from the <code>Walkthrough-PublicSubnet</code>.</p>
-<p>On the RDS Security Group, open up the port 5432 from the servers 10.0.1.0/24.  Then grab the internal IP address from the RDS detail page of our database.</p>
-<p>That passes.  Great.  Now try and get in using psql. Switch to the simpleApp user with <code>su simpleApp</code>. Run the command:</p>
-<pre><code>psql -U simpleApp_user -h {RDS IP address} simpleApp_db</code></pre>
-<p>SCP a copy of the jar onto the server.</p>
-<pre><code>scp -i ~/.ssh/mikes-keys.pem build/libs/app-0.0.1-SNAPSHOT.jar ubuntu@{EC2 IP}:/opt/simpleApp/app.jar</code></pre>
-<p>Run <code>systemctl restart simpleApp.service</code> to see if it works.</p>
-<p>Let's check and see if it is running locally:</p>
-<pre><code>$ telnet localhost 8080
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is '^]'.
-^CConnection closed by foreign host.
-
-$ curl localhost:8080/index.html
-....</code></pre>
-<p>Yep!  It looks good!  Now let's try and hit it from the browser.  Grab the public url of the EC2.</p>
-<p>Spinning.  Try to telnet to it from the outside.</p>
-<pre><code>$ telnet {EC2 IP} 8080
-Trying 34.238.190.181...</code></pre>
-<p>... Must be a firewall.  Let's take a look at the security groups. Add an inbound TCP rule on port 8080 for the WebServerSecurity group.</p>
-<p>Telnet again. Success!</p>
-<h3 id="setting-up-a-load-balancer">Setting up a Load Balancer</h3>
-<p>Stand up another EC2 just the same way that we did right here. Be sure to make it assign a public IP and have a the same <code>Walkthrough-WebServerSecurityGroup</code> as the other instance.</p>
-<p>SSH into the machine.  Send up a jar.  Start the server.  Make sure that you can hit the URL.</p>
-<p>Next create another Subnet.  The ELB needs two subnets each in a different availability zone.  Call the subnet <code>Walkthrough-AltPublicSubnet</code> CIDR block <code>10.0.5.0/24</code>. Remember to edit the route table to point to the internet gateway.</p>
-<p>Create a new ELB.  During the process create a new <code>Walkthrough-LoadBalancerSG</code>.  Grab the DNS name of the LoadBalancer.</p>
-<p>Telnet to the load balancer to see if it is up.</p>
-<pre><code>telnet {elb dns} 80</code></pre>
-<p>It connects via telnet, but the page doesn't load.  Let's look at our target group.  Oh!  There are no registered targets.  Let's add a few of those to our ELB.  Wait until the target's status turns healthy.</p>
-<p>Wait a second... They're coming up unhealthy.  Oh!  We need to target port 8080. Remove those targets and re-add them with the port 8080.</p>
-<p>Stand up an ELB server. Demonstrate how it load balances between multiple healthy hosts. Demonstrate what happens when a host becomes unhealthy. </p>
                                     </section>
 
             </div>
