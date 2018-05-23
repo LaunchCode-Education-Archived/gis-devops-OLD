@@ -102,7 +102,8 @@
 <aside class="aside-note">
   Note!  You will be working in the "Northern Virginia region.
 </aside>
-<p>We will be using the AWS CLI tool for some parts of the studio.  The AWS CLI tool allows you to create and change infrastructure on the cloud via the command line.  </p>
+<h3 id="aws-cli">AWS CLI</h3>
+<p>We will be using the <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html" target="_blank">AWS CLI tool</a> for some parts of the studio.  The AWS CLI tool allows you to create and change infrastructure on the cloud via the command line.  </p>
 <p>To install the AWS CLI tool run the following commands:</p>
 <pre><code>$ brew install awscli
 $ echo 'complete -C aws_completer aws' &gt;&gt; ~/.bashrc
@@ -125,12 +126,26 @@ Default output format [None]: </code></pre>
 $ aws s3 help
 $ aws s3 sync help</code></pre>
 <p>The <code>aws help</code> command is a quick alternative to looking up information about the tool on line.</p>
-<h3 id="configure-your-vpc">Configure your VPC</h3>
-<p>You are going to use Amazon CloudFormation to spin up your VPC.  CloudFormation can create infrastructure on AWS based on a JSON template.  CloudFormation allows you to create consistent, reproducible AWS environments.</p>
-<p>You'll be using a CloudFormation template that adds 1 database, 4 subnets, 3 security groups, and 1 database.  AWS CloudFormation will pull the template from S3.  Feel free to take a look at the template by downloading it with the <code>aws-cli</code> tool:</p>
-<pre><code>aws s3 sync s3://launchcode-gisdevops-cloudformation </code></pre>
+<h3 id="create-a-keypair-for-the-region">Create a KeyPair for the Region</h3>
+<p>Since you are in a new Region, you will need to create a new KeyPair.</p>
+<ol>
+<li>Make sure you are in region <code>U.S. East (N.Virginia)</code></li>
+<li>Go to EC2 in the services menu</li>
+<li>Click <strong>Key Pairs</strong> in the left menu in the <strong>NETWORK &amp; SECURITY</strong> section</li>
+<li>Enter a name like <code>yourname-useast-key</code></li>
+<li>Download key</li>
+<li>Copy the key to your <code>~/.ssh</code> folder</li>
+<li>Make it so that only the owner can read and write to the file <code>$chmod 400 yourname-useast-key.pem</code></li>
+</ol>
+<h2 id="configure-your-vpc-via-cloudformation">Configure your VPC via CloudFormation</h2>
+<p>You are going to use <a href="https://aws.amazon.com/cloudformation/" target="_blank">Amazon CloudFormation</a> to spin up your VPC.  CloudFormation can create infrastructure on AWS based on a JSON template.  CloudFormation allows you to create consistent, reproducible AWS environments.</p>
+<p>You'll be using a CloudFormation template that adds 4 Subnets, 3 Security Groups, and 1 RDS.  AWS CloudFormation will pull the template from S3.</p>
+<h3 id="review-the-cloudformation-script">Review the CloudFormation Script</h3>
+<p>Take a look at the template by downloading it with the <code>aws-cli</code> tool. Then open <code>airwaze_cloudformation.json</code> in your favorite editor. You should recognize the names and properties listed from previous studios, the only new thing is seeing them in this format.</p>
+<pre><code>$ mkdir ~/s3-sync
+$ aws s3 sync s3://launchcode-gisdevops-cloudformation ~/s3-sync</code></pre>
+<h3 id="using-the-cloudformation-script">Using the CloudFormation Script</h3>
 <p>To run CloudFormation, navigate to the CloudFormation page via the search bar.  Click &quot;Create Stack&quot;.</p>
-<p><img src="../../materials/week05/day3/stack_screen.png" alt="Screenshot of CloudFormation page" /></p>
 <p>Now we tell CloudFormation what JSON template to use when building the infrastructure.  We're going to give it the URL of the JSON template that we looked at with the <code>aws s3 sync ...</code> command.</p>
 <ul>
 <li>Choose &quot;Specify an Amazon S3 template URL&quot; and paste in <a href="https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/airwaze_cloudformation.json" target="_blank">https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/airwaze_cloudformation.json</a>. </li>
@@ -141,9 +156,9 @@ $ aws s3 sync help</code></pre>
 <ul>
 <li>Fill in Stack Name with &quot;airwaze-{your name}&quot;.</li>
 <li>Fill in DatabasePassword with &quot;verysecurepassword&quot;.</li>
-<li>Fill in KeyName with with the name of your access key.  Since you are in a new Region, you will need to create a new KeyPair.  Follow the <a href="https://education.launchcode.org/gis-devops/studios/AWS/#setting-up-a-keypair" target="_blank">instructions from the AWS Studio</a></li>
+<li>Fill in KeyName with with the name of your access key for this region. (use the one you created above)</li>
 </ul>
-<p><img src="../../materials/week05/day3/stack_parameters.png" alt="Screenshot of Stack parameters" /></p>
+<p><img src="../../materials/week05/day3/stack-parameters2.png" alt="Screenshot of Stack parameters" /></p>
 <ul>
 <li>Click Next on the &quot;Options Screen&quot;</li>
 <li>Click Create on the &quot;Review Screen&quot;</li>
@@ -163,7 +178,10 @@ $ aws s3 ls s3://launchcode-gisdevops-c1-yourname/ # check to make sure it uploa
 <a href="https://s3.console.aws.amazon.com/s3/home?region=us-east-1" target="_blank">https://s3.console.aws.amazon.com/s3/home?region=us-east-1</a></p>
 <h3 id="configure-the-database">Configure the database</h3>
 <p>You'll also need to do some initial database setup.</p>
-<p>Create an instance in the <code>SubnetWebAppPublic</code> subnet.  Once it is up, SSH into the server and run the following commands:</p>
+<ul>
+<li>Create an EC2 instance in the <code>SubnetWebAppPublic</code> subnet.</li>
+<li>Once it is up, SSH into the server and run the following commands:</li>
+</ul>
 <pre><code>$ sudo apt-get update
 $ sudo apt-get install postgresql
 $ psql -h airwaze-example.cew68jaqkoek.us-east-1.rds.amazonaws.com -p 5432 -U masterUser airwaze
