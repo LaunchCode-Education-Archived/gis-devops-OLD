@@ -15,7 +15,8 @@ server.port=80
   Note!  You will be working in the "Northern Virginia region.
 </aside>
 
-We will be using the AWS CLI tool for some parts of the studio.  The AWS CLI tool allows you to create and change infrastructure on the cloud via the command line.  
+### AWS CLI
+We will be using the [AWS CLI tool](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) for some parts of the studio.  The AWS CLI tool allows you to create and change infrastructure on the cloud via the command line.  
 
 To install the AWS CLI tool run the following commands:
 ```
@@ -54,18 +55,31 @@ $ aws s3 sync help
 
 The `aws help` command is a quick alternative to looking up information about the tool on line.
 
-### Configure your VPC
+### Create a KeyPair for the Region
+Since you are in a new Region, you will need to create a new KeyPair.
+1. Make sure you are in region `U.S. East (N.Virginia)`
+2. Go to EC2 in the services menu
+3. Click **Key Pairs** in the left menu in the **NETWORK & SECURITY** section
+4. Enter a name like `yourname-useast-key`
+5. Download key
+6. Copy the key to your `~/.ssh` folder
+7. Make it so that only the owner can read and write to the file `$chmod 400 yourname-useast-key.pem`
 
-You are going to use Amazon CloudFormation to spin up your VPC.  CloudFormation can create infrastructure on AWS based on a JSON template.  CloudFormation allows you to create consistent, reproducible AWS environments.
+## Configure your VPC via CloudFormation
 
-You'll be using a CloudFormation template that adds 1 database, 4 subnets, 3 security groups, and 1 database.  AWS CloudFormation will pull the template from S3.  Feel free to take a look at the template by downloading it with the `aws-cli` tool:
+You are going to use [Amazon CloudFormation](https://aws.amazon.com/cloudformation/) to spin up your VPC.  CloudFormation can create infrastructure on AWS based on a JSON template.  CloudFormation allows you to create consistent, reproducible AWS environments.
+
+You'll be using a CloudFormation template that adds 4 Subnets, 3 Security Groups, and 1 RDS.  AWS CloudFormation will pull the template from S3.
+
+### Review the CloudFormation Script
+Take a look at the template by downloading it with the `aws-cli` tool. Then open `airwaze_cloudformation.json` in your favorite editor. You should recognize the names and properties listed from previous studios, the only new thing is seeing them in this format.
 ```
-aws s3 sync s3://launchcode-gisdevops-cloudformation 
+$ mkdir ~/s3-sync
+$ aws s3 sync s3://launchcode-gisdevops-cloudformation ~/s3-sync
 ```
 
+### Using the CloudFormation Script
 To run CloudFormation, navigate to the CloudFormation page via the search bar.  Click "Create Stack".
-
-![Screenshot of CloudFormation page](../../materials/week05/day3/stack_screen.png)
 
 Now we tell CloudFormation what JSON template to use when building the infrastructure.  We're going to give it the URL of the JSON template that we looked at with the `aws s3 sync ...` command.
 
@@ -78,9 +92,9 @@ Next we need to give your stack a name and pass along a few parameters to custom
 
 * Fill in Stack Name with "airwaze-{your name}".
 * Fill in DatabasePassword with "verysecurepassword".
-* Fill in KeyName with with the name of your access key.  Since you are in a new Region, you will need to create a new KeyPair.  Follow the [instructions from the AWS Studio](https://education.launchcode.org/gis-devops/studios/AWS/#setting-up-a-keypair)
+* Fill in KeyName with with the name of your access key for this region. (use the one you created above)
 
-![Screenshot of Stack parameters](../../materials/week05/day3/stack_parameters.png)
+![Screenshot of Stack parameters](../../materials/week05/day3/stack-parameters2.png)
 
 * Click Next on the "Options Screen"
 * Click Create on the "Review Screen"
@@ -119,7 +133,8 @@ https://s3.console.aws.amazon.com/s3/home?region=us-east-1
 
 You'll also need to do some initial database setup.
 
-Create an instance in the `SubnetWebAppPublic` subnet.  Once it is up, SSH into the server and run the following commands:
+* Create an EC2 instance in the `SubnetWebAppPublic` subnet.
+* Once it is up, SSH into the server and run the following commands:
 
 ```
 $ sudo apt-get update
