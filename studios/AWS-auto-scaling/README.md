@@ -5,12 +5,6 @@ title: "Scaling horizontally AutoScaling Group"
 The ability to scale horizontally is very important in building Cloud Native applications.  In this studio, you will be extending your [Airwaze App](https://gitlab.com/LaunchCodeTraining/airwaze-studio) to scale horizontally as traffic on the server increases.
 
 ## Setup
-
-FIRST, change your project to run on port 80.  Add this line to your `applications.properties` file:
-```
-server.port=80
-```
-
 <aside class="aside-note">
   Note!  You will be working in the "Northern Virginia region.
 </aside>
