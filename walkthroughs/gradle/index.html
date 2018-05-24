@@ -131,7 +131,7 @@ $ cd gradle-walkthrough</code></pre>
 <p>We want to be able to view our project tasks as a tree. We can do a similar thing with dependencies using <code>gradle dependencies</code> but no such task exists to display task relationships in tree form. Thankfully, somebody has written a plugin to do that!</p>
 <p>Find the <code>com.dorongold.task-tree</code> plugin and enable it in your project. Then run <code>gradle tasks</code> to determine which task the plugin has added to allow us to view the task tree.</p>
 <p>Once you've found the task, run it to see the task relationships for your project.</p>
-<p><strong>Which tasks are executed when run the <code>build</code> task?</strong></p>
+<p><strong>Which tasks are executed when running the <code>build</code> task?</strong></p>
 <p>Let's customize the way in which the JAR is built for our project. Suppose we wanted to be able to build all of the class files without bundling them into a JAR.</p>
 <p>We can do this by adding a configuration block to the <code>jar</code> task. Add this to your <code>build.gradle</code> file:</p>
 <pre><code class="language-groovy">jar {
@@ -141,11 +141,11 @@ $ cd gradle-walkthrough</code></pre>
 }</code></pre>
 <p>Now, a JAR will be built only when we add the <code>-DmakeJar=true</code> flag to our Gradle command, like so:</p>
 <pre><code class="language-nohighlight">$ gradle -DmakeJar=true build</code></pre>
-<p>Try running <code>gradle build</code> without the flag and see that the class files were built, but not the JAR. The run it with the flag and see that you now have a JAR. Note the name of the resulting JAR. What is it?</p>
+<p>Try running <code>gradle build</code> without the flag and see that the class files were built, but not the JAR. Then run it with the flag and see that you now have a JAR. Note the name of the resulting JAR. What is it?</p>
 <p>Finally, we can customize the name of our JAR by adding these properties to the <code>jar</code> configuration block:</p>
 <pre><code class="language-groovy">baseName = 'app'
 version = '0.0.1-SNAPSHOT'</code></pre>
-<h2 id="bonus-mission">Bonus Mission</h2>
+<h2 id="gradle-in-sprint-boot-projects">Gradle in Sprint Boot Projects</h2>
 <p>With your newfound Gradle skills, go to the project root of one of your Spring Boot projects in the Terminal. Test, build, and run the app from the command line using Gradle.</p>
                                     </section>
 
