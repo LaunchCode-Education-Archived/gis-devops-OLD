@@ -306,7 +306,8 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-systemctl enable airwaze.service</code></pre>
+systemctl enable airwaze.service
+systemctl start airwaze.service</code></pre>
 <p><img src="../../materials/week05/day3/auto_scale_security_groups.png" alt="Screenshot of Auto Scale security groups" /></p>
 <h2 id="create-the-auto-scale-group">Create the Auto Scale Group</h2>
 <p>The Auto Scale Group is the piece of configuration responsible for how and when new machines are spun up (and spun down).</p>
