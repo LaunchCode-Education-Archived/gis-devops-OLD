@@ -272,6 +272,7 @@ WantedBy=multi-user.target
 EOF
 
 systemctl enable airwaze.service
+systemctl start airwaze.service
 ```
 
 
