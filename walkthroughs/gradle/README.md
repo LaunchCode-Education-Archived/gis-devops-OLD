@@ -72,9 +72,11 @@ Let's carry out some basic customization of our simple Java project.
 
 We want to be able to view our project tasks as a tree. We can do a similar thing with dependencies using `gradle dependencies` but no such task exists to display task relationships in tree form. Thankfully, somebody has written a plugin to do that!
 
-Find the `com.dorongold.task-tree` plugin and enable it in your project. Then run `gradle tasks` to determine which task the plugin has added to allow us to view the task tree.
+Find the `com.dorongold.task-tree` plugin and enable it in your project. Once it is enabled, you can view the dependency graph for a task by using:
 
-Once you've found the task, run it to see the task relationships for your project.
+```nohighlight
+$ gradle <task 1>...<task N> taskTree
+```
 
 **Which tasks are executed when running the `build` task?**
 
