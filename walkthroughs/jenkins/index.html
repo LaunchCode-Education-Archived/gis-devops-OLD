@@ -105,9 +105,10 @@
 </ol>
 <h2 id="install-and-configure-jenkins">Install and Configure Jenkins</h2>
 <ul>
-<li>Download jenkins from <a href="https://jenkins.io/download/" target="_blank">jenkins home page</a> by clicking <em>Generic Java War</em> options at the bottom</li>
+<li>Download jenkins war from <a href="https://jenkins.io/download/" target="_blank">jenkins home page</a> by clicking <em>Generic Java War</em>  (note: scroll to the bottom of the page)
+<img src="../../materials/week05/download-jenkins.png" alt="Download Jenkins - Generic War" /></li>
 <li>Copy the <code>jenkins.war</code> file the folder to <code>~/jenkins</code></li>
-<li>Now start jenkins
+<li>Now start jenkins via terminal
 <pre><code>$ java -jar ~/jenkins/jenkins.war --httpPort=9090</code></pre>
 <aside class="aside-note">
 <p>Normally you would not install jenkins on your dev machine. You would isntall it on a server that would be continsouly running so that it could react to a commit at anytime.</p>
@@ -117,7 +118,7 @@
 <ul>
 <li>Go to <a href="http://localhost:9090" target="_blank"><a href="http://localhost:9090" target="_blank">http://localhost:9090</a></a></li>
 <li>You should see screen asking for an admin key</li>
-<li>In terminal view the file listed and copy the key inside it</li>
+<li>Access the file listed in the terminal and copy the key inside it</li>
 <li>Paste that key into the input box</li>
 </ul>
 <h4 id="install-plugins">Install Plugins</h4>
@@ -182,10 +183,13 @@
 <h4 id="configure-test-project">Configure Test Project</h4>
 <ul>
 <li>Navigate to project <code>http://localhost:9090/job/Airwaze%20Test/</code></li>
-<li>In <em>General</em> select <em>This project is parameterized</em></li>
-<li>Paste this <code>AIRWAZE_WORKSPACE</code> into <em>name</em> input</li>
+<li>In <em>General</em> select <em>This project is parameterized</em>
+<img src="../../materials/week05/parameter-project-1.png" alt="String Parameter" /></li>
+<li>Paste this <code>AIRWAZE_WORKSPACE</code> into <em>name</em> input
+<img src="../../materials/week05/parameter-project-2.png" alt="Enter parameter name" /></li>
 <li>Click <em>Advanced</em> button and select <em>Custom Workspace</em></li>
-<li>Enter <code>${AIRWAZE_WORKSPACE}</code> in the input</li>
+<li>Enter <code>${AIRWAZE_WORKSPACE}</code> in the input
+<img src="../../materials/week05/parameter-project-3.png" alt="Custom Workspace Direstory" /></li>
 <li>Go to the <em>Build</em> section</li>
 <li>Click <em>Add build step</em></li>
 <li>Click <em>Invode Gradle script</em></li>
