@@ -11,9 +11,10 @@ After a branch/story is merged into our `master` branch. We want...
 3. Deliver a `.jar` file that is ready to be deployed
 
 ## Install and Configure Jenkins
-- Download jenkins from [jenkins home page](https://jenkins.io/download/) by clicking *Generic Java War* options at the bottom
+- Download jenkins war from [jenkins home page](https://jenkins.io/download/) by clicking *Generic Java War*  (note: scroll to the bottom of the page)
+![Download Jenkins - Generic War](../../materials/week05/download-jenkins.png)
 - Copy the `jenkins.war` file the folder to `~/jenkins`
-- Now start jenkins
+- Now start jenkins via terminal
 ```
 $ java -jar ~/jenkins/jenkins.war --httpPort=9090
 ```
@@ -24,7 +25,7 @@ Normally you would not install jenkins on your dev machine. You would isntall it
 #### Configure Jenkins
 - Go to [http://localhost:9090](http://localhost:9090)
 - You should see screen asking for an admin key
-- In terminal view the file listed and copy the key inside it
+- Access the file listed in the terminal and copy the key inside it
 - Paste that key into the input box
 
 #### Install Plugins
@@ -83,9 +84,12 @@ We need the *Compile Project* to kick off the *Test Project* when it's done. We 
 #### Configure Test Project
 - Navigate to project `http://localhost:9090/job/Airwaze%20Test/`
 - In *General* select *This project is parameterized*
+![String Parameter](../../materials/week05/parameter-project-1.png)
 - Paste this `AIRWAZE_WORKSPACE` into *name* input
+![Enter parameter name](../../materials/week05/parameter-project-2.png)
 - Click *Advanced* button and select *Custom Workspace*
 - Enter `${AIRWAZE_WORKSPACE}` in the input
+![Custom Workspace Direstory](../../materials/week05/parameter-project-3.png)
 - Go to the *Build* section
 - Click *Add build step*
 - Click *Invode Gradle script*
