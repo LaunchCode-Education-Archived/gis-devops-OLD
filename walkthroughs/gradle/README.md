@@ -72,11 +72,13 @@ Let's carry out some basic customization of our simple Java project.
 
 We want to be able to view our project tasks as a tree. We can do a similar thing with dependencies using `gradle dependencies` but no such task exists to display task relationships in tree form. Thankfully, somebody has written a plugin to do that!
 
-Find the `com.dorongold.task-tree` plugin and enable it in your project. Then run `gradle tasks` to determine which task the plugin has added to allow us to view the task tree.
+Find the `com.dorongold.task-tree` plugin and enable it in your project. Once it is enabled, you can view the dependency graph for a task by using:
 
-Once you've found the task, run it to see the task relationships for your project.
+```nohighlight
+$ gradle <task 1>...<task N> taskTree
+```
 
-**Which tasks are executed when run the `build` task?**
+**Which tasks are executed when running the `build` task?**
 
 Let's customize the way in which the JAR is built for our project. Suppose we wanted to be able to build all of the class files without bundling them into a JAR.
 
@@ -96,7 +98,7 @@ Now, a JAR will be built only when we add the `-DmakeJar=true` flag to our Gradl
 $ gradle -DmakeJar=true build
 ```
 
-Try running `gradle build` without the flag and see that the class files were built, but not the JAR. The run it with the flag and see that you now have a JAR. Note the name of the resulting JAR. What is it?
+Try running `gradle build` without the flag and see that the class files were built, but not the JAR. Then run it with the flag and see that you now have a JAR. Note the name of the resulting JAR. What is it?
 
 Finally, we can customize the name of our JAR by adding these properties to the `jar` configuration block:
 
@@ -105,6 +107,6 @@ baseName = 'app'
 version = '0.0.1-SNAPSHOT'
 ```
 
-## Bonus Mission
+## Gradle in Sprint Boot Projects
 
 With your newfound Gradle skills, go to the project root of one of your Spring Boot projects in the Terminal. Test, build, and run the app from the command line using Gradle.
