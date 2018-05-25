@@ -129,8 +129,8 @@ $ cd gradle-walkthrough</code></pre>
 <h2 id="customizing-your-project">Customizing Your Project</h2>
 <p>Let's carry out some basic customization of our simple Java project.</p>
 <p>We want to be able to view our project tasks as a tree. We can do a similar thing with dependencies using <code>gradle dependencies</code> but no such task exists to display task relationships in tree form. Thankfully, somebody has written a plugin to do that!</p>
-<p>Find the <code>com.dorongold.task-tree</code> plugin and enable it in your project. Then run <code>gradle tasks</code> to determine which task the plugin has added to allow us to view the task tree.</p>
-<p>Once you've found the task, run it to see the task relationships for your project.</p>
+<p>Find the <code>com.dorongold.task-tree</code> plugin and enable it in your project. Once it is enabled, you can view the dependency graph for a task by using:</p>
+<pre><code class="language-nohighlight">$ gradle &lt;task 1&gt;...&lt;task N&gt; taskTree</code></pre>
 <p><strong>Which tasks are executed when running the <code>build</code> task?</strong></p>
 <p>Let's customize the way in which the JAR is built for our project. Suppose we wanted to be able to build all of the class files without bundling them into a JAR.</p>
 <p>We can do this by adding a configuration block to the <code>jar</code> task. Add this to your <code>build.gradle</code> file:</p>
