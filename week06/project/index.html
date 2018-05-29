@@ -106,38 +106,88 @@
 <h2 id="requirements">Requirements</h2>
 <p>To complete this project, your app should meet the following requirements:</p>
 <ul>
-<li>Your application is deployed via AWS at a live URL.</li>
-<li>Your application can consistently handle 300 requests per second.</li>
-<li><strong>Bonus:</strong>  Jenkins watches your repo pushes a release to S3 if all of the following pass:
+<li>Your application is deployed via AWS at a live URL</li>
+<li>You use CentOS for your EC2 instances (details below)</li>
+<li>Setup a LaunchConfiguration to spin up new Web App EC2 instances</li>
+<li>You setup a VPC for your Web app, RDS, and ElasticSearch</li>
+<li>ElasticSearch is hosted on an EC2 inside your VPC</li>
+<li>Your application can consistently handle 300 requests per second</li>
+<li>Jenkins watches your repo pushes a release to S3 if all of the following pass:
 <ul>
-<li>All JUnit tests pass.</li>
-<li>ESLint has no warnings.</li>
+<li>All tests pass</li>
 </ul></li>
+<li>ESLint has no warnings</li>
 </ul>
-<h3 id="a-couple-of-notes">A Couple of Notes</h3>
-<p>There will be a few differences in this project compared to previous week's studios:</p>
+<h2 id="new-stuff">New Stuff</h2>
+<p>There will be a few differences in this project compared to previous week's studios/project.  You may just want to copy over certain changes instead of merging <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">Week 6 Starter</a>. NOTE that the starter branch only contains config, property, and aws scripts. The starter branch does not contain a solution for week 4.</p>
+<p>Review the changes by looking at this branch comparison: <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/compare/week4-starter...week6-starter" target="_blank">week4 compared to week6</a></p>
+<h3 id="specific-changes">Specific Changes</h3>
 <ol>
-<li>You will be using the <code>CentOS</code> operating system. <code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. Here is the <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">URL to the AWS Image of CentOS</a></li>
-<li>You will be working in <code>us-west-2</code> region (also known as <code>Oregon</code>).</li>
-<li>The project has been upgraded to Gradle 4.4. You'll want to use your existing project, but Feel free to merge in changes from the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">week6-starter branch</a>. Use the command <code>gradle clean bootJar</code> to build your project.</li>
-<li>You will be running ElasticSearch remotely in this project. You'll need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch. Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.medium</code> machine. If you get an &quot;Out of Memory Exception&quot;, be sure to increase the heap size by setting <code>Xms3g</code> and <code>Xmx4g</code> in the <code>/etc/elasticsearch/jvm.options</code> file.</li>
-<li>You will need to setup a temporary <code>t2.medium</code> that also has your java web app on it. You will only use this instance to run the <code>\reindex</code> endpoint. That endpoint requires a lot of memory, if you try to have your web app handle that on a <code>t2.micro</code> or <code>t2.small</code> they will return java heap errors. After you have ran the endopint and populated your Elasticsearch you can delete the <code>t2.medium</code></li>
+<li>You will be using the <code>CentOS</code> operating system instead of <code>Ubuntu</code></li>
+<li>Using Spring Data 2.0.2 (dependencies have been updated in build.gradle)</li>
+<li>When running locally you will be running ElasticSearch inside a docker instance (details below)</li>
+<li>When running in the cloaud you will be running ElasticSearch on an EC2 instance</li>
 </ol>
+<h2 id="setup-locally">Setup Locally</h2>
 <p>To run Elasticsearch locally, we are going to be using Docker, here is the command:</p>
 <ul>
 <li>Download docker installer from <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank">here</a></li>
-<li>That will isntall docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)</li>
-<li>Now you can run <code>$ docker</code> commands in your terminal. Like the one below.</li>
-</ul>
-<pre><code class="language-nohighlight">$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
+<li>That will install docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)</li>
+<li>Now you can run <code>$ docker</code> commands in your terminal. Like the one below. (this runs a docker instance that contains ElasticSearch)</li>
+<li>The connection information for the docker version of ElasticSearch is contained in the comments of <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/src/main/resources/application.properties" target="_blank">this file</a> </li>
+<li>MAKE SURE YOUR TESTS ARE PASSING LOCALLY BEFORE MOVING TO THE CLOUD
 <aside class="aside-note">
 <p>Be sure to stop your home brew Elasticsearch by running <code>brew services stop elasticsearch</code></p>
 </aside>
-<p>Deploy whatever app you currently have working. For example, if you have ElasticSearch working be sure to spin up an ElasticSearch instance on AWS.</p>
+<pre><code class="language-nohighlight">$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre></li>
+</ul>
+<h2 id="setup-in-the-cloud">Setup in the Cloud</h2>
+<h3 id="centos">CentOS</h3>
+<p><code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. CentOS comes with less software installed than Ubuntu. For example <code>telnet</code> has to be installed via <code>sudo yum install telnet</code> <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">Info on Image of CentOS we will use</a></p>
 <aside class="aside-note">
 <p>To log into a CentOS instance, you will need to use the username <code>centos</code>.</p>
 </aside>
-<h2 id="setup">Setup</h2>
+<p>How to manually create an AWS EC2 instance using CentOS</p>
+<ul>
+<li>Go to Oregon Region</li>
+<li>Click <strong>Launch Instance</strong> on the EC2 Dashboard</li>
+<li>Click <strong>My AMIs</strong></li>
+<li>Search for <strong>centos</strong></li>
+<li>Click <strong>CentOS Image</strong> </li>
+</ul>
+<p><img src="../../materials/week06/centos-image.png" alt="CentOS Image" /></p>
+<h3 id="cloud-elasticsearch">Cloud ElasticSearch</h3>
+<p>In the clouid you will be running ElasticSearch on it's own EC2 instance.</p>
+<ul>
+<li>
+<p>You'll need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch.</p>
+</li>
+<li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.small</code> machine.</li>
+<li>If you get an &quot;Out of Memory Exception&quot;, be sure to increase the heap size by setting <code>Xms3g</code> and <code>Xmx4g</code> in the <code>/etc/elasticsearch/jvm.options</code> file.</li>
+</ul>
+<h3 id="create-and-populate-the-rds">Create and Populate the RDS</h3>
+<p>You will need to spin up an &quot;YourName-AdminMachine&quot; to configure your RDS. You will likely use this same machine to populate your ElasticSearch instance.</p>
+<ol>
+<li>Create CentOS EC2 named &quot;YourName-ZikaAdminMachine&quot;</li>
+<li>Install Postgresql</li>
+<li>Copy over .csv files to the server</li>
+<li>Create the db tables
+<ul>
+<li>By starting the web app</li>
+<li>Or running an sql script with create table statements</li>
+</ul></li>
+<li>Run psql COPY commands to populate the tables</li>
+</ol>
+<h3 id="seed-the-elasticsearch-data-store">Seed the ElasticSearch Data Store</h3>
+<p>When you ElasticSearch instance starts it has not data. We need to insert all reports in Postgresl into ElasticSearch.</p>
+<ol>
+<li>Make a <code>POST</code> reuqest to <code>/api/_cluster/reindex</code> on &quot;YourName-AdminMachine&quot; EC2</li>
+<li>This instance can be spun down after your RDS and ElasticSearch is working
+<aside class="aside-note">
+<p>The &quot;YourName-AdminMachine&quot; instance may need to be a <code>t2.small</code> or <code>t2.medium</code> in order to handle the POST request that transfers all the reports to ElasticSearch. You will know this is the case if you see &quot;out of memory&quot; exceptions.</p>
+</aside></li>
+</ol>
+<h3 id="vpc-setup">VPC Setup</h3>
 <p>To get started, you are provided with a CloudFormation template in an S3 bucket. This CloudFormation template provisions a VPC with the following:</p>
 <ol>
 <li>Two public subnets with an internet gateway (each in their own availability zone).</li>
@@ -149,29 +199,6 @@
 <p>The setup CloudFormation script can be found at:</p>
 <p><a href="https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json" target="_blank">https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json</a></p>
 <p>Follow the instruction from the <a href="https://education.launchcode.org/gis-devops/studios/AWS3#configure-your-vpc" target="_blank">Scaling AWS Studio</a> to setup your VPC from a CloudFormation script.</p>
-<p>Also, since we're working in <code>us-west-2</code>, remember we need to reconfigure your <code>aws-cli</code> so that you're working in a the <code>us-west-2</code> region.</p>
-<pre><code class="language-nohighlight">$ aws configure
-AWS Access Key ID [****************7S3A]:
-AWS Secret Access Key [****************hdWj]:
-Default region name [us-east-1]: us-west-2
-Default output format [None]:</code></pre>
-<h2 id="getting-things-working">Getting things Working</h2>
-<p>It will probably be helpful to spin up a machine to configure your database and check that everything works. After you set up the database and check your configuration with your <code>t2.medium</code> machine, it would be good to keep the machine around to perform long running tasks like reindexing Elasticsearch (Reindexing Elasticsearch requires a machine with 4GB of memory). Be sure to run the reindex command directly on the machine's IP address; the command will time out if sent through the load balancer.</p>
-<p>Here are a few steps:</p>
-<ol>
-<li>Spin up a <code>t2.medium</code> CentOS instance in your VPC and name it something like <code>AdminMachine-YourName</code>.</li>
-<li>Install <code>telnet</code> using Yum. Make sure that you can telnet to your database <code>telnet endpoint-of-your-db 5432</code>.</li>
-<li>Jump into the postgres console using <code>psql -h endpoint-of-your-db -U masterUsername zika</code> (hint you may need to install the <code>postgresql</code> library via <code>yum</code>).</li>
-<li>Once in the database, create a database user for the app <code>CREATE USER zika WITH PASSWORD 'verysecurepassword</code>. </li>
-<li>Also, once in the database install all of the PostGIS extensions (see previous studios) as well as the <a href="https://www.postgresql.org/docs/10/static/unaccent.html" target="_blank">unaccent Postgres extension</a></li>
-<li>Upload your <code>location.csv</code> and your <code>all_reports.csv</code> and install them in the database using a command like:</li>
-</ol>
-<pre><code class="language-nohighlight">$ psql -h gary-zika-db.cq2s2klvmrfq.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre>
-<ol start="7">
-<li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank">Elasticsearch UserData script</a> to spin up an Elasticsearch.</li>
-<li>Upload a copy of your executable jar to the home directory of the machine. Set all of the environment variables on the command line (i.e. <code>export APP_DB_NAME=zika</code>)</li>
-<li>If your app runs, you know that everything is setup for your to start configuring your AutoScaling groups!</li>
-</ol>
                                     </section>
 
             </div>
