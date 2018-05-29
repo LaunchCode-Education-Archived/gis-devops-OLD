@@ -103,7 +103,10 @@ You will need to spin up an "YourName-AdminMachine" to configure your RDS. You w
 4. Create the db tables
 * By starting the web app
 * Or running an sql script with create table statements
-5. Run psql COPY commands to populate the tables
+5. Run psql COPY commands to populate the tables (Example for locations below)
+```nohighlight
+$ psql -h gary-zika-db.1234.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" < locations.csv
+```
 
 ### Seed the ElasticSearch Data Store
 When you ElasticSearch instance starts it has not data. We need to insert all reports in Postgresl into ElasticSearch.
