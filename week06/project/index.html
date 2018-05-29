@@ -139,8 +139,20 @@
 <aside class="aside-note">
 <p>Be sure to stop your home brew Elasticsearch by running <code>brew services stop elasticsearch</code></p>
 </aside>
-<pre><code class="language-nohighlight">$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre></li>
+<p>Create the container (NOTE: An id will be returned)</p>
+<pre><code class="language-nohighlight">$ docker create -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8 &lt;----- this is returned after the above command, it's id of the container that is created COPY THIS SOMEHWERE</code></pre>
+<p>Start the container</p>
+<pre><code class="language-nohighlight">$ docker start 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8</code></pre></li>
 </ul>
+<p>You can restart or stop the container as well</p>
+<ul>
+<li><code>$ docker restart 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8</code> </li>
+<li><code>$ docker stop 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8</code></li>
+</ul>
+<aside class="aside-warning">
+<p>The error <code>None of the configured nodes are available</code> can be caused by starting up your Web App before ElasticSearch is running. This can also happen if you restart your ElasticSearch while your Web App is running.</p>
+</aside>
 <h2 id="setup-in-the-cloud">Setup in the Cloud</h2>
 <h3 id="centos">CentOS</h3>
 <p><code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. CentOS comes with less software installed than Ubuntu. For example <code>telnet</code> has to be installed via <code>sudo yum install telnet</code>. <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">Info on Image of CentOS we will use</a></p>
