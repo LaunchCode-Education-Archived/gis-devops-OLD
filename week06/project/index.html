@@ -188,7 +188,8 @@
 <li>By starting the web app</li>
 <li>Or running an sql script with create table statements</li>
 </ul></li>
-<li>Run psql COPY commands to populate the tables</li>
+<li>Run psql COPY commands to populate the tables (Example for locations below)
+<pre><code class="language-nohighlight">$ psql -h gary-zika-db.1234.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre></li>
 </ol>
 <h3 id="seed-the-elasticsearch-data-store">Seed the ElasticSearch Data Store</h3>
 <p>When you ElasticSearch instance starts it has not data. We need to insert all reports in Postgresl into ElasticSearch.</p>
