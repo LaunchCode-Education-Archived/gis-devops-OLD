@@ -50,9 +50,23 @@ To run Elasticsearch locally, we are going to be using Docker:
 <aside class="aside-note" markdown="1">
 Be sure to stop your home brew Elasticsearch by running `brew services stop elasticsearch`
 </aside>
+Create the container (NOTE: An id will be returned)
 ```nohighlight
-$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+$ docker create -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8 <----- this is returned after the above command, it's id of the container that is created COPY THIS SOMEHWERE
 ```
+Start the container
+```nohighlight
+$ docker start 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8
+```
+
+You can restart or stop the container as well
+- `$ docker restart 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8` 
+- `$ docker stop 63918ba7994482d94bdaf7bbc2005d91e0ac2f02a88039ebe2521ed9d9e8e8b8`
+
+<aside class="aside-warning" markdown="1">
+The error `None of the configured nodes are available` can be caused by starting up your Web App before ElasticSearch is running. This can also happen if you restart your ElasticSearch while your Web App is running.
+</aside>
 
 ## Setup in the Cloud
 
