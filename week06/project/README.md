@@ -128,4 +128,4 @@ The setup CloudFormation script can be found at:
 
 https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json
 
-Follow the instruction from the [Scaling AWS Studio](https://education.launchcode.org/gis-devops/studios/AWS3#configure-your-vpc) to setup your VPC from a CloudFormation script.
+Follow the instruction from the [Scaling AWS Studio](https://education.launchcode.org/gis-devops/studios/AWS-auto-scaling) to setup your VPC from a CloudFormation script.
