@@ -28,7 +28,7 @@ To complete this project, your app should meet the following requirements:
 * ESLint has no warnings
 
 ## New Stuff
-There will be a few differences in this project compared to previous week's studios/project.  You may just want to copy over certain changes instead of merging [Week 6 Starter](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter). NOTE that the starter branch only contains config, property, and aws scripts. The starter branch does not contain a solution for week 4.
+There will be a few differences in this project compared to previous week's studios/project.  You may want to copy over certain changes instead of merging [Week 6 Starter](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter). NOTE that the starter branch only contains config, property, and aws scripts. The starter branch does not contain a solution for week 4.
 
 Review the changes by looking at this branch comparison: [week4 compared to week6](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/compare/week4-starter...week6-starter)
 
@@ -36,12 +36,12 @@ Review the changes by looking at this branch comparison: [week4 compared to week
 1. You will be using the `CentOS` operating system instead of `Ubuntu`
 2. Using Spring Data 2.0.2 (dependencies have been updated in build.gradle)
 3. When running locally you will be running ElasticSearch inside a docker instance (details below)
-4. When running in the cloaud you will be running ElasticSearch on an EC2 instance
+4. When running in the cloud you will be running ElasticSearch on an EC2 instance
 
 
 
 ## Setup Locally
-To run Elasticsearch locally, we are going to be using Docker, here is the command:
+To run Elasticsearch locally, we are going to be using Docker:
 - Download docker installer from [here](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 - That will install docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)
 - Now you can run `$ docker` commands in your terminal. Like the one below. (this runs a docker instance that contains ElasticSearch)
@@ -57,15 +57,15 @@ $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpac
 ## Setup in the Cloud
 
 ### CentOS
-`CentOS` is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use `yum install` instead of `apt-get install`. CentOS comes with less software installed than Ubuntu. For example `telnet` has to be installed via `sudo yum install telnet` [Info on Image of CentOS we will use](https://wiki.centos.org/Cloud/AWS)
+`CentOS` is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use `yum install` instead of `apt-get install`. CentOS comes with less software installed than Ubuntu. For example `telnet` has to be installed via `sudo yum install telnet`. [Info on Image of CentOS we will use](https://wiki.centos.org/Cloud/AWS)
 
 <aside class="aside-note" markdown="1">
-To log into a CentOS instance, you will need to use the username `centos`.
+To `ssh` into a CentOS instance, you will need to use the username `centos`.
 </aside>
 
 How to manually create an AWS EC2 instance using CentOS
 * Go to Oregon Region
-* Click **Launch Instance** on the EC2 Dashboard
+* Click **Launch Instance** in the EC2 Dashboard
 * Click **My AMIs**
 * Search for **centos**
 * Click **CentOS Image** 
@@ -75,7 +75,7 @@ How to manually create an AWS EC2 instance using CentOS
 ### Cloud ElasticSearch
 In the clouid you will be running ElasticSearch on it's own EC2 instance.
 
-* You'll need to spin up a `t2.small` EC2 instance to serve ElasticSearch.
+* You will need to spin up a `t2.small` EC2 instance to serve ElasticSearch.
 
 * Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure a `t2.small` machine.
 * If you get an "Out of Memory Exception", be sure to increase the heap size by setting `Xms3g` and `Xmx4g` in the `/etc/elasticsearch/jvm.options` file.
