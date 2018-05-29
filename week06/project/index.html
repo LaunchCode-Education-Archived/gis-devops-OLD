@@ -119,17 +119,17 @@
 <li>ESLint has no warnings</li>
 </ul>
 <h2 id="new-stuff">New Stuff</h2>
-<p>There will be a few differences in this project compared to previous week's studios/project.  You may just want to copy over certain changes instead of merging <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">Week 6 Starter</a>. NOTE that the starter branch only contains config, property, and aws scripts. The starter branch does not contain a solution for week 4.</p>
+<p>There will be a few differences in this project compared to previous week's studios/project.  You may want to copy over certain changes instead of merging <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week6-starter" target="_blank">Week 6 Starter</a>. NOTE that the starter branch only contains config, property, and aws scripts. The starter branch does not contain a solution for week 4.</p>
 <p>Review the changes by looking at this branch comparison: <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/compare/week4-starter...week6-starter" target="_blank">week4 compared to week6</a></p>
 <h3 id="specific-changes">Specific Changes</h3>
 <ol>
 <li>You will be using the <code>CentOS</code> operating system instead of <code>Ubuntu</code></li>
 <li>Using Spring Data 2.0.2 (dependencies have been updated in build.gradle)</li>
 <li>When running locally you will be running ElasticSearch inside a docker instance (details below)</li>
-<li>When running in the cloaud you will be running ElasticSearch on an EC2 instance</li>
+<li>When running in the cloud you will be running ElasticSearch on an EC2 instance</li>
 </ol>
 <h2 id="setup-locally">Setup Locally</h2>
-<p>To run Elasticsearch locally, we are going to be using Docker, here is the command:</p>
+<p>To run Elasticsearch locally, we are going to be using Docker:</p>
 <ul>
 <li>Download docker installer from <a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank">here</a></li>
 <li>That will install docker as a service and an application that will run everytime your computer starts. (look for the whale icon in your menu bar at the top of your mac)</li>
@@ -143,14 +143,14 @@
 </ul>
 <h2 id="setup-in-the-cloud">Setup in the Cloud</h2>
 <h3 id="centos">CentOS</h3>
-<p><code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. CentOS comes with less software installed than Ubuntu. For example <code>telnet</code> has to be installed via <code>sudo yum install telnet</code> <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">Info on Image of CentOS we will use</a></p>
+<p><code>CentOS</code> is a free, enterprise class, Linux distribution based on Red Hat Enterprise Linux. Most of the commands will be the same as Ubuntu, except the package manager will use <code>yum install</code> instead of <code>apt-get install</code>. CentOS comes with less software installed than Ubuntu. For example <code>telnet</code> has to be installed via <code>sudo yum install telnet</code>. <a href="https://wiki.centos.org/Cloud/AWS" target="_blank">Info on Image of CentOS we will use</a></p>
 <aside class="aside-note">
-<p>To log into a CentOS instance, you will need to use the username <code>centos</code>.</p>
+<p>To <code>ssh</code> into a CentOS instance, you will need to use the username <code>centos</code>.</p>
 </aside>
 <p>How to manually create an AWS EC2 instance using CentOS</p>
 <ul>
 <li>Go to Oregon Region</li>
-<li>Click <strong>Launch Instance</strong> on the EC2 Dashboard</li>
+<li>Click <strong>Launch Instance</strong> in the EC2 Dashboard</li>
 <li>Click <strong>My AMIs</strong></li>
 <li>Search for <strong>centos</strong></li>
 <li>Click <strong>CentOS Image</strong> </li>
@@ -160,7 +160,7 @@
 <p>In the clouid you will be running ElasticSearch on it's own EC2 instance.</p>
 <ul>
 <li>
-<p>You'll need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch.</p>
+<p>You will need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch.</p>
 </li>
 <li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.small</code> machine.</li>
 <li>If you get an &quot;Out of Memory Exception&quot;, be sure to increase the heap size by setting <code>Xms3g</code> and <code>Xmx4g</code> in the <code>/etc/elasticsearch/jvm.options</code> file.</li>
