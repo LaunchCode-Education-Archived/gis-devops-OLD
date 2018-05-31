@@ -89,9 +89,10 @@ How to manually create an AWS EC2 instance using CentOS
 ### Cloud ElasticSearch
 In the clouid you will be running ElasticSearch on it's own EC2 instance.
 
-* You will need to spin up a `t2.small` EC2 instance to serve ElasticSearch.
+* You will need to spin up a `t2.medium` EC2 instance to serve ElasticSearch (ElasticSearch requires lots of memory)
 
-* Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure a `t2.small` machine.
+* Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure a `t2.medium` machine.
+* You can check on the status of ElasticSearch by sshing into the server and running `$ journalctl -f -u elasticsearch`
 * If you get an "Out of Memory Exception", be sure to increase the heap size by setting `Xms3g` and `Xmx4g` in the `/etc/elasticsearch/jvm.options` file.
 
 ### Create and Populate the RDS
@@ -101,8 +102,9 @@ You will need to spin up an "YourName-AdminMachine" to configure your RDS. You w
 2. Install Postgresql
 3. Copy over .csv files to the server
 4. Create the db tables
-* By starting the web app
-* Or running an sql script with create table statements
+- You can use Hibernate to do this, if you have a Web App connected to your RDS
+- Or you can create the tables manually
+- See [Conifgure the Database in Week5 Day3 Studio](https://education.launchcode.org/gis-devops/studios/AWS-auto-scaling/)
 5. Run psql COPY commands to populate the tables (Example for locations below)
 ```nohighlight
 $ psql -h gary-zika-db.1234.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" < locations.csv
@@ -111,12 +113,13 @@ $ psql -h gary-zika-db.1234.us-west-2.rds.amazonaws.com -d zika -U zika_app_user
 ### Seed the ElasticSearch Data Store
 When you ElasticSearch instance starts it has not data. We need to insert all reports in Postgresl into ElasticSearch.
 
-1. Make a `POST` reuqest to `/api/_cluster/reindex` on "YourName-AdminMachine" EC2
+1. You need to make a `POST` reuqest to `/api/_cluster/reindex` to a WebApp that is connected to your **cloud** ElasticSearch
+2. That can be done with your "YourName-AdminMachine" EC2 or by connectioning your **local** WebApp to your **cloud** ElasticSearch
+  - If you choose to use your "YourName-AdminMachine" EC2, it will likely need to be a `t2.medium` to be able to handle the memory load of selecting all reports and then sending them to ES
 2. This instance can be spun down after your RDS and ElasticSearch is working
 <aside class="aside-note" markdown="1">
 The "YourName-AdminMachine" instance may need to be a `t2.small` or `t2.medium` in order to handle the POST request that transfers all the reports to ElasticSearch. You will know this is the case if you see "out of memory" exceptions.
 </aside>
-
 
 ### VPC Setup
 To get started, you are provided with a CloudFormation template in an S3 bucket. This CloudFormation template provisions a VPC with the following:
@@ -126,6 +129,10 @@ To get started, you are provided with a CloudFormation template in an S3 bucket.
 3. One security group for web servers (ports 80 and 22 open). `WebAppSecurityGroup`
 4. One security group for databases (port 5432 open). `DatabaseSecurityGroup`
 5. One security group for load balancers (port 80 open). `ELBSecurityGroup`
+
+<aside class="aside-note" markdown="1">
+This script does NOT create an RDS, you will have to do that yourself
+</aside>
 
 The setup CloudFormation script can be found at:
 
