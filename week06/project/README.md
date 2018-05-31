@@ -33,10 +33,10 @@ There will be a few differences in this project compared to previous week's stud
 Review the changes by looking at this branch comparison: [week4 compared to week6](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/compare/week4-starter...week6-starter)
 
 ### Specific Changes
-1. You will be using the `CentOS` operating system instead of `Ubuntu`
+1. For your **Web App** EC2 instances you will be using the `CentOS` operating system instead of `Ubuntu`
 2. Using Spring Data 2.0.2 (dependencies have been updated in build.gradle)
-3. When running locally you will be running ElasticSearch inside a docker instance (details below)
-4. When running in the cloud you will be running ElasticSearch on an EC2 instance
+3. When running locally you will be running **ElasticSearch** inside a **Docker** instance (details below)
+4. When running in the cloud you will be running **ElasticSearch** on a `Ubuntu` EC2 instance
 
 
 
@@ -89,7 +89,7 @@ How to manually create an AWS EC2 instance using CentOS
 ### Cloud ElasticSearch
 In the clouid you will be running ElasticSearch on it's own EC2 instance.
 
-* You will need to spin up a `t2.medium` EC2 instance to serve ElasticSearch (ElasticSearch requires lots of memory)
+* You will need to spin up a `Ubuntu` `t2.medium` EC2 instance to serve ElasticSearch (ElasticSearch requires lots of memory)
 
 * Use the [`startup_elasticsearch.sh` script](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh) in the week6-starter project to configure a `t2.medium` machine.
 * You can check on the status of ElasticSearch by sshing into the server and running `$ journalctl -f -u elasticsearch`
