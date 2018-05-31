@@ -172,9 +172,10 @@
 <p>In the clouid you will be running ElasticSearch on it's own EC2 instance.</p>
 <ul>
 <li>
-<p>You will need to spin up a <code>t2.small</code> EC2 instance to serve ElasticSearch.</p>
+<p>You will need to spin up a <code>t2.medium</code> EC2 instance to serve ElasticSearch (ElasticSearch requires lots of memory)</p>
 </li>
-<li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.small</code> machine.</li>
+<li>Use the <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week6-starter/cloud/elastic_userdata.sh" target="_blank"><code>startup_elasticsearch.sh</code> script</a> in the week6-starter project to configure a <code>t2.medium</code> machine.</li>
+<li>You can check on the status of ElasticSearch by sshing into the server and running <code>$ journalctl -f -u elasticsearch</code></li>
 <li>If you get an &quot;Out of Memory Exception&quot;, be sure to increase the heap size by setting <code>Xms3g</code> and <code>Xmx4g</code> in the <code>/etc/elasticsearch/jvm.options</code> file.</li>
 </ul>
 <h3 id="create-and-populate-the-rds">Create and Populate the RDS</h3>
@@ -185,8 +186,9 @@
 <li>Copy over .csv files to the server</li>
 <li>Create the db tables
 <ul>
-<li>By starting the web app</li>
-<li>Or running an sql script with create table statements</li>
+<li>You can use Hibernate to do this, if you have a Web App connected to your RDS</li>
+<li>Or you can create the tables manually</li>
+<li>See <a href="https://education.launchcode.org/gis-devops/studios/AWS-auto-scaling/" target="_blank">Conifgure the Database in Week5 Day3 Studio</a></li>
 </ul></li>
 <li>Run psql COPY commands to populate the tables (Example for locations below)
 <pre><code class="language-nohighlight">$ psql -h gary-zika-db.1234.us-west-2.rds.amazonaws.com -d zika -U zika_app_user -c "\copy location(ID_0,ISO,NAME_0,ID_1,NAME_1,HASC_1,CCN_1,CCA_1,TYPE_1,ENGTYPE_1,NL_NAME_1,VARNAME_1,geom) from STDIN WITH DELIMITER E'\t' CSV" &lt; locations.csv</code></pre></li>
@@ -194,7 +196,11 @@
 <h3 id="seed-the-elasticsearch-data-store">Seed the ElasticSearch Data Store</h3>
 <p>When you ElasticSearch instance starts it has not data. We need to insert all reports in Postgresl into ElasticSearch.</p>
 <ol>
-<li>Make a <code>POST</code> reuqest to <code>/api/_cluster/reindex</code> on &quot;YourName-AdminMachine&quot; EC2</li>
+<li>You need to make a <code>POST</code> reuqest to <code>/api/_cluster/reindex</code> to a WebApp that is connected to your <strong>cloud</strong> ElasticSearch</li>
+<li>That can be done with your &quot;YourName-AdminMachine&quot; EC2 or by connectioning your <strong>local</strong> WebApp to your <strong>cloud</strong> ElasticSearch
+<ul>
+<li>If you choose to use your &quot;YourName-AdminMachine&quot; EC2, it will likely need to be a <code>t2.medium</code> to be able to handle the memory load of selecting all reports and then sending them to ES</li>
+</ul></li>
 <li>This instance can be spun down after your RDS and ElasticSearch is working
 <aside class="aside-note">
 <p>The &quot;YourName-AdminMachine&quot; instance may need to be a <code>t2.small</code> or <code>t2.medium</code> in order to handle the POST request that transfers all the reports to ElasticSearch. You will know this is the case if you see &quot;out of memory&quot; exceptions.</p>
@@ -209,6 +215,9 @@
 <li>One security group for databases (port 5432 open). <code>DatabaseSecurityGroup</code></li>
 <li>One security group for load balancers (port 80 open). <code>ELBSecurityGroup</code></li>
 </ol>
+<aside class="aside-note">
+<p>This script does NOT create an RDS, you will have to do that yourself</p>
+</aside>
 <p>The setup CloudFormation script can be found at:</p>
 <p><a href="https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json" target="_blank">https://s3.amazonaws.com/launchcode-gisdevops-cloudformation/zika_cloudformation.json</a></p>
 <p>Follow the instruction from the <a href="https://education.launchcode.org/gis-devops/studios/AWS-auto-scaling" target="_blank">Scaling AWS Studio</a> to setup your VPC from a CloudFormation script.</p>
