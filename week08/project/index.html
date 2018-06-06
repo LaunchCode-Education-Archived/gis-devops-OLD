@@ -119,7 +119,7 @@
 <p>Fetch the <code>week8-starter</code> branch from the project repository and merge it with your working branch. This contains a few changes that we'll use below.</p>
 <h2 id="setup">Setup</h2>
 <p>Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts. It is not enough to pause the VM; you must shut it down completely or select <em>Save State</em>.</p>
-<h3 id="create-docker-containers">Create Docker containers</h3>
+<h3 id="create-docker-containers">Create Docker Containers</h3>
 <p>Create a file <code>env.list</code> in the root of your <code>zika-cdc-dashboard</code> project with the same contents as <a href="https://gist.github.com/chrisbay/d74442a8e8707111472a742832d76796" target="_blank">our <code>envlist</code> file</a>.</p>
 <pre><code class="language-nohighlight">$ docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:9.4-2.1</code></pre>
 <aside class="aside-warning">
@@ -139,12 +139,12 @@
 </aside>
 <h3 id="enable-cors-in-geoserver">Enable CORS in GeoServer</h3>
 <p>You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.</p>
-<p>Open a shell within the Docker container and install a text editor:</p>
+<p>Open a shell within the Docker container and install a text editor (you can also install <code>nano</code> instead of <code>vim</code> if you want):</p>
 <pre><code class="language-nohighlight">$ docker exec -it geoserver bash
 root@2992f761f41e:/usr/local/tomcat# apt-get update
 root@2992f761f41e:/usr/local/tomcat# apt-get install vim</code></pre>
 <p>Open the GeoServer <code>web.xml</code> for editing:</p>
-<pre><code class="language-nohighlight">root@2992f761f41e:/usr/local/tomcat# vi conf/web.xml</code></pre>
+<pre><code class="language-nohighlight">root@2992f761f41e:# vi /usr/local/tomcat/conf/web.xml</code></pre>
 <p>Add the following XML just within the opening <code>&lt;web-app&gt;</code> tag:</p>
 <pre><code class="language-xml">&lt;filter&gt;
   &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
@@ -154,28 +154,36 @@ root@2992f761f41e:/usr/local/tomcat# apt-get install vim</code></pre>
   &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
   &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
 &lt;/filter-mapping&gt;</code></pre>
-<p>Save and exit. Then exit the container shell. Stop and start the <code>geoserver</code> container:</p>
+<p>Save the file and exit. Then exit the docker container shell.</p>
+<pre><code class="language-nohighlight">root@2992f761f41e:# exit</code></pre>
+<p>Stop and start the <code>geoserver</code> container:</p>
 <pre><code class="language-nohighlight">$ docker stop geoserver
 $ docker start geoserver</code></pre>
-<p>Now requests from origins other than <code>localhost:8080</code> will be accepted by our GeoServer instance.</p>
-<h3 id="populate-postgis-database">Populate PostGIS database</h3>
-<p>We need to put our data files on the server. First, let's change the paths referenced in the <code>data.sql</code> file to <code>'/tmp/locations.csv'</code> and <code>'/tmp/all_reports.csv'</code>.</p>
-<p>Then copy the file to the <code>postgis</code> contianer:</p>
+<p>Now <code>XHR</code>requests from your local zika app running on <code>http://localhost:9090</code> will be accepted by our GeoServer instance. If you don't set that up, you will see <code>CORS</code> errors in the js console.</p>
+<h3 id="populate-postgis-database">Populate PostGIS Database</h3>
+<p>We need to load the report and location data into the <strong>postgis</strong> docker container.  We will copy over the <code>.csv</code> files to the container and execute psql copy commands.</p>
+<ul>
+<li>First, let's change the paths referenced in the <code>/src/main/resources/data.sql</code> file to be <code>'/tmp/locations.csv'</code> and <code>'/tmp/all_reports.csv'</code></li>
+<li>Then copy the files to the <code>postgis</code> contianer:</li>
+</ul>
 <pre><code class="language-nohighlight">$ docker cp locations.csv postgis:/tmp
 $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <p>Verify that the files made it:</p>
 <pre><code class="language-nohighlight">$ docker exec -it postgis ls -l /tmp</code></pre>
-<p>The <code>data.sql</code> file that will be run on the <code>postgis</code> container will need to find the data files in <code>/tmp</code>, so update that script accordingly (recall that <code>data.sql</code> is run on the database host, which is the <code>postgis</code> container, in this case).</p>
-<p>Additionally, the script makes use of the <code>unaccent</code> function, which is part of the <code>unaccent</code> Postgres extension. While our Docker image came with the PostGIS extension installed, the <code>unaccent</code> extention is <em>not</em> present. Let's fix that.</p>
+<p>Remember that <code>data.sql</code> makes use of the <code>unaccent</code> function, which is part of the <code>unaccent</code> Postgres extension. While our Docker image came with the PostGIS extension installed, the <code>unaccent</code> extention is <em>not</em> present. Let's fix that.</p>
+<aside class="aside-warning">
+<p>Stop all instances of Postgres on your local machine. Stop the Postgress App in the top bar and stop the service being ran by brew. The only Postgres we want running is the one inside of docker. If you get an error below that the <code>gis</code> database doesn't exist, then you are connected to a different local Postgres.</p>
+</aside>
 <p>Fire up <code>psql</code>, note the password for zika_app_user is &quot;somethingsensible&quot;:</p>
 <pre><code class="language-nohighlight">$ psql -h localhost -p 5432 -U zika_app_user -d gis</code></pre>
 <p>And then install the extension:</p>
 <pre><code class="language-nohighlight"># create extension unaccent;</code></pre>
 <p>Exit <code>psql</code>.</p>
+<h3 id="change-tomcat-port">Change Tomcat Port</h3>
 <p>Now, configure your <code>zika-cdc-dashboard</code> app so it can connect to the PostGIS datbase. This requires editing the environment variables in the <code>Application</code> run configuration. The only edit you should need to make is to set the <code>APP_DB_NAME</code> to <code>gis</code> (see the Warning above).</p>
-<p>Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding <code>server.port=8000</code> to <code>application.properties</code>.</p>
+<p>Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding <code>server.port=9090</code> to <code>application.properties</code>.</p>
 <aside class="aside-note">
-<p>You may also need to change the port referenced in <code>script.js</code>. <code>url: 'http://localhost:8000/api/es/report/?date=2016-03-05'</code>. Another solution for this is to use a relative path <code>url: '/api/es/report/?date=2016-03-05'</code></p>
+<p>You may also need to change the port referenced in <code>script.js</code>. <code>url: 'http://localhost:9090/api/es/report/?date=2016-03-05'</code>. Another solution for this is to use a relative path <code>url: '/api/es/report/?date=2016-03-05'</code></p>
 </aside>
 <p>Start up your Spring app. Verify that the app started up cleanly, and that the <code>locations</code> and <code>reports</code> databases were built and populated properly.</p>
 <aside class="aside-pro-tip">
@@ -185,7 +193,7 @@ $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <h3 id="add-foreigh-keys-to-reports">Add foreigh keys to reports</h3>
 <p>We want to set up explicit relationships between reports and locations in the database. To do this, we've created an endpoint that for each <code>Report</code> object, will look for a corresponding <code>Location</code> object and create a reference/foreign key relationship.</p>
 <p>Start up your Spring app and hit the endpoint from the command line:</p>
-<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:8000/api/report/assignStates</code></pre>
+<pre><code class="language-nohighlight">$ curl -XPOST http://localhost:9090/api/report/assignStates</code></pre>
 <p>This will take a few minutes to run. When the request is complete, all <code>Report</code> objects for which there is a corresponding <code>Location</code> will have the relationship stored as a foreign key in the <code>report.state_id</code> column.</p>
 <h2 id="requirements">Requirements</h2>
 <p>The requirements for this project are:</p>
