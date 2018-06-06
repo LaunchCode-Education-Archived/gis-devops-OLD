@@ -29,7 +29,7 @@ Fetch the `week8-starter` branch from the project repository and merge it with y
 
 Before getting started, be sure you don't have your Boundless virtual machine running. We'll be using the same ports as the VM, so if it is running there will be conflicts. It is not enough to pause the VM; you must shut it down completely or select *Save State*.
 
-### Create Docker containers
+### Create Docker Containers
 
 Create a file `env.list` in the root of your `zika-cdc-dashboard` project with the same contents as [our `envlist` file](https://gist.github.com/chrisbay/d74442a8e8707111472a742832d76796).
 
@@ -67,7 +67,7 @@ If Docker has no more than 2G of memory allocated for container use, you may hav
 
 You'll be making requests to the GeoServer container from a port other than the one on which it is running, which means CORS will come into play. Let's enable cross-origin requests within GeoServer.
 
-Open a shell within the Docker container and install a text editor:
+Open a shell within the Docker container and install a text editor (you can also install `nano` instead of `vim` if you want):
 
 ```nohighlight
 $ docker exec -it geoserver bash
@@ -78,7 +78,7 @@ root@2992f761f41e:/usr/local/tomcat# apt-get install vim
 Open the GeoServer `web.xml` for editing:
 
 ```nohighlight
-root@2992f761f41e:/usr/local/tomcat# vi conf/web.xml
+root@2992f761f41e:# vi /usr/local/tomcat/conf/web.xml
 ```
 
 Add the following XML just within the opening `<web-app>` tag:
@@ -94,20 +94,26 @@ Add the following XML just within the opening `<web-app>` tag:
 </filter-mapping>
 ```
 
-Save and exit. Then exit the container shell. Stop and start the `geoserver` container:
+Save the file and exit. Then exit the docker container shell.
+```nohighlight
+root@2992f761f41e:# exit
+```
+
+Stop and start the `geoserver` container:
 
 ```nohighlight
 $ docker stop geoserver
 $ docker start geoserver
 ```
 
-Now requests from origins other than `localhost:8080` will be accepted by our GeoServer instance.
+Now `XHR`requests from your local zika app running on `http://localhost:9090` will be accepted by our GeoServer instance. If you don't set that up, you will see `CORS` errors in the js console.
 
-### Populate PostGIS database
+### Populate PostGIS Database
 
-We need to put our data files on the server. First, let's change the paths referenced in the `data.sql` file to `'/tmp/locations.csv'` and `'/tmp/all_reports.csv'`.
+We need to load the report and location data into the **postgis** docker container.  We will copy over the `.csv` files to the container and execute psql copy commands.
 
-Then copy the file to the `postgis` contianer:
+- First, let's change the paths referenced in the `/src/main/resources/data.sql` file to be `'/tmp/locations.csv'` and `'/tmp/all_reports.csv'`
+- Then copy the files to the `postgis` contianer:
 
 ```nohighlight
 $ docker cp locations.csv postgis:/tmp
@@ -120,9 +126,11 @@ Verify that the files made it:
 $ docker exec -it postgis ls -l /tmp
 ```
 
-The `data.sql` file that will be run on the `postgis` container will need to find the data files in `/tmp`, so update that script accordingly (recall that `data.sql` is run on the database host, which is the `postgis` container, in this case).
+Remember that `data.sql` makes use of the `unaccent` function, which is part of the `unaccent` Postgres extension. While our Docker image came with the PostGIS extension installed, the `unaccent` extention is *not* present. Let's fix that.
 
-Additionally, the script makes use of the `unaccent` function, which is part of the `unaccent` Postgres extension. While our Docker image came with the PostGIS extension installed, the `unaccent` extention is *not* present. Let's fix that.
+<aside class="aside-warning" markdown="1">
+Stop all instances of Postgres on your local machine. Stop the Postgress App in the top bar and stop the service being ran by brew. The only Postgres we want running is the one inside of docker. If you get an error below that the `gis` database doesn't exist, then you are connected to a different local Postgres.
+</aside>
 
 Fire up `psql`, note the password for zika_app_user is "somethingsensible":
 
@@ -138,12 +146,14 @@ And then install the extension:
 
 Exit `psql`.
 
+### Change Tomcat Port
+
 Now, configure your `zika-cdc-dashboard` app so it can connect to the PostGIS datbase. This requires editing the environment variables in the `Application` run configuration. The only edit you should need to make is to set the `APP_DB_NAME` to `gis` (see the Warning above).
 
-Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding `server.port=8000` to `application.properties`.
+Before we can run our Spring app, we need to configure it to run on a port other than 8080. Recall that we set up the GeoServer container to bind to port 8080 on our localhost, so the default for Spring (which is also 8080) will not work. We can easily adjust the port that Spring will run on by adding `server.port=9090` to `application.properties`.
 
 <aside class="aside-note" markdown="1">
-You may also need to change the port referenced in `script.js`. `url: 'http://localhost:8000/api/es/report/?date=2016-03-05'`. Another solution for this is to use a relative path `url: '/api/es/report/?date=2016-03-05'`
+You may also need to change the port referenced in `script.js`. `url: 'http://localhost:9090/api/es/report/?date=2016-03-05'`. Another solution for this is to use a relative path `url: '/api/es/report/?date=2016-03-05'`
 </aside>
 
 
@@ -164,7 +174,7 @@ We want to set up explicit relationships between reports and locations in the da
 Start up your Spring app and hit the endpoint from the command line:
 
 ```nohighlight
-$ curl -XPOST http://localhost:8000/api/report/assignStates
+$ curl -XPOST http://localhost:9090/api/report/assignStates
 ```
 
 This will take a few minutes to run. When the request is complete, all `Report` objects for which there is a corresponding `Location` will have the relationship stored as a foreign key in the `report.state_id` column.
