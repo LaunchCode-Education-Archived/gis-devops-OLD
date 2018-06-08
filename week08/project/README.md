@@ -8,7 +8,7 @@ Read [Mission Briefing 4](../../materials/week08/zika_mission_briefing_4.pdf).
 
 You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.
 
-After you have this new system fully set up, you'll be able to add additional layers to GeoServer.
+After you have this new system fully set up, you'll be able to add additional layers in GeoServer and show them using OpenLayers.
 
 ## Requirements
 1. Use GeoServer to display the report features
@@ -39,10 +39,13 @@ Before getting started, be sure you **DON'T** have your Boundless virtual machin
 ### Docker Commands
 - `docker ps` see list of **running** containers
 - `docker ps -a` see lisf of all containers, including ones that failed or were stopped
-- `docker start <container-name>` stops the container
-- `docker stop <container-name>` stops the container
-- `docker restart <container-name>` restarts the container
-- `docker rm <container-name>` removes the container
+- `docker start <container-name or id>` starts the container
+- `docker stop <container-name or id>` stops the container
+- `docker restart <container-name or id>` restarts the container
+- `docker rm <container-name or id>` removes the container
+- `docker images` shows list of images that you have downloaded. containers are created from images
+- `docker image rm <image-name or id>` removes an image
+- For more info and more commands please see [the Docker CLI docs](https://docs.docker.com/engine/reference/commandline/docker/)
 
 <aside class="aside-warning" markdown="1">
 If your containers start crashing with exit code 137, it's because they are out of memory. You need to incrase the memory given to Docker by going to Peferences, Advanced. See screen shot below.
@@ -253,7 +256,7 @@ There is a controller in `ReportController` called `saveNewReport` that saves cr
 
 For deploying GeoServer on AWS you will be using a `t2.small` CentOS machine.
 
-Include [geoserver_userdata.sh|(https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh), found in week8-starter, in the "Advanced Details" details section of "Configure Instance".  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on `http://{your IP}:8080/geoserver`.
+Paste the contents of shell script [geoserver_userdata.sh](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh) into the "Advanced Details" details section of "Configure Instance" to create the instace.  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on `http://{your IP}:8080/geoserver`.
 
 <aside class="aside-hint" markdown="1">
 Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
