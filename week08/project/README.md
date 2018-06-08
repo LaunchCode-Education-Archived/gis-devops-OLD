@@ -255,7 +255,7 @@ For deploying GeoServer on AWS you will be using a `t2.small` CentOS machine.
 
 Include [geoserver_userdata.sh|(https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh), found in week8-starter, in the "Advanced Details" details section of "Configure Instance".  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on `http://{your IP}:8080/geoserver`.
 
-<aside class="aside-hint">
+<aside class="aside-hint" markdown="1">
 Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
 </aside>
 
