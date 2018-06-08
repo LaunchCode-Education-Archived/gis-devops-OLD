@@ -98,7 +98,7 @@
                     <h2 id="overview">Overview</h2>
 <p>Read <a href="../../materials/week08/zika_mission_briefing_4.pdf">Mission Briefing 4</a>.</p>
 <p>You will be adding GeoServer to your local and deployed application. This will require several steps, including setting up a GeoServer instance, connecting it to a PostGIS store, and creating a new layer from existing data.</p>
-<p>After you have this new system fully set up, you'll be able to add additional layers to GeoServer.</p>
+<p>After you have this new system fully set up, you'll be able to add additional layers in GeoServer and show them using OpenLayers.</p>
 <h2 id="requirements">Requirements</h2>
 <ol>
 <li>Use GeoServer to display the report features</li>
@@ -136,10 +136,13 @@
 <ul>
 <li><code>docker ps</code> see list of <strong>running</strong> containers</li>
 <li><code>docker ps -a</code> see lisf of all containers, including ones that failed or were stopped</li>
-<li><code>docker start &lt;container-name&gt;</code> stops the container</li>
-<li><code>docker stop &lt;container-name&gt;</code> stops the container</li>
-<li><code>docker restart &lt;container-name&gt;</code> restarts the container</li>
-<li><code>docker rm &lt;container-name&gt;</code> removes the container</li>
+<li><code>docker start &lt;container-name or id&gt;</code> starts the container</li>
+<li><code>docker stop &lt;container-name or id&gt;</code> stops the container</li>
+<li><code>docker restart &lt;container-name or id&gt;</code> restarts the container</li>
+<li><code>docker rm &lt;container-name or id&gt;</code> removes the container</li>
+<li><code>docker images</code> shows list of images that you have downloaded. containers are created from images</li>
+<li><code>docker image rm &lt;image-name or id&gt;</code> removes an image</li>
+<li>For more info and more commands please see <a href="https://docs.docker.com/engine/reference/commandline/docker/" target="_blank">the Docker CLI docs</a></li>
 </ul>
 <aside class="aside-warning">
 <p>If your containers start crashing with exit code 137, it's because they are out of memory. You need to incrase the memory given to Docker by going to Peferences, Advanced. See screen shot below.</p>
@@ -256,7 +259,7 @@ $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <p>There is a controller in <code>ReportController</code> called <code>saveNewReport</code> that saves creates a new report object and saves it in both data stores (Postgresql and Elasticsearch). Update this method so that it looks up and assigns the corresponding <code>Location</code> object (if one exists) for the given report.</p>
 <h2 id="setup-in-the-cloud">Setup in the Cloud</h2>
 <p>For deploying GeoServer on AWS you will be using a <code>t2.small</code> CentOS machine.</p>
-<p>Include [geoserver_userdata.sh|(<a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh" target="_blank">https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh</a>), found in week8-starter, in the &quot;Advanced Details&quot; details section of &quot;Configure Instance&quot;.  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on <code>http://{your IP}:8080/geoserver</code>.</p>
+<p>Paste the contents of shell script <a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh" target="_blank">geoserver_userdata.sh</a> into the &quot;Advanced Details&quot; details section of &quot;Configure Instance&quot; to create the instace.  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on <code>http://{your IP}:8080/geoserver</code>.</p>
 <aside class="aside-hint">
 <p>Remember the default username for Geoserver is <code>admin</code> and the default password is <code>Geoserver</code>.</p>
 </aside>
