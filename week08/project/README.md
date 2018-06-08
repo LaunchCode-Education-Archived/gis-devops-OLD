@@ -16,7 +16,8 @@ After you have this new system fully set up, you'll be able to add additional la
 3. You have deployed your application to AWS, including a EC2 instance running GeoServer
 
 ## New Stuff
-There are a few differences in this project compared to week6-starter.  You may want to copy over certain changes instead of merging. - - [Week 8 Starter](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week8-starter)
+There are a few differences in this project compared to week6-starter.  You may want to copy over certain changes instead of merging.
+- [Week 8 Starter](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/tree/week8-starter)
 - [Week8-starer compared to Week6-starter](https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/compare/week6-starter...week8-starter)
 
 ### Specific Changes
