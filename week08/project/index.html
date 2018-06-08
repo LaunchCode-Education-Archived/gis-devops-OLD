@@ -258,7 +258,7 @@ $ docker cp all_reports.csv postgis:/tmp</code></pre>
 <p>For deploying GeoServer on AWS you will be using a <code>t2.small</code> CentOS machine.</p>
 <p>Include [geoserver_userdata.sh|(<a href="https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh" target="_blank">https://gitlab.com/LaunchCodeTraining/zika-cdc-dashboard/blob/week8-starter/cloud/geoserver_userdata.sh</a>), found in week8-starter, in the &quot;Advanced Details&quot; details section of &quot;Configure Instance&quot;.  The script installs Apache Tomcat, downloads the Boundless Suite WAR, and deploys the geoserver WAR the Apache Tomcat server.  The deployed geoserver can be reached on <code>http://{your IP}:8080/geoserver</code>.</p>
 <aside class="aside-hint">
-Remember the default username for Geoserver is `admin` and the default password is `Geoserver`.
+<p>Remember the default username for Geoserver is <code>admin</code> and the default password is <code>Geoserver</code>.</p>
 </aside>
 <h2 id="bonus-missions">Bonus Missions</h2>
 <p>When you complete all of these instructions, check out the <a href="https://github.com/ngageoint/elasticgeo" target="_blank">ElasticGeo Plugin</a>.  <a href="https://github.com/ngageoint/elasticgeo" target="_blank">ElasticGeo</a> is an Elasticsearch plugin that allows you to integrate Elasticsearch into Geoserver.  The great thing is that that you can do Elasticsearch queries directly through Geoserver via WFS calls.  Here are the setup instructions and instructions on how to make the calls. <a href="https://github.com/ngageoint/elasticgeo/blob/master/gs-web-elasticsearch/doc/index.rst" target="_blank">ElasticGeo Instructions</a></p>
