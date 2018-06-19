@@ -96,6 +96,20 @@
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>An Introduction to Docker</h1>
                     <p>Follow along with the instructor as you explore Docker and configure a basic Flask application.</p>
+<h2 id="docker-commands">Docker Commands</h2>
+<ul>
+<li><code>docker ps</code> see list of <strong>running</strong> containers</li>
+<li><code>docker ps -a</code> see lisf of all containers, including ones that failed or were stopped</li>
+<li><code>docker start &lt;container-name or id&gt;</code> starts the container</li>
+<li><code>docker stop &lt;container-name or id&gt;</code> stops the container</li>
+<li><code>docker restart &lt;container-name or id&gt;</code> restarts the container</li>
+<li><code>docker rm &lt;container-name or id&gt;</code> removes the container</li>
+<li><code>docker images</code> shows list of images that you have downloaded. containers are created from images</li>
+<li><code>docker image rm &lt;image-name or id&gt;</code> removes an image</li>
+<li><code>docker build --tag super-happy-fun-os .</code> builds a new image that containers can be created from</li>
+<li><code>docker-compose up -d</code> uses a docker-compose.yml file to configure and start containers</li>
+<li>For more info and more commands please see <a href="https://docs.docker.com/engine/reference/commandline/docker/" target="_blank">the Docker CLI docs</a></li>
+</ul>
 <h2 id="setup">Setup</h2>
 <p>First, make sure that you have Docker installed.  You can check the Docker installation by running</p>
 <pre><code>$ docker --version</code></pre>
@@ -110,10 +124,11 @@ $ brew services start redis</code></pre>
 <pre><code>$ telnet localhost 6379</code></pre>
 <h2 id="a-simple-python-web-app">A simple Python web app</h2>
 <p>In this walkthrough we are going to stand up a simple Python web app.  The app uses Python Flask as a web server.  Flask may be new to you, but see if you see any similarities to Spring Boot.</p>
-<p>Check out the [docker-flask-walkthrough]()</p>
-<p>First let's run the file called <code>simple_app.py</code>. Be sure to install all of the app dependencies using pip first!</p>
+<h3 id="setup-1">Setup</h3>
+<p>Clone this repo <a href="https://gitlab.com/LaunchCodeTraining/docker-flask-walkthrough" target="_blank">docker-flask-walkthrough</a></p>
+<p>Install dependencies using pip by running:</p>
 <pre><code>$ pip install --user -r requirements.tx</code></pre>
-<p><code>simple_app.py</code></p>
+<p>Review file <code>simple_app.py</code></p>
 <pre><code>import time
 
 from flask import Flask
@@ -127,57 +142,35 @@ def hello():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)</code></pre>
-<p>Fire up the app by running the following command:</p>
-<pre><code>$ python app.py</code></pre>
-<p>Navigating to <code>http://localhost:5000</code> should show our simple message.  Now let's turn this app into a Docker container.</p>
-<p>We need to create a <code>Dockerfile</code> for CentOS. We'll start with the very basics and work our way up.  We'll use the <code>ADD</code> command to inject our local directory into the container at the path <code>/code</code>.</p>
+<p>Run the simple web app by running the below command</p>
+<pre><code class="language-nohighlight">$ python simple_app.py</code></pre>
+<p>Navigate to <code>http://localhost:5000</code>, it should show our simple message.  Please <strong>stop</strong> this process as we will next get this running via a Docker container.</p>
+<h3 id="create-dockerfile">Create Dockerfile</h3>
+<p>We need to create a <code>Dockerfile</code> for CentOS. Add the below content into <code>/docker-flask-walkthrough/Dockerfile</code>. Don't just copy and paste it, review each line.</p>
 <p><code>Dockerfile</code></p>
-<pre><code>FROM centos:7
-
-ADD . /code</code></pre>
-<p>Build the image and then check to make sure that it built correctly:</p>
-<pre><code>$ sudo docker build --tag my-centos .
-$ sudo docker images 
-REPOSITORY                                      TAG                 IMAGE ID            CREATED             SIZE
-my-centos                                       latest              ff426288ea90        8 weeks ago         207MB</code></pre>
-<p>Great. We can exactly when it was created and how large the image is.</p>
-<p>Since the <code>Dockerfile</code> doesn't have a command to start a process, let's start the container on the terminal using the <code>-i -t</code> flags and the command <code>/bin/bash</code>.  Also, we will use the <code>-p 5000:5000</code> option to map port 5000 on the host machine to port 5000 inside the docker container.</p>
-<pre><code>$ sudo docker run -i -t -p 5000:5000 my-centos /bin/bash
-$ [root@7b3cfec32b83 /]#</code></pre>
-<p>Now that we have the terminal, we can <strong>manually</strong> walk though the setup steps before we script them into the <code>Dockerfile</code>.</p>
-<pre><code>$ yum -y install epel-release
-$ yum -y update
-$ yum -y install python-pip
-$ pip install --upgrade pip 
-$ pip install -r /code/requirements.txt
-$ python /code/simple_app.py</code></pre>
-<p>Check it out in the browser, <a href="http://127.0.0.1:5000" target="_blank">http://127.0.0.1:5000</a>.</p>
-<p>Now it is time to convert our manual walkthrough into a <code>Dockerfile</code>. For any command we want to execute, we have to prepend <code>RUN</code> to the line.  For any command we want to leave running as a process, we want to append <code>CMD</code>.  Your <code>Dockerfile</code> should look like this:</p>
 <pre><code># start with the centos 7 base image
 FROM centos:7 
 
-# add in our code
+# ADD &lt;source&gt; &lt;destination&gt;, Adds the current directory to /code in the container
 ADD . /code
 
-# install and upgrade software
+# install and upgrade software we need on the container
 RUN yum -y install epel-release
 RUN yum -y update
 RUN yum -y install python-pip
 RUN pip install --upgrade pip
 RUN pip install -r /code/requirements.txt
 
-# Run the web app as the main process
+# Run the web app as the main process (there can only be one CMD per Dockerfile)
 CMD ["python", "/code/simple_app.py"]</code></pre>
-<p>We'll need to rebuild our Docker image and relaunch the our container.</p>
-<pre><code>$ sudo docker build --tag my-centos .
-$ sudo docker run -i -t -p 5000:5000 my-centos</code></pre>
-<p>Check the browser again and see if the site is still up.  </p>
-<aside class="aside-note">
-<p>Note: The previous Docker container was running in the foreground.  If you want to run the Docker container as a <em>daemon</em> use the <code>-d</code> flag.</p>
-</aside>
+<p>We need to build a Docker image that will run our simple web app. Run the below commands in the root of <code>/docker-flask-walkthrough</code></p>
+<pre><code>$ docker build --tag my-centos-simple .
+$ docker create -i -t -p 5000:5000 my-centos-simple
+$ docker start my-centos-simple</code></pre>
+<p>Check the browser to see if the &quot;Hello World&quot; message shows up. <code>http://localhost:5000</code></p>
 <h3 id="a-more-complex-python-app">A more complex Python app</h3>
-<p>In the next section of the walkthrough, we are going to stand up a more complex Flask app.  In this app, we are going to integrate the key-value database Redis.  In order to integrate Redis into the Flask web app, we will need to leverage Docker's <code>network</code> capabilities.</p>
-<p>Take a look at the <code>app.py</code>.</p>
+<p>In the next section of the walkthrough, we are going to stand up a more complex Flask app.  In this app, we are going to integrate the key-value database Redis.  In order to integrate Redis into the Flask web app, we will need to leverage Docker's network capabilities.</p>
+<p>Review <code>app.py</code>:</p>
 <pre><code>import time
 
 import redis
@@ -197,7 +190,7 @@ def get_hit_count():
             retries -= 1
             time.sleep(0.5)
 
-@app.route('/')
+@app.route('/counter')
 def hello():
     count = get_hit_count()
     return 'Hello World! I have been seen {} times.\n'.format(count)
@@ -206,8 +199,8 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)</code></pre>
 <p>The code uses a Redis database to keep track of the number of visits to a particular page. Let's try and run to see the app in action:</p>
 <pre><code>$ python app.py</code></pre>
-<p>If you hit the web page <a href="http://127.0.0.1:5000" target="_blank">http://127.0.0.1:5000</a> you should see the following error message:</p>
-<pre><code>Traceback (most recent call last):
+<p>If you hit the web page <code>http://localhost:5000/counter</code> you should see the following error message:</p>
+<pre><code>Traceback (most recent call last`):
   File "/Users/mikemenne/Library/Python/2.7/lib/python/site-packages/flask/app.py", line 1997, in __call__
     return self.wsgi_app(environ, start_response)
   File "/Users/mikemenne/Library/Python/2.7/lib/python/site-packages/flask/app.py", line 1985, in wsgi_app
@@ -232,68 +225,51 @@ ConnectionError: Error 61 connecting to redis:6379. Connection refused.</code></
 <p>It looks like the app is not able to connect to <code>redis:6379</code>.  Let's do a <code>telnet</code> to check if the port is open and being listened to:</p>
 <pre><code>$ telnet redis 6379
 redis: nodename nor servname provided, or not known</code></pre>
-<p>Nada... The URL <code>redis</code> doesn't even exist.  This can be fixed.  All Linux systems can use the <code>/etc/hosts</code> file to override URLs in the browser.  Open up <code>/etc/hosts</code> and add an entry for <code>redis</code>.</p>
-<pre><code>$ sudo vi /etc/hosts
-# Host Database
-#
-# localhost is used to configure the loopback interface
-# when the system is booting.  Do not change this entry.
-##
-127.0.0.1 localhost
-255.255.255.255 broadcasthost
-::1             localhost 
-127.0.0.1 redis</code></pre>
-<aside class="aside-note">
-<p>Note:  If you ever get a hold of your friend's root password, it can be good fun to mess with their <code>/etc/hosts</code> file.  You can redirect <code>google.com</code> to just about any site that you want.  </p>
-</aside>
-<p>Now if you <code>telnet redis 6379</code> it should redirect you to the <code>localhost</code> where your Redis instance is running.  Run the app again to see it in action. Each time you hit the page you should see the counter increase.</p>
-<pre><code>$ python app.py
-$ curl -XGET localhost:5000
-Hello World! I have been seen 1 times.
-$ curl -XGET localhost:5000
-Hello World! I have been seen 2 times.
-$ curl -XGET localhost:5000
-Hello World! I have been seen 3 times.</code></pre>
-<p>Great.  Let's make this a Docker container now. This is where Docker Compose can help us in a big way.  Docker Compose takes care of all of the <code>/etc/host/</code> changes behind the scenes so that we can just reference a container by its name.  </p>
-<p>Here is a <code>docker-compose.yml</code> that allows the Flask app to reference the Redis container.</p>
+<p><strong>OPE</strong>... The host <code>redis</code> doesn't exist.  This can be fixed locally by changing <code>host='redis'</code> to <code>host='127.0.0.1'</code> in <code>counter_app.py</code>.</p>
+<p>Then run the app again <code>$ python counter_app.py</code> and navigate to <code>http://localhost:5000/counter</code> and see &quot;Hello World!!! I have been seen 19 times.&quot;</p>
+<h3 id="linking-containers">Linking Containers</h3>
+<p>We don't want our users to have to install redis on their own. We need to create a container that runs redis. Then we can link the <code>redis</code> and <code>counter-app</code> containers using <code>docker-compose</code>. Sounds fun right?</p>
+<h3 id="how-to-find-the-redis-image">How to Find the Redis Image</h3>
+<p>Go to <a href="https://hub.docker.com/" target="_blank">Docker Hub</a> and search for <code>redis</code>. Click on the official <code>redis</code> result. Click the <strong>tags</strong> tab. We are going to reference the <code>redis:alpine</code> tag. That refers to a specfic version of redis, details are available on the docker site.</p>
+<p>Pull in a copy of the <code>redis:alpine</code> image to your computer by running <code>$ docker pull redis:alpine</code></p>
+<h3 id="create-counter-app-image">Create counter-app Image</h3>
+<ol>
+<li>Stop your local <code>redis</code> by running <code>brew services stop redis</code></li>
+<li>Change the last line in the <code>Dockerfile</code> to run the <code>counter_app.py</code>. Change to this <code>CMD ["python", "/code/counter_app.py"]</code></li>
+<li>Set <code>host='redis'</code> in <code>counter_app.py</code></li>
+<li>Build the <code>centos-counter-app</code> image: <code>$ docker build --tag centos-counter-app .</code>
+<ul>
+<li>The above command takes a while to run. After it completes you will see the below message:
+<pre><code class="language-noghighlight">Successfully built 8447bcee9c62
+Successfully tagged centos-counter-app:latest</code></pre></li>
+</ul></li>
+<li>Verify it was built by viewing images <code>$ docker images</code></li>
+</ol>
+<h3 id="docker-compose-file">Docker Compose File</h3>
+<p>We are going to bring this all together by creating  a <code>docker-compose.yml</code> file, that will allow the Flask app to reference the Redis container.</p>
 <pre><code>version: '3'
 services:
   web:
-    build: .
+    image: "centos-counter-app"
     ports:
      - "5000:5000"
   redis:
     image: "redis:alpine"</code></pre>
-<p>Remember, we don't have to make any changes to the <code>app.py</code> file.  Inside of the containers, Docker Compose is handling the local DNS so that any reference to <code>redis</code> gets redirected to the <code>redis</code> container.</p>
-<p>Use the following command to stand up the two containers:</p>
-<pre><code>$ docker-compose up -d</code></pre>
-<p>You should see the app come up on <code>localhost:5000</code>. Notice that only the Python Flask server has access to the Redis server at <code>6379</code>, but you can't <code>telnet localhost 6379</code>.  This is because we did not forward the port of the Redis server.  Add the following config to your <code>docker-compose</code> to forward the port of the Redis server to the host machine:</p>
-<pre><code>ports:
-- "6379:6379"</code></pre>
-<p>Notice also that Docker Compose is spinning up multiple containers on your behalf. Run:</p>
-<pre><code>$ sudo docker ps 
-</code></pre>
+<p>Use the following command2 to stand up and verify the two containers:</p>
+<ol>
+<li>Input the above YAML into <code>docker-compose.yml</code></li>
+<li>Run <code>$ docker-compose up -d</code>
+<pre><code>Creating docker-flask-walkthrough_redis_1 ... done
+Creating docker-flask-walkthrough_web_1   ... done</code></pre></li>
+<li>Verify that the containers are running <code>$ docker ps</code></li>
+<li>Naviage to <code>http://localhost:5000/counter</code></li>
+</ol>
+<p>Remember that your local Redis is no longer running. There is a web app conatiner running that has a connection to the redis container.</p>
+<h3 id="docker-logs">Docker Logs</h3>
 <p>Let's look at these containers a bit more indepth.  <code>docker logs {container name}</code> will show all of the logs that have been written to STDOUT. (replace {container name} with the actual container name).</p>
-<pre><code>$ sudo docker logs {container name}</code></pre>
-<p>Let's also take the container details.  <code>docker inspect {container name}</code> will show all of the details about the container including network information.</p>
-<pre><code>$ sudo dockers inspect {container name}</code></pre>
-<pre><code>version: '3'
-services:
-  web:
-    build: .
-    ports:
-     - "5000:5000"
-  redis:
-    image: "redis:alpine"
-    ports:
-    - "6379:6379"</code></pre>
-<aside class="aside-note">
-<p>Be sure that the Redis server running via HomeBrew is turned of (<code>brew services stop redis</code>).</p>
-</aside>
-<p>Run <code>docker-compose down</code> to stop and remove the Docker containers.</p>
-<aside class="aside-note">
-<p>If you want to remove all of your unused containers run <code>sudo docker container prune</code></p>
-</aside>
+<pre><code>$ docker logs {container name/id}</code></pre>
+<p>Let's also take the container details.  <code>docker inspect {container name/id}</code> will show all of the details about the container including network information.</p>
+<pre><code>$ docker inspect {container name/id}</code></pre>
                                     </section>
 
             </div>
