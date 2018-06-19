@@ -2,7 +2,7 @@
 title: "Working in Docker"
 ---
 
-In this studio, you will be using Docker and Docker Compose to run Airwaze.  By setting up Docker and Docker Compose you enable others to easily build and deploy your app.
+In this studio, you will be using Docker and Docker Compose to run Airwaze.  By setting up Docker and Docker Compose you enable others to easily run your app.
 
 ## Resources
 
@@ -11,7 +11,7 @@ In this studio, you will be relying on the Docker and Docker Compose documentati
 * [Docker and Docker Compose Cheatsheet](https://devhints.io/docker-compose)
 * [Official Docker Compose Docs](https://docs.docker.com/compose)
 
-<aside class="aside-warning">
+<aside class="aside-warning" markdown="1">
   Remember that the `--link` flag is deprecated for Docker. Please use Docker Compose instead.  :-)
 </aside>
 
@@ -28,23 +28,22 @@ At the end of this studio your project should have the following:
 
 ## Setup
 
-Please refer to the [Walkthrough Docker Setup](../../walkthroughs/docker) to ensure that Docker is installed on your machine.
-
-### Configuration
-
-To run Airwaze, you need three different servers:
+To run Airwaze, you need three different containers:
 1. A Web server running with Java installed to run a Spring Boot executable jar file.
 2. A PostGIS database.
 3. An Elasticsearch instance.
 
-You will need to create a `Dockerfile to run the Airwaze app.  Additionally, you will need a `docker-compose.yml` to link the Airwaze container to the `postgis` and `elasticsearch` containers.  Use existing Docker images to run PostGIS and Elasticsearch.  Here are some Docker commands that we have used in the past to run Elasticsearch and PostGIS.
+You will need to create a `Dockerfile` to run the Airwaze app.  Additionally, you will need a `docker-compose.yml` to connect the Airwaze container to the `postgis` and `elasticsearch` containers.  Use existing Docker images to run PostGIS and Elasticsearch.  Here are some Docker commands that we have used in the past to run Elasticsearch and PostGIS.
 
 For running **Elasticsearch**, we used the following docker command:
-
+```
 docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0
+```
 
 For running **Postgis**, we used the following docker command:
+```
 docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:10.0-2.4
+```
 
 ## Hints
 
