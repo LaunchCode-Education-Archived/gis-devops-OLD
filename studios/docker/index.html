@@ -95,7 +95,7 @@
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>Working in Docker</h1>
-                    <p>In this studio, you will be using Docker and Docker Compose to run Airwaze.  By setting up Docker and Docker Compose you enable others to easily build and deploy your app.</p>
+                    <p>In this studio, you will be using Docker and Docker Compose to run Airwaze.  By setting up Docker and Docker Compose you enable others to easily run your app.</p>
 <h2 id="resources">Resources</h2>
 <p>In this studio, you will be relying on the Docker and Docker Compose documentation.  Be sure to ask questions when you don't understand something, but try to use the docs as much as possible.  Here are some helpful resources:</p>
 <ul>
@@ -103,7 +103,7 @@
 <li><a href="https://docs.docker.com/compose" target="_blank">Official Docker Compose Docs</a></li>
 </ul>
 <aside class="aside-warning">
-  Remember that the `--link` flag is deprecated for Docker. Please use Docker Compose instead.  :-)
+<p>Remember that the <code>--link</code> flag is deprecated for Docker. Please use Docker Compose instead.  :-)</p>
 </aside>
 <h3 id="helpful-commands">Helpful Commands</h3>
 <ul>
@@ -117,19 +117,17 @@
 <li>A Docker Compose file that allows you to stand up Airwaze with the command <code>docker-compose up</code> </li>
 </ol>
 <h2 id="setup">Setup</h2>
-<p>Please refer to the <a href="../../walkthroughs/docker">Walkthrough Docker Setup</a> to ensure that Docker is installed on your machine.</p>
-<h3 id="configuration">Configuration</h3>
-<p>To run Airwaze, you need three different servers:</p>
+<p>To run Airwaze, you need three different containers:</p>
 <ol>
 <li>A Web server running with Java installed to run a Spring Boot executable jar file.</li>
 <li>A PostGIS database.</li>
 <li>An Elasticsearch instance.</li>
 </ol>
-<p>You will need to create a <code>Dockerfile to run the Airwaze app.  Additionally, you will need a</code>docker-compose.yml<code>to link the Airwaze container to the</code>postgis<code>and</code>elasticsearch` containers.  Use existing Docker images to run PostGIS and Elasticsearch.  Here are some Docker commands that we have used in the past to run Elasticsearch and PostGIS.</p>
+<p>You will need to create a <code>Dockerfile</code> to run the Airwaze app.  Additionally, you will need a <code>docker-compose.yml</code> to connect the Airwaze container to the <code>postgis</code> and <code>elasticsearch</code> containers.  Use existing Docker images to run PostGIS and Elasticsearch.  Here are some Docker commands that we have used in the past to run Elasticsearch and PostGIS.</p>
 <p>For running <strong>Elasticsearch</strong>, we used the following docker command:</p>
-<p>docker run --name &quot;es&quot; -p 9200:9200 -p 9300:9300 -e &quot;discovery.type=single-node&quot;  -e &quot;xpack.security.enabled=false&quot; docker.elastic.co/elasticsearch/elasticsearch:5.6.0</p>
-<p>For running <strong>Postgis</strong>, we used the following docker command:
-docker run --name &quot;postgis&quot; -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:10.0-2.4</p>
+<pre><code>docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
+<p>For running <strong>Postgis</strong>, we used the following docker command:</p>
+<pre><code>docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:10.0-2.4</code></pre>
 <h2 id="hints">Hints</h2>
 <p>If you expose the port <code>5432</code> on your PostGIS container using the <code>-p 5432:5432</code> option, you will only be able to connect to it via<code>psql -h 127.0.0.1 -p 5432 -U airwaze_app_user airwaze</code></p>
 <p>Settings up databases in Docker can be kind of tricky because they typically require setting up users and a schema before they can be used by an application server. Here </p>
