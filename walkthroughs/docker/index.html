@@ -127,7 +127,7 @@ $ brew services start redis</code></pre>
 <h3 id="setup-1">Setup</h3>
 <p>Clone this repo <a href="https://gitlab.com/LaunchCodeTraining/docker-flask-walkthrough" target="_blank">docker-flask-walkthrough</a></p>
 <p>Install dependencies using pip by running:</p>
-<pre><code>$ pip install --user -r requirements.tx</code></pre>
+<pre><code>$ pip install --user -r requirements.txt</code></pre>
 <p>Review file <code>simple_app.py</code></p>
 <pre><code>import time
 
@@ -166,11 +166,11 @@ CMD ["python", "/code/simple_app.py"]</code></pre>
 <p>We need to build a Docker image that will run our simple web app. Run the below commands in the root of <code>/docker-flask-walkthrough</code></p>
 <pre><code>$ docker build --tag my-centos-simple .
 $ docker create -i -t -p 5000:5000 my-centos-simple
-$ docker start my-centos-simple</code></pre>
+$ docker start &lt;container_name/id&gt;</code></pre>
 <p>Check the browser to see if the &quot;Hello World&quot; message shows up. <code>http://localhost:5000</code></p>
 <h3 id="a-more-complex-python-app">A more complex Python app</h3>
 <p>In the next section of the walkthrough, we are going to stand up a more complex Flask app.  In this app, we are going to integrate the key-value database Redis.  In order to integrate Redis into the Flask web app, we will need to leverage Docker's network capabilities.</p>
-<p>Review <code>app.py</code>:</p>
+<p>Review <code>counter_app.py</code>:</p>
 <pre><code>import time
 
 import redis
@@ -198,7 +198,7 @@ def hello():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)</code></pre>
 <p>The code uses a Redis database to keep track of the number of visits to a particular page. Let's try and run to see the app in action:</p>
-<pre><code>$ python app.py</code></pre>
+<pre><code>$ python counter_app.py</code></pre>
 <p>If you hit the web page <code>http://localhost:5000/counter</code> you should see the following error message:</p>
 <pre><code>Traceback (most recent call last`):
   File "/Users/mikemenne/Library/Python/2.7/lib/python/site-packages/flask/app.py", line 1997, in __call__

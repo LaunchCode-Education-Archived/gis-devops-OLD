@@ -104,7 +104,7 @@
 <p><code>UserController</code> that checks the certificate of the user</p>
 </li>
 <li>
-<p>A properties file that contains defines to the <code>jks</code>, the <code>truststore</code>, and other configuration for SSL.</p>
+<p>A properties file that defines the <code>jks</code>, the <code>truststore</code>, and other configuration for SSL.</p>
 </li>
 <li>A Makefile that simplifies the process of creating certificates.</li>
 </ol>
@@ -132,7 +132,7 @@ keytool -import -trustcacerts -noprompt -alias ca -file ca.crt \
         -keystore truststore.jks -storepass verysecurepassword
 Certificate was added to keystore</code></pre>
 <p>Running <code>ls</code> will show that two more files have been added to your directory: <code>ca.crt</code> and <code>truststore.jks</code>.</p>
-<p>Next, you will add the certificate that you generated to the <code>truststore.jks</code> so that your user can access the the site.</p>
+<p>Next, you will add the certificate that you generated to the <code>truststore.jks</code> so that your user can access the site.</p>
 <pre><code>$ make add-client CLIENTNAME=cid
 keytool -genkey -alias cid \
         -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -keypass verysecurepassword \

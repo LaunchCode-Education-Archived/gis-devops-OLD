@@ -95,7 +95,7 @@
 
                 <section id="content" class="col-sm-offset-2 col-sm-8">
                                         <h1>Working in Docker</h1>
-                    <p>In this studio, you will be using Docker and Docker Compose to run Airwaze.  By setting up Docker and Docker Compose you enable others to easily run your app.</p>
+                    <p>In this studio, you will be using Docker and Docker Compose to run the <strong>Airwaze</strong> web app.  By setting up Docker and Docker Compose you enable others to easily run your app.</p>
 <h2 id="resources">Resources</h2>
 <p>In this studio, you will be relying on the Docker and Docker Compose documentation.  Be sure to ask questions when you don't understand something, but try to use the docs as much as possible.  Here are some helpful resources:</p>
 <ul>
@@ -117,20 +117,17 @@
 <li>A Docker Compose file that allows you to stand up Airwaze with the command <code>docker-compose up</code> </li>
 </ol>
 <h2 id="setup">Setup</h2>
-<p>To run Airwaze, you need three different containers:</p>
+<p>To run Airwaze, you need two different containers:</p>
 <ol>
 <li>A Web server running with Java installed to run a Spring Boot executable jar file.</li>
 <li>A PostGIS database.</li>
-<li>An Elasticsearch instance.</li>
 </ol>
-<p>You will need to create a <code>Dockerfile</code> to run the Airwaze app.  Additionally, you will need a <code>docker-compose.yml</code> to connect the Airwaze container to the <code>postgis</code> and <code>elasticsearch</code> containers.  Use existing Docker images to run PostGIS and Elasticsearch.  Here are some Docker commands that we have used in the past to run Elasticsearch and PostGIS.</p>
-<p>For running <strong>Elasticsearch</strong>, we used the following docker command:</p>
-<pre><code>docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
+<p>You will need to create a <code>Dockerfile</code> to run the Airwaze app.  Additionally, you will need a <code>docker-compose.yml</code> to connect the Airwaze container to the <code>postgis</code> container.  Use existing Docker images to run PostGIS.  Here are some Docker commands that we have used in the past to run PostGIS.</p>
 <p>For running <strong>Postgis</strong>, we used the following docker command:</p>
 <pre><code>docker run --name "postgis" -p 5432:5432 -d -t --env-file ./env.list kartoza/postgis:10.0-2.4</code></pre>
 <h2 id="hints">Hints</h2>
 <p>If you expose the port <code>5432</code> on your PostGIS container using the <code>-p 5432:5432</code> option, you will only be able to connect to it via<code>psql -h 127.0.0.1 -p 5432 -U airwaze_app_user airwaze</code></p>
-<p>Settings up databases in Docker can be kind of tricky because they typically require setting up users and a schema before they can be used by an application server. Here </p>
+<p>Settings up databases in Docker can be kind of tricky because they typically require setting up users and a schema before they can be used by an application server. Here is an example <code>docker-compose</code> file that configure the PostGIS container, note all of the file is not shown.</p>
 <pre><code>  postgis:
     image: "kartoza/postgis:10.0-2.4"
     ports:
@@ -140,6 +137,20 @@
       - POSTGRES_USER=airwaze_app_user
       - POSTGRES_DBNAME=airwaze
     command: sh -c "echo \"host all all 0.0.0.0/0 md5\" &gt;&gt; /etc/postgresql/10/main/pg_hba.conf &amp;&amp; /start-postgis.sh"</code></pre>
+<h2 id="bonus-missions">Bonus Missions</h2>
+<p>Get your <strong>Zika CDC Dashboard</strong> to run via a <code>docker-compose.yml</code> file.</p>
+<ul>
+<li>Container running <strong>Zika CDC Dashboard</strong></li>
+<li>Container running <strong>PostGIS</strong></li>
+<li>Conatiner running <strong>ElasticSearch</strong></li>
+<li>Conatiner runninng <strong>GeoServer</strong></li>
+<li>DockerFile to create the <strong>Zika CDC Dashboard</strong> image</li>
+<li>DockerFile to create and populate the <strong>PostGIS</strong> container </li>
+<li>Docker compose file that spins up and connects the containers</li>
+</ul>
+<h2 id="zika-hints">Zika Hints</h2>
+<p>For running <strong>Elasticsearch</strong>, we used the following docker command:</p>
+<pre><code>docker run --name "es" -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:5.6.0</code></pre>
                                     </section>
 
             </div>
