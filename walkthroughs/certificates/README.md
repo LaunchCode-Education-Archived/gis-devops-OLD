@@ -12,7 +12,7 @@ Check out the [Server Certificate Repo](https://gitlab.com/LaunchCodeTraining/x5
 
 1. `UserController` that checks the certificate of the user
 
-2.  A properties file that contains defines to the `jks`, the `truststore`, and other configuration for SSL.
+2.  A properties file that defines the `jks`, the `truststore`, and other configuration for SSL.
 
 3.  A Makefile that simplifies the process of creating certificates.
 
@@ -56,7 +56,7 @@ Certificate was added to keystore
 
 Running `ls` will show that two more files have been added to your directory: `ca.crt` and `truststore.jks`.
 
-Next, you will add the certificate that you generated to the `truststore.jks` so that your user can access the the site.
+Next, you will add the certificate that you generated to the `truststore.jks` so that your user can access the site.
 
 ```
 $ make add-client CLIENTNAME=cid

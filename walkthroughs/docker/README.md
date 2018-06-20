@@ -54,7 +54,7 @@ Clone this repo [docker-flask-walkthrough](https://gitlab.com/LaunchCodeTraining
 
 Install dependencies using pip by running:
  ```
-$ pip install --user -r requirements.tx
+$ pip install --user -r requirements.txt
 ```
 
 Review file `simple_app.py`
@@ -109,7 +109,7 @@ We need to build a Docker image that will run our simple web app. Run the below 
 ```
 $ docker build --tag my-centos-simple .
 $ docker create -i -t -p 5000:5000 my-centos-simple
-$ docker start my-centos-simple
+$ docker start <container_name/id>
 ```
 
 Check the browser to see if the "Hello World" message shows up. `http://localhost:5000`
@@ -118,7 +118,7 @@ Check the browser to see if the "Hello World" message shows up. `http://localhos
 
 In the next section of the walkthrough, we are going to stand up a more complex Flask app.  In this app, we are going to integrate the key-value database Redis.  In order to integrate Redis into the Flask web app, we will need to leverage Docker's network capabilities.
 
-Review `app.py`:
+Review `counter_app.py`:
 ```
 import time
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
 
 The code uses a Redis database to keep track of the number of visits to a particular page. Let's try and run to see the app in action:
 ```
-$ python app.py
+$ python counter_app.py
 ```
 
 If you hit the web page `http://localhost:5000/counter` you should see the following error message:
