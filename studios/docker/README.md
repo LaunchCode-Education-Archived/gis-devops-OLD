@@ -17,8 +17,8 @@ In this studio, you will be relying on the Docker and Docker Compose documentati
 
 ### Helpful Commands
 
-* `sudo docker logs {container name}` show all of the logs written to `STDOUT`.
-* `sudo docker exec -it {container name}` access to the command line inside the container.
+* `docker logs {container name}` show all of the logs written to `STDOUT`.
+* `docker exec -it {container name}` access to the command line inside the container.
 
 ## Goals
 
